@@ -27,8 +27,8 @@ const Header = () => {
             <Link href="/sos">
               <p>Яаралтай тусламж </p>
             </Link>
-            <Link href="/blog">
-              <p>Блог </p>
+            <Link href="/shop">
+              <p>Shop</p>
             </Link>
           </ul>
         </span>

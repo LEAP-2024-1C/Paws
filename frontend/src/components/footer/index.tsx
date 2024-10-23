@@ -22,7 +22,7 @@ const Footer = () => {
         <Link href="/adoption"> Үрчлэл</Link>
         <Link href="/donation"> Хандив</Link>
         <Link href="/sos">Яаралтай тусламж</Link>
-        <Link href="/blog">Блог</Link>
+        <Link href="/shop">Shop</Link>
       </ul>
 
       {/* <ul className='flex  gap-6'>
