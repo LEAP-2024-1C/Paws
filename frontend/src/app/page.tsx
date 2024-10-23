@@ -1,11 +1,12 @@
 "use client";
 import PetsCard from "@/components/main_page/adoption-card";
 import Hero from "@/components/home/hero";
-import { Cards, NewsBlogs, NewsCard } from "@/lib/data";
+import { Cards, NewsBlogs, NewsCard, Product, products } from "@/lib/data";
 import { TfiArrowCircleRight, TfiArrowCircleLeft } from "react-icons/tfi";
 import Post from "@/components/main_page/post";
 import Logo from "@/components/main_page/logos";
 import NewsAndBlogs from "@/components/main_page/news_blogs";
+import ShoppingCards from "@/components/main_page/shopping_cards";
 
 interface Card {
   id: number;
@@ -52,11 +53,24 @@ export default function Home() {
       </h2>
       <section className="flex justify-center gap-5 items-center h-fit my-40">
         {NewsBlogs.map((card: NewsCard) => (
+          // eslint-disable-next-line react/jsx-key
           <NewsAndBlogs
             image={card.image}
             id={card.id}
             date={card.date}
             title={card.title}
+          />
+        ))}
+      </section>
+      <h2>Best selling products</h2>
+      <section className="grid grid-rows-2 grid-flow-col-dense justify-center gap-5">
+        {products.map((product: Product) => (
+          // eslint-disable-next-line react/jsx-key
+          <ShoppingCards
+            id={product.id}
+            name={product.name}
+            price={product.price}
+            image={product.image}
           />
         ))}
       </section>
