@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 interface Product {
   id: number;
   name: string;
   price: number;
+  image: string;
 }
 
 interface ProductCard {
@@ -14,7 +16,9 @@ const ProductCard: React.FC<ProductCard> = ({ product }) => {
   return (
     <div className="bg-gray-100 rounded-lg p-4 flex flex-col">
       <Link href={`/shop/${product.id}`}>
-        <div className="bg-gray-300 w-full aspect-square rounded-lg mb-4"></div>
+        <div className="bg-gray-300 w-full aspect-square rounded-xl mb-4">
+          <img src={product.image} alt={product.name} />
+        </div>
       </Link>
       <Link href={`/shop/${product.id}`}>
         <h3 className="text-xl font-bold mb-2">{product.name}</h3>
