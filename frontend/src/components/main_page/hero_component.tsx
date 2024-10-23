@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 const HeroComponent = () => {
   return (
     <div className="bg-[#F8F9FA] h-1/3 w-full">
-      <section className="w-3/5 flex border m-auto">
-        <div className="flex flex-1 relative border overflow-hidden items-center">
+      <section className="w-3/5 flex m-auto">
+        <div className="flex flex-1 relative overflow-hidden items-center">
           <img
             src="/img/shape.png"
             alt=""
@@ -23,7 +23,6 @@ const HeroComponent = () => {
               </span>
               <h1 className="font-bold text-5xl">Find your best new friend </h1>
             </div>
-
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla
               tempora quia laboriosam?
@@ -36,12 +35,12 @@ const HeroComponent = () => {
             className="w-28 absolute bottom-[-70px] right-60"
           />
         </div>
-        <div className="flex-1 border">
-          <img src="/img/image.png" alt="" />
-          {/* <img
-            src="https://www.kindpng.com/picc/m/41-412650_pets-png-transparent-background-puppy-golden-retriever-png.png"
-            alt=""
-          /> */}
+        <div
+          style={{
+            backgroundImage: "url('/img/image.png')",
+          }}
+          className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}>
+          <img src="img\cat&dog.png" alt="" className="w-3/5" />
         </div>
       </section>
     </div>
