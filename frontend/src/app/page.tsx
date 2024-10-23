@@ -62,7 +62,9 @@ export default function Home() {
           />
         ))}
       </section>
-      <h2>Best selling products</h2>
+      <h2 className="text-xl font-bold text-center mb-20">
+        Best selling products
+      </h2>
       <section className="grid grid-rows-2 grid-flow-col-dense justify-center gap-5">
         {products.map((product: Product) => (
           // eslint-disable-next-line react/jsx-key
