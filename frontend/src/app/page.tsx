@@ -1,10 +1,11 @@
 "use client";
 import PetsCard from "@/components/main_page/adoption-card";
 import Hero from "@/components/home/hero";
-import { Cards } from "@/lib/data";
+import { Cards, NewsBlogs, NewsCard } from "@/lib/data";
 import { TfiArrowCircleRight, TfiArrowCircleLeft } from "react-icons/tfi";
 import Post from "@/components/main_page/post";
 import Logo from "@/components/main_page/logos";
+import NewsAndBlogs from "@/components/main_page/news_blogs";
 
 interface Card {
   id: number;
@@ -46,6 +47,19 @@ export default function Home() {
       </div>
       <Post />
       <Logo />
+      <h2 className="text-center -mb-20 text-2xl font-bold mt-20">
+        News & Blogs
+      </h2>
+      <section className="flex justify-center gap-5 items-center h-fit my-40">
+        {NewsBlogs.map((card: NewsCard) => (
+          <NewsAndBlogs
+            image={card.image}
+            id={card.id}
+            date={card.date}
+            title={card.title}
+          />
+        ))}
+      </section>
     </section>
   );
 }
