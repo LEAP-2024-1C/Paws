@@ -8,12 +8,12 @@ export type Card = {
     {
       id: 1,
       name: "Fluffy",
-      image: "https://i.pinimg.com/736x/69/b7/ba/69b7ba8eb526411c198c5dfb1d50ddf3.jpg",
+      image: "https://i.pinimg.com/736x/83/d4/f2/83d4f2a4da3cef91bbc4de211e7e6d0f.jpg",
     },
     {
       id: 2,
       name: "Spot",
-      image: "https://i.pinimg.com/enabled/564x/6f/8d/3f/6f8d3fcf6ccae0354c64a9ffeca6e9bc.jpg",
+      image: "https://i.pinimg.com/enabled/736x/ab/87/04/ab87043f15a845cd1608e3085d710ce4.jpg",
     },
     {
       id: 3,
@@ -23,7 +23,7 @@ export type Card = {
     {
       id: 4,
       name: "Pet name",
-      image: "https://i.pinimg.com/enabled/564x/c0/31/af/c031afc5c649f223c54d6a2dd14fe4cb.jpg",
+      image: "https://i.pinimg.com/enabled/736x/27/f5/b4/27f5b487911392cf1e73f83498107006.jpg",
     },
   ];
   
