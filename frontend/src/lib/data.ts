@@ -11,6 +11,12 @@ export type NewsCard = {
   title: string;
 };
 
+export type Product = {
+  name: string;
+  price: number;
+  image: string;
+};
+
 export const Cards: Card[] = [
   {
     id: 1,
@@ -59,5 +65,48 @@ export const NewsBlogs: NewsCard[] = [
     image:
       "https://i.pinimg.com/736x/e7/62/54/e7625411d29c16343b960edc01fca131.jpg",
     title: "Urna cras et mauris congue nunc nisi nec",
+  },
+];
+
+export const products: Product[] = [
+  {
+    name: "Cat Bowl",
+    price: 35000,
+    image: "/img/product.png",
+  },
+  {
+    name: "Cat Bowl",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    name: "Dog Leash",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    name: "Premium Cat food",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    name: "Dog Bed",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    name: "Premium Dog Food",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    name: "Dog Bowl",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    name: "Cat Food",
+    price: 120000,
+    image: "/img/product.png",
   },
 ];
