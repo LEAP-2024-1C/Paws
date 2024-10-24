@@ -1,8 +1,6 @@
 import AdoptionCard from "@/components/adoption_section/adoption_card";
-import AdoptionDetailPage from "@/components/adoption_section/adoption_detail";
 import Carousel from "@/components/adoption_section/carousel";
 import SearchFilterSection from "@/components/adoption_section/search_filter_section";
-import HeroComponent from "@/components/main_page/hero_component";
 import React from "react";
 
 const AdoptionPage = () => {
@@ -11,7 +9,7 @@ const AdoptionPage = () => {
     <div>
       {/* <HeroComponent /> */}
 
-      {/* <Carousel />
+      <Carousel />
       <div className="flex w-3/5 m-auto">
         <SearchFilterSection />
         <main className="grid grid-cols-3 w-4/6 mx-auto my-5 gap-6">
@@ -21,9 +19,9 @@ const AdoptionPage = () => {
             </div>
           ))}
         </main>
-      </div> */}
+      </div>
 
-      <AdoptionDetailPage />
+      {/* <AdoptionDetailPage /> */}
     </div>
   );
 };

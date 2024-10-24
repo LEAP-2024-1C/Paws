@@ -12,8 +12,8 @@ export interface UserContextType {
   setToken: (token: string) => void;
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   fetchUserData?: () => void;
-  refetch?: any;
-  setRefetch?: any;
+  refetch?: boolean;
+  setRefetch?: (refetch: boolean) => void;
   // count: number;
   // setCount: (count: number) => void;
   // minus: () => void;

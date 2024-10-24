@@ -22,9 +22,9 @@ export const ProfileContext = createContext<ProfileContextType>({
   setStep: () => {},
   setCountDown: () => {},
   setOtpValue: () => {},
-  handleEmail: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  handleEmail: (_e: React.ChangeEvent<HTMLInputElement>) => {},
   handleSend: async () => {},
-  handleConfirmOtp: async (otpValue: string) => {},
+  handleConfirmOtp: async (_otpValue: string) => {},
   handleResendOtp: async () => {},
 });
 
@@ -114,7 +114,8 @@ export const ProfileProvider = ({ children }: ProfileProviderProps) => {
         handleSend,
         handleConfirmOtp,
         handleResendOtp,
-      }}>
+      }}
+    >
       {children}
     </ProfileContext.Provider>
   );

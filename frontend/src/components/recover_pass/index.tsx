@@ -1,12 +1,7 @@
 "use client";
-import GetNewPass from "@/components/recover_pass/get_new_pass";
-import Loading from "@/components/recover_pass/loading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { apiUrl } from "@/utils/util";
-import axios from "axios";
-import React, { ChangeEvent, useContext, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useContext } from "react";
 import { ProfileContext } from "../context/profile_context";
 
 const ForgetPass = () => {
@@ -26,7 +21,8 @@ const ForgetPass = () => {
       <Button
         className="bg-[#FD7E14] w-full"
         size="custom"
-        onClick={handleSend}>
+        onClick={handleSend}
+      >
         Илгээх
       </Button>
     </>
