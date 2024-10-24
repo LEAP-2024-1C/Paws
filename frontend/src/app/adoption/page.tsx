@@ -4,7 +4,7 @@ import SearchFilterSection from "@/components/adoption_section/search_filter_sec
 import React from "react";
 
 const AdoptionPage = () => {
-  const mockData = ["1", "2", "3", "4"];
+  const mockData = [{ data: "1" }, { data: "2" }, { data: "3" }, { data: "4" }];
   return (
     <div>
       {/* <HeroComponent /> */}
@@ -14,8 +14,9 @@ const AdoptionPage = () => {
         <SearchFilterSection />
         <main className="grid grid-cols-3 w-4/6 mx-auto my-5 gap-6">
           {mockData?.map((c, i) => (
-            <div className="col-span-1 row-span-1">
+            <div className="col-span-1 row-span-1 " key={i}>
               <AdoptionCard />
+              {c.data}
             </div>
           ))}
         </main>
