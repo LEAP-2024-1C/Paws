@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ProfileProvider } from "@/components/context/profile_context";
 import { UserProvider } from "@/components/context/user_context";
-
+import { ShoppingProvider } from "@/components/context/shopping_context";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -34,7 +34,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <head />
         <body>
           <UserProvider>
-            <ProfileProvider>{children}</ProfileProvider>
+            <ShoppingProvider>
+              <ProfileProvider>{children}</ProfileProvider>
+            </ShoppingProvider>
           </UserProvider>
           <ToastContainer />
         </body>

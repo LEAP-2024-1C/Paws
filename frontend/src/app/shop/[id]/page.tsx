@@ -3,6 +3,8 @@ import React from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
+import RelatedItems from "../components/relateditems";
+import { useShoppingContext } from "@/components/context/shopping_context";
 
 interface Product {
   id: number;
@@ -34,6 +36,41 @@ const mockProducts: Product[] = [
     description: "Муурны хоолны сав",
     image: "/img/cat-bowl.jpg",
   },
+  {
+    id: 4,
+    name: "Dog Collars",
+    price: 19.99,
+    description: "Dog Collars",
+    image: "/img/dog-collar.jpg",
+  },
+  {
+    id: 5,
+    name: "Dog Beds",
+    price: 19.99,
+    description: "Dog Beds",
+    image: "/img/dog-bed.jpg",
+  },
+  {
+    id: 6,
+    name: "Dog Beds",
+    price: 19.99,
+    description: "Dog Beds",
+    image: "/img/dog-bed.jpg",
+  },
+  {
+    id: 7,
+    name: "Dog Beds",
+    price: 19.99,
+    description: "Dog Beds",
+    image: "/img/dog-bed.jpg",
+  },
+  {
+    id: 8,
+    name: "Dog Beds",
+    price: 19.99,
+    description: "Dog Beds",
+    image: "/img/dog-bed.jpg",
+  },
 ];
 
 const ProductDetail: React.FC = () => {
@@ -42,6 +79,7 @@ const ProductDetail: React.FC = () => {
   const [product, setProduct] = React.useState<Product | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [quantity, setQuantity] = React.useState(1);
+  const { addToWishlist, addToCart, wishlist } = useShoppingContext();
 
   React.useEffect(() => {
     if (id) {
@@ -53,6 +91,22 @@ const ProductDetail: React.FC = () => {
       }, 500); // 500ms delay to simulate network request
     }
   }, [id]);
+
+  const handleAddToWishlist = () => {
+    if (product) {
+      addToWishlist(product);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart(product, quantity);
+    }
+  };
+
+  const isInWishlist = product
+    ? wishlist.some((item) => item.id === product.id)
+    : false;
 
   if (loading) {
     return (
@@ -135,11 +189,21 @@ const ProductDetail: React.FC = () => {
                 +
               </button>
             </div>
-            <button className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300">
-              Buy
+            <button
+              onClick={handleAddToCart}
+              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+            >
+              ADD TO CART
             </button>
-            <button className="border border-gray-300 p-2 rounded-md hover:bg-gray-100">
-              <FaHeart className="text-gray-500" />
+            <button
+              onClick={handleAddToWishlist}
+              className={`border p-2 rounded-md ${
+                isInWishlist ? "bg-red-100" : "hover:bg-gray-100"
+              }`}
+            >
+              <FaHeart
+                className={isInWishlist ? "text-red-500" : "text-gray-500"}
+              />
             </button>
           </div>
           <div className="border-t pt-4">
@@ -166,6 +230,7 @@ const ProductDetail: React.FC = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
       </div>
+      <RelatedItems products={mockProducts} />
     </div>
   );
 };
