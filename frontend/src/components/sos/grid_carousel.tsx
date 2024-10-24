@@ -31,27 +31,21 @@ export default function GridCarousel() {
   }, [api]);
 
   const items = [
-    { title: "Cat", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Dog", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Bird", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Fish", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Rabbit", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Snake", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Bear", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Wolf", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Fox", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Elephant", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Lion", image: "/placeholder.svg?height=200&width=200" },
-    { title: "Tiger", image: "/placeholder.svg?height=200&width=200" },
-    {
-      title: "Snow-capped Peaks",
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    {
-      title: "Tropical Island",
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    { title: "Autumn Foliage", image: "/placeholder.svg?height=200&width=200" },
+    { title: "Cat", image: "" },
+    { title: "Dog", image: "" },
+    { title: "Bird", image: "" },
+    { title: "Fish", image: "" },
+    { title: "Rabbit", image: "" },
+    { title: "Snake", image: "" },
+    { title: "Bear", image: "" },
+    { title: "Wolf", image: "" },
+    { title: "Fox", image: "" },
+    { title: "Elephant", image: "" },
+    { title: "Lion", image: "" },
+    { title: "Tiger", image: "" },
+    { title: "Snow-capped Peaks", image: "" },
+    { title: "Tropical Island", image: "" },
+    { title: "Autumn Foliage", image: "" },
   ];
 
   const itemsPerSlide = 12;

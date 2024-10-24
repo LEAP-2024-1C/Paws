@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogTrigger,
@@ -12,30 +13,65 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-export default function UploadPictureModal() {
+interface UploadPictureModalProps {
+  onImageUploaded: (url: string) => void;
+}
+
+export default function UploadPictureModal({
+  onImageUploaded,
+}: UploadPictureModalProps) {
+  const [previewUrl, setPreviewUrl] = useState("/placeholder.svg");
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setPreviewUrl(result);
+        onImageUploaded(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <Dialog defaultOpen>
       <DialogTrigger asChild>
-        <Button variant="destructive">Upload Image</Button>
+        <Button
+          variant="default"
+          className="bg-blue-500 hover:bg-blue-600 text-white"
+        >
+          Upload Image
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[480px]">
+      <DialogContent className="sm:max-w-[480px] bg-white shadow-lg rounded-lg">
         <DialogHeader>
-          <DialogTitle>Upload Image</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-xl font-semibold text-gray-800">
+            Upload Image
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-500">
             Select an image file to upload. The image will be previewed before
             uploading.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="image">Image</Label>
-            <Input type="file" id="image" />
+            <Label htmlFor="image" className="text-gray-700">
+              Image
+            </Label>
+            <Input
+              type="file"
+              id="image"
+              onChange={handleFileChange}
+              className="border border-gray-300 rounded-md p-2"
+            />
           </div>
           <div className="grid gap-2">
-            <Label>Preview</Label>
+            <Label className="text-gray-700">Preview</Label>
             <div className="aspect-video bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
               <img
-                src="/placeholder.svg"
+                src={previewUrl}
                 width={400}
                 height={225}
                 alt="Preview"
@@ -46,9 +82,19 @@ export default function UploadPictureModal() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Upload</Button>
+          <Button
+            type="submit"
+            className="bg-green-500 hover:bg-green-600 text-white"
+          >
+            Upload
+          </Button>
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button
+              variant="outline"
+              className="border border-gray-300 text-gray-700 hover:bg-gray-100"
+            >
+              Cancel
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
