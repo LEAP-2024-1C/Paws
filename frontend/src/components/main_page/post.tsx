@@ -6,11 +6,11 @@ const Post = () => {
   return (
     <main className="flex justify-center gap-60 items-center mt-40 h-min bg-slate-100 py-40">
       <Image
-        src="https://i.pinimg.com/enabled/564x/51/ff/cf/51ffcf38dfef8a064409d75dee75adc3.jpg"
+        src="https://i.pinimg.com/736x/21/42/0e/21420e840b5ec6aca32d1aee880e534b.jpg"
         alt="posts photo"
         width={500}
         height={600}
-        className="border rounded-xl"
+        className="border rounded-xl brightness-[.70]"
       ></Image>
       <div className="flex flex-col gap-10">
         <h2 className="text-4xl text-amber-500 font-bold">
