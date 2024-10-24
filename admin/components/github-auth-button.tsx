@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { Button } from './ui/button';
 import { Icons } from './icons';
+import { FaGoogle } from 'react-icons/fa';
 
 export default function GithubSignInButton() {
   const searchParams = useSearchParams();
@@ -18,8 +19,8 @@ export default function GithubSignInButton() {
         signIn('github', { callbackUrl: callbackUrl ?? '/dashboard' })
       }
     >
-      <Icons.gitHub className="mr-2 h-4 w-4" />
-      Continue with Github
+      <FaGoogle className="mr-2 h-4 w-4" />
+      Continue with Google
     </Button>
   );
 }

@@ -68,7 +68,11 @@ export default function UserAuthForm() {
             )}
           />
 
-          <Button disabled={loading} className="ml-auto w-full" type="submit">
+          <Button
+            disabled={loading}
+            className="ml-auto w-full bg-[#FD7E14]"
+            type="submit"
+          >
             Continue With Email
           </Button>
         </form>
