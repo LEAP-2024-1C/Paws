@@ -1,14 +1,13 @@
 import { NewsCard } from "@/lib/data";
-import { Title } from "@radix-ui/react-toast";
 import Image from "next/image";
 import React from "react";
 
-const NewsAndBlogs = ({ image, title, date }: NewsCard) => {
+const NewsAndBlogs = ({ image, title, date, id }: NewsCard) => {
   return (
-    <main className="rounded-xl">
-      <article className="border rounded-full bg-black text-white text-center">
+    <main className="relative rounded-xl" key={id}>
+      <div className="absolute top-4 right-4 border rounded-full w-20 bg-black text-white text-center">
         News
-      </article>
+      </div>
       <Image
         src={image}
         alt="card image"

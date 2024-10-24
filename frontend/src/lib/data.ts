@@ -11,6 +11,13 @@ export type NewsCard = {
   title: string;
 };
 
+export type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+};
+
 export const Cards: Card[] = [
   {
     id: 1,
@@ -47,17 +54,68 @@ export const NewsBlogs: NewsCard[] = [
     title: "Urna cras et mauris congue nunc nisi cursus",
   },
   {
-    id: 1,
+    id: 2,
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/2d/3d/fd/2d3dfd302b000d7202266798e243080d.jpg",
     title: "Urna cras et mauris congue nunc nisi  cursus",
   },
   {
-    id: 1,
+    id: 3,
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/e7/62/54/e7625411d29c16343b960edc01fca131.jpg",
     title: "Urna cras et mauris congue nunc nisi nec",
+  },
+];
+
+export const products: Product[] = [
+  {
+    id: 1,
+    name: "Cat Bowl",
+    price: 35000,
+    image: "/img/product.png",
+  },
+  {
+    id: 2,
+    name: "Cat Bowl",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    id: 3,
+    name: "Dog Leash",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    id: 3,
+    name: "Premium Cat food",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    id: 4,
+    name: "Dog Bed",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    id: 5,
+    name: "Premium Dog Food",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    id: 6,
+    name: "Dog Bowl",
+    price: 120000,
+    image: "/img/product.png",
+  },
+  {
+    id: 7,
+    name: "Cat Food",
+    price: 120000,
+    image: "/img/product.png",
   },
 ];
