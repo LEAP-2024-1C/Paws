@@ -1,6 +1,10 @@
 "use client";
 import React from "react";
-import { ContactDetail, InfoCard, MoreDetails } from "./detail_card";
+import {
+  ContactDetail,
+  InfoCard,
+  MoreDetails,
+} from "../../components/adoption_section/detail_card";
 
 const AdoptionDetailPage = () => {
   return (
@@ -37,7 +41,8 @@ const AdoptionDetailPage = () => {
             // style={{
             //   backgroundImage: "url('/img/image.png')",
             // }}
-            className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}>
+            className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center overflow-hidden`}
+          >
             <img
               src="https://res.cloudinary.com/petrescue/image/upload/a_0,c_crop,h_900,w_900,x_0,y_513/c_fill,h_648,w_648/ht4tbzwlmleirzzoo1pj.jpg"
               alt=""
