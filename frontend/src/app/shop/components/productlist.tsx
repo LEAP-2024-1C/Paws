@@ -15,7 +15,7 @@ const ProductList: React.FC<ProductList> = ({
   sortOrder,
   setSortOrder,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage] = useState(1);
   const productsPerPage = 12;
 
   // (бодит дата авах үед солино)

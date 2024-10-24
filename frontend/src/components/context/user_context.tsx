@@ -3,8 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { IUser, UserContextType } from "@/interface";
 import { apiUrl } from "@/utils/util";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 type UserProviderProps = {
   children: React.ReactNode;
@@ -35,7 +34,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<IUser | null>(null);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const fetchUserData = async () => {
     try {
@@ -77,7 +76,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         // setCount,
         // add,
         // minus,
-      }}>
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

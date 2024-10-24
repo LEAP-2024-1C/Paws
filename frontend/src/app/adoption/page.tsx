@@ -1,8 +1,6 @@
 import AdoptionCard from "@/components/adoption_section/adoption_card";
-import AdoptionDetailPage from "@/app/adoption_detail/page";
 import Carousel from "@/components/adoption_section/carousel";
 import SearchFilterSection from "@/components/adoption_section/search_filter_section";
-import HeroComponent from "@/components/main_page/hero_component";
 import React from "react";
 
 const AdoptionPage = () => {

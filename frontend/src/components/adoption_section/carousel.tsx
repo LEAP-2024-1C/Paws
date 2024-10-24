@@ -1,11 +1,10 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import React from "react";
+
 import "swiper/css";
 
 export default function Carousel() {
-  const mockData = ["1", "2", "3", "4"];
+  // const mockData = ["1", "2", "3", "4"];
   return (
     <>
       {/* <Swiper
@@ -63,7 +62,8 @@ export default function Carousel() {
             style={{
               backgroundImage: "url('/img/image.png')",
             }}
-            className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}>
+            className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}
+          >
             <img src="/img/kitty.png" alt="" className="w-1/2" />
           </div>
         </section>

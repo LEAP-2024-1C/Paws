@@ -5,7 +5,7 @@ import React from "react";
 const NewsAndBlogs = ({ image, title, date, id }: NewsCard) => {
   return (
     <main className="relative rounded-xl" key={id}>
-      <div className="absolute top-4 right-4 border rounded-full w-20 bg-black text-white text-center">
+      <div className="absolute z-20 top-4 right-4 border rounded-full w-20 bg-black text-white text-center">
         News
       </div>
       <Image
