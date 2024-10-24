@@ -1,27 +1,17 @@
 "use client";
 import PetsCard from "@/components/main_page/adoption-card";
-import Hero from "@/components/home/hero";
 import { Cards, NewsBlogs, NewsCard, Product, products } from "@/lib/data";
 import { TfiArrowCircleRight, TfiArrowCircleLeft } from "react-icons/tfi";
 import Post from "@/components/main_page/post";
 import Logo from "@/components/main_page/logos";
 import NewsAndBlogs from "@/components/main_page/news_blogs";
 import ShoppingCards from "@/components/main_page/shopping_cards";
-
-interface Card {
-  id: number;
-  image: "";
-  name: string;
-}
-
-interface PetsCardProps {
-  Cards: Card[];
-}
+import HeroComponent from "@/components/main_page/hero_component";
 
 export default function Home() {
   return (
     <section>
-      <Hero />
+      <HeroComponent />
       <div className="flex justify-between mt-20 md:w-[1300px] mx-auto">
         <h3 className="text-3xl font-bold">Adopt me</h3>
         <div className="flex gap-2">
@@ -30,8 +20,8 @@ export default function Home() {
         </div>
       </div>
       <div className="flex justify-center gap-6 mt-10">
-        {Cards.map((card) => (
-          <PetsCard image={card.image} name={card.name} id={card.id} />
+        {Cards.map((card, i) => (
+          <PetsCard image={card.image} name={card.name} id={card.id} key={i} />
         ))}
       </div>
       <div className="flex justify-between mt-20 md:w-[1300px] mx-auto">
@@ -42,8 +32,8 @@ export default function Home() {
         </div>
       </div>
       <div className="flex justify-center gap-6 mt-10">
-        {Cards.map((card) => (
-          <PetsCard image={card.image} name={card.name} id={card.id} />
+        {Cards.map((card, i) => (
+          <PetsCard image={card.image} name={card.name} id={card.id} key={i} />
         ))}
       </div>
       <Post />
@@ -65,7 +55,7 @@ export default function Home() {
       <h2 className="text-xl font-bold text-center mb-20">
         Best selling products
       </h2>
-      <section className="grid grid-rows-2 grid-flow-col-dense justify-center gap-5">
+      <section className="grid grid-rows-2 grid-flow-col-dense justify-center gap-5 mb-40">
         {products.map((product: Product) => (
           // eslint-disable-next-line react/jsx-key
           <ShoppingCards

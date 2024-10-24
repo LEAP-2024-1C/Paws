@@ -10,6 +10,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function AdoptionCard() {
   const [loved, setLoved] = React.useState(false);
@@ -22,7 +23,8 @@ export default function AdoptionCard() {
       <Button
         variant="ghost"
         className="p-0 absolute right-3 top-2 text-2xl hover:scale-150 hover:bg-transparent z-10"
-        onClick={wishList}>
+        onClick={wishList}
+      >
         {loved ? <VscHeartFilled /> : <VscHeart />}
       </Button>
       <CardHeader className="mb-4 p-0 h-48">
@@ -46,7 +48,9 @@ export default function AdoptionCard() {
           <GrLocationPin />
           <span>Location</span>
         </div>
-        <Button className="bg-[#FD7E14]">See more</Button>
+        <Link href="/adoption_detail">
+          <Button className="bg-[#FD7E14]">See more</Button>
+        </Link>
       </CardFooter>
     </Card>
   );

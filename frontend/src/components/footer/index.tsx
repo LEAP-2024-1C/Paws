@@ -1,13 +1,9 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
-import { FaFacebook } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
 import { IoIosCall } from "react-icons/io";
 import { IoIosMail } from "react-icons/io";
+
 const Footer = () => {
   return (
     <footer className="flex justify-around p-6 bg-slate-200 ">

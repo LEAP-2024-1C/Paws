@@ -15,15 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "../ui/separator";
 import { Checkbox } from "../ui/checkbox";
 
@@ -36,7 +27,8 @@ export function InfoCard() {
           <div className="flex gap-5">
             <Button
               variant="outline"
-              className="rounded-full w-40 py-6 text-2xl">
+              className="rounded-full w-40 py-6 text-2xl"
+            >
               Favorite
             </Button>
             <Button className="rounded-full bg-[#FD7E14] w-56 py-6 text-2xl">
@@ -170,7 +162,8 @@ export function MoreDetails() {
           <Checkbox id="terms" />
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
             Insert your full information
           </label>
         </div>
@@ -178,7 +171,8 @@ export function MoreDetails() {
           <Checkbox id="terms" />
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
             Accept terms and conditions
           </label>
         </div>

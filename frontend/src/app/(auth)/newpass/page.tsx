@@ -2,7 +2,7 @@
 import { apiUrl } from "@/utils/util";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -82,7 +82,8 @@ const EnterNewPass = () => {
           <Button
             className="bg-[#FD7E14]"
             size="custom"
-            onClick={createNewPass}>
+            onClick={createNewPass}
+          >
             Үүсгэх
           </Button>
         </div>

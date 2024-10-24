@@ -1,29 +1,28 @@
 import AdoptionCard from "@/components/adoption_section/adoption_card";
-import AdoptionDetailPage from "@/components/adoption_section/adoption_detail";
 import Carousel from "@/components/adoption_section/carousel";
 import SearchFilterSection from "@/components/adoption_section/search_filter_section";
-import HeroComponent from "@/components/main_page/hero_component";
 import React from "react";
 
 const AdoptionPage = () => {
-  const mockData = ["1", "2", "3", "4"];
+  const mockData = [{ data: "1" }, { data: "2" }, { data: "3" }, { data: "4" }];
   return (
     <div>
       {/* <HeroComponent /> */}
 
-      {/* <Carousel />
+      <Carousel />
       <div className="flex w-3/5 m-auto">
         <SearchFilterSection />
         <main className="grid grid-cols-3 w-4/6 mx-auto my-5 gap-6">
           {mockData?.map((c, i) => (
-            <div className="col-span-1 row-span-1">
+            <div className="col-span-1 row-span-1 " key={i}>
               <AdoptionCard />
+              {c.data}
             </div>
           ))}
         </main>
-      </div> */}
+      </div>
 
-      <AdoptionDetailPage />
+      {/* <AdoptionDetailPage /> */}
     </div>
   );
 };
