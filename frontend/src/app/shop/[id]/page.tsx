@@ -191,9 +191,9 @@ const ProductDetail: React.FC = () => {
             </div>
             <button
               onClick={handleAddToCart}
-              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+              className="bg-orange-500 text-white px-6 py-1.5 rounded-md hover:bg-blue-600 transition-colors duration-300"
             >
-              ADD TO CART
+              Add to Cart
             </button>
             <button
               onClick={handleAddToWishlist}
