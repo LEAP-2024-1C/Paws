@@ -15,12 +15,12 @@ import { Badge } from "@/components/ui/badge";
 
 const Articles = () => {
   return (
-    <section className="h-screen">
+    <section className="h-full">
       <HeroComponent />
-      <main className="flex justify-center mt-10">
+      <main className="md:flex md:justify-center md:mt-10">
         <RadioGroup
           defaultValue="comfortable"
-          className="mr-32 flex flex-col gap-3 md:text-lg md:font-semibold"
+          className="md:mr-32 md:flex md:flex-col md:gap-3 md:text-lg md:font-semibold hidden"
         >
           <h3 className="md:text-xl md:font-bold mb-5 hover:text-amber-400">
             Categories
