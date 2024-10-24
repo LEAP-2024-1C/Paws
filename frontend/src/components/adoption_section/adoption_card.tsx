@@ -18,7 +18,7 @@ export default function AdoptionCard() {
     setLoved(!loved);
   };
   return (
-    <Card className="w-[400px] relative">
+    <Card className="w-[250px] relative">
       <Button
         variant="ghost"
         className="p-0 absolute right-3 top-2 text-2xl hover:scale-150 hover:bg-transparent z-10"

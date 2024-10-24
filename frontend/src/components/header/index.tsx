@@ -5,35 +5,28 @@ import { Button } from "../ui/button";
 
 const Header = () => {
   return (
-    <header className="flex justify-center mt-8 ">
-      <div className="w-4/5 px-4 py-3 flex justify-between items-center rounded-3xl bg-white border-2">
+    <header className="flex justify-center bg-[#F8F9FA]">
+      <div className="w-3/5 px-10 py-3 shadow-lg flex justify-between items-center rounded-full bg-white mt-14">
         <span className="flex">
-          <Link href="/" className="flex">
-            <img src="/images/logo.png" alt="logo" className="w-6 h-6" />
-            <h1 className="font-bold">Pawchig</h1>
+          <Link href="/" className="flex gap-2 items-center">
+            <img src="/images/logo.png" alt="logo" className="" />
+            <h1 className="font-bold text-xl">Pawchig</h1>
           </Link>
         </span>
         <span>
           <ul className="flex gap-9">
-            <Link href="/">
-              <p>Нүүр хуудас </p>
-            </Link>
-            <Link href="/adoption">
-              <p>Үрчлэл</p>{" "}
-            </Link>
-            <Link href="/donation">
-              <p>Хандив</p>{" "}
-            </Link>
-            <Link href="/sos">
-              <p>Яаралтай тусламж </p>
-            </Link>
-            <Link href="/shop">
-              <p>Shop</p>
-            </Link>
+            <Link href="/">Home</Link>
+            <Link href="/adoption">Adoption</Link>
+            <Link href="/donation">Donation</Link>
+            <Link href="/sos">Resque</Link>
+            <Link href="/shop">Shop</Link>
+            <Link href="/">Blog</Link>
           </ul>
         </span>
         <span>
-          <Button className="bg-amber-500 rounded-lg">Нэвтрэх</Button>
+          <Button size="custom" className="bg-[#FD7E14]">
+            Нэвтрэх
+          </Button>
         </span>
       </div>
     </header>
