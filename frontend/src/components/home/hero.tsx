@@ -17,7 +17,12 @@ const Hero = () => {
         </p>
         <Button className="text-white w-40">Adopt now</Button>
       </main>
-      <Image src="/img/Hero.jpeg" alt="hero" height={500} width={500}></Image>
+      <Image
+        src="https://ibb.co/sg59VpL"
+        alt="hero"
+        height={500}
+        width={500}
+      ></Image>
     </section>
   );
 };
