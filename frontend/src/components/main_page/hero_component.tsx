@@ -39,7 +39,8 @@ const HeroComponent = () => {
           style={{
             backgroundImage: "url('/img/image.png')",
           }}
-          className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}>
+          className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}
+        >
           <img src="img\cat&dog.png" alt="" className="w-3/5" />
         </div>
       </section>

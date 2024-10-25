@@ -7,29 +7,6 @@ export default function Carousel() {
   // const mockData = ["1", "2", "3", "4"];
   return (
     <>
-      {/* <Swiper
-        className="mySwiper"
-        // autoplay={{
-        //   delay: 4500,
-        //   disableOnInteraction: false,
-        // }}
-        // navigation={true}
-        // modules={[Autoplay, Navigation]}
-      >
-        {mockData.slice(0, 5).map((prod) => (
-          <SwiperSlide className="relative">
-            <div className="relative w-full h-96">
-              <div
-                style={{
-                  // backgroundImage: `url(${prod.images[0]})`,
-                  backgroundImage:
-                    "url('https://www.shutterstock.com/image-vector/cartoon-paws-cat-set-vector-260nw-2121437939.jpg')",
-                }}
-                className={`w-full h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}></div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper> */}
       <div className="bg-[#F8F9FA] h-1/3 w-full">
         <section className="w-3/5 flex m-auto">
           <div className="flex flex-1 relative overflow-hidden items-center">
@@ -64,7 +41,11 @@ export default function Carousel() {
             }}
             className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}
           >
-            <img src="/img/kitty.png" alt="" className="w-1/2" />
+            <img
+              src="https://i.ibb.co/tDwSPg9/kitty.png"
+              alt=""
+              className="w-1/2"
+            />
           </div>
         </section>
       </div>
