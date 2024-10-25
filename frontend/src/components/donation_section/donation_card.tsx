@@ -14,7 +14,7 @@ import { DialogButton } from "./dialog";
 import { Button } from "@/components/ui/button";
 const DonationCard = () => {
   return (
-    <Card className="w-[400px] relative p-4 flex flex-col gap-2">
+    <Card className="w-300px md:w-[280px] lg:w-[300px] xl:w-[400px] relative p-4 flex flex-col lg:gap-3">
       <CardHeader className="mb-4 p-0 h-48">
         <div className="overflow-hidden rounded-t-lg">
           <img
@@ -29,7 +29,7 @@ const DonationCard = () => {
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <p className="text-lg font-bold">Aztai sawar</p>
+        <p className="text-sm lg:text-lg font-bold">Aztai sawar</p>
       </CardContent>
 
       <CardContent>

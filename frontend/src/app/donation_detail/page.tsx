@@ -7,7 +7,7 @@ const DonationDetail = () => {
   const mockData = ["1", "2", "3"];
   return (
     <div className="bg-slate-50 ">
-      <div className="w-3/5 flex mx-auto  p-6 gap-20 ">
+      <div className="w-3/4 md:w-3/5 flex-col md:flex md:mx-auto  p-6 gap-20 ">
         <DetailCard />
         <DonationPay />
       </div>
