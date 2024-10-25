@@ -40,16 +40,16 @@ const DonationCard = () => {
         </p>
       </CardContent>
 
-      <CardTitle className="flex gap-3">
-        <p className="text-2xl">100$</p>
-        <p className="text-lg">raised out of</p>
-        <p className="text-xl">43$</p>
+      <CardTitle className="flex gap-1 lg:gap-3">
+        <p className="text-lg lg:text-2xl">100$</p>
+        <p className="text-sm lg:text-lg">raised out of</p>
+        <p className="text-sm lg:text-xl">43$</p>
       </CardTitle>
       <span>
         <Progress value={33} />
       </span>
       <CardFooter className="flex justify-between">
-        <div className="flex gap-2">
+        <div className="flex gap-1 lg:gap-2">
           <FaHeart />
           <p>25</p>
           <p>Contributors</p>
