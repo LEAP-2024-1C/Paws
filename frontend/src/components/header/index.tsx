@@ -23,7 +23,7 @@ const Header = () => {
             <Link href="/donation">Donation</Link>
             <Link href="/sos">Emergency</Link>
             <Link href="/shop">Shop</Link>
-            <Link href="/">Blog</Link>
+            <Link href="/articles">Blog</Link>
           </ul>
         </span>
         <span>
