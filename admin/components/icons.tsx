@@ -28,6 +28,8 @@ import {
   UserX2Icon,
   UserPlus,
   PackagePlus,
+  PawPrint,
+  SquarePen,
   X
 } from 'lucide-react';
 
@@ -61,6 +63,8 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  adoption: PawPrint,
+  donation: SquarePen,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

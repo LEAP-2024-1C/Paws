@@ -204,6 +204,28 @@ export const products: Product[] = [
   }
 ];
 
+export type AdoptionPosts = {
+  id: number;
+  userName: string;
+  petName: string;
+  description: string;
+};
+
+export const adoptionPosts: AdoptionPosts[] = [
+  {
+    id: 1,
+    userName: 'John Doe',
+    petName: 'Kitty',
+    description: 'I want to adopt Kitty'
+  },
+  {
+    id: 2,
+    userName: 'John Doe',
+    petName: 'Max',
+    description: 'I want to adopt Max'
+  }
+];
+
 export const navItems: NavItem[] = [
   {
     title: 'Dashboard',
@@ -228,6 +250,18 @@ export const navItems: NavItem[] = [
     href: '/dashboard/profile',
     icon: 'profile',
     label: 'profile'
+  },
+  {
+    title: 'Adoption',
+    href: '/dashboard/adoption',
+    icon: 'adoption',
+    label: 'adoption'
+  },
+  {
+    title: 'Donation',
+    href: '/dashboard/donation',
+    icon: 'donation',
+    label: 'donation'
   },
   {
     title: 'Login',
