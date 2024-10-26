@@ -14,7 +14,7 @@ import { DialogButton } from "./dialog";
 import { Button } from "@/components/ui/button";
 const DonationCard = () => {
   return (
-    <Card className="w-300px md:w-[280px] lg:w-[300px] xl:w-[400px] relative p-4 flex flex-col lg:gap-3">
+    <Card className="m-auto w-3/4 2xl:w-[400px] relative p-2 flex flex-col lg:gap-3">
       <CardHeader className="mb-4 p-0 h-48">
         <div className="overflow-hidden rounded-t-lg">
           <img
@@ -51,8 +51,8 @@ const DonationCard = () => {
       <CardFooter className="flex justify-between">
         <div className="flex gap-1 lg:gap-2">
           <FaHeart />
-          <p>25</p>
-          <p>Contributors</p>
+          <p className="text-sm 2xl:text-lg">25</p>
+          <p className="text-sm 2xl:text-lg">Contributors</p>
         </div>
         <DialogButton />
       </CardFooter>
