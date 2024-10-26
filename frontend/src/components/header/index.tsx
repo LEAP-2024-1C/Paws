@@ -1,11 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, User, X } from "lucide-react";
+import { UserContext } from "../context/user_context";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    router.push("/signin");
+  };
 
   return (
     <header className="flex justify-center bg-[#F8F9FA]">
@@ -27,9 +44,32 @@ const Header = () => {
           </ul>
         </span>
         <span>
-          <Button size="custom" className="bg-[#FD7E14]">
-            Нэвтрэх
-          </Button>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <User />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>{user.firstname}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Link href="/user_section">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Button onClick={logOut} variant="ghost">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <Button size="custom" className="bg-[#FD7E14]">
+              <Link href="/signin">Нэвтрэх</Link>
+            </Button>
+          )}
         </span>
       </div>
     </header>
