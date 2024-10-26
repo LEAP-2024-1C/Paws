@@ -15,9 +15,14 @@ export default function Page() {
       <div className="flex-1 space-y-4 p-8">
         <Breadcrumbs items={breadcrumbItems} />
         <AdoptionPostForm
-          categories={[
-            { _id: 'shirts', name: 'shirts' },
-            { _id: 'pants', name: 'pants' }
+          pets={[
+            { _id: '1', name: 'Kitty' },
+            { _id: '2', name: 'Max' }
+          ]}
+          preChecks={[
+            { _id: '1', name: 'vaccinated' },
+            { _id: '2', name: 'wormed' },
+            { _id: '3', name: 'spay' }
           ]}
           initialData={null}
           key={null}

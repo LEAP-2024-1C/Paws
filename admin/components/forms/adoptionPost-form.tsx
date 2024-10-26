@@ -59,12 +59,14 @@ type AdoptionPostFormValues = z.infer<typeof formSchema>;
 
 interface AdoptionFormProps {
   initialData: any | null;
-  categories: any;
+  pets: any;
+  preChecks: any;
 }
 
 export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
   initialData,
-  categories
+  pets,
+  preChecks
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -84,7 +86,8 @@ export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
         description: '',
         price: 0,
         imgUrl: [],
-        category: ''
+        category: '',
+        location: ''
       };
 
   const form = useForm<AdoptionPostFormValues>({
@@ -181,17 +184,33 @@ export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
           <div className="gap-8 md:grid md:grid-cols-3">
             <FormField
               control={form.control}
-              name="name"
+              name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Pet Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product name"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FormLabel>Select a pet</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a pet"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {/* @ts-ignore  */}
+                      {pets.map((pet) => (
+                        <SelectItem key={pet._id} value={pet._id}>
+                          {pet.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -215,7 +234,8 @@ export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="description"
+              // name="location"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Location</FormLabel>
@@ -235,7 +255,7 @@ export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>Pre-adoption checks</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -246,15 +266,15 @@ export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a category"
+                          placeholder="Select a value"
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {/* @ts-ignore  */}
-                      {categories.map((category) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
+                      {preChecks.map((check) => (
+                        <SelectItem key={check._id} value={check._id}>
+                          {check.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
