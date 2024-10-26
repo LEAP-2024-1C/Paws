@@ -1,24 +1,23 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import authRoute from "./routes/auth-route";
+import dotenv from "dotenv";
+import { connectDB } from "./config/db";
+dotenv.config();
 
+//express application obj uusgeh
 const app = express();
 
+const PORT = process.env.PORT;
+const MONGO_URL = process.env.MONGO_URL || "";
+
 //middlewares
-
-app.use(cors());
-
 app.use(express.json());
+app.use(cors());
+app.use("/api/v1/auth", authRoute);
 
-const PORT: string = process.env.PORT || "";
+connectDB(MONGO_URL);
 
-const MONGO_URI = process.env.MONGO_URI || "";
-
-app.get("/", async (req: Request, res: Response) => {
-  res.send("Welcome Paws API server");
-});
-
-//Server on
-
-app.listen(8000, () => {
-  console.log(`АPI Server is running on port:8000 `);
+app.listen(PORT, () => {
+  console.log(`server started at localhost:${PORT}`);
 });

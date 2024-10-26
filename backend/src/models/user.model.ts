@@ -61,9 +61,9 @@ const userSchema = new Schema<IUser>({
   otp: { type: String, default: "" },
   passwordResetToken: { type: String, default: "" },
   passwordResetTokenExpire: { type: Date, default: undefined },
-  boughtProducts: [{ name: String, default: "" }],
-  adoptions: [{ name: String, default: "" }],
-  donations: [{ name: String, default: "" }],
+  boughtProducts: [{ name: String }],
+  adoptions: [{ name: String }],
+  donations: [{ name: String }],
   created_at: {
     type: Date,
     default: Date.now,
