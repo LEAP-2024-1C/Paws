@@ -14,7 +14,7 @@ const PORT: string = process.env.PORT || "";
 const MONGO_URI = process.env.MONGO_URI || "";
 
 app.get("/", async (req: Request, res: Response) => {
-  res.send("Welcome E-commerce API server");
+  res.send("Welcome Paws API server");
 });
 
 //Server on
