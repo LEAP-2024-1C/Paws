@@ -226,6 +226,31 @@ export const adoptionPosts: AdoptionPosts[] = [
   }
 ];
 
+export type DonationPosts = {
+  id: number;
+  userName: string;
+  petName: string;
+  amount: number;
+  description: string;
+};
+
+export const donationPosts: DonationPosts[] = [
+  {
+    id: 1,
+    userName: 'John Doe',
+    petName: 'Kitty',
+    amount: 500000,
+    description: 'I want to adopt Kitty'
+  },
+  {
+    id: 2,
+    userName: 'John Doe',
+    petName: 'Max',
+    amount: 200000,
+    description: 'I want to adopt Max'
+  }
+];
+
 export const navItems: NavItem[] = [
   {
     title: 'Dashboard',

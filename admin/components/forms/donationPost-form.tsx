@@ -57,15 +57,15 @@ const formSchema = z.object({
   preCheck: z.string()
 });
 
-type AdoptionPostFormValues = z.infer<typeof formSchema>;
+type DonationPostFormValues = z.infer<typeof formSchema>;
 
-interface AdoptionFormProps {
+interface DonationFormProps {
   initialData: any | null;
   pets: any;
   preChecks: any;
 }
 
-export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
+export const DonationPostForm: React.FC<DonationFormProps> = ({
   initialData,
   pets,
   preChecks
@@ -93,12 +93,12 @@ export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
         preCheck: ''
       };
 
-  const form = useForm<AdoptionPostFormValues>({
+  const form = useForm<DonationPostFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues
   });
 
-  const onSubmit = async (data: AdoptionPostFormValues) => {
+  const onSubmit = async (data: DonationPostFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
