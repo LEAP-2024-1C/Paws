@@ -14,7 +14,7 @@ import { DialogButton } from "./dialog";
 import { Button } from "@/components/ui/button";
 const DonationCard = () => {
   return (
-    <Card className="w-[400px] relative p-4 flex flex-col gap-2">
+    <Card className="m-auto w-3/4 2xl:w-[400px] relative p-2 flex flex-col lg:gap-3">
       <CardHeader className="mb-4 p-0 h-48">
         <div className="overflow-hidden rounded-t-lg">
           <img
@@ -29,7 +29,7 @@ const DonationCard = () => {
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <p className="text-lg font-bold">Aztai sawar</p>
+        <p className="text-sm lg:text-lg font-bold">Aztai sawar</p>
       </CardContent>
 
       <CardContent>
@@ -40,19 +40,19 @@ const DonationCard = () => {
         </p>
       </CardContent>
 
-      <CardTitle className="flex gap-3">
-        <p className="text-2xl">100$</p>
-        <p className="text-lg">raised out of</p>
-        <p className="text-xl">43$</p>
+      <CardTitle className="flex gap-1 lg:gap-3">
+        <p className="text-lg lg:text-2xl">100$</p>
+        <p className="text-sm lg:text-lg">raised out of</p>
+        <p className="text-sm lg:text-xl">43$</p>
       </CardTitle>
       <span>
         <Progress value={33} />
       </span>
       <CardFooter className="flex justify-between">
-        <div className="flex gap-2">
+        <div className="flex gap-1 lg:gap-2">
           <FaHeart />
-          <p>25</p>
-          <p>Contributors</p>
+          <p className="text-sm 2xl:text-lg">25</p>
+          <p className="text-sm 2xl:text-lg">Contributors</p>
         </div>
         <DialogButton />
       </CardFooter>
