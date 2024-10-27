@@ -91,6 +91,36 @@ export const users: User[] = [
   }
 ];
 
+export type Pets = {
+  id: number;
+  name: string;
+  breed: string;
+  age: number;
+  images: [string];
+  gender: string;
+  healthCon: string;
+};
+export const pets: Pets[] = [
+  {
+    id: 1,
+    name: 'Ted',
+    breed: 'husky',
+    age: 2,
+    images: ['img'],
+    gender: 'male',
+    healthCon: 'healthy'
+  },
+  {
+    id: 1,
+    name: 'Kitty',
+    breed: 'bengal',
+    age: 3,
+    images: ['img'],
+    gender: 'female',
+    healthCon: 'healthy'
+  }
+];
+
 export type Product = {
   id: number;
   productName: string;
@@ -263,6 +293,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/user',
     icon: 'user',
     label: 'user'
+  },
+  {
+    title: 'Pets',
+    href: '/dashboard/pets',
+    icon: 'pet',
+    label: 'pets'
   },
   {
     title: 'Product',
