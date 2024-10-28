@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 
-import Shop from "../../models/product.model";
+import Product from "../../models/product.model";
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const shops = await Shop.find();
-    res.status(200).json(shops);
+    const products = await Product.find();
+
+    if (!products) {
+      return res.status(404).json({ message: "No products found" });
+    }
+    res.status(200).json(products);
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Couldn't get shops" });
@@ -14,11 +18,24 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const { name, price, description, imageUrl } = req.body;
-    const product = await Shop.create({ name, price, description, imageUrl });
+    console.log("Received product data:", req.body);
+
+    const { name, price, description, imageUrl, category, quantity, size } =
+      req.body;
+    const product = await Product.create({
+      name,
+      price,
+      description,
+      imageUrl,
+      category,
+      quantity,
+      size,
+    });
+
+    console.log("Created product:", product);
     res.status(201).json(product);
   } catch (error) {
-    console.log(error);
+    console.error("Error creating product:", error);
     res.status(400).json({ message: "Couldn't create product" });
   }
 };

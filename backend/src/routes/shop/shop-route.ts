@@ -8,7 +8,7 @@ import { authentication } from "../../middlewares/authentication";
 
 const router = Router();
 
-router.route("/all").get(authentication, getAllProducts);
-router.route("/create").post(authentication, createProduct);
+router.route("/").get(getAllProducts);
+router.route("/create").post(createProduct);
 
 export default router;

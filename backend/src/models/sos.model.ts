@@ -5,7 +5,8 @@ interface ISos {
   location: string;
   image: string[];
   postedDate: Date;
-  phoneNumber: number;
+  status: "active" | "saved" | "pending";
+  phoneNumber: string;
   userId: { type: Schema.Types.ObjectId; ref: "User"; required: true };
 }
 
@@ -22,7 +23,7 @@ const sosSchema = new Schema<ISos>({
     default: Date.now,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: [true, "Утасны дугаар заавал оруулах"],
   },
   userId: {

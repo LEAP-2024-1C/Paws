@@ -14,8 +14,14 @@ export const getAllSos = async (req: Request, res: Response) => {
 
 export const createSos = async (req: Request, res: Response) => {
   try {
-    const { description, location, number, imageUrl } = req.body;
-    const sos = await Sos.create({ description, location, number, imageUrl });
+    const { userId, description, location, phoneNumber, imageUrl } = req.body;
+    const sos = await Sos.create({
+      userId,
+      description,
+      location,
+      phoneNumber,
+      imageUrl,
+    });
     res.status(201).json(sos);
   } catch (error) {
     console.log(error);
