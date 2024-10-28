@@ -6,7 +6,7 @@ import { LuDot } from "react-icons/lu";
 import { MdLocationCity } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa6";
-import { GoArrowRight } from "react-icons/go";
+
 import {
   Card,
   CardContent,
@@ -28,8 +28,7 @@ export function InfoCard() {
           <div className="flex gap-5">
             <Button
               variant="outline"
-              className="rounded-full w-40 py-6 text-2xl"
-            >
+              className="rounded-full w-40 py-6 text-2xl">
               Favorite
             </Button>
             <Button className="rounded-full bg-[#FD7E14] w-56 py-6 text-2xl">
@@ -163,8 +162,7 @@ export function MoreDetails() {
           <Checkbox id="terms" />
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Insert your full information
           </label>
         </div>
@@ -172,17 +170,13 @@ export function MoreDetails() {
           <Checkbox id="terms" />
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Accept terms and conditions
           </label>
         </div>
-        <Button className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl">
-          <span>
-            <AdoptionEnquire />
-          </span>
-          <GoArrowRight />
-        </Button>
+        <div className="">
+          <AdoptionEnquire />
+        </div>
       </CardContent>
       <CardFooter className="flex justify-between"></CardFooter>
     </Card>
