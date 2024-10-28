@@ -5,6 +5,7 @@ interface IAdoption {
   _id: Schema.Types.ObjectId;
   petId: Schema.Types.ObjectId;
   userId: Schema.Types.ObjectId;
+  title: string;
   description: string;
   location: string;
   pre_adoption_checks: string;
@@ -23,6 +24,10 @@ const adoptionSchema = new Schema<IAdoption>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: "User",
+  },
+  title: {
+    type: String,
+    required: true,
   },
   description: {
     type: String,

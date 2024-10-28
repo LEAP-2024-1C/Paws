@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoute from "./routes/auth-route";
 import petRoute from "./routes/pets/pet-routes";
 import petCategoryRoute from "./routes/pets/category-routes";
+import adoptionRoute from "./routes/adoption/adoption-route";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db";
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/pets", petRoute);
 app.use("/api/v1/pets/category", petCategoryRoute);
+app.use("api/v1/adoption", adoptionRoute);
 
 connectDB(MONGO_URL);
 
