@@ -8,12 +8,12 @@ interface ReportFormProps {
 export default function ReportForm({ onSubmit }: ReportFormProps) {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
+  const [number, setNumber] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log({ description, location, imageUrl });
+    console.log({ description, location, number, imageUrl });
     onSubmit();
   };
 
@@ -33,6 +33,14 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
         value={location}
         onChange={(e) => setLocation(e.target.value)}
         placeholder="Enter location"
+        className="w-full p-2 border rounded-xl"
+        required
+      />
+      <input
+        type="number"
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
+        placeholder="Phone Number"
         className="w-full p-2 border rounded-xl"
         required
       />

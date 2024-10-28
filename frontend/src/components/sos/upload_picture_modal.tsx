@@ -36,7 +36,7 @@ export default function UploadPictureModal({
   };
 
   return (
-    <Dialog defaultOpen>
+    <Dialog>
       <DialogTrigger asChild>
         <Button
           variant="default"
