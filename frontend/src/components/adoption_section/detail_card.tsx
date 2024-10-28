@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
 import { Checkbox } from "../ui/checkbox";
+import { AdoptionEnquire } from "./adoption_enquire";
 
 export function InfoCard() {
   return (
@@ -177,7 +178,9 @@ export function MoreDetails() {
           </label>
         </div>
         <Button className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl">
-          <span>Start An Adoption Process</span>
+          <span>
+            <AdoptionEnquire />
+          </span>
           <GoArrowRight />
         </Button>
       </CardContent>
