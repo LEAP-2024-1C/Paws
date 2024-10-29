@@ -13,6 +13,18 @@ interface ReportFormProps {
   onSubmit: () => void;
 }
 
+const DISTRICTS = [
+  { mn: "Баянзүрх", en: "Bayanzurkh" },
+  { mn: "Баянгол", en: "Bayangol" },
+  { mn: "Сонгинохайрхан", en: "Songinokhairkhan" },
+  { mn: "Чингэлтэй", en: "Chingeltei" },
+  { mn: "Сүхбаатар", en: "Sukhbaatar" },
+  { mn: "Хан-Уул", en: "Khan-Uul" },
+  { mn: "Налайх", en: "Nalaikh" },
+  { mn: "Багануур", en: "Baganuur" },
+  { mn: "Багахангай", en: "Bagakhangai" },
+];
+
 export default function ReportForm({ onSubmit }: ReportFormProps) {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -167,14 +179,19 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
         minLength={10}
       />
 
-      <input
-        type="text"
+      <select
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-        placeholder="Enter location (e.g., street address, landmark)"
         className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
         required
-      />
+      >
+        <option value="">Select district / Дүүрэг сонгох</option>
+        {DISTRICTS.map((district) => (
+          <option key={district.en} value={district.en}>
+            {district.mn} / {district.en}
+          </option>
+        ))}
+      </select>
 
       <PhoneInput
         country={"mn"}

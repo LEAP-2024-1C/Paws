@@ -88,7 +88,7 @@ export default function GridCarousel() {
                         <CardContent className="p-0">
                           <div className="relative aspect-square border rounded-lg">
                             <img
-                              src={item.image[0]}
+                              src=""
                               alt={item.title || "SOS Image"}
                               className="object-fill"
                             />
