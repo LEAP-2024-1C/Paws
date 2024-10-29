@@ -13,11 +13,11 @@ import {
 } from '@/components/ui/table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { AdoptionPosts } from '@/constants/data';
+import { adoptionPostss } from '@/constants/data';
 import { CellAction } from './cell-action';
 
 interface AdoptionTableProps {
-  data: AdoptionPosts[];
+  data: adoptionPostss[];
   searchKey: string;
 }
 

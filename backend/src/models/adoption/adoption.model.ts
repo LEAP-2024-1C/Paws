@@ -3,7 +3,7 @@ import { model, Schema } from "mongoose";
 interface IAdoption {
   _id: Schema.Types.ObjectId;
   petId: Schema.Types.ObjectId;
-  userId: Schema.Types.ObjectId;
+  userId?: Schema.Types.ObjectId;
   title: string;
   description: string;
   location: string;
@@ -20,7 +20,6 @@ const adoptionSchema = new Schema<IAdoption>({
   },
   userId: {
     type: Schema.Types.ObjectId,
-    required: true,
     ref: "User",
   },
   title: {

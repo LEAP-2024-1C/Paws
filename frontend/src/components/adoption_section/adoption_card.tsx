@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useContext } from "react";
 import { VscHeart } from "react-icons/vsc";
 import { VscHeartFilled } from "react-icons/vsc";
 import { GrLocationPin } from "react-icons/gr";
@@ -12,19 +12,30 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 
-export default function AdoptionCard() {
+export type adoptionPostsProps = {
+  title: string;
+  location: string;
+  description: string;
+  _id: string;
+};
+
+export default function AdoptionCard({
+  title,
+  location,
+  description,
+  _id,
+}: adoptionPostsProps) {
   const [loved, setLoved] = React.useState(false);
 
   const wishList = () => {
     setLoved(!loved);
   };
   return (
-    <Card className="w-[250px] relative">
+    <Card className="w-[350px] relative">
       <Button
         variant="ghost"
         className="p-0 absolute right-3 top-2 text-2xl hover:scale-150 hover:bg-transparent z-10"
-        onClick={wishList}
-      >
+        onClick={wishList}>
         {loved ? <VscHeartFilled /> : <VscHeart />}
       </Button>
       <CardHeader className="mb-4 p-0 h-48">
@@ -36,19 +47,16 @@ export default function AdoptionCard() {
           />
         </div>
       </CardHeader>
-      <CardContent>
-        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">Pet Name</h1>
-        <p className="text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur,
-          modi.
-        </p>
+      <CardContent className="h-40 overflow-hidden mb-3">
+        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">{title}</h1>
+        <p className="text-justify">{description}</p>
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="flex items-center gap-1 text-base">
           <GrLocationPin />
-          <span>Location</span>
+          <span>{location}</span>
         </div>
-        <Link href="/adoption_detail">
+        <Link href={"/adoption/" + _id}>
           <Button className="bg-[#FD7E14]">See more</Button>
         </Link>
       </CardFooter>

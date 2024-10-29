@@ -1,5 +1,5 @@
-import * as React from "react";
-
+"use client";
+import React, { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { GrLocationPin } from "react-icons/gr";
 import { LuDot } from "react-icons/lu";
@@ -18,13 +18,15 @@ import {
 import { Separator } from "../ui/separator";
 import { Checkbox } from "../ui/checkbox";
 import { AdoptionEnquire } from "./adoption_enquire";
+import { AdoptionContext } from "../context/adoption_context";
 
 export function InfoCard() {
+  const { oneAdoptPost } = useContext(AdoptionContext);
   return (
     <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.2)] border-none rounded-xl p-3">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span className="text-5xl">PET NAME</span>
+          <span className="text-5xl">{oneAdoptPost.title}</span>
           <div className="flex gap-5">
             <Button
               variant="outline"
@@ -39,7 +41,7 @@ export function InfoCard() {
         <CardDescription>
           <div className="flex items-center gap-1 text-2xl mt-6">
             <GrLocationPin />
-            <span>Location</span>
+            <span>{oneAdoptPost.location}</span>
           </div>
         </CardDescription>
         <CardDescription>
@@ -54,19 +56,12 @@ export function InfoCard() {
       </CardHeader>
       <Separator className="mb-8" />
       <CardContent>
-        <h1 className="text-2xl font-semibold mb-4">About Pet Name</h1>
+        <h1 className="text-2xl font-semibold mb-4">
+          About {oneAdoptPost.title}
+        </h1>
         <p className="text-lg">
-          Description <br /> My name is Bailey and I am a spayed female, brown
-          and white Staffordshire Bull Terrier. More Info: I have been at the
-          shelter since Dec 21, 2023.{" "}
-          <b className="text-[#FD7E14]">
-            For animals under the age of 8 weeks and/or moms with litters,
-            please contact the Center for availability.
-          </b>{" "}
-          Adoption fees include spay/neuter surgery. All animals will be
-          sterilized prior to release. Adoption Information Data Updated: This
-          information was refreshed 23 minutes ago. <br /> Weight: I weigh
-          approximately 47 pounds.
+          Description <br />
+          {oneAdoptPost.description}
         </p>
       </CardContent>
       <CardFooter className="flex justify-between"></CardFooter>

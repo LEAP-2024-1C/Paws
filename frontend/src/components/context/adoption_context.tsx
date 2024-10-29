@@ -10,69 +10,73 @@ type AdoptionProviderProps = {
 };
 
 export const AdoptionContext = createContext<AdoptionContextType>({
-  adoptionPost: {
+  adoptionPosts: [],
+  setAdoptionPosts: () => {},
+  oneAdoptPost: {
+    _id: "",
     title: "",
     description: "",
     location: "",
     status: "",
   },
-  token: "",
-  setAdoptionPost: () => {},
-  setToken: () => {},
-  fetchAdoptionData: () => {},
+  setOneAdoptPost: () => {},
+  fetchAllAdoptionData: () => {},
+  fetchSingleadoptionPosts: (id: string | string[]) => {},
   refetch: false,
   setRefetch: () => {},
 });
 
-export const UserProvider = ({ children }: AdoptionProviderProps) => {
+export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
   const [refetch, setRefetch] = useState(false);
-  const [token, setToken] = useState<string>("");
-  const [adoptionPost, setAdoptionPost] = useState<IAdoptionReq | null>(null);
+  const [adoptionPosts, setAdoptionPosts] = useState<IAdoptionReq[]>([]);
+  const [oneAdoptPost, setOneAdoptPost] = useState<IAdoptionReq>({
+    _id: "",
+    title: "",
+    description: "",
+    location: "",
+    status: "",
+  });
 
   // const router = useRouter();
 
-  const fetchAdoptionData = async () => {
+  const fetchAllAdoptionData = async () => {
     try {
-      const token = localStorage.getItem("token") || "";
-      const response = await axios.get(`${apiUrl}/api/v1/adoption`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 201) {
-        const { createPost } = response.data;
-        // console.log("USERrr", response.data);
-        setAdoptionPost(createPost);
-        setRefetch(!refetch);
+      const response = await axios.get(`${apiUrl}/api/v1/adoption`);
+      if (response.status === 200) {
+        console.log("Petss", response.data.getAllPosts);
+        setAdoptionPosts(response.data.getAllPosts);
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
 
-  useEffect(() => {
-    fetchAdoptionData();
-  }, []);
+  const fetchSingleadoptionPosts = async (id: string | string[]) => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/v1/adoption/${id}`);
+      if (response.status === 200) {
+        console.log("SinglePost", response.data.getOnePost);
+        setOneAdoptPost(response.data.getOnePost);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-  // console.log("USER", user);
+  console.log("Singlepost", oneAdoptPost);
 
   return (
     <AdoptionContext.Provider
       value={{
-        adoptionPost,
-        setAdoptionPost,
-        token,
-        setToken,
-        fetchAdoptionData,
+        adoptionPosts,
+        setAdoptionPosts,
+        oneAdoptPost,
+        setOneAdoptPost,
+        fetchAllAdoptionData,
         refetch,
         setRefetch,
-        // count,
-        // setCount,
-        // add,
-        // minus,
-      }}
-    >
+        fetchSingleadoptionPosts,
+      }}>
       {children}
     </AdoptionContext.Provider>
   );

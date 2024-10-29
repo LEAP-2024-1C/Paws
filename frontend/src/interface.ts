@@ -212,6 +212,7 @@ export interface WishListContextType {
 }
 
 export interface IAdoptionReq {
+  _id: string;
   title: string;
   description: string;
   location: string;
@@ -219,15 +220,12 @@ export interface IAdoptionReq {
 }
 
 export interface AdoptionContextType {
-  adoptionPost: IAdoptionReq | null;
-  setAdoptionPost: React.Dispatch<React.SetStateAction<IAdoptionReq | null>>;
-  token: string;
-  setToken: (token: string) => void;
-  fetchAdoptionData?: () => void;
+  adoptionPosts: IAdoptionReq[];
+  setAdoptionPosts: React.Dispatch<React.SetStateAction<IAdoptionReq[]>>;
+  oneAdoptPost: IAdoptionReq;
+  setOneAdoptPost: React.Dispatch<React.SetStateAction<IAdoptionReq>>;
+  fetchAllAdoptionData: () => void;
+  fetchSingleadoptionPosts: (id: string | string[]) => void;
   refetch?: boolean;
   setRefetch?: (refetch: boolean) => void;
-  // count: number;
-  // setCount: (count: number) => void;
-  // minus: () => void;
-  // add: () => void;
 }
