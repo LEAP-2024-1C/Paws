@@ -57,7 +57,7 @@ const formSchema = z.object({
   preCheck: z.string()
 });
 
-type AdoptionPostFormValues = z.infer<typeof formSchema>;
+type adoptionPostsFormValues = z.infer<typeof formSchema>;
 
 interface AdoptionFormProps {
   initialData: any | null;
@@ -65,7 +65,7 @@ interface AdoptionFormProps {
   preChecks: any;
 }
 
-export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
+export const adoptionPostsForm: React.FC<AdoptionFormProps> = ({
   initialData,
   pets,
   preChecks
@@ -93,12 +93,12 @@ export const AdoptionPostForm: React.FC<AdoptionFormProps> = ({
         preCheck: ''
       };
 
-  const form = useForm<AdoptionPostFormValues>({
+  const form = useForm<adoptionPostsFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues
   });
 
-  const onSubmit = async (data: AdoptionPostFormValues) => {
+  const onSubmit = async (data: adoptionPostsFormValues) => {
     try {
       setLoading(true);
       if (initialData) {

@@ -4,7 +4,7 @@ import { AdoptionTable } from '@/components/tables/adoption-tables/adoption-tabl
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { adoptionPosts } from '@/constants/data';
+import { adoptionPostss } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ export default async function page() {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Adopt Requests (${adoptionPosts.length})`}
+            title={`Adopt Requests (${adoptionPostss.length})`}
             description="Manage adopt requests (Server side table functionalities.)"
           />
 
@@ -35,7 +35,7 @@ export default async function page() {
         </div>
         <Separator />
 
-        <AdoptionTable searchKey="adoptionPosts" data={adoptionPosts} />
+        <AdoptionTable searchKey="adoptionPostss" data={adoptionPostss} />
       </div>
     </PageContainer>
   );

@@ -234,14 +234,14 @@ export const products: Product[] = [
   }
 ];
 
-export type AdoptionPosts = {
+export type adoptionPostss = {
   id: number;
   userName: string;
   petName: string;
   description: string;
 };
 
-export const adoptionPosts: AdoptionPosts[] = [
+export const adoptionPostss: adoptionPostss[] = [
   {
     id: 1,
     userName: 'John Doe',

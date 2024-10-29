@@ -1,16 +1,18 @@
 import { Router } from "express";
 import {
-  createAdoptionPost,
+  createadoptionPosts,
   getAdoptionInquiries,
-  getAdoptionPosts,
+  getadoptionPostss,
+  getSingleadoptionPosts,
   submitInquiry,
 } from "../../controllers/adoption/adoption-controller";
 
 const router = Router();
 
-router.route("/").get(getAdoptionPosts);
-router.route("/create").post(createAdoptionPost);
+router.route("/").get(getadoptionPostss);
+router.route("/create").post(createadoptionPosts);
 router.route("/req").get(getAdoptionInquiries);
 router.route("/newreq").post(submitInquiry);
+router.route("/:id").get(getSingleadoptionPosts);
 
 export default router;
