@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import bcrypt from "bcrypt";
 
 interface IAdoption {
   _id: Schema.Types.ObjectId;
@@ -8,7 +7,6 @@ interface IAdoption {
   title: string;
   description: string;
   location: string;
-  pre_adoption_checks: string;
   status: string;
   created_at: Date;
   updated_at: Date;
@@ -37,7 +35,6 @@ const adoptionSchema = new Schema<IAdoption>({
     type: String,
     requied: true,
   },
-  pre_adoption_checks: String,
   status: {
     type: String,
     enum: ["posted", "in_progress", "adopted"],
