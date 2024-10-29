@@ -6,7 +6,7 @@ import {
 
 const router = Router();
 
-router.route("/all").get(getArticleCat);
+router.route("/").get(getArticleCat);
 router.route("/create").post(createArticleCat);
 
 export default router;

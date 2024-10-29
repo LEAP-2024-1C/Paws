@@ -13,6 +13,7 @@ export const CreateArticle = async (req: Request, res: Response) => {
     });
     res.status(201).json({
       message: "Posted article successfully",
+      postArticle,
     });
   } catch (error) {
     console.log(error);
@@ -22,7 +23,7 @@ export const CreateArticle = async (req: Request, res: Response) => {
 
 export const getArticles = async (req: Request, res: Response) => {
   try {
-    const articles = await Article.find({});
+    const articles = await Article.find({}).populate("category");
     res
       .status(200)
       .json({ message: "Get all articles successfully", articles });

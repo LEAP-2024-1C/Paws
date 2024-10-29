@@ -10,6 +10,7 @@ import { connectDB } from "./config/db";
 // import shopRoute from "./routes/shop/shop-route";
 // import sosRoute from "./routes/sos/sos-route";
 // import donationRoute from "./routes/donation/donation-route";
+// import adoptionRoute from "./routes/adoption/adoption-route";
 dotenv.config();
 
 //express application obj uusgeh
@@ -26,6 +27,7 @@ app.use("/api/v1/pets", petRoute);
 app.use("/api/v1/pets/category", petCategoryRoute);
 app.use("/api/v1/articles", articleRoute);
 app.use("/api/v1/articlesCat", articleCatRoute);
+// app.use("/api/v1/adoption", adoptionRoute);
 // app.use("/api/v1/products", shopRoute);
 // app.use("/api/v1/sos", sosRoute);
 // app.use("api/v1/donation", donationRoute);
