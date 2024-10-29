@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
 
 interface Donations {
-  title: string;
   description: string;
+  title: string;
   images: [string];
   donation: number;
   amount: number;
