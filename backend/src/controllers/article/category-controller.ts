@@ -1,4 +1,4 @@
-import ArticleCat from "../../models/articleCat.model";
+import ArticleCat from "../../models/article/articleCat.model";
 import { Request, Response } from "express";
 
 export const getArticleCat = async (req: Request, res: Response) => {
@@ -14,7 +14,8 @@ export const getArticleCat = async (req: Request, res: Response) => {
 };
 export const createArticleCat = async (req: Request, res: Response) => {
   try {
-    const { _id, name } = req.body;
+    const { name } = req.body;
+    console.log("article category model", ArticleCat);
     const createCategory = await ArticleCat.create({ name });
     res.status(201).json({ message: "Created article category successfully" });
   } catch (error) {
