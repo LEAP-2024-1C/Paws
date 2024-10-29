@@ -3,8 +3,7 @@ import PetProfile from "../../models/pets/petProfile.model";
 
 export const getAllPetsInfo = async (req: Request, res: Response) => {
   try {
-    const allPets = await PetProfile.find({});
-    // .populate("petcategory")
+    const allPets = await PetProfile.find({}).populate("category");
     res.status(200).json({ message: "Get pets info successfully", allPets });
   } catch (error) {
     console.log("Failed to get all pets info", error);

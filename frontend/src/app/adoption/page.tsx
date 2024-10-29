@@ -10,9 +10,11 @@ const AdoptionPage = () => {
       {/* <HeroComponent /> */}
 
       <Carousel />
-      <div className="flex w-3/5 m-auto">
-        <SearchFilterSection />
-        <main className="grid grid-cols-3 w-4/6 mx-auto my-5 gap-6">
+      <div className="flex flex-col w-4/5 xl:flex-row md:w-3/5 m-auto">
+        <div className="mx-auto ">
+          <SearchFilterSection />
+        </div>
+        <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-4/6 mx-auto my-5 gap-6">
           {mockData?.map((c, i) => (
             <div className="col-span-1 row-span-1 " key={i}>
               <AdoptionCard />
