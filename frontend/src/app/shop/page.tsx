@@ -11,11 +11,11 @@ const ShopPage: React.FC = () => {
 
   const categoriesData = [
     { name: "All", count: 255 },
-    { name: "Furniture", count: 21 },
-    { name: "Bowls", count: 28 },
-    { name: "Clothing", count: 12 },
-    { name: "Food", count: 80 },
-    { name: "Toys", count: 90 },
+    { name: "Dog", count: 21 },
+    { name: "Cat", count: 28 },
+    { name: "Others", count: 12 },
+    { name: "Toys", count: 80 },
+    { name: "More", count: 90 },
     { name: "Sale", count: 24 },
   ];
 

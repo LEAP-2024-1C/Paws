@@ -13,10 +13,26 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { GrLocationPin } from "react-icons/gr";
+import axios from "axios";
+import { apiUrl } from "@/utils/util";
+import { useState } from "react";
+
+interface SosItem {
+  _id: string;
+  title: string;
+  description: string;
+  location: string;
+  image: string[];
+  phoneNumber: string;
+}
+
 export default function GridCarousel() {
   const [api, setApi] = React.useState<any>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+  const [sosItems, setSosItems] = React.useState<SosItem[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [refetch, setRefetch] = useState(false);
 
   React.useEffect(() => {
     if (!api) {
@@ -31,113 +47,80 @@ export default function GridCarousel() {
     });
   }, [api]);
 
-  const items = [
-    {
-      title: "Cat",
-      image: "",
-      description: "Looking for love",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Moo-Moo",
-      image: "",
-      description: "Need help with a dog",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Bird",
-      image: "",
-      description: "Need help with a bird",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Fish",
-      image: "",
-      description: "Need help with a fish",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Rabbit",
-      image: "",
-      description: "Need help with a rabbit",
-    },
-    { title: "Snake", image: "", description: "Need help with a snake" },
-    { title: "Bear", image: "", description: "Need help with a bear" },
-    { title: "Wolf", image: "", description: "Need help with a wolf" },
-    { title: "Fox", image: "", description: "Need help with a fox" },
-    { title: "Elephant", image: "", description: "Need help with a elephant" },
-    { title: "Lion", image: "", description: "Need help with a lion" },
-    { title: "Tiger", image: "", description: "Need help with a tiger" },
-    {
-      title: "Snow-capped Peaks",
-      image: "",
-      description: "Need help with a snow-capped peaks",
-    },
-    {
-      title: "Tropical Island",
-      image: "",
-      description: "Need help with a tropical island",
-    },
-    {
-      title: "Autumn Foliage",
-      image: "",
-      description: "Need help with a autumn foliage",
-    },
-  ];
+  const fetchAllSosItems = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/sos/`);
+      if (res.status === 200) {
+        setSosItems(res.data.sos);
+        setRefetch(!refetch);
+      }
+    } catch (error) {
+      console.log("Can't fetch sos items", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchAllSosItems();
+  }, [refetch]);
 
   const itemsPerSlide = 9;
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="w-full max-w-5xl mx-auto">
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent>
-          {Array.from({ length: Math.ceil(items.length / itemsPerSlide) }).map(
-            (_, index) => (
-              <CarouselItem key={index}>
-                <div className="grid grid-cols-3 gap-6 p-1">
-                  {items
-                    .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
-                    .map((item, itemIndex) => (
-                      <Link href={`/sos/${item.title}`} key={itemIndex}>
-                        <Card key={itemIndex} className="overflow-hidden">
-                          <CardContent className="p-0">
-                            <div className="relative aspect-square border rounded-lg">
-                              <Image
-                                src={item.image}
-                                alt={item.title}
-                                fill
-                                className=" object-cover"
-                              />
-                            </div>
-                            <div className="p-4">
-                              <h3 className="text-lg font-semibold text-orange-500">
-                                {item.title}
-                              </h3>
-                            </div>
-                            <div className="py-4 px-2">
-                              <p className="text-sm text-blue-300">
-                                {item.description}
-                              </p>
-                            </div>
-                            <div className="py-4 px-2 flex gap-1">
-                              <GrLocationPin className="text-gray-500" />
-                              <p className="text-sm text-gray-500">
-                                {item.location}
-                              </p>
-                            </div>
-                            <div className="py-2 px-4 flex gap-1">
-                              <p className="text-sm text-gray-500">
-                                interstate adoption unavailable
-                              </p>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    ))}
-                </div>
-              </CarouselItem>
-            )
-          )}
+          {Array.from({
+            length: Math.ceil(sosItems.length / itemsPerSlide),
+          }).map((_, index) => (
+            <CarouselItem key={index}>
+              <div className="grid grid-cols-3 gap-6 p-1">
+                {sosItems
+                  .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
+                  .map((item) => (
+                    <Link href={`/sos/${item._id}`} key={item._id}>
+                      <Card className="overflow-hidden">
+                        <CardContent className="p-0">
+                          <div className="relative aspect-square border rounded-lg">
+                            <img
+                              src={item.image[0]}
+                              alt={item.title || "SOS Image"}
+                              className="object-fill"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <h3 className="text-lg font-semibold text-orange-500">
+                              {item.title || "Emergency Report"}
+                            </h3>
+                          </div>
+                          <div className="py-4 px-2">
+                            <p className="text-sm text-blue-300">
+                              {item.description}
+                            </p>
+                          </div>
+                          <div className="py-4 px-2 flex gap-1">
+                            <GrLocationPin className="text-gray-500" />
+                            <p className="text-sm text-gray-500">
+                              {item.location}
+                            </p>
+                          </div>
+                          <div className="py-2 px-4 flex gap-1">
+                            <p className="text-sm text-gray-500">
+                              interstate adoption unavailable
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+              </div>
+            </CarouselItem>
+          ))}
         </CarouselContent>
         <div className="flex items-center justify-center mt-12">
           <CarouselPrevious

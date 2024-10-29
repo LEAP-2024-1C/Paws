@@ -17,7 +17,7 @@ interface Product {
 const mockProducts: Product[] = [
   {
     id: 1,
-    name: "Pet Carriers",
+    name: "Pet",
     price: 29.99,
     description: "Pet Carriers   ",
     image: "",

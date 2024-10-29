@@ -1,5 +1,13 @@
 import { useState } from "react";
-import UploadPictureModal from "./upload_picture_modal";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { apiUrl } from "@/utils/util";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { FiUpload } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 interface ReportFormProps {
   onSubmit: () => void;
@@ -8,39 +16,193 @@ interface ReportFormProps {
 export default function ReportForm({ onSubmit }: ReportFormProps) {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
+  const [number, setNumber] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
+        toast.error("Image size should be less than 5MB");
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please upload an image file");
+        return;
+      }
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImage(null);
+    setPreviewUrl("");
+    setImageUrl("");
+  };
+
+  const handleImageUpload = async () => {
+    if (!image) return null;
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", "ml_default");
+
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        formData
+      );
+      console.log(response.data);
+      return response.data.secure_url;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw new Error("Failed to upload image");
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log({ description, location, imageUrl });
-    onSubmit();
+    setLoading(true);
+
+    try {
+      // Validate phone number
+      if (number.length < 8) {
+        toast.error("Please enter a valid phone number");
+        return;
+      }
+
+      // Validate description
+      if (description.length < 10) {
+        toast.error(
+          "Please provide a more detailed description (minimum 10 characters)"
+        );
+        return;
+      }
+
+      let uploadedImageUrl = null;
+      if (image) {
+        uploadedImageUrl = await handleImageUpload();
+      }
+
+      const res = await axios.post(`${apiUrl}/api/v1/sos/create`, {
+        description,
+        location,
+        phoneNumber: number,
+        imageUrl: uploadedImageUrl,
+      });
+
+      if (res.status === 201) {
+        toast.success("SOS report submitted successfully");
+        // Clear form
+        setDescription("");
+        setLocation("");
+        setNumber("");
+        setImage(null);
+        setPreviewUrl("");
+        setImageUrl("");
+        onSubmit();
+        router.push("/sos");
+        router.refresh();
+      }
+    } catch (error: any) {
+      console.error("Failed to submit SOS report:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to submit SOS report"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="w-full space-y-4">
-      <UploadPictureModal onImageUploaded={setImageUrl} />
+      {/* Image Upload Section */}
+      <div className="relative">
+        {previewUrl ? (
+          <div className="relative w-full h-48 rounded-xl overflow-hidden">
+            <Image
+              src={previewUrl}
+              alt="Preview"
+              fill
+              className="object-cover"
+            />
+            <button
+              type="button"
+              onClick={removeImage}
+              className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600"
+            >
+              <IoClose size={20} />
+            </button>
+          </div>
+        ) : (
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-50">
+            <FiUpload className="w-8 h-8 text-gray-400" />
+            <span className="mt-2 text-sm text-gray-500">Upload an image</span>
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </label>
+        )}
+      </div>
+
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Describe the danger or situation"
-        className="w-full p-2 border rounded-xl"
+        placeholder="Describe the emergency situation in detail..."
+        className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
         rows={4}
         required
+        minLength={10}
       />
+
       <input
         type="text"
         value={location}
         onChange={(e) => setLocation(e.target.value)}
-        placeholder="Enter location"
-        className="w-full p-2 border rounded-xl"
+        placeholder="Enter location (e.g., street address, landmark)"
+        className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
         required
       />
+
+      <PhoneInput
+        country={"mn"}
+        value={number}
+        onChange={(phone) => setNumber(phone)}
+        inputClass="!w-full p-3 !rounded-xl"
+        containerClass="!w-full"
+        buttonClass="!rounded-l-xl"
+      />
+
       <button
         type="submit"
-        className="block mx-auto bg-orange-500 text-white py-2 px-4 rounded-xl hover:bg-red-700"
+        disabled={loading}
+        className={`w-full py-3 px-4 rounded-xl text-white font-medium transition-colors
+          ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-orange-500 hover:bg-orange-600 active:bg-orange-700"
+          }`}
       >
-        Submit Report
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+            Submitting...
+          </div>
+        ) : (
+          "Submit Report"
+        )}
       </button>
     </form>
   );

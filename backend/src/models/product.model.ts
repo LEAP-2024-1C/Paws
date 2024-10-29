@@ -32,7 +32,7 @@ const productSchema = new Schema<IProduct>(
     size: {
       type: String,
       enum: ["XS", "S", "M", "L", "XL"],
-      default: " ",
+      default: null,
     },
     description: {
       type: String,
