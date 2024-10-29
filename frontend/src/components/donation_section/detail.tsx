@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { FaHeart } from "react-icons/fa6";
+import { PayCard } from "./pay_card";
+
 import {
   Card,
   CardTitle,
@@ -56,11 +59,14 @@ const DetailCard = () => {
           Thank you for your support.
         </p>
       </CardContent>
-      <CardFooter className="flex gap-3">
-        <Button variant="ghost" onClick={wishList} className="p-0">
-          {loved ? <VscHeartFilled /> : <VscHeart />}
-        </Button>
-        <p>24</p>
+      <CardFooter className="flex justify-between">
+        <div className="flex gap-2">
+          <FaHeart />
+          <p>24</p>
+          <p>Contributors</p>
+        </div>
+
+        <DialogButton />
       </CardFooter>
     </Card>
   );
@@ -82,10 +88,9 @@ export function DonationPay() {
         <p className="text-xs xl:text-lg">raised out of</p>
         <p className="text-sm xl:text-xl">43$</p>
       </CardTitle>
-      <Button className="bg-[#FD7E14]">Donate</Button>
-      <DialogButton />
-      <Link href="/donation">
-        <Button className="border-2 border-orange-400 bg-white text-black ">
+      <PayCard />
+      <Link href="/donation" className="">
+        <Button className="w-full mx-auto border-2 border-orange-400 bg-white text-black ">
           View other Donate
         </Button>
       </Link>

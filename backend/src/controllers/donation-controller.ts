@@ -9,19 +9,38 @@ export const getAllDonations = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+export const getDonationPost = async (req: Request, res: Response) => {
+  try {
+    const getDonationPosts = await Donations.findOne({});
+    res.status(200).json({ message: "Success", category: getDonationPosts });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
 
 export const createDonations = async (req: Request, res: Response) => {
   try {
-    const { description, title, images, amount, users, petId, donation } =
-      req.body;
+    const {
+      description,
+      title,
+      images,
+      amount,
+      userId,
+      petId,
+      totalAmount,
+      currentAmount,
+      contributors,
+    } = req.body;
     if (
       !description ||
       !title ||
       !images ||
       !amount ||
-      !users ||
+      !userId ||
       !petId ||
-      !donation
+      !totalAmount ||
+      !currentAmount ||
+      !contributors
     ) {
       return res.status(400).json({ message: "Хоосон утга байж болохгүй" });
     }
@@ -30,9 +49,11 @@ export const createDonations = async (req: Request, res: Response) => {
       title,
       images,
       amount,
-      users,
+      userId,
       petId,
-      donation,
+      totalAmount,
+      currentAmount,
+      contributors,
     });
     res.status(201).json({
       message: "Created danations successfully",

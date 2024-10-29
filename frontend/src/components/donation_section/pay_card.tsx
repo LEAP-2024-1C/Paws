@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 export function PayCard() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className="bg-[#FD7E14] text-white">
         <Button variant="outline">Donate</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

@@ -4,12 +4,13 @@ interface Donations {
   description: string;
   title: string;
   images: [string];
-  donation: number;
-  amount: number;
-  liked: number;
+  totalAmount: number;
+  currentAmount: number;
+  contributors: number;
   petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
-  users: { type: Schema.Types.ObjectId; ref: "User"; required: true };
+  userId: { type: Schema.Types.ObjectId; ref: "User"; required: true };
   updateDate: Date;
+  comments: [string];
 }
 
 const DonationsSchema = new Schema<Donations>(
@@ -27,23 +28,25 @@ const DonationsSchema = new Schema<Donations>(
       default: ["img"],
       required: true,
     },
-    amount: {
+    totalAmount: {
       type: Number,
       required: true,
     },
-    donation: {
+    currentAmount: {
       type: Number,
-      required: [true, "Цуглуулах хандивын хэмжээг заавал бичнэ үү."],
+      required: true,
+      default: 0,
     },
-    liked: {
+    contributors: {
       type: Number,
+      default: 0,
     },
     petId: {
       type: Schema.Types.ObjectId,
       ref: "Pets",
       required: true,
     },
-    users: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -51,6 +54,9 @@ const DonationsSchema = new Schema<Donations>(
     updateDate: {
       type: Date,
       default: Date.now,
+    },
+    comments: {
+      type: [String],
     },
   },
   {

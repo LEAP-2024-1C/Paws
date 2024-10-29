@@ -51,10 +51,10 @@ const DonationCard = () => {
       <CardFooter className="flex justify-between">
         <div className="flex gap-1 lg:gap-2">
           <FaHeart />
-          <p className="text-sm 2xl:text-lg">25</p>
-          <p className="text-sm 2xl:text-lg">Contributors</p>
+          <p className="text-sm 2xl:text-base">25</p>
+          <p className="text-sm 2xl:text-base">Contributors</p>
         </div>
-        <DialogButton />
+        <p>29 March, 2024</p>
       </CardFooter>
     </Card>
   );
