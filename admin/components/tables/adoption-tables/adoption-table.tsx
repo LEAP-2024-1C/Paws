@@ -11,6 +11,12 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@/components/ui/accordion';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AdoptionPosts } from '@/constants/data';
@@ -32,18 +38,18 @@ export function AdoptionTable({ data, searchKey }: AdoptionTableProps) {
         <Table className="relative">
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Firstame</TableHead>
+              <TableHead>Lastname</TableHead>
               <TableHead>Pet Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Action</TableHead>
+              <TableHead>See More</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((post) => (
               <TableRow key={post.id}>
                 <TableCell>{post.userName}</TableCell>
+                <TableCell>{post.userName}</TableCell>
                 <TableCell>{post.petName}</TableCell>
-                <TableCell>{post.description}</TableCell>
                 <TableCell>
                   <CellAction id={post.id} />
                 </TableCell>
