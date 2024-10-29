@@ -210,3 +210,24 @@ export interface WishListContextType {
   addToWishList: (id: string) => void;
   deleteList: (productId: string) => void;
 }
+
+export interface IAdoptionReq {
+  title: string;
+  description: string;
+  location: string;
+  status: string;
+}
+
+export interface AdoptionContextType {
+  adoptionPost: IAdoptionReq | null;
+  setAdoptionPost: React.Dispatch<React.SetStateAction<IAdoptionReq | null>>;
+  token: string;
+  setToken: (token: string) => void;
+  fetchAdoptionData?: () => void;
+  refetch?: boolean;
+  setRefetch?: (refetch: boolean) => void;
+  // count: number;
+  // setCount: (count: number) => void;
+  // minus: () => void;
+  // add: () => void;
+}
