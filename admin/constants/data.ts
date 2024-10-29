@@ -255,6 +255,18 @@ export const adoptionPosts: AdoptionPosts[] = [
     description: 'I want to adopt Max'
   }
 ];
+export const articlesHistory: ArticlesHistory[] = [
+  {
+    id: 1,
+    title: 'Dog health',
+    date: '24 May,2024'
+  },
+  {
+    id: 2,
+    title: 'Interesting fact about dogs',
+    date: '23 May,2024'
+  }
+];
 
 export type DonationPosts = {
   id: number;
@@ -264,6 +276,11 @@ export type DonationPosts = {
   description: string;
 };
 
+export type ArticlesHistory = {
+  id: number;
+  title: string;
+  date: string;
+};
 export const donationPosts: DonationPosts[] = [
   {
     id: 1,
@@ -323,6 +340,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/donation',
     icon: 'donation',
     label: 'donation'
+  },
+  {
+    title: 'Articles',
+    href: '/dashboard/articles',
+    icon: 'donation',
+    label: 'login'
   },
   {
     title: 'Login',
