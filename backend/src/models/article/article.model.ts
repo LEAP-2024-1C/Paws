@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 interface IArticle {
   title: string;
-  description: string;
+  text: string;
   images: [string];
   category: Schema.Types.ObjectId;
 }
@@ -13,7 +13,7 @@ const ArticleSchema = new Schema<IArticle>(
       type: String,
       required: true,
     },
-    description: {
+    text: {
       type: String,
     },
     images: {

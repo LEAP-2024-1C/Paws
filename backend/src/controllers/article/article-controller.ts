@@ -1,13 +1,13 @@
-import Article from "../../models/article.model";
+import Article from "../../models/article/article.model";
 import { Request, Response } from "express";
 
 export const CreateArticle = async (req: Request, res: Response) => {
   try {
-    const { title, description, images, category } = req.body;
+    const { title, text, images, category } = req.body;
 
     const postArticle = await Article.create({
       title,
-      description,
+      text,
       images,
       category,
     });
