@@ -54,7 +54,8 @@ const formSchema = z.object({
   price: z.coerce.number(),
   category: z.string().min(1, { message: 'Please select a category' }),
   location: z.string(),
-  preCheck: z.string()
+  preCheck: z.string(),
+  title: z.string()
 });
 
 type adoptionPostsFormValues = z.infer<typeof formSchema>;
@@ -65,7 +66,7 @@ interface AdoptionFormProps {
   preChecks: any;
 }
 
-export const adoptionPostsForm: React.FC<AdoptionFormProps> = ({
+export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
   initialData,
   pets,
   preChecks

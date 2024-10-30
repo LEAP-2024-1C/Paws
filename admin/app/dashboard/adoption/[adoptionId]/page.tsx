@@ -1,5 +1,6 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { adoptionPostsForm } from '@/components/forms/adoptionPosts-form';
+import { AdoptionPostsForm } from '@/components/forms/adoptionPosts-form';
+// import { adoptionPostsForm } from '@/components/forms/adoptionPostForm';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import React from 'react';
 
@@ -14,7 +15,7 @@ export default function Page() {
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-8">
         <Breadcrumbs items={breadcrumbItems} />
-        <adoptionPostsForm
+        <AdoptionPostsForm
           pets={[
             { _id: '1', name: 'Kitty' },
             { _id: '2', name: 'Max' }
