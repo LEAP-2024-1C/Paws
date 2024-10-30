@@ -24,9 +24,8 @@ export const createPetProfile = async (req: Request, res: Response) => {
       category,
       vaccinated,
       spayed,
-      neutered,
       wormed,
-      images,
+      imageUrl,
     } = req.body;
     const createNewProfile = await PetProfile.create({
       name,
@@ -37,11 +36,10 @@ export const createPetProfile = async (req: Request, res: Response) => {
       size,
       vaccinated,
       spayed,
-      neutered,
       wormed,
       healthCondition,
       category,
-      images,
+      imageUrl,
     });
     res.status(201).json({
       message: "Created a pet profile successfully",

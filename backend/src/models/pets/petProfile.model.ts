@@ -11,8 +11,7 @@ interface IPetProfile {
   healthCondition: string;
   size: string;
   vaccinated: boolean;
-  spayed?: boolean;
-  neutered?: boolean;
+  spayed: boolean;
   wormed: boolean;
   category: Schema.Types.ObjectId;
 }
@@ -53,9 +52,7 @@ const petsSchema = new Schema<IPetProfile>(
     },
     spayed: {
       type: Boolean,
-    },
-    neutered: {
-      type: Boolean,
+      required: true,
     },
     wormed: {
       type: Boolean,

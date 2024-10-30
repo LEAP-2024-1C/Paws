@@ -4,6 +4,10 @@ import {
   getAllPetsInfo,
 } from "../../controllers/pets/pets-controller";
 import { authentication, authorize } from "../../middlewares/authentication";
+import {
+  createCategory,
+  getAllCategory,
+} from "../../controllers/pets/category-controller";
 
 const router = Router();
 

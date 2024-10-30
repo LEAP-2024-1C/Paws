@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { apiUrl } from '@/utils/util';
@@ -17,17 +17,28 @@ import {
 } from '@/components/ui/select';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { PetsContext } from '../context/pets-context';
 
 interface PetFormProps {
   onSubmit: () => void;
 }
 
 export default function PetForm({ onSubmit }: PetFormProps) {
-  const ages = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+  const [ageVal, setAgeVal] = useState();
+  const ages = [
+    { age: '1', id: 1 },
+    { age: '2', id: 2 },
+    { age: '3', id: 3 },
+    { age: '4', id: 4 },
+    { age: '5', id: 5 },
+    { age: '6', id: 6 },
+    { age: '7', id: 7 }
+  ];
   const [petData, setPetData] = useState({
+    id: '',
     name: '',
     breed: '',
-    age: 0,
+    age: '',
     ageGroup: '',
     gender: '',
     healthCondition: '',
@@ -42,7 +53,23 @@ export default function PetForm({ onSubmit }: PetFormProps) {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+  const { petCategory, getPetData } = useContext(PetsContext);
   const router = useRouter();
+
+  const changeAgeValue = (e: any) => {
+    setPetData({ ...petData, id: e.target.value });
+  };
+
+  const handleSelect = (value: string) => {
+    // Find the selected age object from the ages array
+    const selectedAge = ages.find((a) => a.age === value);
+
+    // Update the petData state with the selected age
+    setPetData((prevState) => ({
+      ...prevState,
+      age: selectedAge?.age || ''
+    }));
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -110,7 +137,6 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         size: petData.size,
         vaccinated: petData.vaccinated,
         spayed: petData.spayed,
-        neutered: petData.neutered,
         wormed: petData.wormed,
         category: petData.category,
         imageUrl: uploadedImageUrl
@@ -136,6 +162,9 @@ export default function PetForm({ onSubmit }: PetFormProps) {
     }
   };
 
+  console.log('PDDD', petData);
+  console.log('----', ageVal);
+
   return (
     <form onSubmit={handleSubmit} className="w-full space-y-4">
       <Input
@@ -153,7 +182,14 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Ages</SelectLabel>
-            {ages?.map((e) => <SelectItem value={`${e}`}>{e}</SelectItem>)}
+            {ages?.map((e) => (
+              <SelectItem
+                value={e.age}
+                // onChange={handleSelect}
+              >
+                {e.age}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -198,9 +234,9 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Pet types</SelectLabel>
-            <SelectItem value={petData.category}>Dog</SelectItem>
-            <SelectItem value="cat">Cat</SelectItem>
-            <SelectItem value="others">Other pets</SelectItem>
+            {petCategory?.map((e) => (
+              <SelectItem value={e._id}>{e.name}</SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -209,22 +245,17 @@ export default function PetForm({ onSubmit }: PetFormProps) {
           <SelectValue placeholder="Vaccinated" />
         </SelectTrigger>
         <SelectContent position="popper">
-          <SelectItem value="next">yes</SelectItem>
-          <SelectItem value="sveltekit">no</SelectItem>
+          <SelectItem value="yes" onChange={() => {}}>
+            yes
+          </SelectItem>
+          <SelectItem value="no" onChange={() => {}}>
+            no
+          </SelectItem>
         </SelectContent>
       </Select>
       <Select>
         <SelectTrigger id="spayed">
-          <SelectValue placeholder="Spayed" />
-        </SelectTrigger>
-        <SelectContent position="popper">
-          <SelectItem value="next">yes</SelectItem>
-          <SelectItem value="sveltekit">no</SelectItem>
-        </SelectContent>
-      </Select>
-      <Select>
-        <SelectTrigger id="neutered">
-          <SelectValue placeholder="Neutered" />
+          <SelectValue placeholder="Spayed/Neutered" />
         </SelectTrigger>
         <SelectContent position="popper">
           <SelectItem value="next">yes</SelectItem>
