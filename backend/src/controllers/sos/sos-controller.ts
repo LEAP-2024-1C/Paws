@@ -54,3 +54,13 @@ export const updateSOSStatus = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to update report status" });
   }
 };
+
+export const deleteSOSReport = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await Sos.findByIdAndDelete(id);
+    res.status(200).json({ message: "Deleted SOS report successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete SOS report" });
+  }
+};

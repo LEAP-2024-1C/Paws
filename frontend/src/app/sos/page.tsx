@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import UploadPictureModal from "@/components/sos/upload_picture_modal";
 import GridCarousel from "@/components/sos/grid_carousel";
 import ReportForm from "@/components/sos/report_form";
 
