@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Donations from "../models/donation.model";
+import Donations from "../../models/donation.model";
 
 export const getAllDonations = async (req: Request, res: Response) => {
   try {
@@ -20,17 +20,8 @@ export const getDonationPost = async (req: Request, res: Response) => {
 
 export const createDonations = async (req: Request, res: Response) => {
   try {
-    const {
-      description,
-      title,
-      images,
-      amount,
-      userId,
-      petId,
-      totalAmount,
-      currentAmount,
-      contributors,
-    } = req.body;
+    const { description, title, images, amount, userId, petId, totalAmount } =
+      req.body;
     if (
       !description ||
       !title ||
@@ -38,9 +29,7 @@ export const createDonations = async (req: Request, res: Response) => {
       !amount ||
       !userId ||
       !petId ||
-      !totalAmount ||
-      !currentAmount ||
-      !contributors
+      !totalAmount
     ) {
       return res.status(400).json({ message: "Хоосон утга байж болохгүй" });
     }
@@ -52,8 +41,6 @@ export const createDonations = async (req: Request, res: Response) => {
       userId,
       petId,
       totalAmount,
-      currentAmount,
-      contributors,
     });
     res.status(201).json({
       message: "Created danations successfully",

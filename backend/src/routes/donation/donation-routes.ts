@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createDonations,
   getAllDonations,
-} from "../../controllers/donation-controller";
+} from "../../controllers/donation/donation-controller";
 
 const router = Router();
 
