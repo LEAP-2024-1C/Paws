@@ -12,7 +12,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FiUpload } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
-import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 const breadcrumbItems = [

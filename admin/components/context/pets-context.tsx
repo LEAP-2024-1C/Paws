@@ -113,7 +113,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
     fetchPetCategories();
   }, []);
 
-  //   console.log('Cats', petCategory);
+  // console.log('Cats', petCategory);
 
   return (
     <PetsContext.Provider

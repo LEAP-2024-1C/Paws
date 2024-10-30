@@ -36,7 +36,7 @@ export default async function page() {
         </div>
         <Separator />
 
-        <PetDataTable searchKey="product" data={pets} />
+        <PetDataTable />
       </div>
     </PageContainer>
   );

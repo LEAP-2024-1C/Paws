@@ -24,7 +24,6 @@ interface PetFormProps {
 }
 
 export default function PetForm({ onSubmit }: PetFormProps) {
-  const [ageVal, setAgeVal] = useState();
   const ages = [
     { age: '1', id: 1 },
     { age: '2', id: 2 },
@@ -53,22 +52,11 @@ export default function PetForm({ onSubmit }: PetFormProps) {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
-  const { petCategory, getPetData } = useContext(PetsContext);
+  const { petCategory } = useContext(PetsContext);
   const router = useRouter();
 
   const changeAgeValue = (e: any) => {
     setPetData({ ...petData, id: e.target.value });
-  };
-
-  const handleSelect = (value: string) => {
-    // Find the selected age object from the ages array
-    const selectedAge = ages.find((a) => a.age === value);
-
-    // Update the petData state with the selected age
-    setPetData((prevState) => ({
-      ...prevState,
-      age: selectedAge?.age || ''
-    }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,7 +137,7 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         setPreviewUrl('');
         setImageUrl('');
         onSubmit();
-        router.push('/pets');
+        router.push('/dashboard/pets');
         router.refresh();
       }
     } catch (error: any) {
@@ -163,7 +151,7 @@ export default function PetForm({ onSubmit }: PetFormProps) {
   };
 
   console.log('PDDD', petData);
-  console.log('----', ageVal);
+  // console.log('----', petCategory);
 
   return (
     <form onSubmit={handleSubmit} className="w-full space-y-4">
@@ -175,7 +163,7 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
         required
       />
-      <Select>
+      <Select onValueChange={(value) => setPetData({ ...petData, age: value })}>
         <SelectTrigger className="">
           <SelectValue placeholder="Age" />
         </SelectTrigger>
@@ -183,10 +171,7 @@ export default function PetForm({ onSubmit }: PetFormProps) {
           <SelectGroup>
             <SelectLabel>Ages</SelectLabel>
             {ages?.map((e) => (
-              <SelectItem
-                value={e.age}
-                // onChange={handleSelect}
-              >
+              <SelectItem key={e.id} value={e.age}>
                 {e.age}
               </SelectItem>
             ))}
@@ -227,7 +212,9 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
         required
       />
-      <Select>
+      <Select
+        onValueChange={(value) => setPetData({ ...petData, category: value })}
+      >
         <SelectTrigger className="">
           <SelectValue placeholder="Select a pet type" />
         </SelectTrigger>
@@ -235,40 +222,62 @@ export default function PetForm({ onSubmit }: PetFormProps) {
           <SelectGroup>
             <SelectLabel>Pet types</SelectLabel>
             {petCategory?.map((e) => (
-              <SelectItem value={e._id}>{e.name}</SelectItem>
+              <SelectItem key={e._id} value={e._id}>
+                {e.name}
+              </SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Select>
+      <Select
+        onValueChange={(value) =>
+          setPetData({ ...petData, vaccinated: value === 'yes' })
+        }
+      >
         <SelectTrigger id="vaccinated">
           <SelectValue placeholder="Vaccinated" />
         </SelectTrigger>
         <SelectContent position="popper">
-          <SelectItem value="yes" onChange={() => {}}>
-            yes
-          </SelectItem>
-          <SelectItem value="no" onChange={() => {}}>
-            no
-          </SelectItem>
+          <SelectItem value="yes">yes</SelectItem>
+          <SelectItem value="no">no</SelectItem>
         </SelectContent>
       </Select>
-      <Select>
+      <Select
+        onValueChange={(value) =>
+          setPetData({ ...petData, spayed: value === 'yes' })
+        }
+      >
         <SelectTrigger id="spayed">
           <SelectValue placeholder="Spayed/Neutered" />
         </SelectTrigger>
         <SelectContent position="popper">
-          <SelectItem value="next">yes</SelectItem>
-          <SelectItem value="sveltekit">no</SelectItem>
+          <SelectItem value="yes">yes</SelectItem>
+          <SelectItem value="no">no</SelectItem>
         </SelectContent>
       </Select>
-      <Select>
+      <Select
+        onValueChange={(value) =>
+          setPetData({ ...petData, wormed: value === 'yes' })
+        }
+      >
         <SelectTrigger id="wormed">
           <SelectValue placeholder="Wormed" />
         </SelectTrigger>
         <SelectContent position="popper">
-          <SelectItem value="next">yes</SelectItem>
-          <SelectItem value="sveltekit">no</SelectItem>
+          <SelectItem value="yes">yes</SelectItem>
+          <SelectItem value="no">no</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select
+        onValueChange={(value) => setPetData({ ...petData, size: value })}
+      >
+        <SelectTrigger id="size">
+          <SelectValue placeholder="Size" />
+        </SelectTrigger>
+        <SelectContent position="popper">
+          <SelectItem value="small">small</SelectItem>
+          <SelectItem value="medium">medium</SelectItem>
+          <SelectItem value="big">big</SelectItem>
         </SelectContent>
       </Select>
 
