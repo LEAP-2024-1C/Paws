@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Progress } from "../ui/progress";
-import { DialogButton } from "./dialog";
-import { Button } from "@/components/ui/button";
 const DonationCard = () => {
   return (
     <Card className="m-auto w-3/4 2xl:w-[400px] relative p-2 flex flex-col lg:gap-3">
