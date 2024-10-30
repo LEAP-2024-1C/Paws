@@ -13,8 +13,6 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { VscHeart } from "react-icons/vsc";
-import { VscHeartFilled } from "react-icons/vsc";
 import { Progress } from "../ui/progress";
 import { DialogButton } from "./dialog";
 import Link from "next/link";
