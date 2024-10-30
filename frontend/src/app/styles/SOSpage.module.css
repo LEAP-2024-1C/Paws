@@ -1,56 +1,120 @@
 .container {
-  max-width: 800px;
-  margin: 0 auto;
   padding: 2rem;
-  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .title {
-  color: #d32f2f;
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e1e8ed;
 }
 
 .description {
   font-size: 1.1rem;
-  line-height: 1.5;
+  color: #666;
   margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.stepsSection {
+  margin-top: 2rem;
 }
 
 .stepsTitle {
   font-size: 1.8rem;
-  margin-bottom: 1rem;
+  color: #333;
+  margin-bottom: 1.5rem;
 }
 
 .stepsList {
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  padding: 1.5rem 1.5rem 1.5rem 3rem;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .step {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem;
+  background: #f1f8e9;
+  border-radius: 12px;
+  transition: transform 0.2s;
+  border: 1px solid #dcedc8;
+}
+
+.step:hover {
+  transform: translateX(8px);
+}
+
+.stepNumber {
+  background: #4caf50;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.stepText {
+  font-size: 1.1rem;
+  color: #444;
 }
 
 .emergencyButton {
-  background-color: #d32f2f;
+  background: #4caf50;
   color: white;
   border: none;
-  border-radius: 20px;
   padding: 1rem 2rem;
-  font-size: 1.2rem;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 2rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .emergencyButton:hover {
-  background-color: #b71c1c;
+  background: #43a047;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
 }
 
 .loading {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 1.2rem;
+  color: #666;
 }
