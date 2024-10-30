@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -60,6 +61,12 @@ export function PayCard() {
             ))}
           </div>
         </div>
+        <DialogFooter>
+          <div className="flex w-full max-w-sm items-center space-x-2">
+            <Input type="Number" placeholder="Enter custom amount" />
+            <Button type="submit">Next</Button>
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
