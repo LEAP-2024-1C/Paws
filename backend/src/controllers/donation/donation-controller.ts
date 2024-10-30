@@ -13,17 +13,11 @@ export const getAllDonations = async (req: Request, res: Response) => {
 export const getSingleDonation = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    // const getSinglePost = await Donations.findById(id);
-    // res
-    //   .status(200)
-    //   .json({ message: "get donation post successfully", getSinglePost });
     const getSinglePost = await Donations.findById(id);
     res
       .status(200)
       .json({ message: "get donation post successfully", getSinglePost });
   } catch (error) {
-    console.log("Couldn't get donation post", error);
-    res.status(500).json({ message: "SingleDonation: Server error", error });
     console.log("Couldn't get donation post", error);
     res.status(500).json({ message: "SingleDonation: Server error", error });
   }
