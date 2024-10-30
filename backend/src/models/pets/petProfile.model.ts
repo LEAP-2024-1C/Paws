@@ -7,7 +7,7 @@ interface IPetProfile {
   age: number;
   ageGroup: string;
   gender: string;
-  images?: [string];
+  imageUrl: [string];
   healthCondition: string;
   size: string;
   vaccinated: boolean;
@@ -39,7 +39,7 @@ const petsSchema = new Schema<IPetProfile>(
       enum: ["male", "female"],
       required: true,
     },
-    images: {
+    imageUrl: {
       type: [String],
       default: ["img"],
     },
