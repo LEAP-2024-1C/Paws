@@ -5,6 +5,7 @@ export type Card = {
 };
 
 export type NewsCard = {
+  category: string;
   id: number;
   date: string;
   image: string;
@@ -51,21 +52,24 @@ export const NewsBlogs: NewsCard[] = [
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/ab/24/f3/ab24f377227dbf8c77de68b180e4d282.jpg",
-    title: "Urna cras et mauris congue nunc nisi cursus",
+    title: "Interesting facts about dogs",
+    category: "Pet Care",
   },
   {
     id: 2,
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/2d/3d/fd/2d3dfd302b000d7202266798e243080d.jpg",
-    title: "Urna cras et mauris congue nunc nisi  cursus",
+    title: "National walk your dog week",
+    category: "Dog Health",
   },
   {
     id: 3,
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/e7/62/54/e7625411d29c16343b960edc01fca131.jpg",
-    title: "Urna cras et mauris congue nunc nisi nec",
+    title: "4 Tips to protect your pet in the cold",
+    category: "Pet Health",
   },
 ];
 

@@ -2,68 +2,100 @@
 import { NewsBlogs, NewsCard } from "@/lib/data";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BlogsCards } from "../page";
 import { Rating, RoundedStar } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
+import { IOneArticle } from "@/lib/types";
+import axios from "axios";
+import { apiUrl } from "@/utils/util";
+import { toast } from "react-toastify";
+import AdoptionCard from "@/components/adoption_section/adoption_card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import DonationCard from "@/components/donation_section/donation_card";
 
 const ArticleCardDetail = () => {
   const [rating, setRating] = React.useState(5);
+  const [article, setArticle] = useState<IOneArticle>({
+    id: "",
+    title: "",
+    text: "",
+    images: [""],
+  });
   const params = useParams();
   const id = params.id;
-
   const myStyles = {
     itemShapes: RoundedStar,
     activeFillColor: "#FDE047",
     inactiveFillColor: "white",
   };
-  return (
-    <section className="h-fit flex flex-col items-center md:mt-20 md:gap-8">
-      <main className="flex flex-col">
-        <h3 className="md:text-4xl text-2xl ml-10  my-8 font-bold md:mb-10 text-amber-500">
-          Interesting Facts About Dogs
-        </h3>
-        <div className="flex flex-col items-center md:flex md:flex-row md:gap-40 md:items-center rounded-xl bg-slate-100">
-          <div className="flex flex-col items-center">
-            <Image
-              src={
-                "https://i.pinimg.com/736x/ab/24/f3/ab24f377227dbf8c77de68b180e4d282.jpg"
-              }
-              alt="detail image"
-              width={400}
-              height={200}
-              className="md:rounded-xl md:ml-20 p-5"
-            ></Image>
-            <ul className="flex items-center  justify-center gap-2">
-              <p className="font-light ml-7 text-gray-500">Rate the article:</p>
-              <Rating
-                style={{ maxWidth: 180, maxHeight: 50 }}
-                value={rating}
-                onChange={setRating}
-                itemStyles={myStyles}
-                isRequired
-              />
-            </ul>
-          </div>
 
-          <p className="max-w-md flex flex-wrap md:text-xl  text-lg my-8 mx-8 font-light md:my-20 md:mr-20">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit qui
-            officiis incidunt sequi aperiam. Eligendi, voluptas earum? Nostrum,
-            harum maiores pariatur iusto quam porro. Voluptate corporis odio
-            maxime nesciunt est! Lorem ipsum, dolor sit amet consectetur
-            adipisicing elit. Ipsum, repudiandae perferendis, eveniet temporibus
-            iste sit officiis deleniti aliquid sed necessitatibus voluptate.
-            Harum eius ut earum ipsa reiciendis debitis reprehenderit cumque.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto id
-            maxime, dicta hic facere molestias laudantium odit quaerat, rem
-            tempore ducimus! Nostrum nesciunt ea architecto, placeat illo
-            molestiae consectetur cumque! Lorem ipsum dolor sit amet,
-            consectetur adipisicing elit. Officia eum tempora odio neque
-            consequatur, voluptas necessitatibus? Ullam laborum voluptate
-            eveniet explicabo quam vero facilis nam veniam alias, cupiditate
-            numquam eius.
-          </p>
-        </div>
+  const getOneArticle = async (id: string | string[]) => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/articles/${id}`);
+      setArticle(res.data.article);
+      console.log("article", res.data.article);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch one article data");
+    }
+  };
+  useEffect(() => {
+    getOneArticle(id);
+  }, [id]);
+
+  console.log("article data", article);
+
+  return (
+    <section className="h-fit flex justify-center md:py-20 md:gap-8 bg-slate-100">
+      <main className="flex flex-col">
+        <section className="flex  gap-10">
+          <section className="bg-white rounded-xl w-fit py-10 px-6">
+            <h3 className="md:text-4xl text-2xl  pr-32 py-8 text-wrap text-center font-bold  min-h-14 max-h-60 text-amber-500">
+              {article.title}
+            </h3>
+            <div className="flex flex-col items-center md:flex md:flex-col md:items-center md:justify-center rounded-xl">
+              <div className="flex flex-col">
+                <div className="h-[400px] overflow-hidden border-b rounded-xl">
+                  <Image
+                    src={article.images[0]}
+                    alt="detail image"
+                    width={600}
+                    height={200}
+                    className="md:rounded-xl"
+                  ></Image>
+                </div>
+                <ul className="flex items-center  justify-center gap-2 my-4">
+                  <p className="font-light ml-7 text-gray-500">
+                    Rate the article:
+                  </p>
+                  <Rating
+                    style={{ maxWidth: 180, maxHeight: 50 }}
+                    value={rating}
+                    onChange={setRating}
+                    itemStyles={myStyles}
+                    isRequired
+                  />
+                </ul>
+              </div>
+
+              <p className="flex md:w-[600px] flex-wrap md:text-xl text-lg font-light md:my-10">
+                {article.text}
+              </p>
+            </div>
+          </section>
+          <Card className="w-fit h-fit">
+            <CardHeader className="border rounded-xl">Donation</CardHeader>
+            <CardContent>
+              <DonationCard />
+            </CardContent>
+          </Card>
+        </section>
         <h3 className="md:text-2xl text-xl font-bold md:mt-10 mt-5 ml-10">
           Related reading
         </h3>

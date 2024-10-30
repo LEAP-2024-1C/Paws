@@ -33,20 +33,12 @@ export const getArticles = async (req: Request, res: Response) => {
   }
 };
 
-// export const deleteArticle = async (req: Request, res: Response) => {
-//   const { id } = req.body;
-
-//   try {
-//     const findArticle = await Article.find({});
-//     findArticle.splice(1);
-//     const deleteProductCard = await findArticle.save();
-//     res.status(200).json({
-//       message: "successfully deleted card",
-//       deleteArticle,
-//     });
-//     console.log("deleted article", deleteArticle);
-//   } catch (error) {
-//     console.log("error", error);
-//     res.status(500).json({ message: "failed to delete article" });
-//   }
-// };
+export const getOneArticle = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const article = await Article.findById(id).populate("category");
+    res.status(200).json({ message: "Get one article successfully", article });
+  } catch (error) {
+    console.log("Failed to get article data", error);
+  }
+};
