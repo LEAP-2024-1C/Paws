@@ -78,6 +78,12 @@ export function DonationPay() {
         <p className="text-xs xl:text-lg">raised out of</p>
         <p className="text-sm xl:text-xl">43$</p>
       </CardTitle>
+
+      <Link href="/donation" className="">
+        <Button className="w-full mx-auto border-2 border-orange-400 bg-white text-black ">
+          View other Donate
+        </Button>
+      </Link>
     </div>
   );
 }
