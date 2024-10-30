@@ -10,10 +10,8 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-
 import { Progress } from "../ui/progress";
 import { DialogButton } from "./dialog";
-import Link from "next/link";
 const DetailCard = () => {
   return (
     <Card className=" xl:w-3/6 bg-white border-none rounded-xl p-3">
