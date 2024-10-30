@@ -3,10 +3,11 @@ import {
   createPetProfile,
   getAllPetsInfo,
 } from "../../controllers/pets/pets-controller";
+import { authentication, authorize } from "../../middlewares/authentication";
 
 const router = Router();
 
-router.route("/all").get(getAllPetsInfo);
-router.route("/create").post(createPetProfile);
+router.route("/").get(getAllPetsInfo);
+router.route("/").post(authentication, authorize, createPetProfile);
 
 export default router;

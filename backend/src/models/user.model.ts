@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
-interface IUser {
+export interface IUser {
   _id: Schema.Types.ObjectId;
   firstname: string;
   lastname: string;
