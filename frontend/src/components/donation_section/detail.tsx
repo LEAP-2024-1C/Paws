@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { FaHeart } from "react-icons/fa6";
 import {
   Card,
   CardTitle,
@@ -10,17 +11,11 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { VscHeart } from "react-icons/vsc";
-import { VscHeartFilled } from "react-icons/vsc";
 import { Progress } from "../ui/progress";
 import { DialogButton } from "./dialog";
 import Link from "next/link";
+import { PayCard } from "./pay/pay_card";
 const DetailCard = () => {
-  const [loved, setLoved] = React.useState(false);
-
-  const wishList = () => {
-    setLoved(!loved);
-  };
   return (
     <Card className=" xl:w-3/6 bg-white border-none rounded-xl p-3">
       <CardHeader>
@@ -56,11 +51,13 @@ const DetailCard = () => {
           Thank you for your support.
         </p>
       </CardContent>
-      <CardFooter className="flex gap-3">
-        <Button variant="ghost" onClick={wishList} className="p-0">
-          {loved ? <VscHeartFilled /> : <VscHeart />}
-        </Button>
-        <p>24</p>
+      <CardFooter className="flex justify-between">
+        <div className="flex gap-2">
+          <FaHeart />
+          <p>24</p>
+          <p>Contributors</p>
+        </div>
+        <DialogButton />
       </CardFooter>
     </Card>
   );
@@ -82,10 +79,10 @@ export function DonationPay() {
         <p className="text-xs xl:text-lg">raised out of</p>
         <p className="text-sm xl:text-xl">43$</p>
       </CardTitle>
-      <Button className="bg-[#FD7E14]">Donate</Button>
-      <DialogButton />
+      <PayCard />
+
       <Link href="/donation">
-        <Button className="border-2 border-orange-400 bg-white text-black ">
+        <Button className="w-full mx-auto border-2 border-orange-400 bg-white text-black ">
           View other Donate
         </Button>
       </Link>
