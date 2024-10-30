@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { FaHeart } from "react-icons/fa6";
-import { PayCard } from "./pay_card";
 
 import {
   Card,
@@ -17,11 +16,6 @@ import { Progress } from "../ui/progress";
 import { DialogButton } from "./dialog";
 import Link from "next/link";
 const DetailCard = () => {
-  const [loved, setLoved] = React.useState(false);
-
-  const wishList = () => {
-    setLoved(!loved);
-  };
   return (
     <Card className=" xl:w-3/6 bg-white border-none rounded-xl p-3">
       <CardHeader>
@@ -63,7 +57,6 @@ const DetailCard = () => {
           <p>24</p>
           <p>Contributors</p>
         </div>
-
         <DialogButton />
       </CardFooter>
     </Card>
@@ -86,7 +79,6 @@ export function DonationPay() {
         <p className="text-xs xl:text-lg">raised out of</p>
         <p className="text-sm xl:text-xl">43$</p>
       </CardTitle>
-      <PayCard />
       <Link href="/donation" className="">
         <Button className="w-full mx-auto border-2 border-orange-400 bg-white text-black ">
           View other Donate
