@@ -5,9 +5,15 @@ interface IPetProfile {
   name: string;
   breed: string;
   age: number;
+  ageGroup: string;
   gender: string;
   images?: [string];
   healthCondition: string;
+  size: string;
+  vaccinated: boolean;
+  spayed?: boolean;
+  neutered?: boolean;
+  wormed: boolean;
   category: Schema.Types.ObjectId;
 }
 
@@ -23,7 +29,10 @@ const petsSchema = new Schema<IPetProfile>(
     },
     age: {
       type: Number,
-      required: [true, "Please insert pet's age"],
+    },
+    ageGroup: {
+      type: String,
+      enum: ["puppy", "kitten", "young", "adult", "senior", ""],
     },
     gender: {
       type: String,
@@ -33,6 +42,24 @@ const petsSchema = new Schema<IPetProfile>(
     images: {
       type: [String],
       default: ["img"],
+    },
+    size: {
+      type: String,
+      enum: ["small", "medium", "big"],
+    },
+    vaccinated: {
+      type: Boolean,
+      required: true,
+    },
+    spayed: {
+      type: Boolean,
+    },
+    neutered: {
+      type: Boolean,
+    },
+    wormed: {
+      type: Boolean,
+      required: true,
     },
     healthCondition: {
       type: String,

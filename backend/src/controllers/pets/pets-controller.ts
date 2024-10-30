@@ -13,14 +13,35 @@ export const getAllPetsInfo = async (req: Request, res: Response) => {
 
 export const createPetProfile = async (req: Request, res: Response) => {
   try {
-    const { name, breed, age, gender, healthCondition, category } = req.body;
+    const {
+      name,
+      breed,
+      age,
+      ageGroup,
+      gender,
+      healthCondition,
+      size,
+      category,
+      vaccinated,
+      spayed,
+      neutered,
+      wormed,
+      images,
+    } = req.body;
     const createNewProfile = await PetProfile.create({
       name,
       breed,
       age,
+      ageGroup,
       gender,
+      size,
+      vaccinated,
+      spayed,
+      neutered,
+      wormed,
       healthCondition,
       category,
+      images,
     });
     res.status(201).json({
       message: "Created a pet profile successfully",
