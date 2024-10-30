@@ -10,8 +10,10 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Progress } from "../ui/progress";
 import { DialogButton } from "./dialog";
+import Link from "next/link";
 const DetailCard = () => {
   return (
     <Card className=" xl:w-3/6 bg-white border-none rounded-xl p-3">
@@ -76,6 +78,11 @@ export function DonationPay() {
         <p className="text-xs xl:text-lg">raised out of</p>
         <p className="text-sm xl:text-xl">43$</p>
       </CardTitle>
+      <Link href="/donation">
+        <Button className="w-full mx-auto border-2 border-orange-400 bg-white text-black ">
+          View other Donate
+        </Button>
+      </Link>
     </div>
   );
 }
