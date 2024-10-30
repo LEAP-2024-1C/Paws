@@ -22,8 +22,9 @@ interface SosItem {
   title: string;
   description: string;
   location: string;
-  image: string[];
+  imageUrl: string;
   phoneNumber: string;
+  status: "Pending" | "In-progress" | "Saved";
 }
 
 export default function GridCarousel() {
@@ -65,7 +66,21 @@ export default function GridCarousel() {
     fetchAllSosItems();
   }, [refetch]);
 
+  const savedSosItems = sosItems.filter((item) => item.status === "Pending");
   const itemsPerSlide = 9;
+
+  const getStatusBadgeStyle = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "In-progress":
+        return "bg-blue-100 text-blue-800";
+      case "Saved":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -74,45 +89,48 @@ export default function GridCarousel() {
   return (
     <div className="w-full max-w-5xl mx-auto">
       <Carousel setApi={setApi} className="w-full">
-        <CarouselContent>
+        <CarouselContent className="-ml-2 md:-ml-4">
           {Array.from({
-            length: Math.ceil(sosItems.length / itemsPerSlide),
+            length: Math.ceil(savedSosItems.length / itemsPerSlide),
           }).map((_, index) => (
-            <CarouselItem key={index}>
-              <div className="grid grid-cols-3 gap-6 p-1">
-                {sosItems
+            <CarouselItem key={index} className="pl-2 md:pl-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {savedSosItems
                   .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
                   .map((item) => (
                     <Link href={`/sos/${item._id}`} key={item._id}>
-                      <Card className="overflow-hidden">
+                      <Card className="h-full hover:shadow-lg transition-shadow duration-200">
                         <CardContent className="p-0">
-                          <div className="relative aspect-square border rounded-lg">
+                          <div className="relative aspect-square">
                             <img
-                              src={item.image[0]}
+                              src={item.imageUrl}
                               alt={item.title || "SOS Image"}
-                              className="object-fill"
+                              className="object-cover w-full h-full rounded-t-lg"
                             />
                           </div>
-                          <div className="p-4">
-                            <h3 className="text-lg font-semibold text-orange-500">
+                          <div className="p-4 space-y-3">
+                            <h3 className="text-lg font-semibold text-orange-500 line-clamp-1">
                               {item.title || "Emergency Report"}
                             </h3>
-                          </div>
-                          <div className="py-4 px-2">
-                            <p className="text-sm text-blue-300">
+                            <div className="flex items-center justify-between">
+                              <h2 className="text-md">Current Status:</h2>
+                              <span
+                                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeStyle(
+                                  item.status
+                                )}`}
+                              >
+                                {item.status}
+                              </span>
+                            </div>
+                            <p className="text-sm text-grey-300 line-clamp-2">
                               {item.description}
                             </p>
-                          </div>
-                          <div className="py-4 px-2 flex gap-1">
-                            <GrLocationPin className="text-gray-500" />
-                            <p className="text-sm text-gray-500">
-                              {item.location}
-                            </p>
-                          </div>
-                          <div className="py-2 px-4 flex gap-1">
-                            <p className="text-sm text-gray-500">
-                              interstate adoption unavailable
-                            </p>
+                            <div className="flex items-center gap-2">
+                              <GrLocationPin className="text-red-500 flex-shrink-0" />
+                              <p className="text-sm text-blue-500 line-clamp-1">
+                                {item.location}
+                              </p>
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
@@ -122,6 +140,8 @@ export default function GridCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
+
+        {/* Carousel navigation */}
         <div className="flex items-center justify-center mt-12">
           <CarouselPrevious
             variant="outline"

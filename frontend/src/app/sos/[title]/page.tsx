@@ -40,19 +40,30 @@ export default function SOSPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{sosInfo.title}</h1>
-      <p className={styles.description}>{sosInfo.description}</p>
-      <h2 className={styles.stepsTitle}>Emergency Steps:</h2>
-      <ol className={styles.stepsList}>
-        {sosInfo.steps.map((step, index) => (
-          <li key={index} className={styles.step}>
-            {step}
-          </li>
-        ))}
-      </ol>
-      <button className={styles.emergencyButton}>
-        Call Emergency Services
-      </button>
+      <div className={styles.contentWrapper}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>{sosInfo.title}</h1>
+          <button className={styles.emergencyButton}>
+            Call Emergency Services
+          </button>
+        </div>
+
+        <div className={styles.card}>
+          <p className={styles.description}>{sosInfo.description}</p>
+
+          <div className={styles.stepsSection}>
+            <h2 className={styles.stepsTitle}>Emergency Steps</h2>
+            <ol className={styles.stepsList}>
+              {sosInfo.steps.map((step, index) => (
+                <li key={index} className={styles.step}>
+                  <span className={styles.stepNumber}>{index + 1}</span>
+                  <span className={styles.stepText}>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
