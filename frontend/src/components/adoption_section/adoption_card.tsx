@@ -17,6 +17,7 @@ export type adoptionPostsProps = {
   location: string;
   description: string;
   _id: string;
+  imgUrl: string[];
 };
 
 export default function AdoptionCard({
@@ -24,6 +25,7 @@ export default function AdoptionCard({
   location,
   description,
   _id,
+  imgUrl,
 }: adoptionPostsProps) {
   const [loved, setLoved] = React.useState(false);
 
@@ -39,16 +41,16 @@ export default function AdoptionCard({
         {loved ? <VscHeartFilled /> : <VscHeart />}
       </Button>
       <CardHeader className="mb-4 p-0 h-48">
-        <div className="overflow-hidden rounded-t-lg">
+        <div className="overflow-hidden rounded-t-lg object-fill">
           <img
-            src="https://res.cloudinary.com/petrescue/image/upload/c_fill,f_auto,g_face,h_500,q_80,w_500/itef4gwj7cgtmt3qmcb4.jpg"
+            src={imgUrl[0]}
             alt="Sample Image"
             className="rounded-[20px] object-fill scale-105"
           />
         </div>
       </CardHeader>
       <CardContent className="h-40 overflow-hidden mb-3">
-        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">{title}</h1>
+        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">{title}</h1>\
         <p className="text-justify">{description}</p>
       </CardContent>
       <CardFooter className="flex justify-between">

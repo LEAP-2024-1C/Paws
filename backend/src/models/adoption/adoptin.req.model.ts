@@ -7,14 +7,19 @@ import { model, Schema } from "mongoose";
 
 interface IAdoptReq {
   _id: Schema.Types.ObjectId;
-  petId: Schema.Types.ObjectId;
-  userId: Schema.Types.ObjectId;
+  petId?: Schema.Types.ObjectId;
+  userId?: Schema.Types.ObjectId;
   description: string;
-  status: string;
-  petOwnershipHistory: string;
-  currentPetOwnership: string;
-  householdSize: string;
-  householdAgeRanges: [string];
+  status?: string;
+  previousPetOwnership: string;
+  currentPets: string;
+  householdMembers: string;
+  ageRanges: {
+    under5: boolean;
+    age5to12: boolean;
+    age13to17: boolean;
+    agr18plus: boolean;
+  };
   created_at: Date;
   updated_at: Date;
 }
@@ -22,12 +27,12 @@ interface IAdoptReq {
 const adoptionRequestSchema = new Schema<IAdoptReq>({
   petId: {
     type: Schema.Types.ObjectId,
-    required: true,
+    // required: true,
     ref: "PetProfile",
   },
   userId: {
     type: Schema.Types.ObjectId,
-    required: true,
+    // required: true,
     ref: "User",
   },
 
@@ -40,17 +45,17 @@ const adoptionRequestSchema = new Schema<IAdoptReq>({
     enum: ["approved", "in_progress", "rejected"],
     default: null,
   },
-  petOwnershipHistory: {
+  previousPetOwnership: {
     type: String,
   },
-  currentPetOwnership: {
+  currentPets: {
     type: String,
   },
-  householdSize: {
+  householdMembers: {
     type: String,
   },
-  householdAgeRanges: {
-    type: [String],
+  ageRanges: {
+    type: Object,
   },
   created_at: {
     type: Date,

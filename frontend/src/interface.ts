@@ -217,6 +217,7 @@ export interface IAdoptionReq {
   description: string;
   location: string;
   status: string;
+  imgUrl: string[];
 }
 
 export interface AdoptionContextType {
