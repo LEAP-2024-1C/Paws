@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useShoppingContext } from "@/components/context/shopping_context";
 
 interface RelatedProduct {
   id: number;
@@ -10,12 +11,12 @@ interface RelatedProduct {
 }
 
 interface RelatedItems {
-  products: RelatedProduct[];
+  fetchAllProducts: RelatedProduct[];
 }
 
-const RelatedItems: React.FC<RelatedItems> = ({ products }) => {
+const RelatedItems: React.FC<RelatedItems> = ({ fetchAllProducts }) => {
   // products to 8 items
-  const limitedProducts = products.slice(0, 8);
+  const limitedProducts = fetchAllProducts.slice(0, 8);
 
   return (
     <div className="mt-12">
