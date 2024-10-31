@@ -1,12 +1,13 @@
 'use client';
 import * as z from 'zod';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import toast from 'react-toastify';
 import {
   Form,
   FormControl,
@@ -21,14 +22,21 @@ import { Heading } from '@/components/ui/heading';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import { Checkbox } from '@/components/ui/checkbox';
 // import FileUpload from "@/components/FileUpload";
 import { useToast } from '../ui/use-toast';
 import FileUpload from '../file-upload';
+import axios from 'axios';
+import { apiUrl } from '@/utils/util';
+import { PetsContext } from '../context/pets-context';
+import { Textarea } from '../ui/textarea';
 const ImgSchema = z.object({
   fileName: z.string(),
   name: z.string(),
@@ -54,7 +62,7 @@ const formSchema = z.object({
   price: z.coerce.number(),
   category: z.string().min(1, { message: 'Please select a category' }),
   location: z.string(),
-  preCheck: z.string(),
+  status: z.string(),
   title: z.string()
 });
 
@@ -63,13 +71,13 @@ type adoptionPostsFormValues = z.infer<typeof formSchema>;
 interface AdoptionFormProps {
   initialData: any | null;
   pets: any;
-  preChecks: any;
+  status: any;
 }
 
 export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
   initialData,
   pets,
-  preChecks
+  status
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -81,6 +89,7 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
   const description = initialData ? 'Edit a post.' : 'Add a new post';
   const toastMessage = initialData ? 'Post updated.' : 'Post created.';
   const action = initialData ? 'Save changes' : 'Create';
+  const { getPetData } = useContext(PetsContext);
 
   const defaultValues = initialData
     ? initialData
@@ -91,7 +100,7 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
         imgUrl: [],
         category: '',
         location: '',
-        preCheck: ''
+        status: ''
       };
 
   const form = useForm<adoptionPostsFormValues>({
@@ -139,7 +148,40 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
     }
   };
 
+  interface IFormData {
+    title: string;
+    description: string;
+    petId: string;
+    location: string;
+    status: string;
+    [key: string]: any;
+  }
+
+  const [formData, setFormData] = useState<IFormData>({
+    title: '',
+    description: '',
+    petId: '',
+    location: '',
+    status: '',
+    imgUrl: ['']
+  });
+
   const triggerImgUrlValidation = () => form.trigger('imgUrl');
+
+  const addAdoptionPost = async () => {
+    const res = await axios.post(`${apiUrl}/api/v1/adoption`, {
+      title,
+      description,
+      pet: formData.petId,
+      location,
+      status
+    });
+    if (res.status === 201) {
+    }
+  };
+
+  console.log('ID', initialData);
+  console.log('FD', formData);
 
   return (
     <>
@@ -175,117 +217,119 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
               <FormItem>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
-                  <FileUpload
+                  {/* <FileUpload
                     onChange={field.onChange}
                     value={field.value}
                     onRemove={field.onChange}
-                  />
+                  /> */}
+                  <CldUploadWidget
+                    uploadPreset="pawchig"
+                    onSuccess={(result) => {
+                      const info = result.info as CloudinaryUploadWidgetInfo;
+                      setFormData({
+                        ...formData,
+                        imgUrl: [info.secure_url]
+                      });
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <button onClick={() => open()}>Upload an Image</button>
+                      );
+                    }}
+                  </CldUploadWidget>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className="gap-8 md:grid md:grid-cols-3">
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Select a pet</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a pet"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {pets.map((pet) => (
-                        <SelectItem key={pet._id} value={pet._id}>
-                          {pet.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="About Kitty"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Ulaanbaatar City"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="preCheck"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pre-adoption checks</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a value"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {preChecks.map((check) => (
-                        <SelectItem key={check._id} value={check._id}>
-                          {check.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="">
+              <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
+              <Select
+                onValueChange={(value) =>
+                  setFormData({ ...formData, petId: value })
+                }
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Select a pet" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Pet name</SelectLabel>
+                    {getPetData?.map((e) => (
+                      <SelectItem key={e._id} value={e._id}>
+                        {e.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="">
+              <h6 className="mb-3 text-[0.9rem] font-medium">Insert a title</h6>
+              <Input
+                type="text"
+                value={formData.title}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                placeholder="Title"
+                className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                required
+              />
+            </div>
+            <div className="">
+              <h6 className="mb-3 text-[0.9rem] font-medium">
+                Insert location
+              </h6>
+              <Input
+                type="text"
+                value={formData.location}
+                onChange={(e) =>
+                  setFormData({ ...formData, location: e.target.value })
+                }
+                placeholder="Location"
+                className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                required
+              />
+            </div>
+            <div className="">
+              <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
+              <Select
+                onValueChange={(value) =>
+                  setFormData({ ...formData, status: value })
+                }
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Status</SelectLabel>
+                    {status?.map((e: any) => (
+                      <SelectItem key={e._id} value={e._id}>
+                        {e.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="">
+              <h6 className="mb-3 text-[0.9rem] font-medium">
+                Insert description
+              </h6>
+              <Textarea
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                placeholder="Description"
+                className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                required
+              />
+            </div>
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}

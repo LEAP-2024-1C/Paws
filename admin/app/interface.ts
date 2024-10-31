@@ -231,7 +231,7 @@ export interface AdoptionContextType {
 }
 
 export interface IPets {
-  id: string;
+  _id: string;
   name: string;
   breed: string;
   age: number;
