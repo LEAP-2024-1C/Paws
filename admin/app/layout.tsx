@@ -1,11 +1,12 @@
-import Providers from '@/components/layout/providers';
 import { Toaster } from '@/components/ui/toaster';
 import '@uploadthing/react/styles.css';
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { auth } from '@/auth';
+import { PetsProvider } from '@/components/context/pets-context';
+import { ProfileProvider } from '@/components/context/profile_context';
+import { UserProvider } from '@/components/context/user_context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,18 +20,21 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
   return (
     <html lang="en">
       <body
         className={`${inter.className} overflow-hidden `}
         suppressHydrationWarning={true}
       >
-        <NextTopLoader showSpinner={false} />
-        <Providers session={session}>
-          <Toaster />
-          {children}
-        </Providers>
+        <UserProvider>
+          <ProfileProvider>
+            <PetsProvider>
+              <NextTopLoader showSpinner={false} />
+              <Toaster />
+              {children}
+            </PetsProvider>
+          </ProfileProvider>
+        </UserProvider>
       </body>
     </html>
   );

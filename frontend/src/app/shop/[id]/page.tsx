@@ -17,7 +17,7 @@ interface Product {
 const mockProducts: Product[] = [
   {
     id: 1,
-    name: "Pet Carriers",
+    name: "Pet",
     price: 29.99,
     description: "Pet Carriers   ",
     image: "",
@@ -230,7 +230,7 @@ const ProductDetail: React.FC = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
       </div>
-      <RelatedItems products={mockProducts} />
+      <RelatedItems fetchAllProducts={mockProducts} />
     </div>
   );
 };

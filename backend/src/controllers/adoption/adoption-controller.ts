@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Adoption from "../../models/adoption/adoption.model";
 import AdoptionRequest from "../../models/adoption/adoptin.req.model";
 
-export const getAdoptionPosts = async (req: Request, res: Response) => {
+export const getadoptionPostss = async (req: Request, res: Response) => {
   try {
     const getAllPosts = await Adoption.find({});
     res
@@ -14,14 +14,29 @@ export const getAdoptionPosts = async (req: Request, res: Response) => {
   }
 };
 
-export const createAdoptionPost = async (req: Request, res: Response) => {
+export const getSingleadoptionPosts = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const { title, description, userId, petId, location, status } = req.body;
+    const getOnePost = await Adoption.findById(id);
+    res
+      .status(200)
+      .json({ message: "get adoption post successfully", getOnePost });
+  } catch (error) {
+    console.log("couldn't get adoption post", error);
+    res
+      .status(500)
+      .json({ message: "SingleadoptionPosts: Server error", error });
+  }
+};
+
+export const createadoptionPosts = async (req: Request, res: Response) => {
+  try {
+    const { title, description, userId, pet, location, status } = req.body;
     const createPost = await Adoption.create({
       title,
       description,
       userId,
-      petId,
+      pet,
       location,
       status,
     });

@@ -7,6 +7,7 @@ import { UserProvider } from "@/components/context/user_context";
 import { ShoppingProvider } from "@/components/context/shopping_context";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { AdoptionProvider } from "@/components/context/adoption_context";
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
 //   variable: "--font-geist-sans",
@@ -36,9 +37,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <UserProvider>
             <ShoppingProvider>
               <ProfileProvider>
-                <Header />
-                {children}
-                <Footer />
+                <AdoptionProvider>
+                  <Header />
+                  {children}
+                  <Footer />
+                </AdoptionProvider>
               </ProfileProvider>
             </ShoppingProvider>
           </UserProvider>

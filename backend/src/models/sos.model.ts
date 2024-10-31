@@ -2,35 +2,40 @@ import { model, Schema } from "mongoose";
 
 interface ISos {
   _id: Schema.Types.ObjectId;
+  description: string;
   location: string;
-  image: string[];
-  postedDate: Date;
-  phoneNumber: number;
-  userId: { type: Schema.Types.ObjectId; ref: "User"; required: true };
+  imageUrl?: string;
+  phoneNumber: string;
+  status: "pending" | "in-progress" | "resolved";
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const sosSchema = new Schema<ISos>({
-  location: {
-    type: String,
-    required: [true, "Байршил заавал оруулах"],
+const sosSchema = new Schema<ISos>(
+  {
+    description: {
+      type: String,
+      required: [true, "Description is required"],
+    },
+    location: {
+      type: String,
+      required: [true, "Location is required"],
+    },
+    imageUrl: {
+      type: String,
+    },
+    phoneNumber: {
+      type: String,
+      required: [true, "Phone number is required"],
+    },
+    status: {
+      type: String,
+      enum: ["pending", "in-progress", "resolved"],
+      default: "pending",
+    },
   },
-  image: {
-    type: [String],
-  },
-  postedDate: {
-    type: Date,
-    default: Date.now,
-  },
-  phoneNumber: {
-    type: Number,
-    required: [true, "Утасны дугаар заавал оруулах"],
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "Хэрэглэгчийн ID заавал оруулах"],
-  },
-});
+  { timestamps: true }
+);
 
 const Sos = model("Sos", sosSchema);
 

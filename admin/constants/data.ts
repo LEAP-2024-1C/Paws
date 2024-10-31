@@ -234,14 +234,14 @@ export const products: Product[] = [
   }
 ];
 
-export type AdoptionPosts = {
+export type adoptionPostss = {
   id: number;
   userName: string;
   petName: string;
   description: string;
 };
 
-export const adoptionPosts: AdoptionPosts[] = [
+export const adoptionPostss: adoptionPostss[] = [
   {
     id: 1,
     userName: 'John Doe',
@@ -348,9 +348,43 @@ export const navItems: NavItem[] = [
     label: 'login'
   },
   {
+    title: 'SOS',
+    href: '/dashboard/sos',
+    icon: 'spinner',
+    label: 'sos'
+  },
+  {
     title: 'Login',
     href: '/',
     icon: 'login',
     label: 'login'
+  }
+];
+
+export type SOS = {
+  id: number;
+  userName: string;
+  location: string;
+  description: string;
+  status: 'pending' | 'resolved';
+  dateReported: string;
+};
+
+export const sosReports: SOS[] = [
+  {
+    id: 1,
+    userName: 'Sarah Parker',
+    location: '123 Main Street, Cityville',
+    description: 'Injured stray dog needs immediate medical attention',
+    status: 'pending',
+    dateReported: '2024-03-20'
+  },
+  {
+    id: 2,
+    userName: 'Mike Thompson',
+    location: '45 Park Avenue, Downtown',
+    description: 'Cat stuck in tree, needs rescue',
+    status: 'resolved',
+    dateReported: '2024-03-19'
   }
 ];

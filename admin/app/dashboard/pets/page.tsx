@@ -1,3 +1,4 @@
+'use client';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
 import { PetDataTable } from '@/components/tables/pet-tables/data-table';
@@ -27,7 +28,7 @@ export default async function page() {
           />
 
           <Link
-            href={'/dashboard/product/new'}
+            href={'/dashboard/pets/new'}
             className={cn(buttonVariants({ variant: 'default' }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -35,7 +36,7 @@ export default async function page() {
         </div>
         <Separator />
 
-        <PetDataTable searchKey="product" data={pets} />
+        <PetDataTable />
       </div>
     </PageContainer>
   );

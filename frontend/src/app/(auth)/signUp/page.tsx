@@ -9,6 +9,15 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { ProfileContext } from "@/components/context/profile_context";
 import Loading from "@/components/recover_pass/loading";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const SignUp = () => {
   const { isLoading, setIsLoading } = useContext(ProfileContext);
@@ -18,12 +27,13 @@ const SignUp = () => {
     email: "",
     firstname: "",
     lastname: "",
+    role: "",
     password: "",
     rePassword: "",
   });
 
   const handleSignUp = async () => {
-    const { firstname, lastname, email, password, rePassword } = userForm;
+    const { firstname, lastname, email, password, rePassword, role } = userForm;
     if (password !== rePassword) {
       toast.error("Password doesn't match");
       return;
@@ -35,6 +45,7 @@ const SignUp = () => {
         lastname,
         email,
         password,
+        role,
       });
       if (res.status === 201) {
         // console.log("res", res);
@@ -51,6 +62,7 @@ const SignUp = () => {
   };
 
   if (isLoading) return <Loading />;
+  console.log("USerform", userForm);
 
   return (
     <div className="flex h-[calc(100vh-290px)] justify-center items-center bg-gray-100 dark:bg-[#121212]">
@@ -158,7 +170,20 @@ const SignUp = () => {
             }}
           />
         </div>
-        <ul className=" flex flex-col text-xs list-disc px-4 mb-4 gap-1">
+        <Select
+          onValueChange={(value) => setUserForm({ ...userForm, role: value })}
+        >
+          <SelectTrigger className="">
+            <SelectValue placeholder="Sign up as an user" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="user">User</SelectItem>
+              {/* <SelectItem value="admin">Admin</SelectItem> */}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <ul className=" flex flex-col text-xs list-disc px-4 my-4 gap-1">
           <li className="">Том үсэг орсон байх</li>
           <li>Жижиг үсэг орсон байх</li>
           <li>Тоо орсон байх</li>

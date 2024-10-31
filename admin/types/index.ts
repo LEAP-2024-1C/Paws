@@ -27,6 +27,13 @@ export interface FooterItem {
   }[];
 }
 
+export interface IPets {
+  id: string;
+  name: string;
+  breed: string;
+  // status: 'available' | 'adopted' | 'pending';
+}
+
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;

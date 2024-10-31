@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -13,10 +12,27 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { GrLocationPin } from "react-icons/gr";
+import axios from "axios";
+import { apiUrl } from "@/utils/util";
+import { useState } from "react";
+
+interface SosItem {
+  _id: string;
+  title: string;
+  description: string;
+  location: string;
+  imageUrl: string;
+  phoneNumber: string;
+  status: "Pending" | "In-progress" | "Saved";
+}
+
 export default function GridCarousel() {
   const [api, setApi] = React.useState<any>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+  const [sosItems, setSosItems] = React.useState<SosItem[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [refetch, setRefetch] = useState(false);
 
   React.useEffect(() => {
     if (!api) {
@@ -31,114 +47,100 @@ export default function GridCarousel() {
     });
   }, [api]);
 
-  const items = [
-    {
-      title: "Cat",
-      image: "",
-      description: "Looking for love",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Moo-Moo",
-      image: "",
-      description: "Need help with a dog",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Bird",
-      image: "",
-      description: "Need help with a bird",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Fish",
-      image: "",
-      description: "Need help with a fish",
-      location: "Khan-Uul district",
-    },
-    {
-      title: "Rabbit",
-      image: "",
-      description: "Need help with a rabbit",
-    },
-    { title: "Snake", image: "", description: "Need help with a snake" },
-    { title: "Bear", image: "", description: "Need help with a bear" },
-    { title: "Wolf", image: "", description: "Need help with a wolf" },
-    { title: "Fox", image: "", description: "Need help with a fox" },
-    { title: "Elephant", image: "", description: "Need help with a elephant" },
-    { title: "Lion", image: "", description: "Need help with a lion" },
-    { title: "Tiger", image: "", description: "Need help with a tiger" },
-    {
-      title: "Snow-capped Peaks",
-      image: "",
-      description: "Need help with a snow-capped peaks",
-    },
-    {
-      title: "Tropical Island",
-      image: "",
-      description: "Need help with a tropical island",
-    },
-    {
-      title: "Autumn Foliage",
-      image: "",
-      description: "Need help with a autumn foliage",
-    },
-  ];
+  const fetchAllSosItems = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/sos/`);
+      if (res.status === 200) {
+        setSosItems(res.data.sos);
+        setRefetch(!refetch);
+      }
+    } catch (error) {
+      console.log("Can't fetch sos items", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  React.useEffect(() => {
+    fetchAllSosItems();
+  }, [refetch]);
+
+  const savedSosItems = sosItems.filter((item) => item.status === "Pending");
   const itemsPerSlide = 9;
+
+  const getStatusBadgeStyle = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "In-progress":
+        return "bg-blue-100 text-blue-800";
+      case "Saved":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="w-full max-w-5xl mx-auto">
       <Carousel setApi={setApi} className="w-full">
-        <CarouselContent>
-          {Array.from({ length: Math.ceil(items.length / itemsPerSlide) }).map(
-            (_, index) => (
-              <CarouselItem key={index}>
-                <div className="grid grid-cols-3 gap-6 p-1">
-                  {items
-                    .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
-                    .map((item, itemIndex) => (
-                      <Link href={`/sos/${item.title}`} key={itemIndex}>
-                        <Card key={itemIndex} className="overflow-hidden">
-                          <CardContent className="p-0">
-                            <div className="relative aspect-square border rounded-lg">
-                              <Image
-                                src={item.image}
-                                alt={item.title}
-                                fill
-                                className=" object-cover"
-                              />
+        <CarouselContent className="-ml-2 md:-ml-4">
+          {Array.from({
+            length: Math.ceil(savedSosItems.length / itemsPerSlide),
+          }).map((_, index) => (
+            <CarouselItem key={index} className="pl-2 md:pl-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {savedSosItems
+                  .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
+                  .map((item) => (
+                    <Link href={`/sos/${item._id}`} key={item._id}>
+                      <Card className="h-full hover:shadow-lg transition-shadow duration-200">
+                        <CardContent className="p-0">
+                          <div className="relative aspect-square">
+                            <img
+                              src={item.imageUrl}
+                              alt={item.title || "SOS Image"}
+                              className="object-cover w-full h-full rounded-t-lg"
+                            />
+                          </div>
+                          <div className="p-4 space-y-3">
+                            <h3 className="text-lg font-semibold text-orange-500 line-clamp-1">
+                              {item.title || "Emergency Report"}
+                            </h3>
+                            <div className="flex items-center justify-between">
+                              <h2 className="text-md">Current Status:</h2>
+                              <span
+                                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeStyle(
+                                  item.status
+                                )}`}
+                              >
+                                {item.status}
+                              </span>
                             </div>
-                            <div className="p-4">
-                              <h3 className="text-lg font-semibold text-orange-500">
-                                {item.title}
-                              </h3>
-                            </div>
-                            <div className="py-4 px-2">
-                              <p className="text-sm text-blue-300">
-                                {item.description}
-                              </p>
-                            </div>
-                            <div className="py-4 px-2 flex gap-1">
-                              <GrLocationPin className="text-gray-500" />
-                              <p className="text-sm text-gray-500">
+                            <p className="text-sm text-grey-300 line-clamp-2">
+                              {item.description}
+                            </p>
+                            <div className="flex items-center gap-2">
+                              <GrLocationPin className="text-red-500 flex-shrink-0" />
+                              <p className="text-sm text-blue-500 line-clamp-1">
                                 {item.location}
                               </p>
                             </div>
-                            <div className="py-2 px-4 flex gap-1">
-                              <p className="text-sm text-gray-500">
-                                interstate adoption unavailable
-                              </p>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    ))}
-                </div>
-              </CarouselItem>
-            )
-          )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+              </div>
+            </CarouselItem>
+          ))}
         </CarouselContent>
+
+        {/* Carousel navigation */}
         <div className="flex items-center justify-center mt-12">
           <CarouselPrevious
             variant="outline"

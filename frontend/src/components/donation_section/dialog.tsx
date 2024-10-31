@@ -1,5 +1,6 @@
 import { Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FaShareFromSquare } from "react-icons/fa6";
 import {
   Dialog,
   DialogClose,
@@ -17,7 +18,9 @@ export function DialogButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Share</Button>
+        <Button variant="outline">
+          <FaShareFromSquare />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

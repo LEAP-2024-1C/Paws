@@ -1,5 +1,6 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { AdoptionPostForm } from '@/components/forms/adoptionPost-form';
+import { AdoptionPostsForm } from '@/components/forms/adoptionPosts-form';
+// import { adoptionPostsForm } from '@/components/forms/adoptionPostForm';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import React from 'react';
 
@@ -14,15 +15,15 @@ export default function Page() {
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-8">
         <Breadcrumbs items={breadcrumbItems} />
-        <AdoptionPostForm
+        <AdoptionPostsForm
           pets={[
             { _id: '1', name: 'Kitty' },
             { _id: '2', name: 'Max' }
           ]}
-          preChecks={[
-            { _id: '1', name: 'vaccinated' },
-            { _id: '2', name: 'wormed' },
-            { _id: '3', name: 'spay' }
+          status={[
+            { _id: '1', name: 'pending' },
+            { _id: '2', name: 'in-progress' },
+            { _id: '3', name: 'adopted' }
           ]}
           initialData={null}
           key={null}
