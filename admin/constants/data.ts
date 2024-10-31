@@ -258,11 +258,15 @@ export const adoptionPostss: adoptionPostss[] = [
 export const articlesHistory: ArticlesHistory[] = [
   {
     id: 1,
+    author: 'Amy Harris',
+    catName: 'Pet Health',
     title: 'Dog health',
     date: '24 May,2024'
   },
   {
     id: 2,
+    author: 'Amy Harris',
+    catName: 'Pet Care',
     title: 'Interesting fact about dogs',
     date: '23 May,2024'
   }
@@ -278,6 +282,8 @@ export type DonationPosts = {
 
 export type ArticlesHistory = {
   id: number;
+  author: string;
+  catName: string;
   title: string;
   date: string;
 };

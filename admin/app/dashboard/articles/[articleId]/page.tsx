@@ -1,5 +1,5 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { DonationPostForm } from '@/components/forms/donationPost-form';
+import { ArticlePostForm } from '@/components/forms/articlePost-form';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import React from 'react';
 
@@ -14,10 +14,10 @@ export default function Page() {
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-8">
         <Breadcrumbs items={breadcrumbItems} />
-        <DonationPostForm
-          pets={[
-            { _id: '1', name: 'Kitty' },
-            { _id: '2', name: 'Max' }
+        <ArticlePostForm
+          articlesCat={[
+            { _id: '1', name: 'Pet Care' },
+            { _id: '2', name: 'Pet Health' }
           ]}
           preChecks={[
             { _id: '1', name: 'vaccinated' },

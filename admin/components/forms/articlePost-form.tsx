@@ -29,6 +29,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 // import FileUpload from "@/components/FileUpload";
 import { useToast } from '../ui/use-toast';
 import FileUpload from '../file-upload';
+import { Textarea } from '../ui/textarea';
 const ImgSchema = z.object({
   fileName: z.string(),
   name: z.string(),
@@ -59,15 +60,15 @@ const formSchema = z.object({
 
 type DonationPostFormValues = z.infer<typeof formSchema>;
 
-interface DonationFormProps {
+interface ArticleFormProps {
   initialData: any | null;
-  pets: any;
+  articlesCat: any;
   preChecks: any;
 }
 
-export const DonationPostForm: React.FC<DonationFormProps> = ({
+export const ArticlePostForm: React.FC<ArticleFormProps> = ({
   initialData,
-  pets,
+  articlesCat,
   preChecks
 }) => {
   const params = useParams();
@@ -172,7 +173,7 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
             name="imgUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Images</FormLabel>
+                <FormLabel className="text-lg font-semibold">Images</FormLabel>
                 <FormControl>
                   <FileUpload
                     onChange={field.onChange}
@@ -184,13 +185,15 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="gap-8 md:grid md:grid-cols-3">
+          <div className="gap-8 md:grid md:grid-cols-2">
             <FormField
               control={form.control}
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Select a category</FormLabel>
+                  <FormLabel className="text-lg font-semibold">
+                    Select a category
+                  </FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -201,15 +204,15 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a pet"
+                          placeholder="Select category"
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {/* @ts-ignore  */}
-                      {pets.map((pet) => (
-                        <SelectItem key={pet._id} value={pet._id}>
-                          {pet.name}
+                      {articlesCat.map((cat) => (
+                        <SelectItem key={cat._id} value={cat._id}>
+                          {cat.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -223,13 +226,16 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel className="text-lg font-semibold">
+                    Description
+                  </FormLabel>
                   <FormControl>
-                    <Input
+                    {/* <Input
                       disabled={loading}
                       placeholder="About Kitty"
                       {...field}
-                    />
+                    /> */}
+                    <Textarea placeholder="Type your article description here"></Textarea>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -240,53 +246,27 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
               name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Location</FormLabel>
+                  <FormLabel className="text-lg font-semibold">
+                    Article title
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Ulaanbaatar City"
+                      placeholder="Article title"
                       {...field}
+                      className="h-14 w-80 text-start"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="preCheck"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pre-adoption checks</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a value"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {preChecks.map((check) => (
-                        <SelectItem key={check._id} value={check._id}>
-                          {check.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <Button
+            disabled={loading}
+            className="ml-auto bg-lime-700 text-white"
+            type="submit"
+          >
             {action}
           </Button>
         </form>

@@ -13,39 +13,69 @@ import {
 } from '@/components/ui/table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { adoptionPostss } from '@/constants/data';
 import { CellAction } from './cell-action';
+import axios from 'axios';
+import { apiUrl } from '@/utils/util';
+import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { IArticles } from '@/lib/types';
+import { BiSearchAlt2 } from 'react-icons/bi';
 
-interface AdoptionTableProps {
-  data: adoptionPostss[];
+interface ArticleTableProps {
+  data: IArticles[];
   searchKey: string;
 }
 
-export function AdoptionTable({ data, searchKey }: AdoptionTableProps) {
+export function ArticleTable({ data, searchKey }: ArticleTableProps) {
+  const [articles, setArticles] = useState<IArticles[]>([]);
+  const [searchValue, setSearchValue] = useState('');
+
+  const getArticles = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/articles`);
+      setArticles(res.data.articles);
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to fetch articles');
+    }
+  };
+  const findPost = articles?.filter(
+    (cards) => cards?.title?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  useEffect(() => {
+    getArticles();
+  }, []);
+  console.log('Find post', findPost);
   return (
     <>
-      <Input
-        placeholder={`Search ${searchKey}...`}
-        className="w-full md:max-w-sm"
-      />
+      <div className="flex items-center rounded-xl outline outline-lime-500 md:max-w-sm">
+        <Input
+          placeholder={`Search ${searchKey}...`}
+          className="max-h-20 md:max-w-sm"
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+        <BiSearchAlt2 className="h-10 w-10 rounded-r-lg bg-lime-500 p-2 text-white" />
+      </div>
       <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
         <Table className="relative">
           <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Pet Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Action</TableHead>
+            <TableRow className="border bg-lime-600 pl-5">
+              <TableHead className="text-white">Title</TableHead>
+              <TableHead className="text-white">Category name</TableHead>
+              <TableHead className="text-white">Author</TableHead>
+              <TableHead className="text-white">Published on</TableHead>
+              <TableHead className="text-white">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((post) => (
+            {findPost?.map((post) => (
               <TableRow key={post.id}>
-                <TableCell>{post.userName}</TableCell>
-                <TableCell>{post.petName}</TableCell>
-                <TableCell>{post.description}</TableCell>
+                <TableCell className="border pl-4">{post.title}</TableCell>
+                <TableCell className="border pl-4">Pet Care</TableCell>
+                <TableCell className="border">Amy Harris</TableCell>
+                <TableCell className="border">{post.updatedAt}</TableCell>
                 <TableCell>
-                  <CellAction id={post.id} />
+                  <CellAction id={0} />
                 </TableCell>
               </TableRow>
             ))}
