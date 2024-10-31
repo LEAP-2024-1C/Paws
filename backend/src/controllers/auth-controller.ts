@@ -52,7 +52,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const signup = async (req: Request, res: Response) => {
   try {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, role } = req.body;
 
     if (!firstname || !lastname || !email || !password) {
       return res.status(400).json({ message: "Хоосон утга байж болохгүй" });
@@ -66,6 +66,7 @@ export const signup = async (req: Request, res: Response) => {
       password,
       phoneNumber: "",
       address: "",
+      role,
     });
     res.status(201).json({ message: "success", user: newUser });
     // console.log("pass", newUser);

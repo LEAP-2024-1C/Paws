@@ -5,6 +5,8 @@ import NextTopLoader from 'nextjs-toploader';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { PetsProvider } from '@/components/context/pets-context';
+import { ProfileProvider } from '@/components/context/profile_context';
+import { UserProvider } from '@/components/context/user_context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,11 +26,15 @@ export default async function RootLayout({
         className={`${inter.className} overflow-hidden `}
         suppressHydrationWarning={true}
       >
-        <PetsProvider>
-          <NextTopLoader showSpinner={false} />
-          <Toaster />
-          {children}
-        </PetsProvider>
+        <UserProvider>
+          <ProfileProvider>
+            <PetsProvider>
+              <NextTopLoader showSpinner={false} />
+              <Toaster />
+              {children}
+            </PetsProvider>
+          </ProfileProvider>
+        </UserProvider>
       </body>
     </html>
   );

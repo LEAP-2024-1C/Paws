@@ -11,9 +11,19 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useContext } from 'react';
+import { UserContext } from '../context/user_context';
+import { useRouter } from 'next/navigation';
 
 export function UserNav() {
+  const router = useRouter();
+  const { user, setUser } = useContext(UserContext);
   const data = { user: { image: '', name: 'test', email: 'test' } };
+  const logOut = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+    router.push('/signin');
+  };
 
   if (data) {
     return (
@@ -25,7 +35,7 @@ export function UserNav() {
                 src={data.user?.image ?? ''}
                 alt={data.user?.name ?? ''}
               />
-              <AvatarFallback>{data.user?.name?.[0]}</AvatarFallback>
+              <AvatarFallback>{user?.firstname}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -33,10 +43,10 @@ export function UserNav() {
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
-                {data.user?.name}
+                {user?.firstname}
               </p>
               <p className="text-xs leading-none text-muted-foreground">
-                {data.user?.email}
+                {user?.email}
               </p>
             </div>
           </DropdownMenuLabel>
@@ -57,7 +67,7 @@ export function UserNav() {
             <DropdownMenuItem>New Team</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => {}}>
+          <DropdownMenuItem onClick={logOut}>
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
