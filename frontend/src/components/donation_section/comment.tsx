@@ -1,20 +1,49 @@
-import React from "react";
-import { Separator } from "../ui/separator";
-// import Rating from "@mui/material/Rating";
-import "@smastrom/react-rating/style.css";
+"use client";
+// CommentSection.tsx
 
-const Comments = ({ com }: any) => {
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+
+import { Textarea } from "@/components/ui/textarea";
+
+interface Comment {
+  id: number;
+  text: string;
+}
+
+const Comments: React.FC = () => {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [input, setInput] = useState<string>("");
+
+  const handleAddComment = () => {
+    if (input.trim()) {
+      const newComment = { id: Date.now(), text: input };
+      setComments([newComment, ...comments]);
+      setInput("");
+    }
+  };
+
   return (
-    <div className="">
-      <div className="w-[510px] mt-5">
-        <div className="flex gap-2 mb-1">
-          <span className="text-sm font-semibold">{com.user.firstname}</span>
-        </div>
-        <p className="text-sm text-[#71717A] mb-5">
-          {/* Ваав материал ёстой гоё байна 😍 */}
-          {com.comment}
-        </p>
-        <Separator className=" border-dashed" />
+    <div className="p-6 max-w-md mx-auto">
+      <h2 className="text-xl font-semibold mb-4">Сэтгэгдэл үлдээх</h2>
+      <Textarea
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Сэтгэгдлээ бичнэ үү..."
+        className="mb-4"
+      />
+      <Button onClick={handleAddComment} className="mb-6">
+        Сэтгэгдэл нэмэх
+      </Button>
+      <div className="space-y-4">
+        {comments.map((comment) => (
+          <div
+            key={comment.id}
+            className="p-4 border rounded-md shadow-sm bg-gray-50"
+          >
+            <p>{comment.text}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
