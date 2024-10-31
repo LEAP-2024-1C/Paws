@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,82 +13,296 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoArrowRight } from "react-icons/go";
 import { Textarea } from "../ui/textarea";
-import { AdoptionEnquirePt2 } from "./adoption_enquire_pt2";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../context/user_context";
+import axios from "axios";
+import { apiUrl } from "@/utils/util";
+import { toast } from "react-toastify";
 
 export function AdoptionEnquire() {
+  const { user } = useContext(UserContext);
+  const [form, setForm] = useState({
+    firstname: user?.firstname || "",
+    lastname: user?.lastname || "",
+    email: user?.email || "",
+    phone: "",
+    description: "",
+    previousPetOwnership: "",
+    currentPets: "",
+    householdMembers: "",
+    ageRanges: {
+      under5: false,
+      age5to12: false,
+      age13to17: false,
+      age18plus: false,
+    },
+  });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
+  const handleRadioChange = (value: string, name: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleCheckboxChange = (checked: boolean, ageRange: string) => {
+    setForm((prev) => ({
+      ...prev,
+      ageRanges: {
+        ...prev.ageRanges,
+        [ageRange]: checked,
+      },
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const finalForm = {
+        ...form,
+        firstname: form.firstname || user?.firstname || "Guest",
+        lastname: form.lastname || user?.lastname || "User",
+        email: form.email || user?.email || "guest@example.com",
+      };
+      const response = await axios.post(
+        `${apiUrl}/api/v1/adoption/newreq`,
+        finalForm
+      );
+
+      if (response.status === 201) {
+        console.log("Inquiry submitted successfully");
+        toast.success("Inquiry submitted successfully");
+      }
+    } catch (error) {
+      console.error("Error submitting inquiry:", error);
+      toast.error("Error submitting inquiry");
+    }
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl text-white">
-          Start
-          <GoArrowRight />
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Enquire</DialogTitle>
-          <DialogDescription>
-            Make changes to your enquiry here. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="firstname" className="text-right">
-              Firstname
-            </Label>
-            <Input
-              id="firstname"
-              // defaultValue="lastname"
-              className="col-span-3"
-            />
+    <>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant="outline"
+            className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl text-white">
+            Start
+            <GoArrowRight />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-fit ">
+          <div className="grid grid-cols-2 gap-16">
+            <div className="grid gap-4 py-4">
+              <DialogHeader>
+                <DialogTitle>Enquire</DialogTitle>
+                <DialogDescription>
+                  Make changes to your enquiry here. Click save when you're
+                  done.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="firstname" className="text-right">
+                  Firstname
+                </Label>
+                <Input
+                  id="firstname"
+                  defaultValue={user?.firstname}
+                  className="col-span-3"
+                  placeholder="Firstname"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Lastname
+                </Label>
+                <Input
+                  id="lastname"
+                  defaultValue={user?.lastname}
+                  className="col-span-3"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  defaultValue={user?.email}
+                  className="col-span-3"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="phone" className="text-right">
+                  Phone Number
+                </Label>
+                <Input
+                  id="phone"
+                  className="col-span-3"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="phone" className="text-right">
+                  Description
+                </Label>
+                <Textarea
+                  id="description"
+                  value={form.description}
+                  className="col-span-3"
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-8 py-4">
+              <div className="flex flex-col gap-4">
+                <Label htmlFor="firstname">
+                  1. Have you owned a pet before?
+                </Label>
+                <RadioGroup
+                  defaultValue="no"
+                  onValueChange={(value) =>
+                    handleRadioChange(value, "previousPetOwnership")
+                  }>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="yes" id="r1" />
+                    <Label htmlFor="r2">Yes</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="no" id="r2" />
+                    <Label htmlFor="r3">No</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="flex flex-col gap-4">
+                <Label htmlFor="firstname">
+                  2. Do you currently own any pets?
+                </Label>
+                <RadioGroup
+                  defaultValue="no"
+                  onValueChange={(value) =>
+                    handleRadioChange(value, "currentPets")
+                  }>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="no" id="r3" />
+                    <Label htmlFor="r3">No</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="dog" id="r4" />
+                    <Label htmlFor="r4">Dog(s)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="cat" id="r5" />
+                    <Label htmlFor="r5">Cat(s)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="dog_cat" id="r6" />
+                    <Label htmlFor="r6">Dog(s) and Cat(s)</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="flex flex-col gap-4">
+                <Label htmlFor="firstname">
+                  3. How many members are in your household?
+                </Label>
+                <RadioGroup
+                  defaultValue="small"
+                  onValueChange={(value) =>
+                    handleRadioChange(value, "householdMembers")
+                  }>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="small" id="r7" />
+                    <Label htmlFor="r7">1-2</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="med" id="r8" />
+                    <Label htmlFor="r8">3-4</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="big" id="r9" />
+                    <Label htmlFor="r">4+</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="firstname" className="mb-2">
+                  4. What are the age ranges of the those in your household?
+                </Label>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="under5"
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange(checked as boolean, "under5")
+                    }
+                  />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Under 5 years old
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="age5to12"
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange(checked as boolean, "age5to12")
+                    }
+                  />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    5-12
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="age13to17"
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange(checked as boolean, "age13to17")
+                    }
+                  />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    13-17
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="age18plus"
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange(checked as boolean, "age18plus")
+                    }
+                  />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    18+
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Lastname
-            </Label>
-            <Input
-              id="lastname"
-              // defaultValue="lastname"
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Email
-            </Label>
-            <Input
-              id="email"
-              // defaultValue="@peduarte"
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="phone" className="text-right">
-              Phone Number
-            </Label>
-            <Input
-              id="phone"
-              // defaultValue="@peduarte"
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="phone" className="text-right">
-              Description
-            </Label>
-            <Textarea
-              id="textarea"
-              // defaultValue="@peduarte"
-              className="col-span-3"
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <AdoptionEnquirePt2 />
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+
+          <DialogFooter>
+            <Button type="submit" onClick={handleSubmit}>
+              Save changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

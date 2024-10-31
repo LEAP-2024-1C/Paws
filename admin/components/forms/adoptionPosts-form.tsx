@@ -7,7 +7,6 @@ import { Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import toast from 'react-toastify';
 import {
   Form,
   FormControl,
@@ -154,6 +153,7 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
     petId: string;
     location: string;
     status: string;
+    imgUrl: string[];
     [key: string]: any;
   }
 
@@ -168,15 +168,29 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
 
   const triggerImgUrlValidation = () => form.trigger('imgUrl');
 
-  const addAdoptionPost = async () => {
-    const res = await axios.post(`${apiUrl}/api/v1/adoption`, {
-      title,
-      description,
-      pet: formData.petId,
-      location,
-      status
-    });
-    if (res.status === 201) {
+  const addAdoptionPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await axios.post(`${apiUrl}/api/v1/adoption/create`, {
+        title: formData.title,
+        description: formData.description,
+        pet: formData.petId,
+        location: formData.location,
+        status: formData.status,
+        imgUrl: formData.imgUrl
+      });
+      if (res.status === 201) {
+        toast({
+          variant: 'default',
+          title: 'Successfully posted'
+        });
+        router.push('/dashboard/adoption');
+      }
+    } catch (error) {
+      console.error('Failed to create pet profile:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -243,99 +257,99 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="gap-8 md:grid md:grid-cols-3">
-            <div className="">
-              <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
-              <Select
-                onValueChange={(value) =>
-                  setFormData({ ...formData, petId: value })
-                }
-              >
-                <SelectTrigger className="">
-                  <SelectValue placeholder="Select a pet" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Pet name</SelectLabel>
-                    {getPetData?.map((e) => (
-                      <SelectItem key={e._id} value={e._id}>
-                        {e.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="">
-              <h6 className="mb-3 text-[0.9rem] font-medium">Insert a title</h6>
-              <Input
-                type="text"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                placeholder="Title"
-                className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-                required
-              />
-            </div>
-            <div className="">
-              <h6 className="mb-3 text-[0.9rem] font-medium">
-                Insert location
-              </h6>
-              <Input
-                type="text"
-                value={formData.location}
-                onChange={(e) =>
-                  setFormData({ ...formData, location: e.target.value })
-                }
-                placeholder="Location"
-                className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-                required
-              />
-            </div>
-            <div className="">
-              <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
-              <Select
-                onValueChange={(value) =>
-                  setFormData({ ...formData, status: value })
-                }
-              >
-                <SelectTrigger className="">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Status</SelectLabel>
-                    {status?.map((e: any) => (
-                      <SelectItem key={e._id} value={e._id}>
-                        {e.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="">
-              <h6 className="mb-3 text-[0.9rem] font-medium">
-                Insert description
-              </h6>
-              <Textarea
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-                placeholder="Description"
-                className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-                required
-              />
-            </div>
-          </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
-            {action}
-          </Button>
         </form>
       </Form>
+      <form onSubmit={addAdoptionPost}>
+        <div className="gap-8 md:grid md:grid-cols-3">
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
+            <Select
+              onValueChange={(value) =>
+                setFormData({ ...formData, petId: value })
+              }
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Select a pet" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Pet name</SelectLabel>
+                  {getPetData?.map((e) => (
+                    <SelectItem key={e._id} value={e._id}>
+                      {e.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Insert a title</h6>
+            <Input
+              type="text"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+              placeholder="Title"
+              className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+              required
+            />
+          </div>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Insert location</h6>
+            <Input
+              type="text"
+              value={formData.location}
+              onChange={(e) =>
+                setFormData({ ...formData, location: e.target.value })
+              }
+              placeholder="Location"
+              className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+              required
+            />
+          </div>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
+            <Select
+              onValueChange={(value) =>
+                setFormData({ ...formData, status: value })
+              }
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Status</SelectLabel>
+                  {status?.map((e: any) => (
+                    <SelectItem key={e.name} value={e.name}>
+                      {e.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">
+              Insert description
+            </h6>
+            <Textarea
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              placeholder="Description"
+              className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+              required
+            />
+          </div>
+        </div>
+        <Button disabled={loading} className="ml-auto" type="submit">
+          {action}
+        </Button>
+      </form>
     </>
   );
 };

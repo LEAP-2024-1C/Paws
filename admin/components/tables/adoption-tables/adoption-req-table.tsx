@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
 import {
   Table,
   TableBody,
@@ -11,12 +10,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from '@/components/ui/accordion';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { adoptionPostss } from '@/constants/data';
@@ -34,7 +27,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionTableProps) {
         placeholder={`Search ${searchKey}...`}
         className="w-full md:max-w-sm"
       />
-      <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
+      <ScrollArea className="rounded-md border">
         <Table className="relative">
           <TableHeader>
             <TableRow>
@@ -59,6 +52,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionTableProps) {
         </Table>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
+
       <div className="flex flex-col items-center justify-end gap-2 space-x-2 py-4 sm:flex-row">
         <div className="flex w-full items-center justify-between gap-2 sm:justify-end">
           <div className="flex items-center space-x-2">

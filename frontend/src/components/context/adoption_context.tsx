@@ -18,6 +18,7 @@ export const AdoptionContext = createContext<AdoptionContextType>({
     description: "",
     location: "",
     status: "",
+    imgUrl: [],
   },
   setOneAdoptPost: () => {},
   fetchAllAdoptionData: () => {},
@@ -35,6 +36,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     description: "",
     location: "",
     status: "",
+    imgUrl: [],
   });
 
   // const router = useRouter();
