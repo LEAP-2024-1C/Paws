@@ -12,7 +12,7 @@ type PetsProviderProps = {
 export const PetsContext = createContext<PetsContextType>({
   getPetData: [
     {
-      id: '',
+      _id: '',
       name: '',
       breed: '',
       age: 0,
@@ -46,7 +46,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
   const [refetch, setRefetch] = useState(false);
   const [getPetData, setGetPetData] = useState<IPets[]>([
     {
-      id: '',
+      _id: '',
       name: '',
       breed: '',
       age: 0,
