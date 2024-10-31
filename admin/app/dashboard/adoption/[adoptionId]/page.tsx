@@ -21,7 +21,7 @@ export default function Page() {
             { _id: '2', name: 'Max' }
           ]}
           status={[
-            { _id: '1', name: 'pending' },
+            { _id: '1', name: 'posted' },
             { _id: '2', name: 'in-progress' },
             { _id: '3', name: 'adopted' }
           ]}

@@ -11,6 +11,7 @@ const AdoptionPage = () => {
   useEffect(() => {
     fetchAllAdoptionData();
   }, []);
+  console.log("adoptionPposts", adoptionPosts);
   return (
     <div>
       {/* <HeroComponent /> */}
@@ -28,6 +29,7 @@ const AdoptionPage = () => {
                 description={pet.description}
                 location={pet.location}
                 _id={pet._id}
+                imgUrl={pet.imgUrl}
               />
             </div>
           ))}

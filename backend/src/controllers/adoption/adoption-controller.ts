@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Adoption from "../../models/adoption/adoption.model";
 import AdoptionRequest from "../../models/adoption/adoptin.req.model";
 
-export const getadoptionPostss = async (req: Request, res: Response) => {
+export const getAllAdoptionPosts = async (req: Request, res: Response) => {
   try {
     const getAllPosts = await Adoption.find({});
     res
@@ -14,7 +14,7 @@ export const getadoptionPostss = async (req: Request, res: Response) => {
   }
 };
 
-export const getSingleadoptionPosts = async (req: Request, res: Response) => {
+export const getAdoptionPost = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const getOnePost = await Adoption.findById(id);
@@ -29,16 +29,17 @@ export const getSingleadoptionPosts = async (req: Request, res: Response) => {
   }
 };
 
-export const createadoptionPosts = async (req: Request, res: Response) => {
+export const createAdoptionPost = async (req: Request, res: Response) => {
   try {
-    const { title, description, userId, pet, location, status } = req.body;
+    const { title, description, pet, location, status, imgUrl } = req.body;
     const createPost = await Adoption.create({
       title,
       description,
-      userId,
+      // userId,
       pet,
       location,
       status,
+      imgUrl,
     });
     res
       .status(201)
@@ -48,6 +49,34 @@ export const createadoptionPosts = async (req: Request, res: Response) => {
     res
       .status(500)
       .json({ message: "Adoption create post: Server error", error });
+  }
+};
+
+export const updateAdoptionPost = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const updatePost = await Adoption.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res
+      .status(200)
+      .json({ message: "Updated adoption post successfully", updatePost });
+  } catch (error) {
+    console.log("Couldn't update adoption post", error);
+    res.status(500).json({ message: "Adoption post update error", error });
+  }
+};
+
+export const deleteAdoptionPost = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const deletePost = await Adoption.findByIdAndDelete(id);
+    res
+      .status(200)
+      .json({ message: "Deleted adoption post successfully", deletePost });
+  } catch (error) {
+    console.log("Couldn't delete adoption post", error);
+    res.status(500).json({ message: "Adoption post delete error", error });
   }
 };
 
@@ -66,22 +95,20 @@ export const getAdoptionInquiries = async (req: Request, res: Response) => {
 export const submitInquiry = async (req: Request, res: Response) => {
   try {
     const {
-      userId,
-      petId,
+      // petId,
       description,
-      petOwnershipHistory,
-      CurrentPetOwnership,
-      HouseholdSize,
-      HouseholdAgeRanges,
+      previousPetOwnership,
+      currentPets,
+      householdMembers,
+      ageRanges,
     } = req.body;
     const createPost = await AdoptionRequest.create({
-      userId,
-      petId,
+      // petId,
       description,
-      petOwnershipHistory,
-      CurrentPetOwnership,
-      HouseholdSize,
-      HouseholdAgeRanges,
+      previousPetOwnership,
+      currentPets,
+      householdMembers,
+      ageRanges,
     });
     res
       .status(201)
