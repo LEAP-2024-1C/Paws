@@ -9,32 +9,13 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
-import { ICategory } from "@/interface";
-import { CatType } from "@/lib/types";
+import { CardType, CatType, IArticles } from "@/lib/types";
 
-interface IArticles {
-  _id: string | number;
-  id: string | number;
-  date: number;
-  title: string;
-  text: string;
-  images: [string];
-  category: [{ name: string }];
-  updatedAt: string;
-}
-interface CardType {
-  id: string | number;
-  image: string;
-  title: string;
-  date: string;
-  category: [{ name: string }];
-}
 const Articles = () => {
   const [articles, setArticles] = useState<IArticles[]>([]);
   const [articleCat, setArticleCat] = useState<CatType[]>([]);
@@ -65,7 +46,7 @@ const Articles = () => {
   console.log("articles categories", articleCat);
   console.log("Articles data", articles);
   return (
-    <section className="h-screen">
+    <section className="h-fit md:my-10">
       <HeroComponent />
       <main className="md:flex md:justify-center md:mt-10">
         <RadioGroup
@@ -97,7 +78,6 @@ const Articles = () => {
               id={card._id}
               date={card.updatedAt}
               title={card.title}
-              category={card.category}
             />
           ))}
         </section>
@@ -106,14 +86,11 @@ const Articles = () => {
   );
 };
 
-export const BlogsCards = ({ image, title, date, id, category }: CardType) => {
+export const BlogsCards = ({ image, title, date, id }: CardType) => {
   return (
     <Link href={`/articles/${id}`}>
       <Card className="w-[340px]  shadow-xl" key={id}>
         <CardHeader className="mb-4 relative p-0 h-48">
-          {/* <Badge className="absolute top-4 left-4 z-10 bg-amber-500">
-            {category.name}
-          </Badge> */}
           <div className="overflow-hidden rounded-t-lg">
             <img
               src={image}

@@ -5,6 +5,7 @@ export type Card = {
 };
 
 export type NewsCard = {
+  category: string;
   id: number;
   date: string;
   image: string;
@@ -17,7 +18,12 @@ export type Product = {
   price: number;
   image: string;
 };
-
+export interface AppsType {
+  id: number;
+  name: string;
+  image: string;
+  url: string;
+}
 export const Cards: Card[] = [
   {
     id: 1,
@@ -51,21 +57,24 @@ export const NewsBlogs: NewsCard[] = [
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/ab/24/f3/ab24f377227dbf8c77de68b180e4d282.jpg",
-    title: "Urna cras et mauris congue nunc nisi cursus",
+    title: "Interesting facts about dogs",
+    category: "Pet Care",
   },
   {
     id: 2,
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/2d/3d/fd/2d3dfd302b000d7202266798e243080d.jpg",
-    title: "Urna cras et mauris congue nunc nisi  cursus",
+    title: "National walk your dog week",
+    category: "Dog Health",
   },
   {
     id: 3,
     date: "24 May,2024",
     image:
       "https://i.pinimg.com/736x/e7/62/54/e7625411d29c16343b960edc01fca131.jpg",
-    title: "Urna cras et mauris congue nunc nisi nec",
+    title: "4 Tips to protect your pet in the cold",
+    category: "Pet Health",
   },
 ];
 
@@ -117,5 +126,50 @@ export const products: Product[] = [
     name: "Cat Food",
     price: 120000,
     image: "/img/product.png",
+  },
+];
+
+export const Apps: AppsType[] = [
+  {
+    id: 1,
+    name: "Instagram",
+    image:
+      "https://i.pinimg.com/736x/93/87/90/938790b17acb5b3b8236d65ce8c4fc45.jpg",
+    url: "https://www.instagram.com/",
+  },
+  {
+    id: 2,
+    name: "Facebook",
+    image:
+      "https://i.pinimg.com/736x/b5/9d/15/b59d15f1d09ebd9882cad4a448688aac.jpg",
+    url: "https://www.facebook.com/Meta",
+  },
+  {
+    id: 3,
+    name: "Pinterest",
+    image:
+      "https://i.pinimg.com/736x/d8/31/32/d8313274acdd2a2576939c5a8fe39b1e.jpg",
+    url: "https://www.pinterest.com/",
+  },
+  {
+    id: 4,
+    name: "Twitter",
+    image:
+      "https://i.pinimg.com/736x/e9/58/5d/e9585dd0d277236b30953bca60761072.jpg",
+    url: "https://www.twitter.com/",
+  },
+  {
+    id: 5,
+    name: "Youtube",
+    image:
+      "https://i.pinimg.com/736x/3a/36/20/3a36206f35352b4230d5fc9f17fcea92.jpg",
+    url: "https://www.youtube.com/",
+  },
+  {
+    id: 6,
+    name: "Linkedin",
+    image:
+      "https://i.pinimg.com/736x/49/32/80/49328097f84b5b6d80ffe0c104e4f429.jpg",
+    url: "https://www.linkedin.com/",
   },
 ];
