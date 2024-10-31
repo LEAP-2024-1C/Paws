@@ -150,7 +150,7 @@ export default function PetForm({ onSubmit }: PetFormProps) {
     }
   };
 
-  console.log('PDDD', petData);
+  // console.log('PDDD', petData);
   // console.log('----', petCategory);
 
   return (

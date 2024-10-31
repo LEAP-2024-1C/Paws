@@ -174,12 +174,12 @@ const SignUp = () => {
           onValueChange={(value) => setUserForm({ ...userForm, role: value })}
         >
           <SelectTrigger className="">
-            <SelectValue placeholder="Sign up as an user" />
+            <SelectValue placeholder="Select a role" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectItem value="user">User</SelectItem>
-              {/* <SelectItem value="admin">Admin</SelectItem> */}
+              <SelectItem value="admin">Admin</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
