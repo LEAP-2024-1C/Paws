@@ -46,7 +46,7 @@ const Articles = () => {
   console.log("articles categories", articleCat);
   console.log("Articles data", articles);
   return (
-    <section className="h-screen">
+    <section className="h-fit md:my-10">
       <HeroComponent />
       <main className="md:flex md:justify-center md:mt-10">
         <RadioGroup

@@ -1,5 +1,5 @@
 "use client";
-import { NewsBlogs, NewsCard } from "@/lib/data";
+import { Apps, AppsType, NewsBlogs, NewsCard } from "@/lib/data";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -10,14 +10,9 @@ import { IOneArticle } from "@/lib/types";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
-import AdoptionCard from "@/components/adoption_section/adoption_card";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import DonationCard from "@/components/donation_section/donation_card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Link from "next/link";
+import DonateCard from "@/components/home/donate_card";
 
 const ArticleCardDetail = () => {
   const [rating, setRating] = React.useState(5);
@@ -52,16 +47,16 @@ const ArticleCardDetail = () => {
   console.log("article data", article);
 
   return (
-    <section className="h-fit flex justify-center md:py-20 md:gap-8 bg-slate-100">
+    <section className="h-fit md:flex md:justify-center md:py-20 md:gap-8 bg-slate-50">
       <main className="flex flex-col">
-        <section className="flex  gap-10">
-          <section className="bg-white rounded-xl w-fit py-10 px-6">
+        <section className="md:flex-row  md:gap-10 flex flex-col">
+          <section className="bg-white rounded-xl w-fit md:py-16 md:px-6">
             <h3 className="md:text-4xl text-2xl  pr-32 py-8 text-wrap text-center font-bold  min-h-14 max-h-60 text-amber-500">
               {article.title}
             </h3>
             <div className="flex flex-col items-center md:flex md:flex-col md:items-center md:justify-center rounded-xl">
               <div className="flex flex-col">
-                <div className="h-[400px] overflow-hidden border-b rounded-xl">
+                <div className="h-[400px] overflow-hidden  rounded-xl mx-6">
                   <Image
                     src={article.images[0]}
                     alt="detail image"
@@ -84,22 +79,43 @@ const ArticleCardDetail = () => {
                 </ul>
               </div>
 
-              <p className="flex md:w-[600px] flex-wrap md:text-xl text-lg font-light md:my-10">
+              <p className="flex md:w-[600px] flex-wrap md:text-xl text-lg px-6 font-light">
                 {article.text}
               </p>
             </div>
           </section>
-          <Card className="w-fit h-fit">
-            <CardHeader className="border rounded-xl">Donation</CardHeader>
-            <CardContent>
-              <DonationCard />
-            </CardContent>
-          </Card>
+          <section className="flex flex-col gap-8">
+            <Card className="w-fit h-fit py-8">
+              <CardHeader className="text-2xl font-semibold">
+                Social networks
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 grid-rows-3 gap-4">
+                {Apps?.map((app: AppsType) => (
+                  <Link href={app.url}>
+                    <div
+                      className=" w-40 h-16 flex items-center gap-3 p-2 bg-slate-100 rounded-xl"
+                      key={app.id}
+                    >
+                      <Image
+                        src={app.image}
+                        alt="img"
+                        width={36}
+                        height={36}
+                        className="rounded-xl"
+                      ></Image>
+                      <p className="font-thin">{app.name}</p>
+                    </div>
+                  </Link>
+                ))}
+              </CardContent>
+            </Card>
+            <DonateCard />
+          </section>
         </section>
-        <h3 className="md:text-2xl text-xl font-bold md:mt-10 mt-5 ml-10">
+        <h3 className="md:text-2xl  ml-5 text-xl font-bold md:mt-10 mt-5">
           Related reading
         </h3>
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mx-16 md:mb-40 mt-10">
+        <section className="grid grid-cols-1 md:grid-cols-3 md:gap-6 gap-3 mx-auto  md:mb-40 mt-10">
           {NewsBlogs.map((card: NewsCard) => (
             <BlogsCards
               image={card.image}

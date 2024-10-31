@@ -29,6 +29,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 // import FileUpload from "@/components/FileUpload";
 import { useToast } from '../ui/use-toast';
 import FileUpload from '../file-upload';
+import { CldUploadWidget } from 'next-cloudinary';
+
 const ImgSchema = z.object({
   fileName: z.string(),
   name: z.string(),
@@ -140,6 +142,16 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
 
   const triggerImgUrlValidation = () => form.trigger('imgUrl');
 
+  // const [formData, setFormData] = useState()
+
+  // const addProducts = () =>{
+  //   const res = fetch('http:/localhost:8000', {
+  //     method :'Post',
+  //     body:
+
+  //   })
+  // }
+
   return (
     <>
       {/* <AlertModal
@@ -174,12 +186,26 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
               <FormItem>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
-                  <FileUpload
+                  {/* <FileUpload
                     onChange={field.onChange}
                     value={field.value}
                     onRemove={field.onChange}
-                  />
+                  /> */}
                 </FormControl>
+                {/* <div>
+                  <CldUploadWidget
+                    uploadPreset="adminarticle"
+                    onSuccess={(result) => {
+                      console.log('Url', result?.info?.secure_url!);
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <button onClick={() => open()}>Upload an Image</button>
+                      );
+                    }}
+                  </CldUploadWidget>
+                </div> */}
                 <FormMessage />
               </FormItem>
             )}
