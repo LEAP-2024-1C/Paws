@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ProductCard from "./productcard";
 import Pagination from "./pagination";
+import { ShoppingContext } from "../../../components/context/shopping_context";
 
 interface ProductList {
   selectedCategory: string;
@@ -18,95 +19,17 @@ const ProductList: React.FC<ProductList> = ({
   const [currentPage] = useState(1);
   const productsPerPage = 12;
 
-  // (бодит дата авах үед солино)
-  const products = [
-    {
-      id: 1,
-      name: "Pet Carrier",
-      price: 29.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 2,
-      name: "Cat Bowl",
-      price: 20.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 3,
-      name: "Cat Bowl",
-      price: 19.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 4,
-      name: "Premium Cat Food",
-      price: 20.99,
-      category: "Pet Food",
-      image: "",
-    },
-    {
-      id: 5,
-      name: "Dog Bowl",
-      price: 4.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 6,
-      name: "Cat Bed",
-      price: 49.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 7,
-      name: "Dog Leash",
-      price: 9.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 8,
-      name: "Dog Bed",
-      price: 49.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 9,
-      name: "Cat Bowl",
-      price: 20.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 10,
-      name: "Premium Dog Food",
-      price: 29.99,
-      category: "Pet Food",
-      image: "",
-    },
-    {
-      id: 11,
-      name: "Dog Bowl",
-      price: 19.99,
-      category: "Pet Accessories",
-      image: "",
-    },
-    {
-      id: 12,
-      name: "Premium Dog Food",
-      price: 24.99,
-      category: "Pet Food",
-      image: "",
-    },
-  ];
+  const { product, loading } = useContext(ShoppingContext);
 
-  const filteredProducts = products
+  if (loading) {
+    return (
+      <div className="w-full md:w-3/4 p-4 flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+      </div>
+    );
+  }
+
+  const filteredProducts = product
     .filter((product) =>
       selectedCategory === "All" ? true : product.category === selectedCategory
     )
@@ -126,6 +49,14 @@ const ProductList: React.FC<ProductList> = ({
     indexOfLastProduct
   );
 
+  if (!loading && (!product || product.length === 0)) {
+    return (
+      <div className="w-full md:w-3/4 p-4 flex justify-center items-center min-h-[400px]">
+        <p className="text-gray-500">No products available.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full md:w-3/4 p-4">
       <div className="flex justify-between items-center mb-4">
@@ -142,7 +73,7 @@ const ProductList: React.FC<ProductList> = ({
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
       <Pagination
