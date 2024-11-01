@@ -59,7 +59,7 @@ export function AdoptionPostsTable({
     try {
       const res = await axios.get(`${apiUrl}/api/v1/adoption`);
       if (res.status === 200) {
-        console.log('RES', res.data);
+        // console.log('RES', res.data);
         setAdoptionPosts(res.data.getAllPosts);
       }
     } catch (error) {

@@ -7,8 +7,9 @@ import { model, Schema } from "mongoose";
 
 interface IAdoptReq {
   _id: Schema.Types.ObjectId;
-  petId?: Schema.Types.ObjectId;
+  petId: Schema.Types.ObjectId;
   userId?: Schema.Types.ObjectId;
+  title: string;
   description: string;
   status?: string;
   previousPetOwnership: string;
@@ -24,7 +25,7 @@ interface IAdoptReq {
   updated_at: Date;
 }
 
-const adoptionRequestSchema = new Schema<IAdoptReq>({
+const AdoptionRequestSchema = new Schema<IAdoptReq>({
   petId: {
     type: Schema.Types.ObjectId,
     // required: true,
@@ -35,6 +36,9 @@ const adoptionRequestSchema = new Schema<IAdoptReq>({
     // required: true,
     ref: "User",
   },
+  title: {
+    type: String,
+  },
 
   description: {
     type: String,
@@ -42,7 +46,7 @@ const adoptionRequestSchema = new Schema<IAdoptReq>({
   },
   status: {
     type: String,
-    enum: ["accepted", "pending", "refused"],
+    enum: ["approved", "pending", "rejected"],
     default: null,
   },
   previousPetOwnership: {
@@ -67,6 +71,6 @@ const adoptionRequestSchema = new Schema<IAdoptReq>({
   },
 });
 
-const AdoptionRequest = model("AdoptionRequest", adoptionRequestSchema);
+const AdoptionRequest = model("AdoptionRequest", AdoptionRequestSchema);
 
 export default AdoptionRequest;

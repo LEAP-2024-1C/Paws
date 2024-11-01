@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Adoption from "../../models/adoption/adoption.model";
 import AdoptionRequest from "../../models/adoption/adoptin.req.model";
+import PetProfile from "../../models/pets/petProfile.model";
 
 export const getAllAdoptionPosts = async (req: Request, res: Response) => {
   try {
@@ -83,6 +84,8 @@ export const deleteAdoptionPost = async (req: Request, res: Response) => {
 export const getAdoptionInquiries = async (req: Request, res: Response) => {
   try {
     const getAllRequests = await AdoptionRequest.find({});
+    // .populate("petId")
+    // .exec();
     res
       .status(200)
       .json({ message: "get adoption posts successfully", getAllRequests });
@@ -104,6 +107,7 @@ export const submitInquiry = async (req: Request, res: Response) => {
       householdMembers,
       ageRanges,
       status,
+      title,
     } = req.body;
     const createPost = await AdoptionRequest.create({
       petId,
@@ -113,6 +117,7 @@ export const submitInquiry = async (req: Request, res: Response) => {
       householdMembers,
       ageRanges,
       status,
+      title,
       // userId,
     });
     res
@@ -123,5 +128,20 @@ export const submitInquiry = async (req: Request, res: Response) => {
     res
       .status(500)
       .json({ message: "Adoption create post: Server error", error });
+  }
+};
+
+export const updateAdoptionRequest = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const updatePost = await AdoptionRequest.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res
+      .status(200)
+      .json({ message: "Updated adoption req successfully", updatePost });
+  } catch (error) {
+    console.log("Couldn't update adoption req", error);
+    res.status(500).json({ message: "Adoption post update error", error });
   }
 };

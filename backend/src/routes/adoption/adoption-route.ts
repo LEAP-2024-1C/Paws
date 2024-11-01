@@ -7,6 +7,7 @@ import {
   submitInquiry,
   deleteAdoptionPost,
   updateAdoptionPost,
+  updateAdoptionRequest,
 } from "../../controllers/adoption/adoption-controller";
 
 const router = Router();
@@ -20,5 +21,6 @@ router
   .get(getAdoptionPost)
   .patch(updateAdoptionPost)
   .delete(deleteAdoptionPost);
+router.route("/req/:id").patch(updateAdoptionRequest);
 
 export default router;

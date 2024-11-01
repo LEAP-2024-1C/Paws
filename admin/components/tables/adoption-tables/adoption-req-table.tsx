@@ -36,6 +36,7 @@ interface AdoptionPostsTableProps {
 interface IAdoptionRequest {
   _id: string;
   description: string;
+  title: string;
   previousPetOwnership: boolean;
   currentPets: boolean;
   householdMembers: boolean;
@@ -47,6 +48,7 @@ interface IAdoptionRequest {
   };
   created_at: Date;
   status: 'pending' | 'accepted' | 'refused';
+  petId: string;
 }
 
 export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
@@ -55,6 +57,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
     {
       _id: '',
       description: '',
+      title: '',
       previousPetOwnership: true,
       currentPets: true,
       householdMembers: true,
@@ -65,7 +68,8 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
         age18plus: false
       },
       created_at: new Date(),
-      status: 'pending'
+      status: 'pending',
+      petId: ''
     }
   ]);
 
@@ -77,7 +81,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
         setAdoptionRequests(res.data.getAllRequests);
       }
     } catch (error) {
-      console.log("Couldn't get adoption posts", error);
+      console.log("Couldn't get adoption requests", error);
     }
   };
 
@@ -86,7 +90,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
     status: IAdoptionRequest['status']
   ) => {
     try {
-      await axios.patch(`${apiUrl}/api/v1/adoption/${id}`, {
+      await axios.patch(`${apiUrl}/api/v1/adoption/req/${id}`, {
         status
       });
       setRefetch?.(!refetch);
@@ -99,7 +103,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
     getAllAdoptionRueqests();
   }, [refetch]);
 
-  // console.log('POSTS', adoptionPosts);
+  console.log('POSTS', adoptionRequests);
   return (
     <>
       <Input
@@ -121,12 +125,13 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
             {adoptionRequests.map((req) => (
               <TableRow key={req._id}>
                 <TableCell>{req.description}</TableCell>
+                <TableCell>{req.petId}</TableCell>
                 <TableCell>
                   {new Date(req.created_at).toLocaleDateString()}
                 </TableCell>
                 <TableCell>
                   <Select
-                    defaultValue="reqed"
+                    defaultValue="pending"
                     value={req.status}
                     onValueChange={(value) =>
                       updateAdoptionRequest(
@@ -147,9 +152,9 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
                       <SelectValue placeholder="Select a status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="reqed">Posted</SelectItem>
-                      <SelectItem value="in-progress">In Progress</SelectItem>
-                      <SelectItem value="adopted">Adopted</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="accepted">Accepted</SelectItem>
+                      <SelectItem value="refused">Refused</SelectItem>
                     </SelectContent>
                   </Select>
                 </TableCell>
