@@ -9,11 +9,12 @@ interface Donations {
   contributors: number;
   petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
   userId?: { type: Schema.Types.ObjectId; ref: "User"; required: true };
-  updateDate: Date;
+  createAt: Date;
   comments: [
     {
       user: Schema.Types.ObjectId;
       comment: string;
+      createAt: Date;
     }
   ];
 }
@@ -55,13 +56,27 @@ const DonationsSchema = new Schema<Donations>(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    updateDate: {
+    createAt: {
       type: Date,
       default: Date.now,
     },
-    comments: {
-      type: [String],
-    },
+    comments: [
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },
+        comment: {
+          type: String,
+          require: true,
+          trim: true,
+        },
+        createAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

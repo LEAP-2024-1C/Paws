@@ -18,7 +18,7 @@ export type donationPostsProps = {
   images: string;
   totalAmount: number;
   _id: string;
-  updateDate: number;
+  updateDate: string;
 };
 const DonationCard = ({
   title,

@@ -13,7 +13,7 @@ interface IDonationReq {
   description: string;
   images: string;
   totalAmount: number;
-  updateDate: number;
+  updateDate: Date;
 }
 interface DonationContextType {
   donationPosts: IDonationReq[];
@@ -34,7 +34,7 @@ export const DonationContext = createContext<DonationContextType>({
     description: "",
     images: "",
     totalAmount: 0,
-    updateDate: 0,
+    updateDate: new Date(),
   },
   setOneDonationPost: () => {},
   fetchAllDonationData: () => {},
@@ -51,7 +51,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     description: "",
     images: "",
     totalAmount: 0,
-    updateDate: 0,
+    updateDate: new Date(),
   });
 
   const fetchAllDonationData = async () => {

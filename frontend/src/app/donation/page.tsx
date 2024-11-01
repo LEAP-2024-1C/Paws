@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import DonationHero from "@/components/donation_section/hero";
 import { DonationContext } from "@/components/context/donation_context";
+import { format } from "date-fns";
 
 export type donationPostsProps = {
   title: string;
@@ -34,7 +35,7 @@ const Donation = () => {
                 _id={c._id}
                 images={c.images}
                 totalAmount={c.totalAmount}
-                updateDate={c.updateDate}
+                updateDate={format(c.updateDate, "dd/MMMM/yyyy")}
               />
             </div>
           ))}

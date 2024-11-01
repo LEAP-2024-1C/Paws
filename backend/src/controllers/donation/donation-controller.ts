@@ -25,7 +25,7 @@ export const getSingleDonation = async (req: Request, res: Response) => {
 
 export const createDonations = async (req: Request, res: Response) => {
   try {
-    const { description, title, images, petId, totalAmount, updateDate } =
+    const { description, title, images, petId, totalAmount, createAt } =
       req.body;
     if (!description || !title || !images || !totalAmount) {
       return res.status(400).json({ message: "Хоосон утга байж болохгүй" });
@@ -36,7 +36,7 @@ export const createDonations = async (req: Request, res: Response) => {
       images,
       petId,
       totalAmount,
-      updateDate,
+      createAt,
     });
     res.status(201).json({
       message: "Created danations successfully",
@@ -81,5 +81,27 @@ export const updateDonation = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error updating report:", error);
     res.status(500).json({ message: "Failed to update report status" });
+  }
+};
+
+export const addDonationComment = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { comment, user } = req.body;
+    const donation = await Donations.findById(id).populate("comment.user");
+    if (donation) {
+      donation.comments.push({ comment, user, createAt: new Date() });
+      const addedComment = await donation.save();
+
+      res.status(200).json({
+        message: "Added comment successfully",
+        addedComment,
+      });
+    } else {
+      res.status(404).json({ message: "Donation not found" });
+    }
+  } catch (error) {
+    console.error("Couldn't add the comment", error);
+    res.status(400).json({ message: "Comment error", error });
   }
 };

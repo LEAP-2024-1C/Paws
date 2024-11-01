@@ -25,7 +25,7 @@ const Comments: React.FC = () => {
 
   return (
     <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Сэтгэгдэл үлдээх</h2>
+      <h2 className="text-xl font-bold mb-4">Сэтгэгдэл үлдээх</h2>
       <Textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
