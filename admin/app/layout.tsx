@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { PetsProvider } from '@/components/context/pets-context';
 import { ProfileProvider } from '@/components/context/profile_context';
+import { ShoppingProvider } from '@/components/context/shopping_context';
 import { UserProvider } from '@/components/context/user_context';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -27,13 +28,15 @@ export default async function RootLayout({
         suppressHydrationWarning={true}
       >
         <UserProvider>
-          <ProfileProvider>
-            <PetsProvider>
-              <NextTopLoader showSpinner={false} />
-              <Toaster />
-              {children}
-            </PetsProvider>
-          </ProfileProvider>
+          <ShoppingProvider>
+            <ProfileProvider>
+              <PetsProvider>
+                <NextTopLoader showSpinner={false} />
+                <Toaster />
+                {children}
+              </PetsProvider>
+            </ProfileProvider>
+          </ShoppingProvider>
         </UserProvider>
       </body>
     </html>
