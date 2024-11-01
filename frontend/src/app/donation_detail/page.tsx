@@ -2,7 +2,6 @@ import DetailCard, { DonationPay } from "@/components/donation_section/detail";
 import React from "react";
 import Link from "next/link";
 import DonationCard from "@/components/donation_section/donation_card";
-import Comments from "@/components/donation_section/comment";
 
 const DonationDetail = () => {
   const mockData = ["1", "2", "3"];
@@ -10,10 +9,7 @@ const DonationDetail = () => {
     <div className="bg-slate-50 ">
       <div className="w-3/4 flex-col flex xl:flex-row mx-auto  p-6 gap-20 ">
         <DetailCard />
-        <div>
-          <DonationPay />
-          <Comments />
-        </div>
+        <DonationPay />
       </div>
       <div className="py-10">
         <Link href="/donation_detail">

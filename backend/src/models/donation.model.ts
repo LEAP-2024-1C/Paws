@@ -10,7 +10,12 @@ interface Donations {
   petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
   userId?: { type: Schema.Types.ObjectId; ref: "User"; required: true };
   updateDate: Date;
-  comments: [string];
+  comments: [
+    {
+      user: Schema.Types.ObjectId;
+      comment: string;
+    }
+  ];
 }
 
 const DonationsSchema = new Schema<Donations>(

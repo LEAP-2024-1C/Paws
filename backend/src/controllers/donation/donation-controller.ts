@@ -63,38 +63,23 @@ export const deleteDonationReport = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to delete Donation report" });
   }
 };
-// export const updateDonation = async (req: Request, res: Response) => {
-//   const { id } = req.params;
-//   try {
-//     const report = await Donations.findByIdAndUpdate(id, { new: true });
-
-//     if (!report) {
-//       return res.status(404).json({ message: "Report not found" });
-//     }
-
-//     res.status(200).json(report);
-//   } catch (error) {
-//     res.status(500).json({ message: "Failed to update report status" });
-//   }
-// };
 
 export const updateDonation = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const updateData = req.body; // Шинэ өгөгдлийг авах
+  const updateData = req.body;
 
   try {
     const report = await Donations.findByIdAndUpdate(id, updateData, {
       new: true,
     });
 
-    // Устгасан мэдээлэл олдсон эсэхийг шалгах
     if (!report) {
       return res.status(404).json({ message: "Report not found" });
     }
 
     res.status(200).json(report);
   } catch (error) {
-    console.error("Error updating report:", error); // Алдааг консольд бичих
+    console.error("Error updating report:", error);
     res.status(500).json({ message: "Failed to update report status" });
   }
 };
