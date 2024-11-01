@@ -36,7 +36,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useContext, useState } from 'react';
 import { PetsContext } from '@/components/context/pets-context';
-import { IPets } from '@/types';
+import { IPets } from '@/app/interface';
 
 // Replace the columns definition
 export const columns: ColumnDef<IPets, any>[] = [
@@ -148,7 +148,7 @@ export const columns: ColumnDef<IPets, any>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(pet.id)}
+              onClick={() => navigator.clipboard.writeText(pet._id)}
             >
               Copy pet ID
             </DropdownMenuItem>

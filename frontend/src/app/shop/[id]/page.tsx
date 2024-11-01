@@ -230,7 +230,7 @@ const ProductDetail: React.FC = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
       </div>
-      <RelatedItems products={mockProducts} />
+      <RelatedItems fetchAllProducts={mockProducts} />
     </div>
   );
 };

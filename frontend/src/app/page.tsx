@@ -49,6 +49,7 @@ export default function Home() {
             id={card.id}
             date={card.date}
             title={card.title}
+            category={card.category}
           />
         ))}
       </section>

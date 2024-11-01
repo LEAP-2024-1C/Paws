@@ -12,7 +12,7 @@ type PetsProviderProps = {
 export const PetsContext = createContext<PetsContextType>({
   getPetData: [
     {
-      id: '',
+      _id: '',
       name: '',
       breed: '',
       age: 0,
@@ -31,7 +31,7 @@ export const PetsContext = createContext<PetsContextType>({
   fetchAllPetsData: () => {},
   fetchPetData: (id: string | string[]) => {},
   refetch: false,
-  setRefetch: () => {},
+  setRefetch: (refetch: boolean) => {},
   petCategory: [
     {
       _id: '',
@@ -46,7 +46,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
   const [refetch, setRefetch] = useState(false);
   const [getPetData, setGetPetData] = useState<IPets[]>([
     {
-      id: '',
+      _id: '',
       name: '',
       breed: '',
       age: 0,
@@ -76,7 +76,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/pets`);
       if (response.status === 200) {
-        console.log('Petss', response.data.allPets);
+        // console.log('Petss', response.data.allPets);
         setGetPetData(response.data.allPets);
       }
     } catch (error) {
@@ -100,7 +100,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/pets/category`);
       if (response.status === 200) {
-        console.log('PetsCat', response.data.category);
+        // console.log('PetsCat', response.data.category);
         setPetCategory(response.data.category);
       }
     } catch (error) {

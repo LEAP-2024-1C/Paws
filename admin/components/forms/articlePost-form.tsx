@@ -30,6 +30,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '../ui/use-toast';
 import FileUpload from '../file-upload';
 import { Textarea } from '../ui/textarea';
+import { CldUploadWidget } from 'next-cloudinary';
+
 const ImgSchema = z.object({
   fileName: z.string(),
   name: z.string(),
@@ -142,6 +144,16 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
 
   const triggerImgUrlValidation = () => form.trigger('imgUrl');
 
+  // const [formData, setFormData] = useState()
+
+  // const addProducts = () =>{
+  //   const res = fetch('http:/localhost:8000', {
+  //     method :'Post',
+  //     body:
+
+  //   })
+  // }
+
   return (
     <>
       {/* <AlertModal
@@ -176,12 +188,26 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
               <FormItem>
                 <FormLabel className="text-lg font-semibold">Images</FormLabel>
                 <FormControl>
-                  <FileUpload
+                  {/* <FileUpload
                     onChange={field.onChange}
                     value={field.value}
                     onRemove={field.onChange}
-                  />
+                  /> */}
                 </FormControl>
+                {/* <div>
+                  <CldUploadWidget
+                    uploadPreset="adminarticle"
+                    onSuccess={(result) => {
+                      console.log('Url', result?.info?.secure_url!);
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <button onClick={() => open()}>Upload an Image</button>
+                      );
+                    }}
+                  </CldUploadWidget>
+                </div> */}
                 <FormMessage />
               </FormItem>
             )}
