@@ -42,7 +42,7 @@ const adoptionRequestSchema = new Schema<IAdoptReq>({
   },
   status: {
     type: String,
-    enum: ["approved", "in_progress", "rejected"],
+    enum: ["accepted", "pending", "refused"],
     default: null,
   },
   previousPetOwnership: {

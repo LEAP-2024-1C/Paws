@@ -93,22 +93,27 @@ export const getAdoptionInquiries = async (req: Request, res: Response) => {
 };
 
 export const submitInquiry = async (req: Request, res: Response) => {
+  // const { id: userId } = req.user;
+  // console.log(id);
   try {
     const {
-      // petId,
+      petId,
       description,
       previousPetOwnership,
       currentPets,
       householdMembers,
       ageRanges,
+      status,
     } = req.body;
     const createPost = await AdoptionRequest.create({
-      // petId,
+      petId,
       description,
       previousPetOwnership,
       currentPets,
       householdMembers,
       ageRanges,
+      status,
+      // userId,
     });
     res
       .status(201)

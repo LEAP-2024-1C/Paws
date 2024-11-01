@@ -20,14 +20,15 @@ import { UserContext } from "../context/user_context";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
+import { AdoptionContext } from "../context/adoption_context";
 
 export function AdoptionEnquire() {
   const { user } = useContext(UserContext);
+  const { oneAdoptPost } = useContext(AdoptionContext);
+
   const [form, setForm] = useState({
-    firstname: user?.firstname || "",
-    lastname: user?.lastname || "",
-    email: user?.email || "",
-    phone: "",
+    status: "",
+    petId: "",
     description: "",
     previousPetOwnership: "",
     currentPets: "",
@@ -67,16 +68,17 @@ export function AdoptionEnquire() {
   };
 
   const handleSubmit = async () => {
+    // const token = localStorage.getItem("token");
     try {
       const finalForm = {
         ...form,
-        firstname: form.firstname || user?.firstname || "Guest",
-        lastname: form.lastname || user?.lastname || "User",
-        email: form.email || user?.email || "guest@example.com",
+        petId: form.petId || oneAdoptPost?.pet,
+        status: "pending",
       };
       const response = await axios.post(
         `${apiUrl}/api/v1/adoption/newreq`,
         finalForm
+        // { headers: { Autohrization: `Bearer${token}` } }
       );
 
       if (response.status === 201) {
@@ -89,13 +91,16 @@ export function AdoptionEnquire() {
     }
   };
 
+  console.log("FORMMM", form);
+
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl text-white">
+            className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl text-white"
+          >
             Start
             <GoArrowRight />
           </Button>
@@ -111,48 +116,33 @@ export function AdoptionEnquire() {
                 </DialogDescription>
               </DialogHeader>
               <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-center col-span-4">
+                  Your personal information
+                </Label>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="firstname" className="text-right">
-                  Firstname
+                  Firstname:
                 </Label>
-                <Input
-                  id="firstname"
-                  defaultValue={user?.firstname}
-                  className="col-span-3"
-                  placeholder="Firstname"
-                  onChange={handleInputChange}
-                />
+                <Label>{user?.firstname}</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
-                  Lastname
+                  Lastname:
                 </Label>
-                <Input
-                  id="lastname"
-                  defaultValue={user?.lastname}
-                  className="col-span-3"
-                  onChange={handleInputChange}
-                />
+                <Label>{user?.lastname}</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
-                  Email
+                  Email:
                 </Label>
-                <Input
-                  id="email"
-                  defaultValue={user?.email}
-                  className="col-span-3"
-                  onChange={handleInputChange}
-                />
+                <Label>{user?.email}</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phone" className="text-right">
-                  Phone Number
+                  Phone Number:
                 </Label>
-                <Input
-                  id="phone"
-                  className="col-span-3"
-                  onChange={handleInputChange}
-                />
+                <Label>99999999</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phone" className="text-right">
@@ -175,7 +165,8 @@ export function AdoptionEnquire() {
                   defaultValue="no"
                   onValueChange={(value) =>
                     handleRadioChange(value, "previousPetOwnership")
-                  }>
+                  }
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="r1" />
                     <Label htmlFor="r2">Yes</Label>
@@ -194,7 +185,8 @@ export function AdoptionEnquire() {
                   defaultValue="no"
                   onValueChange={(value) =>
                     handleRadioChange(value, "currentPets")
-                  }>
+                  }
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="r3" />
                     <Label htmlFor="r3">No</Label>
@@ -221,7 +213,8 @@ export function AdoptionEnquire() {
                   defaultValue="small"
                   onValueChange={(value) =>
                     handleRadioChange(value, "householdMembers")
-                  }>
+                  }
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="small" id="r7" />
                     <Label htmlFor="r7">1-2</Label>
@@ -249,7 +242,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     Under 5 years old
                   </label>
                 </div>
@@ -262,7 +256,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     5-12
                   </label>
                 </div>
@@ -275,7 +270,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     13-17
                   </label>
                 </div>
@@ -288,7 +284,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     18+
                   </label>
                 </div>
