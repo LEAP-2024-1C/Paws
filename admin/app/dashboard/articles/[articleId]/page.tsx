@@ -1,7 +1,11 @@
+'use client';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { ArticlePostForm } from '@/components/forms/articlePost-form';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import React from 'react';
+import { apiUrl } from '@/utils/util';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
@@ -10,15 +14,29 @@ const breadcrumbItems = [
 ];
 
 export default function Page() {
+  const [categories, setCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState({ name: '' });
+
+  const getCategories = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/articlesCat`);
+      setCategories(res.data.articlescat);
+      console.log('articles categories', res.data.articlescat);
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to get fetch articles categories categories');
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-8">
         <Breadcrumbs items={breadcrumbItems} />
         <ArticlePostForm
-          articlesCat={[
-            { _id: '1', name: 'Pet Care' },
-            { _id: '2', name: 'Pet Health' }
-          ]}
+          articlesCat={categories}
           preChecks={[
             { _id: '1', name: 'vaccinated' },
             { _id: '2', name: 'wormed' },
@@ -30,4 +48,7 @@ export default function Page() {
       </div>
     </ScrollArea>
   );
+}
+function getCategories() {
+  throw new Error('Function not implemented.');
 }

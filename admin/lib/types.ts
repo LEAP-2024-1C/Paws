@@ -5,7 +5,7 @@ export interface IArticles {
   title: string;
   text: string;
   images: [string];
-  category: [{ name: string }];
+  category: { name: string };
   updatedAt: string;
 }
 export type CatType = {

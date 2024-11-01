@@ -73,6 +73,7 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
 }) => {
   const params = useParams();
   const router = useRouter();
+
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -166,7 +167,7 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
+          className="grid-rows-3\ grid w-full grid-flow-col gap-10 space-y-10 px-20"
         >
           <FormField
             control={form.control}
@@ -185,7 +186,29 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="gap-8 md:grid md:grid-cols-2">
+          <div className="max-w-[600px] gap-8 md:grid md:grid-cols-1">
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-lg font-semibold">
+                    Article title
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Article title"
+                      {...field}
+                      className="h-[60px] text-start shadow-lg"
+                      name="title"
+                      // onChange={handlePostValues()}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="category"
@@ -201,7 +224,7 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="shadow-lg">
                         <SelectValue
                           defaultValue={field.value}
                           placeholder="Select category"
@@ -216,11 +239,43 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
                         </SelectItem>
                       ))}
                     </SelectContent>
+                    <div className="flex flex-col gap-5">
+                      <FormField
+                        control={form.control}
+                        name="location"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-lg font-semibold">
+                              Categoy name
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                disabled={loading}
+                                placeholder="New article category"
+                                {...field}
+                                className="h-[60px] text-start shadow-lg"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        className="ml-auto w-60 rounded-full bg-lime-700 text-white"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          console.log('CATE ADD');
+                        }}
+                      >
+                        Add Category
+                      </Button>
+                    </div>
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="description"
@@ -229,46 +284,21 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
                   <FormLabel className="text-lg font-semibold">
                     Description
                   </FormLabel>
-                  <FormControl>
-                    {/* <Input
-                      disabled={loading}
-                      placeholder="About Kitty"
-                      {...field}
-                    /> */}
+                  <FormControl className="shadow-lg">
                     <Textarea placeholder="Type your article description here"></Textarea>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-lg font-semibold">
-                    Article title
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Article title"
-                      {...field}
-                      className="h-14 w-80 text-start"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <Button
+              disabled={loading}
+              className="ml-auto w-60 rounded-full bg-lime-700 text-white"
+              type="submit"
+            >
+              {action}
+            </Button>
           </div>
-          <Button
-            disabled={loading}
-            className="ml-auto bg-lime-700 text-white"
-            type="submit"
-          >
-            {action}
-          </Button>
         </form>
       </Form>
     </>

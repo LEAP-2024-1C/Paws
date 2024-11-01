@@ -48,13 +48,13 @@ export function ArticleTable({ data, searchKey }: ArticleTableProps) {
   console.log('Find post', findPost);
   return (
     <>
-      <div className="flex items-center rounded-xl outline outline-lime-500 md:max-w-sm">
+      <div className="flex items-center rounded-xl outline outline-lime-600 md:max-w-sm">
         <Input
           placeholder={`Search ${searchKey}...`}
           className="max-h-20 md:max-w-sm"
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        <BiSearchAlt2 className="h-10 w-10 rounded-r-lg bg-lime-500 p-2 text-white" />
+        <BiSearchAlt2 className="h-10 w-10 rounded-r-lg bg-lime-600 p-2 text-white" />
       </div>
       <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
         <Table className="relative">
@@ -71,7 +71,9 @@ export function ArticleTable({ data, searchKey }: ArticleTableProps) {
             {findPost?.map((post) => (
               <TableRow key={post.id}>
                 <TableCell className="border pl-4">{post.title}</TableCell>
-                <TableCell className="border pl-4">Pet Care</TableCell>
+                <TableCell className="border pl-4">
+                  {post.category.name}
+                </TableCell>
                 <TableCell className="border">Amy Harris</TableCell>
                 <TableCell className="border">{post.updatedAt}</TableCell>
                 <TableCell>

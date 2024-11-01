@@ -4,7 +4,7 @@ import { ArticleTable } from '@/components/tables/article-tables/article-table';
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { articlesHistory, donationPosts } from '@/constants/data';
+import { donationPosts } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
