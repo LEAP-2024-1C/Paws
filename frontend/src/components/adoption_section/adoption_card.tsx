@@ -50,7 +50,7 @@ export default function AdoptionCard({
         </div>
       </CardHeader>
       <CardContent className="h-40 overflow-hidden mb-3">
-        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">{title}</h1>\
+        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">{title}</h1>
         <p className="text-justify">{description}</p>
       </CardContent>
       <CardFooter className="flex justify-between">

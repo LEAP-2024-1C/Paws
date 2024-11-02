@@ -211,23 +211,41 @@ export interface WishListContextType {
   deleteList: (productId: string) => void;
 }
 
-export interface IAdoptionReq {
+// export interface IAdoptionReq {
+//   _id: string;
+//   title: string;
+//   description: string;
+//   location: string;
+//   status: string;
+// }
+
+export interface IAdoptionRequest {
   _id: string;
-  title: string;
   description: string;
-  location: string;
-  status: string;
+  title: string;
+  previousPetOwnership: boolean;
+  currentPets: boolean;
+  householdMembers: boolean;
+  ageRanges: {
+    under5: boolean;
+    age5to12: boolean;
+    age13to17: boolean;
+    age18plus: boolean;
+  };
+  created_at: Date;
+  status: 'pending' | 'accepted' | 'refused';
+  petId: { _id: string; name: string; breed: string };
+  userId: { _id: string; firstname: string; lastname: string; email: string };
 }
 
-export interface AdoptionContextType {
-  adoptionPosts: IAdoptionReq[];
-  setAdoptionPosts: React.Dispatch<React.SetStateAction<IAdoptionReq[]>>;
-  oneAdoptPost: IAdoptionReq;
-  setOneAdoptPost: React.Dispatch<React.SetStateAction<IAdoptionReq>>;
-  fetchAllAdoptionData: () => void;
-  fetchSingleadoptionPosts: (id: string | string[]) => void;
-  refetch?: boolean;
-  setRefetch?: (refetch: boolean) => void;
+export interface AdoptionReqContextType {
+  adoptionRequests: IAdoptionRequest[];
+  setAdoptionRequests: React.Dispatch<React.SetStateAction<IAdoptionRequest[]>>;
+  getAllAdoptionRequests: () => void;
+  updateAdoptionRequest: (
+    id: string,
+    status: IAdoptionRequest['status']
+  ) => void;
 }
 
 export interface IPets {

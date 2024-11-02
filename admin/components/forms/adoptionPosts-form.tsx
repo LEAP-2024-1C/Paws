@@ -166,8 +166,6 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
     imgUrl: ['']
   });
 
-  const triggerImgUrlValidation = () => form.trigger('imgUrl');
-
   const addAdoptionPost = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -194,8 +192,19 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
     }
   };
 
-  console.log('ID', initialData);
-  console.log('FD', formData);
+  const editAdoptionPost = async (id: string) => {
+    try {
+      const res = await axios.put(`${apiUrl}/api/v1/adoption/${id}`, {
+        title,
+        description,
+        location,
+        status
+      });
+    } catch (error) {}
+  };
+
+  // console.log('ID', initialData);
+  // console.log('FD', formData);
 
   return (
     <>
