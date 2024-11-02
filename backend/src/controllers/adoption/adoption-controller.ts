@@ -96,19 +96,24 @@ export const getAdoptionInquiries = async (req: Request, res: Response) => {
 };
 
 export const submitInquiry = async (req: Request, res: Response) => {
+  // if (!req.user) {
+  //   return res.status(401).json({ message: "Authentication required" });
+  // }
   // const { id: userId } = req.user;
+
+  const {
+    petId,
+    description,
+    previousPetOwnership,
+    currentPets,
+    householdMembers,
+    ageRanges,
+    status,
+    title,
+    userId,
+  } = req.body;
   // console.log(id);
   try {
-    const {
-      petId,
-      description,
-      previousPetOwnership,
-      currentPets,
-      householdMembers,
-      ageRanges,
-      status,
-      title,
-    } = req.body;
     const createPost = await AdoptionRequest.create({
       petId,
       description,
@@ -118,7 +123,7 @@ export const submitInquiry = async (req: Request, res: Response) => {
       ageRanges,
       status,
       title,
-      // userId,
+      userId,
     });
     res
       .status(201)

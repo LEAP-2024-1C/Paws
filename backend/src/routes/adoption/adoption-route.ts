@@ -9,11 +9,12 @@ import {
   updateAdoptionPost,
   updateAdoptionRequest,
 } from "../../controllers/adoption/adoption-controller";
+import { authentication } from "../../middlewares/authentication";
 
 const router = Router();
 
 router.route("/").get(getAllAdoptionPosts);
-router.route("/create").post(createAdoptionPost);
+router.route("/create").post(authentication, createAdoptionPost);
 router.route("/req").get(getAdoptionInquiries);
 router.route("/newreq").post(submitInquiry);
 router

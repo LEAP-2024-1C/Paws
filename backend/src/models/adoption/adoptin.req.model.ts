@@ -8,7 +8,7 @@ import { model, Schema } from "mongoose";
 interface IAdoptReq {
   _id: Schema.Types.ObjectId;
   petId: Schema.Types.ObjectId;
-  userId?: Schema.Types.ObjectId;
+  userId: Schema.Types.ObjectId;
   title: string;
   description: string;
   status?: string;
