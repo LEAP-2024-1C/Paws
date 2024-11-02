@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoArrowRight } from "react-icons/go";
 import { Textarea } from "../ui/textarea";
@@ -69,7 +68,6 @@ export function AdoptionEnquire() {
   };
 
   const handleSubmit = async () => {
-    // const token = localStorage.getItem("token");
     try {
       const finalForm = {
         ...form,
@@ -77,10 +75,12 @@ export function AdoptionEnquire() {
         title: form.title || oneAdoptPost?.title,
         status: "pending",
       };
+      const token = localStorage.getItem("token");
+      console.log("token", token);
       const response = await axios.post(
         `${apiUrl}/api/v1/adoption/newreq`,
-        finalForm
-        // { headers: { Autohrization: `Bearer${token}` } }
+        finalForm,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (response.status === 201) {
@@ -93,7 +93,7 @@ export function AdoptionEnquire() {
     }
   };
 
-  console.log("FORMMM", form);
+  console.log("POst", oneAdoptPost);
 
   return (
     <>
@@ -209,20 +209,19 @@ export function AdoptionEnquire() {
                   3. How many members are in your household?
                 </Label>
                 <RadioGroup
-                  defaultValue="small"
                   onValueChange={(value) =>
                     handleRadioChange(value, "householdMembers")
                   }>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="small" id="r7" />
+                    <RadioGroupItem value="1-2" id="r7" />
                     <Label htmlFor="r7">1-2</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="med" id="r8" />
+                    <RadioGroupItem value="3-4" id="r8" />
                     <Label htmlFor="r8">3-4</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="big" id="r9" />
+                    <RadioGroupItem value="4+" id="r9" />
                     <Label htmlFor="r">4+</Label>
                   </div>
                 </RadioGroup>

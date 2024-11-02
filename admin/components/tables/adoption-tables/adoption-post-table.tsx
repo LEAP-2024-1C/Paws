@@ -26,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { toast } from 'react-toastify';
 
 interface AdoptionPostsTableProps {
   data: adoptionPostss[];
@@ -146,7 +147,7 @@ export function AdoptionPostsTable({
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <CellActionPost id={Number(post._id)} />
+                  <CellActionPost id={post._id} />
                 </TableCell>
               </TableRow>
             ))}

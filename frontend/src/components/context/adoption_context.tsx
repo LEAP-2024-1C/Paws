@@ -80,8 +80,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         refetch,
         setRefetch,
         fetchSingleadoptionPosts,
-      }}
-    >
+      }}>
       {children}
     </AdoptionContext.Provider>
   );

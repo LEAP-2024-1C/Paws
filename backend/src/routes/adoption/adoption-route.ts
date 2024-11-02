@@ -14,9 +14,9 @@ import { authentication } from "../../middlewares/authentication";
 const router = Router();
 
 router.route("/").get(getAllAdoptionPosts);
-router.route("/create").post(authentication, createAdoptionPost);
+router.route("/create").post(createAdoptionPost);
 router.route("/req").get(getAdoptionInquiries);
-router.route("/newreq").post(submitInquiry);
+router.route("/newreq").post(authentication, submitInquiry);
 router
   .route("/:id")
   .get(getAdoptionPost)

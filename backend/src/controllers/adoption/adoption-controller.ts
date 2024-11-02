@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import Adoption from "../../models/adoption/adoption.model";
 import AdoptionRequest from "../../models/adoption/adoptin.req.model";
-import PetProfile from "../../models/pets/petProfile.model";
 
 export const getAllAdoptionPosts = async (req: Request, res: Response) => {
   try {
@@ -83,14 +82,23 @@ export const deleteAdoptionPost = async (req: Request, res: Response) => {
 
 export const getAdoptionInquiries = async (req: Request, res: Response) => {
   try {
-    const getAllRequests = await AdoptionRequest.find({});
-    // .populate("petId")
-    // .exec();
-    res
-      .status(200)
-      .json({ message: "get adoption posts successfully", getAllRequests });
+    const getAllRequests = await AdoptionRequest.find({})
+      .populate({
+        path: "userId",
+        select: "firstname lastname email",
+      })
+      // .populate({
+      //   path: "petId",
+      //   model: "PetProfile",
+      // })
+      .lean();
+
+    res.status(200).json({
+      message: "get adoption requests successfully",
+      getAllRequests,
+    });
   } catch (error) {
-    console.log("couldn't get adoption posts", error);
+    console.log("couldn't get adoption requests", error);
     res.status(500).json({ message: "Server err", error });
   }
 };
@@ -99,7 +107,8 @@ export const submitInquiry = async (req: Request, res: Response) => {
   // if (!req.user) {
   //   return res.status(401).json({ message: "Authentication required" });
   // }
-  // const { id: userId } = req.user;
+  const userId = req.user._id.toString();
+  console.log("UIDDDD", userId);
 
   const {
     petId,
@@ -110,7 +119,6 @@ export const submitInquiry = async (req: Request, res: Response) => {
     ageRanges,
     status,
     title,
-    userId,
   } = req.body;
   // console.log(id);
   try {

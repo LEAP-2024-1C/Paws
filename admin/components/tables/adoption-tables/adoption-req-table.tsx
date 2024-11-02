@@ -13,12 +13,6 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { adoptionPostss } from '@/constants/data';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { CellActionPost } from './cell-action-post';
-import { apiUrl } from '@/utils/util';
-import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { PetsContext } from '@/components/context/pets-context';
 import {
   Select,
   SelectContent,
@@ -27,83 +21,18 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { CellAction } from './cell-action';
+import { useContext } from 'react';
+import { AdoptionReqContext } from '@/components/context/adoption-context';
+import { IAdoptionRequest } from '@/app/interface';
 
 interface AdoptionPostsTableProps {
   data: adoptionPostss[];
   searchKey: string;
 }
 
-interface IAdoptionRequest {
-  _id: string;
-  description: string;
-  title: string;
-  previousPetOwnership: boolean;
-  currentPets: boolean;
-  householdMembers: boolean;
-  ageRanges: {
-    under5: boolean;
-    age5to12: boolean;
-    age13to17: boolean;
-    age18plus: boolean;
-  };
-  created_at: Date;
-  status: 'pending' | 'accepted' | 'refused';
-  petId: string;
-}
-
 export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
-  const { refetch, setRefetch } = useContext(PetsContext);
-  const [adoptionRequests, setAdoptionRequests] = useState<IAdoptionRequest[]>([
-    {
-      _id: '',
-      description: '',
-      title: '',
-      previousPetOwnership: true,
-      currentPets: true,
-      householdMembers: true,
-      ageRanges: {
-        under5: false,
-        age5to12: false,
-        age13to17: false,
-        age18plus: false
-      },
-      created_at: new Date(),
-      status: 'pending',
-      petId: ''
-    }
-  ]);
-
-  const getAllAdoptionRueqests = async () => {
-    try {
-      const res = await axios.get(`${apiUrl}/api/v1/adoption/req`);
-      if (res.status === 200) {
-        console.log('RES', res.data);
-        setAdoptionRequests(res.data.getAllRequests);
-      }
-    } catch (error) {
-      console.log("Couldn't get adoption requests", error);
-    }
-  };
-
-  const updateAdoptionRequest = async (
-    id: string,
-    status: IAdoptionRequest['status']
-  ) => {
-    try {
-      await axios.patch(`${apiUrl}/api/v1/adoption/req/${id}`, {
-        status
-      });
-      setRefetch?.(!refetch);
-    } catch (error) {
-      console.log('update err', error);
-    }
-  };
-
-  useEffect(() => {
-    getAllAdoptionRueqests();
-  }, [refetch]);
-
-  console.log('POSTS', adoptionRequests);
+  const { adoptionRequests, updateAdoptionRequest } =
+    useContext(AdoptionReqContext);
   return (
     <>
       <Input
@@ -124,8 +53,11 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
           <TableBody>
             {adoptionRequests.map((req) => (
               <TableRow key={req._id}>
-                <TableCell>{req.description}</TableCell>
-                <TableCell>{req.petId}</TableCell>
+                <TableCell>
+                  <span className="mr-2">{req.userId?.firstname}</span>
+                  <span>{req.userId.lastname}</span>
+                </TableCell>
+                <TableCell>{req.title}</TableCell>
                 <TableCell>
                   {new Date(req.created_at).toLocaleDateString()}
                 </TableCell>
@@ -145,7 +77,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
                         req.status === 'pending'
                           ? 'bg-yellow-100 text-yellow-800'
                           : req.status === 'refused'
-                          ? 'bg-blue-100 text-blue-800'
+                          ? 'bg-red-100 text-red-800'
                           : ' bg-green-100 text-green-800'
                       }`}
                     >
@@ -159,7 +91,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <CellAction id={Number(req._id)} />
+                  <CellAction id={req._id} />
                 </TableCell>
               </TableRow>
             ))}

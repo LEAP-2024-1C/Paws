@@ -7,6 +7,8 @@ import './globals.css';
 import { PetsProvider } from '@/components/context/pets-context';
 import { ProfileProvider } from '@/components/context/profile_context';
 import { UserProvider } from '@/components/context/user_context';
+import { AdoptionReqProvider } from '@/components/context/adoption-context';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,9 +31,12 @@ export default async function RootLayout({
         <UserProvider>
           <ProfileProvider>
             <PetsProvider>
-              <NextTopLoader showSpinner={false} />
-              <Toaster />
-              {children}
+              <AdoptionReqProvider>
+                <NextTopLoader showSpinner={false} />
+                <Toaster />
+
+                {children}
+              </AdoptionReqProvider>
             </PetsProvider>
           </ProfileProvider>
         </UserProvider>

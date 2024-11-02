@@ -33,7 +33,7 @@ const AdoptionRequestSchema = new Schema<IAdoptReq>({
   },
   userId: {
     type: Schema.Types.ObjectId,
-    // required: true,
+    required: true,
     ref: "User",
   },
   title: {

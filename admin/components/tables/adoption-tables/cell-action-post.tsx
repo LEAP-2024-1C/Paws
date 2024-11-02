@@ -1,4 +1,5 @@
 'use client';
+import { PetsContext } from '@/components/context/pets-context';
 import { AlertModal } from '@/components/modal/alert-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,28 +9,50 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Check, Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
+import { apiUrl } from '@/utils/util';
+import axios from 'axios';
+import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ToastAction } from '@/components/ui/toast';
 
 interface CellActionProps {
-  id: number;
+  id: string;
 }
 
 export const CellActionPost: React.FC<CellActionProps> = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { refetch, setRefetch } = useContext(PetsContext);
+  const { toast } = useToast();
 
-  const onConfirm = async () => {};
+  const onConfirm = async (id: string) => {
+    try {
+      const res = await axios.delete(`${apiUrl}/api/v1/adoption/${id}`);
+      if (res.status === 200) {
+        console.log('Deleted post successfully');
+        toast({
+          title: 'Deleted post successfully',
+          description: `${new Date().toLocaleDateString()}`
+        });
+        setRefetch?.(!refetch);
+      }
+    } catch (error) {
+      console.log('Failed to delete post', error);
+    }
+  };
 
   return (
     <>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={(id: string) => onConfirm(id)}
         loading={loading}
+        id={id}
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>

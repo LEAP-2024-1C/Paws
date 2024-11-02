@@ -25,7 +25,7 @@ export const authentication = async (
     // console.log("USERR", user);
     // req.user = user as any;
     req.user = await User.findById(user.id);
-    // console.log("REQ user", req.user);
+    // console.log("REQ user", req.user._id.toString());
     next();
   } catch (error) {
     console.log("cattt", error);
