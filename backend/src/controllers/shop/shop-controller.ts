@@ -24,24 +24,36 @@ export const getAllCategories = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    console.log("Received product data:", req.body);
-
     const { name, price, description, imageUrl, category, quantity, size } =
       req.body;
+
+    // Validate required fields
+    if (!name || !description || !category || price <= 0) {
+      return res.status(400).json({
+        message: "Please provide all required fields",
+      });
+    }
+
     const product = await Product.create({
       name,
       price,
       description,
       imageUrl,
       category,
-      quantity,
-      size,
+      quantity: quantity || 1,
+      size: size || "M",
     });
 
     console.log("Created product:", product);
-    res.status(201).json(product);
+    res.status(201).json({
+      message: "Product created successfully",
+      product,
+    });
   } catch (error) {
     console.error("Error creating product:", error);
-    res.status(400).json({ message: "Couldn't create product" });
+    res.status(500).json({
+      message: "Failed to create product",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
   }
 };
