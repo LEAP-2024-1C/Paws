@@ -168,6 +168,17 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
 
   const addAdoptionPost = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Add validation
+    if (!formData.petId || !formData.status) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Please select both a pet and a status'
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await axios.post(`${apiUrl}/api/v1/adoption/create`, {
@@ -178,6 +189,7 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
         status: formData.status,
         imgUrl: formData.imgUrl
       });
+
       if (res.status === 201) {
         toast({
           variant: 'default',
@@ -186,6 +198,11 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
         router.push('/dashboard/adoption');
       }
     } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to create adoption post'
+      });
       console.error('Failed to create pet profile:', error);
     } finally {
       setLoading(false);
@@ -276,6 +293,7 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
               onValueChange={(value) =>
                 setFormData({ ...formData, petId: value })
               }
+              required
             >
               <SelectTrigger className="">
                 <SelectValue placeholder="Select a pet" />
@@ -324,6 +342,7 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
               onValueChange={(value) =>
                 setFormData({ ...formData, status: value })
               }
+              required
             >
               <SelectTrigger className="">
                 <SelectValue placeholder="Select status" />

@@ -46,7 +46,7 @@ export const AdoptionReqProvider = ({ children }: AdoptionReqProviderProps) => {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.status === 200) {
-        console.log('RES', res.data);
+        // console.log('RES', res.data);
         setAdoptionRequests(res.data.getAllRequests);
       }
     } catch (error) {
@@ -72,7 +72,7 @@ export const AdoptionReqProvider = ({ children }: AdoptionReqProviderProps) => {
     getAllAdoptionRequests();
   }, [refetch]);
 
-  console.log('POSTS', adoptionRequests);
+  // console.log('POSTS', adoptionRequests);
 
   return (
     <AdoptionReqContext.Provider
