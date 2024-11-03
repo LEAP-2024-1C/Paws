@@ -8,6 +8,7 @@ import {
   deleteAdoptionPost,
   updateAdoptionPost,
   updateAdoptionRequest,
+  getOwnAdoptionInquiries,
 } from "../../controllers/adoption/adoption-controller";
 import { authentication } from "../../middlewares/authentication";
 
@@ -23,5 +24,5 @@ router
   .patch(updateAdoptionPost)
   .delete(deleteAdoptionPost);
 router.route("/req/:id").patch(updateAdoptionRequest);
-
+router.route("/req/own").get(authentication, getOwnAdoptionInquiries);
 export default router;

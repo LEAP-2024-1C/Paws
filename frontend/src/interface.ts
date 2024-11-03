@@ -218,7 +218,22 @@ export interface IAdoptionReq {
   location: string;
   status: string;
   imgUrl: string[];
-  pet: string; 
+  pet: {
+    _id: string;
+    name: string;
+    age: number;
+    ageGroup: string;
+    breed: string;
+    createdAt: string;
+    gender: "male";
+    healthCondition: "healthy";
+    imageUrl: string[];
+    size: string;
+    spayed: boolean;
+    updatedAt: string;
+    vaccinated: boolean;
+    wormed: boolean;
+  };
 }
 
 export interface AdoptionContextType {
@@ -230,4 +245,11 @@ export interface AdoptionContextType {
   fetchSingleadoptionPosts: (id: string | string[]) => void;
   refetch?: boolean;
   setRefetch?: (refetch: boolean) => void;
+}
+
+export interface IPetCategory {
+  _id: string;
+  name: string;
+  description: string;
+  // count?: number;
 }

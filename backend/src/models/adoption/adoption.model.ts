@@ -16,8 +16,8 @@ interface IAdoption {
 const adoptionSchema = new Schema<IAdoption>({
   pet: {
     type: Schema.Types.ObjectId,
-    required: true,
     ref: "PetProfile",
+    required: true,
   },
   // userId: {
   //   type: Schema.Types.ObjectId,

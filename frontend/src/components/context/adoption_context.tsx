@@ -19,7 +19,22 @@ export const AdoptionContext = createContext<AdoptionContextType>({
     location: "",
     status: "",
     imgUrl: [],
-    pet: "",
+    pet: {
+      _id: "",
+      name: "",
+      age: 0,
+      ageGroup: "",
+      breed: "",
+      createdAt: "",
+      gender: "male",
+      healthCondition: "healthy",
+      imageUrl: [""],
+      size: "",
+      spayed: true,
+      updatedAt: "",
+      vaccinated: true,
+      wormed: true,
+    },
   },
   setOneAdoptPost: () => {},
   fetchAllAdoptionData: () => {},
@@ -38,7 +53,22 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     location: "",
     status: "",
     imgUrl: [],
-    pet: "",
+    pet: {
+      _id: "",
+      name: "",
+      age: 0,
+      ageGroup: "",
+      breed: "",
+      createdAt: "",
+      gender: "male",
+      healthCondition: "healthy",
+      imageUrl: [""],
+      size: "",
+      spayed: true,
+      updatedAt: "",
+      vaccinated: true,
+      wormed: true,
+    },
   });
 
   // const router = useRouter();
@@ -47,7 +77,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/adoption`);
       if (response.status === 200) {
-        console.log("Petss", response.data.getAllPosts);
+        // console.log("Petss", response.data.getAllPosts);
         setAdoptionPosts(response.data.getAllPosts);
       }
     } catch (error) {
@@ -67,7 +97,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     }
   };
 
-  console.log("Singlepost", oneAdoptPost);
+  // console.log("Singlepost", oneAdoptPost);
 
   return (
     <AdoptionContext.Provider

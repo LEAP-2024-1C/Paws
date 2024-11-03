@@ -93,7 +93,7 @@ export function AdoptionEnquire() {
     }
   };
 
-  console.log("POst", oneAdoptPost);
+  // console.log("POst", oneAdoptPost);
 
   return (
     <>
