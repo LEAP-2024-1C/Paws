@@ -2,21 +2,26 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
+import { useToast } from '../ui/use-toast';
+import { ToastAction } from '../ui/toast';
 
 interface AlertModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (id: string) => void;
   loading: boolean;
+  id: string;
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  loading
+  loading,
+  id
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     setIsMounted(true);
@@ -37,7 +42,11 @@ export const AlertModal: React.FC<AlertModalProps> = ({
         <Button disabled={loading} variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button disabled={loading} variant="destructive" onClick={onConfirm}>
+        <Button
+          disabled={loading}
+          variant="destructive"
+          onClick={() => onConfirm(id)}
+        >
           Continue
         </Button>
       </div>

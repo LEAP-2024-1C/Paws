@@ -4,7 +4,7 @@ import Donations from "../../models/donation.model";
 export const getAllDonations = async (req: Request, res: Response) => {
   try {
     const allDonations = await Donations.find({});
-    res.status(200).json({ message: "Success", category: allDonations });
+    res.status(200).json({ message: "Success", allDonations });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }

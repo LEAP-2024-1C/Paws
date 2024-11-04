@@ -13,17 +13,24 @@ import {
 import Link from "next/link";
 
 export type adoptionPostsProps = {
-  title: string;
+  // title: string;
   location: string;
   description: string;
   _id: string;
+  // imgUrl: string[];
+  pet: {
+    name: string;
+    imageUrl: string[];
+  };
 };
 
 export default function AdoptionCard({
-  title,
+  // title,
   location,
   description,
   _id,
+  // imgUrl,
+  pet,
 }: adoptionPostsProps) {
   const [loved, setLoved] = React.useState(false);
 
@@ -31,7 +38,7 @@ export default function AdoptionCard({
     setLoved(!loved);
   };
   return (
-    <Card className="w-[350px] relative">
+    <Card className="w-[350px] relative shadow-md">
       <Button
         variant="ghost"
         className="p-0 absolute right-3 top-2 text-2xl hover:scale-150 hover:bg-transparent z-10"
@@ -39,17 +46,19 @@ export default function AdoptionCard({
         {loved ? <VscHeartFilled /> : <VscHeart />}
       </Button>
       <CardHeader className="mb-4 p-0 h-48">
-        <div className="overflow-hidden rounded-t-lg">
+        <div className="overflow-hidden rounded-t-lg object-fill">
           <img
-            src="https://res.cloudinary.com/petrescue/image/upload/c_fill,f_auto,g_face,h_500,q_80,w_500/itef4gwj7cgtmt3qmcb4.jpg"
+            src={pet.imageUrl[0]}
             alt="Sample Image"
             className="rounded-[20px] object-fill scale-105"
           />
         </div>
       </CardHeader>
       <CardContent className="h-40 overflow-hidden mb-3">
-        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">{title}</h1>
-        <p className="text-justify">{description}</p>
+        <h1 className="text-2xl mb-2 font-semibold text-[#FD7E14]">
+          {pet?.name}
+        </h1>
+        <div className="text-justify">{description}</div>
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="flex items-center gap-1 text-base">

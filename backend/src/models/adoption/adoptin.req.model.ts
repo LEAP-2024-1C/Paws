@@ -9,26 +9,35 @@ interface IAdoptReq {
   _id: Schema.Types.ObjectId;
   petId: Schema.Types.ObjectId;
   userId: Schema.Types.ObjectId;
+  title: string;
   description: string;
-  status: string;
-  petOwnershipHistory: string;
-  currentPetOwnership: string;
-  householdSize: string;
-  householdAgeRanges: [string];
+  status?: string;
+  previousPetOwnership: string;
+  currentPets: string;
+  householdMembers: string;
+  ageRanges: {
+    under5: boolean;
+    age5to12: boolean;
+    age13to17: boolean;
+    agr18plus: boolean;
+  };
   created_at: Date;
   updated_at: Date;
 }
 
-const adoptionRequestSchema = new Schema<IAdoptReq>({
+const AdoptionRequestSchema = new Schema<IAdoptReq>({
   petId: {
     type: Schema.Types.ObjectId,
-    required: true,
+    // required: true,
     ref: "PetProfile",
   },
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: "User",
+  },
+  title: {
+    type: String,
   },
 
   description: {
@@ -37,20 +46,20 @@ const adoptionRequestSchema = new Schema<IAdoptReq>({
   },
   status: {
     type: String,
-    enum: ["approved", "in_progress", "rejected"],
+    enum: ["approved", "pending", "rejected"],
     default: null,
   },
-  petOwnershipHistory: {
+  previousPetOwnership: {
     type: String,
   },
-  currentPetOwnership: {
+  currentPets: {
     type: String,
   },
-  householdSize: {
+  householdMembers: {
     type: String,
   },
-  householdAgeRanges: {
-    type: [String],
+  ageRanges: {
+    type: Object,
   },
   created_at: {
     type: Date,
@@ -62,6 +71,6 @@ const adoptionRequestSchema = new Schema<IAdoptReq>({
   },
 });
 
-const AdoptionRequest = model("AdoptionRequest", adoptionRequestSchema);
+const AdoptionRequest = model("AdoptionRequest", AdoptionRequestSchema);
 
 export default AdoptionRequest;
