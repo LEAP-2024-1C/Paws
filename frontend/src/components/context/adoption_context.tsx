@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { AdoptionContextType, IAdoptionReq } from "@/interface";
 import { apiUrl } from "@/utils/util";
 import axios from "axios";
@@ -38,7 +38,7 @@ export const AdoptionContext = createContext<AdoptionContextType>({
   },
   setOneAdoptPost: () => {},
   fetchAllAdoptionData: () => {},
-  fetchSingleadoptionPosts: (id: string | string[]) => {},
+  fetchSingleadoptionPosts: (_id: string | string[]) => {},
   refetch: false,
   setRefetch: () => {},
 });
@@ -110,7 +110,8 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         refetch,
         setRefetch,
         fetchSingleadoptionPosts,
-      }}>
+      }}
+    >
       {children}
     </AdoptionContext.Provider>
   );

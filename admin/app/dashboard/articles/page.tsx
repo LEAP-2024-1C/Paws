@@ -1,6 +1,6 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import { DonationTable } from '@/components/tables/donation-tables/donation-table';
+import { ArticleTable } from '@/components/tables/article-tables/article-table';
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
@@ -14,7 +14,7 @@ const breadcrumbItems = [
   { title: 'Articles', link: '/dashboard/articles' }
 ];
 
-export default async function page() {
+export default function Page() {
   return (
     <PageContainer>
       <div className="space-y-4">
@@ -27,7 +27,7 @@ export default async function page() {
           />
 
           <Link
-            href={'/dashboard/donation/new'}
+            href={'/dashboard/articles/new'}
             className={cn(buttonVariants({ variant: 'default' }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -35,7 +35,7 @@ export default async function page() {
         </div>
         <Separator />
 
-        <DonationTable searchKey="donation" data={donationPosts} />
+        <ArticleTable searchKey="articles" data={[]} />
       </div>
     </PageContainer>
   );

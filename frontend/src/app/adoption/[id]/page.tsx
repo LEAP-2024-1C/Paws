@@ -11,8 +11,7 @@ import React, { useContext, useEffect } from "react";
 
 const AdoptionDetailPage = () => {
   const { id } = useParams();
-  const { fetchSingleadoptionPosts, oneAdoptPost } =
-    useContext(AdoptionContext);
+  const { fetchSingleadoptionPosts } = useContext(AdoptionContext);
 
   useEffect(() => {
     fetchSingleadoptionPosts(id);

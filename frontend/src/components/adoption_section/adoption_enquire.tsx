@@ -101,7 +101,8 @@ export function AdoptionEnquire() {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl text-white">
+            className="w-full flex shadow-md rounded-full bg-[#FD7E14] py-6 text-xl text-white"
+          >
             Start
             <GoArrowRight />
           </Button>
@@ -112,7 +113,7 @@ export function AdoptionEnquire() {
               <DialogHeader>
                 <DialogTitle>Enquire</DialogTitle>
                 <DialogDescription>
-                  Make changes to your enquiry here. Click save when you're
+                  Make changes to your enquiry here. Click save when you are
                   done.
                 </DialogDescription>
               </DialogHeader>
@@ -166,7 +167,8 @@ export function AdoptionEnquire() {
                   defaultValue="no"
                   onValueChange={(value) =>
                     handleRadioChange(value, "previousPetOwnership")
-                  }>
+                  }
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="r1" />
                     <Label htmlFor="r2">Yes</Label>
@@ -185,7 +187,8 @@ export function AdoptionEnquire() {
                   defaultValue="no"
                   onValueChange={(value) =>
                     handleRadioChange(value, "currentPets")
-                  }>
+                  }
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="r3" />
                     <Label htmlFor="r3">No</Label>
@@ -211,7 +214,8 @@ export function AdoptionEnquire() {
                 <RadioGroup
                   onValueChange={(value) =>
                     handleRadioChange(value, "householdMembers")
-                  }>
+                  }
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="1-2" id="r7" />
                     <Label htmlFor="r7">1-2</Label>
@@ -239,7 +243,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     Under 5 years old
                   </label>
                 </div>
@@ -252,7 +257,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     5-12
                   </label>
                 </div>
@@ -265,7 +271,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     13-17
                   </label>
                 </div>
@@ -278,7 +285,8 @@ export function AdoptionEnquire() {
                   />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     18+
                   </label>
                 </div>
