@@ -1,6 +1,6 @@
 'use client';
 import * as z from 'zod';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Trash } from 'lucide-react';
@@ -21,16 +21,27 @@ import { Heading } from '@/components/ui/heading';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 // import FileUpload from "@/components/FileUpload";
-import { useToast } from '../ui/use-toast';
-import FileUpload from '../file-upload';
-import { CldUploadWidget } from 'next-cloudinary';
+import { Textarea } from '../ui/textarea';
+import { FiUpload } from 'react-icons/fi';
+import { IoClose } from 'react-icons/io5';
+import Image from 'next/image';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { apiUrl } from '@/utils/util';
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 
+interface ArticleFormProps {
+  initialData: any | null;
+  articlesCat: any;
+  preChecks: any;
+}
 const ImgSchema = z.object({
   fileName: z.string(),
   name: z.string(),
@@ -41,6 +52,7 @@ const ImgSchema = z.object({
   fileUrl: z.string(),
   url: z.string()
 });
+
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
   name: z
@@ -56,32 +68,34 @@ const formSchema = z.object({
   price: z.coerce.number(),
   category: z.string().min(1, { message: 'Please select a category' }),
   location: z.string(),
-  preCheck: z.string()
+  status: z.string(),
+  title: z.string()
 });
 
-type DonationPostFormValues = z.infer<typeof formSchema>;
-
-interface DonationFormProps {
-  initialData: any | null;
-  pets: any;
-  preChecks: any;
-}
-
-export const DonationPostForm: React.FC<DonationFormProps> = ({
+export const ArticlePostForm: React.FC<ArticleFormProps> = ({
   initialData,
-  pets,
+  articlesCat,
   preChecks
 }) => {
+  const [newCategory, setNewCategory] = useState({ name: '' });
+  const [articleData, setArticleData] = useState({
+    title: '',
+    text: '',
+    images: [''],
+    category: ''
+  });
   const params = useParams();
   const router = useRouter();
-  const { toast } = useToast();
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState(false);
   const title = initialData ? 'Edit post' : 'Create post';
   const description = initialData ? 'Edit a post.' : 'Add a new post';
   const toastMessage = initialData ? 'Post updated.' : 'Post created.';
   const action = initialData ? 'Save changes' : 'Create';
+  const [imageUrl, setImageUrl] = useState('');
+  const [image, setImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
 
   const defaultValues = initialData
     ? initialData
@@ -92,74 +106,104 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
         imgUrl: [],
         category: '',
         location: '',
-        preCheck: ''
+        status: ''
       };
 
-  const form = useForm<DonationPostFormValues>({
+  type adoptionPostsFormValues = z.infer<typeof formSchema>;
+
+  const form = useForm<adoptionPostsFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues
   });
 
-  const onSubmit = async (data: DonationPostFormValues) => {
+  const handleNewcat = async () => {
     try {
-      setLoading(true);
-      if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
-      } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
+      const res = await axios.post(`${apiUrl}/api/v1/articlesCat`, {
+        name: newCategory.name
+      });
+    } catch (error) {
+      console.log('failed to create new article category');
+      toast.error('failed to create new article category');
+    }
+  };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
+        toast.error('Image size should be less than 5MB');
+        return;
       }
-      router.refresh();
-      router.push(`/dashboard/adoption`);
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } finally {
-      setLoading(false);
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please upload an image file');
+        return;
+      }
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const onDelete = async () => {
+  const removeImage = () => {
+    setImage(null);
+    setPreviewUrl('');
+    setImageUrl('');
+  };
+
+  const handleImageUpload = async () => {
+    if (!image) return null;
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('upload_preset', 'ml_default');
+
     try {
-      setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/adoption`);
-    } catch (error: any) {
-    } finally {
-      setLoading(false);
-      setOpen(false);
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        formData
+      );
+      console.log('CL', response.data);
+      return response.data.secure_url;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw new Error('Failed to upload image');
     }
   };
 
-  const triggerImgUrlValidation = () => form.trigger('imgUrl');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-  // const [formData, setFormData] = useState()
-
-  // const addProducts = () =>{
-  //   const res = fetch('http:/localhost:8000', {
-  //     method :'Post',
-  //     body:
-
-  //   })
-  // }
-
+    try {
+      let uploadedImageUrl = null;
+      if (image) {
+        uploadedImageUrl = await handleImageUpload();
+      }
+      const res = await axios.post(`${apiUrl}/api/v1/articles`, {
+        title: articleData.title,
+        text: articleData.text,
+        images: articleData.images,
+        category: articleData.category
+      });
+      if (res.status === 201) {
+        toast.success('Article report submitted successfully');
+        setImage(null);
+        setPreviewUrl('');
+        router.refresh();
+      }
+    } catch (error) {
+      console.log('Failed  to create article post', error);
+      toast.error('Failed to create article post');
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log('new category name', newCategory);
+  console.log('article form', articleData);
   return (
     <>
-      {/* <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      /> */}
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -175,146 +219,147 @@ export const DonationPostForm: React.FC<DonationFormProps> = ({
       </div>
       <Separator />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
-          <FormField
-            control={form.control}
-            name="imgUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  {/* <FileUpload
-                    onChange={field.onChange}
-                    value={field.value}
-                    onRemove={field.onChange}
-                  /> */}
-                </FormControl>
-                {/* <div>
-                  <CldUploadWidget
-                    uploadPreset="adminarticle"
-                    onSuccess={(result) => {
-                      console.log('Url', result?.info?.secure_url!);
-                    }}
-                  >
-                    {({ open }) => {
-                      return (
-                        <button onClick={() => open()}>Upload an Image</button>
-                      );
-                    }}
-                  </CldUploadWidget>
-                </div> */}
-                <FormMessage />
-              </FormItem>
+        <form className="md:grid-rows-3\ w-[340px] md:grid md:w-full md:grid-flow-col md:gap-10 md:space-y-10 md:px-20">
+          {/* Image Upload Section */}
+          <div className="relative">
+            <h3 className="mb-2 mt-9 font-semibold">Image</h3>
+            {previewUrl ? (
+              <div className="relative w-full overflow-hidden rounded-xl md:h-48">
+                <Image
+                  src={previewUrl}
+                  alt="Preview"
+                  fill
+                  className="object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                >
+                  <IoClose size={20} />
+                </button>
+              </div>
+            ) : (
+              <label className="flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50 md:h-32">
+                <FiUpload className="h-8 w-8 text-gray-400" />
+                <CldUploadWidget
+                  uploadPreset="adminarticle"
+                  onSuccess={(result) => {
+                    const info = result.info as CloudinaryUploadWidgetInfo;
+                    setArticleData({
+                      ...articleData,
+                      images: [info.secure_url]
+                    });
+                  }}
+                >
+                  {({ open }) => {
+                    return (
+                      <button onClick={() => open()}>Upload an Image</button>
+                    );
+                  }}
+                </CldUploadWidget>
+              </label>
             )}
-          />
-          <div className="gap-8 md:grid md:grid-cols-3">
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Select a category</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
+          </div>
+          <div className="grid gap-4 md:grid md:max-w-[600px] md:grid-cols-1 md:gap-8">
+            <div>
+              <h2 className="mb-2 mt-5 text-sm font-semibold md:text-lg">
+                Article title
+              </h2>
+              <Input
+                type="text"
+                value={articleData.title}
+                onChange={(e) =>
+                  setArticleData({ ...articleData, title: e.target.value })
+                }
+                placeholder="Title"
+                className="border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500 md:w-full"
+                required
+              />
+            </div>
+            <div className="flex items-center">
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-semibold md:text-lg">
+                      Categoy name
+                    </FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a pet"
-                        />
-                      </SelectTrigger>
+                      <Input
+                        placeholder="New article category"
+                        className="text-start shadow-lg md:h-[45px] md:w-80"
+                        onChange={(e) =>
+                          setNewCategory({
+                            ...newCategory,
+                            name: e.target.value
+                          })
+                        }
+                      />
                     </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {pets.map((pet) => (
-                        <SelectItem key={pet._id} value={pet._id}>
-                          {pet.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                className="ml-auto mt-7 bg-lime-700 text-xs text-white md:mt-8 md:h-[45px] md:w-60"
+                onClick={handleNewcat}
+              >
+                Add Category
+              </Button>
+            </div>
+
+            <h2 className="md:text0lg font-semibold">Select a category</h2>
+            <Select
+              disabled={loading}
+              onValueChange={(value) =>
+                setArticleData({ ...articleData, category: value })
+              }
+            >
+              <SelectTrigger className="shadow-lg">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {/* @ts-ignore  */}
+                  {articlesCat?.map((cat) => (
+                    <SelectItem key={cat._id} value={cat._id}>
+                      {cat.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
             <FormField
-              control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="About Kitty"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FormLabel className="font-semibold md:text-lg">
+                    Description
+                  </FormLabel>
+                  <Textarea
+                    placeholder="Type your article description here"
+                    className="shadow-lg"
+                    required
+                    onChange={(e) =>
+                      setArticleData({ ...articleData, text: e.target.value })
+                    }
+                  ></Textarea>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Ulaanbaatar City"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="preCheck"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pre-adoption checks</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a value"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {preChecks.map((check) => (
-                        <SelectItem key={check._id} value={check._id}>
-                          {check.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <Button
+              disabled={loading}
+              className="ml-auto w-40 rounded-full bg-lime-700 text-white md:w-60"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              {action}
+            </Button>
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
-            {action}
-          </Button>
         </form>
       </Form>
     </>

@@ -51,12 +51,12 @@ const ArticleCardDetail = () => {
       <main className="flex flex-col">
         <section className="md:flex-row  md:gap-10 flex flex-col">
           <section className="bg-white rounded-xl w-fit md:py-16 md:px-6">
-            <h3 className="md:text-4xl text-2xl  pr-32 py-8 text-wrap text-center font-bold  min-h-14 max-h-60 text-amber-500">
+            <h3 className="md:text-4xl text-2xl py-8 text-wrap ml-8 font-bold  min-h-14 max-w-[500px] text-amber-500">
               {article.title}
             </h3>
             <div className="flex flex-col items-center md:flex md:flex-col md:items-center md:justify-center rounded-xl">
               <div className="flex flex-col">
-                <div className="h-[400px] overflow-hidden  rounded-xl mx-6">
+                <div className="h-[400px] overflow-hidden  rounded-xl mx-6 bg-center">
                   <Image
                     src={article.images[0]}
                     alt="detail image"
@@ -93,7 +93,7 @@ const ArticleCardDetail = () => {
                 {Apps?.map((app: AppsType) => (
                   <Link href={app.url}>
                     <div
-                      className=" w-40 h-16 flex items-center gap-3 p-2 bg-slate-100 rounded-xl"
+                      className="w-40 h-16 flex items-center gap-3 p-2 bg-slate-100 rounded-xl"
                       key={app.id}
                     >
                       <Image
@@ -101,7 +101,7 @@ const ArticleCardDetail = () => {
                         alt="img"
                         width={36}
                         height={36}
-                        className="rounded-xl"
+                        className="rounded-xl object-center"
                       ></Image>
                       <p className="font-thin">{app.name}</p>
                     </div>

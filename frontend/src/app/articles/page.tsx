@@ -89,7 +89,7 @@ const Articles = () => {
 export const BlogsCards = ({ image, title, date, id }: CardType) => {
   return (
     <Link href={`/articles/${id}`}>
-      <Card className="w-[340px]  shadow-xl" key={id}>
+      <Card className="w-[340px]  shadow-xl hover:brightness-[.70]" key={id}>
         <CardHeader className="mb-4 relative p-0 h-48">
           <div className="overflow-hidden rounded-t-lg">
             <img
