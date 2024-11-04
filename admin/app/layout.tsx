@@ -28,15 +28,15 @@ export default async function RootLayout({
         suppressHydrationWarning={true}
       >
         <UserProvider>
-          <ShoppingProvider>
-            <ProfileProvider>
-              <PetsProvider>
+          <ProfileProvider>
+            <PetsProvider>
+              <ShoppingProvider>
                 <NextTopLoader showSpinner={false} />
                 <Toaster />
                 {children}
-              </PetsProvider>
-            </ProfileProvider>
-          </ShoppingProvider>
+              </ShoppingProvider>
+            </PetsProvider>
+          </ProfileProvider>
         </UserProvider>
       </body>
     </html>
