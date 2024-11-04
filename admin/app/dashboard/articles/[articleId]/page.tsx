@@ -15,7 +15,6 @@ const breadcrumbItems = [
 
 export default function Page() {
   const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState({ name: '' });
 
   const getCategories = async () => {
     try {
@@ -49,6 +48,6 @@ export default function Page() {
     </ScrollArea>
   );
 }
-function getCategories() {
-  throw new Error('Function not implemented.');
-}
+// function getCategories() {
+//   throw new Error('Function not implemented.');
+// }

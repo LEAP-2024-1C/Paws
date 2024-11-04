@@ -9,6 +9,7 @@ import { ProfileProvider } from '@/components/context/profile_context';
 import { UserProvider } from '@/components/context/user_context';
 import { AdoptionReqProvider } from '@/components/context/adoption-context';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -40,6 +41,7 @@ export default async function RootLayout({
             </PetsProvider>
           </ProfileProvider>
         </UserProvider>
+        <ToastContainer />
       </body>
     </html>
   );

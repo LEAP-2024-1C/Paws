@@ -14,7 +14,7 @@ const breadcrumbItems = [
   { title: 'Articles', link: '/dashboard/articles' }
 ];
 
-export default async function page() {
+export default function Page() {
   return (
     <PageContainer>
       <div className="space-y-4">
