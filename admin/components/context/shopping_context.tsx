@@ -1,9 +1,16 @@
 'use client';
 
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext
+} from 'react';
 import axios from 'axios';
 import { apiUrl } from '@/utils/util';
 import { toast } from 'react-toastify';
+import { PetsContext } from './pets-context';
 
 interface Product {
   _id: string;
@@ -11,7 +18,9 @@ interface Product {
   price: number;
   description: string;
   images: string[];
-  category: string;
+  category: {
+    name: string;
+  };
   quantity: number;
   size: string;
 }
@@ -52,9 +61,10 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState('');
+  const { refetch, setRefetch } = useContext(PetsContext);
 
   const getFilteredProducts = (id: string[]) => {
-    const filtered = product.filter((item) => id.includes(item.category));
+    const filtered = product.filter((item) => id.includes(item.category.name));
     setFilteredProducts(filtered);
   };
 
@@ -74,6 +84,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
       const res = await axios.get(`${apiUrl}/api/v1/products`);
       if (res.status === 200) {
         setProduct(res.data.product);
+        setRefetch?.(!refetch);
       }
     } catch (error) {
       console.log("Can't fetch products", error);

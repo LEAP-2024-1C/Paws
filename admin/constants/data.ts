@@ -122,11 +122,14 @@ export const pets: Pets[] = [
 ];
 
 export type Product = {
-  id: number;
-  productName: string;
-  category: string;
+  [x: string]: any;
+  _id: number;
+  name: string;
+  category: {
+    name: string;
+  };
   price: number;
-  qty: number;
+  quantity: number;
   images: string[];
   description: string;
 };

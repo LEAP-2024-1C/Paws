@@ -4,7 +4,9 @@ import Product from "../../models/product.model";
 import Category from "../../models/category.model";
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const product = await Product.find({}).sort({ createdAt: -1 });
+    const product = await Product.find({})
+      .populate("category", "name")
+      .sort({ createdAt: -1 });
     res.status(200).json({ message: "Get all products success", product });
   } catch (error) {
     console.error("Error getting products:", error);
@@ -24,11 +26,9 @@ export const getAllCategories = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const { name, price, description, imageUrl, category, quantity, size } =
-      req.body;
+    const { name, price, description, imageUrl, category, quantity } = req.body;
 
-    // Validate required fields
-    if (!name || !description || !category || price <= 0) {
+    if (!name || !description || !category || price <= 0 || !imageUrl) {
       return res.status(400).json({
         message: "Please provide all required fields",
       });
@@ -40,8 +40,7 @@ export const createProduct = async (req: Request, res: Response) => {
       description,
       imageUrl,
       category,
-      quantity: quantity || 1,
-      size: size || "M",
+      quantity: quantity || 0,
     });
 
     console.log("Created product:", product);

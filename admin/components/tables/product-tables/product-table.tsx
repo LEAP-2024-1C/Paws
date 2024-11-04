@@ -32,7 +32,7 @@ export function ProductTable({ data, searchKey }: DataTableProps) {
         <Table className="relative">
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Product</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Quantity</TableHead>
@@ -42,14 +42,16 @@ export function ProductTable({ data, searchKey }: DataTableProps) {
           </TableHeader>
           <TableBody>
             {data.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.productName}</TableCell>
-                <TableCell>{product.category}</TableCell>
-                <TableCell>{product.price}$</TableCell>
-                <TableCell>{product.qty}</TableCell>
-                <TableCell>{product.description}</TableCell>
+              <TableRow key={product.id?.toString() || product._id?.toString()}>
+                <TableCell>{product.name?.toString()}</TableCell>
+                <TableCell>{product.category?.name?.toString()}</TableCell>
+                <TableCell>{product.price?.toString()}$</TableCell>
+                <TableCell>{product.quantity?.toString()}</TableCell>
+                <TableCell>{product.description?.toString()}</TableCell>
                 <TableCell>
-                  <CellAction id={product.id} />
+                  <CellAction
+                    id={product.id?.toString() || product._id?.toString()}
+                  />
                 </TableCell>
               </TableRow>
             ))}

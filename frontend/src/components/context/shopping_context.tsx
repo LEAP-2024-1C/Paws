@@ -56,7 +56,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
   const fetchAllProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${apiUrl}/api/v1/product`);
+      const res = await axios.get(`${apiUrl}/api/v1/products`);
       if (res.status === 200) {
         setProduct(res.data.product);
         console.log("PRODUCTS", res.data.product);
@@ -71,7 +71,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
 
   const getCategoriesData = async () => {
     try {
-      const res = await axios.get(`${apiUrl}/api/v1/product/categories`);
+      const res = await axios.get(`${apiUrl}/api/v1/products/categories`);
       if (res.status === 200) {
         setCategories(res.data.categories);
       }

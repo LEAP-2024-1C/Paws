@@ -18,6 +18,8 @@ import { apiUrl } from '@/utils/util';
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 import { FiUpload } from 'react-icons/fi';
+import { CloudinaryUploadWidgetInfo } from 'next-cloudinary';
+import { CldUploadWidget } from 'next-cloudinary';
 
 interface ProductFormProps {
   onSubmit: () => void;
@@ -32,7 +34,7 @@ export default function ProductForm({
     name: '',
     price: 0,
     description: '',
-    imageUrl: '',
+    imageUrl: [''],
     category: '',
     quantity: 0
   });
@@ -61,46 +63,22 @@ export default function ProductForm({
     }
   };
 
-  const handleImageUpload = async () => {
-    if (!image) return null;
-    const formData = new FormData();
-    formData.append('file', image);
-    formData.append('upload_preset', 'ml_default');
-
-    try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        formData
-      );
-      return response.data.secure_url;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      throw new Error('Failed to upload image');
-    }
-  };
-
   const removeImage = () => {
     setImage(null);
     setPreviewUrl('');
-    setProductData({ ...productData, imageUrl: '' });
+    setProductData({ ...productData, imageUrl: [''] });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      let uploadedImageUrl = null;
-      if (image) {
-        uploadedImageUrl = await handleImageUpload();
-      }
-
-      const response = await axios.post(`${apiUrl}/api/v1/product/create`, {
+      const response = await axios.post(`${apiUrl}/api/v1/products/create`, {
         name: productData.name,
         description: productData.description,
         price: productData.price,
         category: productData.category,
-        imageUrl: uploadedImageUrl,
+        imageUrl: productData.imageUrl,
         quantity: productData.quantity
       });
 
@@ -110,13 +88,12 @@ export default function ProductForm({
           name: '',
           price: 0,
           description: '',
-          imageUrl: '',
+          imageUrl: [''],
           category: '',
           quantity: 0
         });
-        setImage(null);
         setPreviewUrl('');
-        onSubmit();
+        // onSubmit();
         router.push('/dashboard/product');
         router.refresh();
       }
@@ -135,8 +112,10 @@ export default function ProductForm({
     }
   };
 
+  console.log(productData);
+
   return (
-    <form onSubmit={handleSubmit} className="w-full space-y-4">
+    <form className="w-full space-y-4">
       <Input
         value={productData.name}
         onChange={(e) =>
@@ -197,40 +176,29 @@ export default function ProductForm({
           </SelectGroup>
         </SelectContent>
       </Select>
-
+      {/* Image Upload Section */}
       <div className="relative">
-        {previewUrl ? (
-          <div className="relative h-48 w-full overflow-hidden rounded-xl">
-            <Image
-              src={previewUrl}
-              alt="Preview"
-              fill
-              className="object-cover"
-            />
-            <button
-              type="button"
-              onClick={removeImage}
-              className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
-            >
-              <IoClose size={20} />
-            </button>
-          </div>
-        ) : (
-          <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
-            <FiUpload className="h-8 w-8 text-gray-400" />
-            <span className="mt-2 text-sm text-gray-500">Upload an image</span>
-            <Input
-              type="file"
-              className="hidden"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-          </label>
-        )}
+        <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
+          <FiUpload className="h-8 w-8 text-gray-400" />
+          <CldUploadWidget
+            uploadPreset="pawchig"
+            onSuccess={(result) => {
+              const info = result.info as CloudinaryUploadWidgetInfo;
+              setProductData({
+                ...productData,
+                imageUrl: [info.secure_url]
+              });
+            }}
+          >
+            {({ open }) => {
+              return <button onClick={() => open()}>Upload an Image</button>;
+            }}
+          </CldUploadWidget>
+        </label>
       </div>
 
       <Button
-        type="submit"
+        onClick={handleSubmit}
         disabled={loading}
         className={`self-end px-4 py-3 font-medium text-white transition-colors
           ${
