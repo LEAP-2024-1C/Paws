@@ -1,10 +1,8 @@
 "use client";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { FaHeart } from "react-icons/fa";
-import RelatedItems from "../components/relateditems";
-import { useShoppingContext } from "@/components/context/shopping_context";
+import { ShoppingContext } from "@/components/context/shopping_context";
 
 interface Product {
   id: number;
@@ -14,99 +12,34 @@ interface Product {
   image: string;
 }
 
-const mockProducts: Product[] = [
-  {
-    id: 1,
-    name: "Pet",
-    price: 29.99,
-    description: "Pet Carriers   ",
-    image: "",
-  },
-  {
-    id: 2,
-    name: "Pet Collars",
-    price: 599.99,
-    description: "Pet Collars ",
-    image: "",
-  },
-  {
-    id: 3,
-    name: "Cat Bowls",
-    price: 19.99,
-    description: "Муурны хоолны сав",
-    image: "",
-  },
-  {
-    id: 4,
-    name: "Dog Collars",
-    price: 19.99,
-    description: "Dog Collars",
-    image: "",
-  },
-  {
-    id: 5,
-    name: "Dog Beds",
-    price: 19.99,
-    description: "Dog Beds",
-    image: "",
-  },
-  {
-    id: 6,
-    name: "Dog Beds",
-    price: 19.99,
-    description: "Dog Beds",
-    image: "",
-  },
-  {
-    id: 7,
-    name: "Dog Beds",
-    price: 19.99,
-    description: "Dog Beds",
-    image: "",
-  },
-  {
-    id: 8,
-    name: "Dog Beds",
-    price: 19.99,
-    description: "Dog Beds",
-    image: "",
-  },
-];
-
 const ProductDetail: React.FC = () => {
   const params = useParams();
-  const id = params.id;
+  const id = params.id as string;
   const [product, setProduct] = React.useState<Product | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [quantity, setQuantity] = React.useState(1);
-  const { addToWishlist, addToCart, wishlist } = useShoppingContext();
 
-  React.useEffect(() => {
-    if (id) {
-      // Simulate API call with setTimeout
-      setTimeout(() => {
-        const foundProduct = mockProducts.find((p) => p.id === Number(id));
-        setProduct(foundProduct || null);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`/api/products/${id}`);
+        if (!response.ok) throw new Error("Product not found");
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
         setLoading(false);
-      }, 500); // 500ms delay to simulate network request
-    }
-  }, [id]);
+      }
+    };
 
-  const handleAddToWishlist = () => {
-    if (product) {
-      addToWishlist(product);
-    }
-  };
+    fetchProduct();
+  }, [id]);
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product, quantity);
     }
   };
-
-  const isInWishlist = product
-    ? wishlist.some((item) => item.id === product.id)
-    : false;
 
   if (loading) {
     return (
@@ -195,16 +128,6 @@ const ProductDetail: React.FC = () => {
             >
               Add to Cart
             </button>
-            <button
-              onClick={handleAddToWishlist}
-              className={`border p-2 rounded-md ${
-                isInWishlist ? "bg-red-100" : "hover:bg-gray-100"
-              }`}
-            >
-              <FaHeart
-                className={isInWishlist ? "text-red-500" : "text-gray-500"}
-              />
-            </button>
           </div>
           <div className="border-t pt-4">
             <h2 className="font-semibold mb-2">Description</h2>
@@ -230,7 +153,6 @@ const ProductDetail: React.FC = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
       </div>
-      <RelatedItems fetchAllProducts={mockProducts} />
     </div>
   );
 };

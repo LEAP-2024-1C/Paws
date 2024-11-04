@@ -31,7 +31,8 @@ export default function SOSDashboard() {
   const fetchReports = async () => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/sos/reports`);
-      setReports(response.data);
+      const reportsData = response.data.reports || response.data;
+      setReports(reportsData);
     } catch (error) {
       console.error('Failed to fetch reports:', error);
     } finally {

@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { PetsProvider } from '@/components/context/pets-context';
 import { ProfileProvider } from '@/components/context/profile_context';
+import { ShoppingProvider } from '@/components/context/shopping_context';
 import { UserProvider } from '@/components/context/user_context';
 import { AdoptionReqProvider } from '@/components/context/adoption-context';
 import { ToastContainer } from 'react-toastify';
@@ -31,12 +32,13 @@ export default async function RootLayout({
         <UserProvider>
           <ProfileProvider>
             <PetsProvider>
-              <AdoptionReqProvider>
+              <ShoppingProvider>
+                <AdoptionReqProvider>
                 <NextTopLoader showSpinner={false} />
                 <Toaster />
-
                 {children}
-              </AdoptionReqProvider>
+                  </AdoptionReqProvider>
+              </ShoppingProvider>
             </PetsProvider>
           </ProfileProvider>
         </UserProvider>

@@ -7,8 +7,11 @@ import Logo from "@/components/main_page/logos";
 import NewsAndBlogs from "@/components/main_page/news_blogs";
 import ShoppingCards from "@/components/main_page/shopping_cards";
 import HeroComponent from "@/components/main_page/hero_component";
-
+import { useState } from "react";
+import Modal from "@/components/sos/modal";
 export default function Home() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   return (
     <section>
       <HeroComponent />
@@ -67,6 +70,49 @@ export default function Home() {
           />
         ))}
       </section>
+
+      {/* Emergency Report Button */}
+
+      <button
+        onClick={() => setIsChatOpen(!isChatOpen)}
+        className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center"
+      >
+        {isChatOpen ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        )}
+      </button>
+
+      {isChatOpen && (
+        <Modal isShowing={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      )}
     </section>
   );
 }

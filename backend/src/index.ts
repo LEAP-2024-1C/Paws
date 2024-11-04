@@ -26,12 +26,12 @@ app.use(cors());
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/pets", petRoute);
 app.use("/api/v1/pets/category", petCategoryRoute);
-app.use("/api/v1/products", shopRoute);
 app.use("/api/v1/sos", sosRoute);
 app.use("/api/v1/articles", articleRoute);
 app.use("/api/v1/articlesCat", articleCatRoute);
 app.use("/api/v1/adoption", adoptionRoute);
 app.use("/api/v1/products", shopRoute);
+app.use("/api/v1/products/categories", shopRoute);
 app.use("/api/v1/sos", sosRoute);
 app.use("/api/v1/donation", donationRoute);
 

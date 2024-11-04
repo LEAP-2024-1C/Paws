@@ -1,10 +1,25 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+"use client";
+
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+import axios from "axios";
+import { apiUrl } from "@/utils/util";
+import { toast } from "react-toastify";
 
 interface Product {
-  id: number;
+  _id: string;
   name: string;
   price: number;
-  image: string;
+  description: string;
+  images: string[];
+  category: string;
+  quantity: number;
+  size: string;
+}
+
+interface Category {
+  _id: string;
+  name: string;
+  count: number;
 }
 
 interface CartItem extends Product {
@@ -12,110 +27,77 @@ interface CartItem extends Product {
 }
 
 interface ShoppingContextType {
-  wishlist: Product[];
-  cart: CartItem[];
-  addToWishlist: (product: Product) => void;
-  removeFromWishlist: (productId: number) => void;
-  addToCart: (product: Product, quantity: number) => void;
-  removeFromCart: (productId: number) => void;
-  updateCartItemQuantity: (productId: number, quantity: number) => void;
+  product: Product[];
+  setProduct: React.Dispatch<React.SetStateAction<Product[]>>;
+  loading: boolean;
+  categories: Category[];
+  cartItems: CartItem[];
+  wishlistItems: Product[];
 }
 
-const ShoppingContext = createContext<ShoppingContextType | undefined>(
-  undefined
-);
+export const ShoppingContext = createContext<ShoppingContextType>({
+  product: [],
+  setProduct: () => {},
+  loading: false,
+  categories: [],
+  cartItems: [],
+  wishlistItems: [],
+});
 
-export const ShoppingProvider: React.FC<{ children: React.ReactNode }> = ({
+export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [wishlist, setWishlist] = useState<Product[]>([]);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [product, setProduct] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
 
-  useEffect(() => {
-    const savedWishlist = localStorage.getItem("wishlist");
-    console.log("Loading wishlist from localStorage:", savedWishlist);
-    if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
-  }, []);
-
-  useEffect(() => {
-    console.log("Saving wishlist to localStorage:", wishlist);
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
-
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) setCart(JSON.parse(savedCart));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
-  const addToWishlist = (product: Product) => {
-    setWishlist((prev) => {
-      const newWishlist = [...prev, product];
-      console.log("Adding to wishlist:", newWishlist);
-      return newWishlist;
-    });
-  };
-
-  const removeFromWishlist = (productId: number) => {
-    setWishlist((prev) => {
-      const newWishlist = prev.filter((item) => item.id !== productId);
-      console.log("Removing from wishlist:", newWishlist);
-      return newWishlist;
-    });
-  };
-
-  const addToCart = (product: Product, quantity: number) => {
-    setCart((prev) => {
-      const existingItem = prev.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
+  const fetchAllProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/products`);
+      if (res.status === 200) {
+        setProduct(res.data.product);
+        console.log("PRODUCTS", res.data.product);
       }
-      return [...prev, { ...product, quantity }];
-    });
+    } catch (error) {
+      console.log("Can't fetch products", error);
+      toast.error("Failed to load products");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeFromCart = (productId: number) => {
-    setCart((prev) => prev.filter((item) => item.id !== productId));
+  const getCategoriesData = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/products/categories`);
+      if (res.status === 200) {
+        setCategories(res.data.categories);
+      }
+    } catch (error) {
+      console.log("Can't fetch categories", error);
+      toast.error("Failed to load categories");
+    }
   };
 
-  const updateCartItemQuantity = (productId: number, quantity: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === productId ? { ...item, quantity: quantity } : item
-      )
-    );
-  };
+  useEffect(() => {
+    fetchAllProducts();
+    getCategoriesData();
+  }, []);
 
   return (
     <ShoppingContext.Provider
       value={{
-        wishlist,
-        cart,
-        addToWishlist,
-        removeFromWishlist,
-        addToCart,
-        removeFromCart,
-        updateCartItemQuantity,
+        product,
+        setProduct,
+        loading,
+        categories,
+        cartItems,
+        wishlistItems,
       }}
     >
       {children}
     </ShoppingContext.Provider>
   );
-};
-
-export const useShoppingContext = () => {
-  const context = useContext(ShoppingContext);
-  if (context === undefined) {
-    throw new Error(
-      "useShoppingContext must be used within a ShoppingProvider"
-    );
-  }
-  return context;
 };

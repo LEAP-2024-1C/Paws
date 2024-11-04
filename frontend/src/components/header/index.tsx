@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { LogOut, Menu, User, X } from "lucide-react";
 import { UserContext } from "../context/user_context";
+import Modal from "../sos/modal";
+import SideMenu from "../sos/SideModal";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +20,8 @@ const Header = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [isModalShowing, setIsModalShowing] = useState(false);
+  const [isSideMenuShowing, setIsSideMenuShowing] = useState(false);
   const logOut = () => {
     localStorage.removeItem("token");
     setUser(null);
@@ -43,6 +47,7 @@ const Header = () => {
               className="animate-blink text-red-600 font-semibold">
               Emergency
             </Link>
+
             <Link href="/shop">Shop</Link>
             <Link href="/articles">Blog</Link>
           </ul>
@@ -130,6 +135,14 @@ const Header = () => {
           </ul>
         </div>
       )}
+      <Modal
+        isShowing={isModalShowing}
+        onClose={() => setIsModalShowing(false)}
+      />
+      <SideMenu
+        isShowing={isSideMenuShowing}
+        onClose={() => setIsSideMenuShowing(false)}
+      />
     </header>
   );
 };

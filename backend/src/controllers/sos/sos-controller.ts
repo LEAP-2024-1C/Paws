@@ -20,7 +20,7 @@ export const createSos = async (req: Request, res: Response) => {
       location,
       phoneNumber,
       imageUrl,
-      status: "pending",
+      status: "Pending",
     });
     res.status(201).json({ message: "Created new sos successfully", sos });
   } catch (error) {
@@ -32,7 +32,7 @@ export const createSos = async (req: Request, res: Response) => {
 export const getAllSOSReports = async (req: Request, res: Response) => {
   try {
     const reports = await Sos.find().sort({ createdAt: -1 });
-    res.status(200).json(reports);
+    res.status(200).json({ reports });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch SOS reports" });
   }

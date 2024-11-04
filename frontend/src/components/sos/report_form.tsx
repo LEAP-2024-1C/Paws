@@ -137,91 +137,127 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 flex-1">
       {/* Image Upload Section */}
-      <div className="relative">
-        {previewUrl ? (
-          <div className="relative w-full h-48 rounded-xl overflow-hidden">
-            <Image
-              src={previewUrl}
-              alt="Preview"
-              fill
-              className="object-cover"
-            />
-            <button
-              type="button"
-              onClick={removeImage}
-              className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600"
-            >
-              <IoClose size={20} />
-            </button>
-          </div>
-        ) : (
-          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-50">
-            <FiUpload className="w-8 h-8 text-gray-400" />
-            <span className="mt-2 text-sm text-gray-500">Upload an image</span>
-            <input
-              type="file"
-              className="hidden"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-          </label>
-        )}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Upload Image
+        </label>
+        <div className="relative">
+          {previewUrl ? (
+            <div className="relative w-full h-32 rounded-md overflow-hidden">
+              <Image
+                src={previewUrl}
+                alt="Preview"
+                fill
+                className="object-cover"
+              />
+              <button
+                type="button"
+                onClick={removeImage}
+                className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600"
+              >
+                <IoClose size={20} />
+              </button>
+            </div>
+          ) : (
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-md cursor-pointer hover:bg-gray-50">
+              <FiUpload className="w-6 h-6 text-gray-400" />
+              <span className="mt-2 text-sm text-gray-500">
+                Upload an image
+              </span>
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </label>
+          )}
+        </div>
       </div>
 
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Describe the emergency situation in detail..."
-        className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-        rows={4}
-        required
-        minLength={10}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Description
+        </label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Describe the emergency situation in detail..."
+          className="w-full p-2 border rounded-md focus:ring-orange-500 focus:border-orange-500"
+          rows={3}
+          required
+          minLength={10}
+        />
+      </div>
 
-      <select
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-        required
-      >
-        <option value="">Select district / Дүүрэг сонгох</option>
-        {DISTRICTS.map((district) => (
-          <option key={district.en} value={district.en}>
-            {district.mn} / {district.en}
-          </option>
-        ))}
-      </select>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Location
+        </label>
+        <select
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full p-2 border rounded-md focus:ring-orange-500 focus:border-orange-500"
+          required
+        >
+          <option value="">Select district / Дүүрэг сонгох</option>
+          {DISTRICTS.map((district) => (
+            <option key={district.en} value={district.en}>
+              {district.mn} / {district.en}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <PhoneInput
-        country={"mn"}
-        value={number}
-        onChange={(phone) => setNumber(phone)}
-        inputClass="!w-full p-3 !rounded-xl"
-        containerClass="!w-full"
-        buttonClass="!rounded-l-xl"
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Contact Information
+        </label>
+        <PhoneInput
+          country={"mn"}
+          value={number}
+          onChange={(phone) => setNumber(phone)}
+          inputClass="!w-full !p-2 !rounded-md"
+          containerClass="!w-full"
+          buttonClass="!rounded-l-md"
+        />
+      </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className={`w-full py-3 px-4 rounded-xl text-white font-medium transition-colors
-          ${
-            loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-orange-500 hover:bg-orange-600 active:bg-orange-700"
-          }`}
-      >
-        {loading ? (
-          <div className="flex items-center justify-center">
-            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-            Submitting...
-          </div>
-        ) : (
-          "Submit Report"
-        )}
-      </button>
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          disabled={loading}
+          className={`flex-1 py-2 px-4 rounded-md text-white font-medium transition-colors
+            ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-orange-500 hover:bg-orange-600"
+            }`}
+        >
+          {loading ? (
+            <div className="flex items-center justify-center">
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+              Submitting...
+            </div>
+          ) : (
+            "Submit Report"
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={onSubmit}
+          className="bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200 transition-colors"
+        >
+          Cancel
+        </button>
+      </div>
+
+      <div className="mt-4 text-xs text-gray-500 text-center">
+        For immediate assistance, call our emergency hotline: <br />
+        <span className="font-semibold">+976 7777-7777</span>
+      </div>
     </form>
   );
 }

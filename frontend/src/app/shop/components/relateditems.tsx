@@ -1,10 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useShoppingContext } from "@/components/context/shopping_context";
 
 interface RelatedProduct {
-  id: number;
+  _id: string;
   name: string;
   price: number;
   image: string;
@@ -23,7 +22,11 @@ const RelatedItems: React.FC<RelatedItems> = ({ fetchAllProducts }) => {
       <h2 className="text-2xl font-bold mb-6">Related Items</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {limitedProducts.map((product) => (
-          <Link href={`/shop/${product.id}`} key={product.id} className="group">
+          <Link
+            href={`/shop/${product._id}`}
+            key={product._id}
+            className="group"
+          >
             <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:scale-105">
               <Image
                 src={product.image}

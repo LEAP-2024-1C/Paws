@@ -6,7 +6,7 @@ interface ISos {
   location: string;
   imageUrl?: string;
   phoneNumber: string;
-  status: "pending" | "in-progress" | "resolved";
+  status: "Pending" | "In-progress" | "Saved";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -30,8 +30,8 @@ const sosSchema = new Schema<ISos>(
     },
     status: {
       type: String,
-      enum: ["pending", "in-progress", "resolved"],
-      default: "pending",
+      enum: ["Pending", "In-progress", "Saved"],
+      default: "Pending",
     },
   },
   { timestamps: true }

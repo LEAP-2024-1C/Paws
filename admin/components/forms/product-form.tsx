@@ -1,270 +1,221 @@
 'use client';
-import * as z from 'zod';
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useState, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
-import { Separator } from '@/components/ui/separator';
-import { Heading } from '@/components/ui/heading';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
+  SelectGroup,
+  SelectLabel
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-// import FileUpload from "@/components/FileUpload";
-import { useToast } from '../ui/use-toast';
-import FileUpload from '../file-upload';
-const ImgSchema = z.object({
-  fileName: z.string(),
-  name: z.string(),
-  fileSize: z.number(),
-  size: z.number(),
-  fileKey: z.string(),
-  key: z.string(),
-  fileUrl: z.string(),
-  url: z.string()
-});
-export const IMG_MAX_LIMIT = 3;
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'Product Name must be at least 3 characters' }),
-  imgUrl: z
-    .array(ImgSchema)
-    .max(IMG_MAX_LIMIT, { message: 'You can only add up to 3 images' })
-    .min(1, { message: 'At least one image must be added.' }),
-  description: z
-    .string()
-    .min(3, { message: 'Product description must be at least 3 characters' }),
-  price: z.coerce.number(),
-  category: z.string().min(1, { message: 'Please select a category' })
-});
-
-type ProductFormValues = z.infer<typeof formSchema>;
+import { apiUrl } from '@/utils/util';
+import Image from 'next/image';
+import { IoClose } from 'react-icons/io5';
+import { FiUpload } from 'react-icons/fi';
+import { CloudinaryUploadWidgetInfo } from 'next-cloudinary';
+import { CldUploadWidget } from 'next-cloudinary';
 
 interface ProductFormProps {
-  initialData: any | null;
+  onSubmit: () => void;
   categories: any;
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({
-  initialData,
+export default function ProductForm({
+  onSubmit,
   categories
-}) => {
-  const params = useParams();
-  const router = useRouter();
-  const { toast } = useToast();
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState(false);
-  const title = initialData ? 'Edit product' : 'Create product';
-  const description = initialData ? 'Edit a product.' : 'Add a new product';
-  const toastMessage = initialData ? 'Product updated.' : 'Product created.';
-  const action = initialData ? 'Save changes' : 'Create';
-
-  const defaultValues = initialData
-    ? initialData
-    : {
-        name: '',
-        description: '',
-        price: 0,
-        imgUrl: [],
-        category: ''
-      };
-
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues
+}: ProductFormProps) {
+  const [productData, setProductData] = useState({
+    name: '',
+    price: 0,
+    description: '',
+    imageUrl: [''],
+    category: '',
+    quantity: 0
   });
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const router = useRouter();
 
-  const onSubmit = async (data: ProductFormValues) => {
-    try {
-      setLoading(true);
-      if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
-      } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Image size should be less than 5MB');
+        return;
       }
-      router.refresh();
-      router.push(`/dashboard/products`);
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } finally {
-      setLoading(false);
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please upload an image file');
+        return;
+      }
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const onDelete = async () => {
+  const removeImage = () => {
+    setImage(null);
+    setPreviewUrl('');
+    setProductData({ ...productData, imageUrl: [''] });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
     try {
-      setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/products`);
+      const response = await axios.post(`${apiUrl}/api/v1/products/create`, {
+        name: productData.name,
+        description: productData.description,
+        price: productData.price,
+        category: productData.category,
+        imageUrl: productData.imageUrl,
+        quantity: productData.quantity
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        toast.success('Product created successfully');
+        setProductData({
+          name: '',
+          price: 0,
+          description: '',
+          imageUrl: [''],
+          category: '',
+          quantity: 0
+        });
+        setPreviewUrl('');
+        // onSubmit();
+        router.push('/dashboard/product');
+        router.refresh();
+      }
     } catch (error: any) {
+      console.error('Failed to create product:', error);
+
+      if (error.response) {
+        toast.error(error.response.data.message || 'Failed to create product');
+      } else if (error.request) {
+        toast.error('No response from server. Please check your connection.');
+      } else {
+        toast.error('An error occurred while creating the product');
+      }
     } finally {
       setLoading(false);
-      setOpen(false);
     }
   };
 
-  const triggerImgUrlValidation = () => form.trigger('imgUrl');
+  console.log(productData);
 
   return (
-    <>
-      {/* <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      /> */}
-      <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-        {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
+    <form className="w-full space-y-4">
+      <Input
+        value={productData.name}
+        onChange={(e) =>
+          setProductData({ ...productData, name: e.target.value })
+        }
+        placeholder="Product name"
+        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+        required
+      />
+      <Input
+        type="number"
+        value={productData.quantity}
+        onChange={(e) =>
+          setProductData({ ...productData, quantity: Number(e.target.value) })
+        }
+        placeholder="Quantity"
+        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+        required
+      />
+
+      <Input
+        value={productData.description}
+        onChange={(e) =>
+          setProductData({ ...productData, description: e.target.value })
+        }
+        placeholder="Product description"
+        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+        required
+      />
+
+      <Input
+        type="number"
+        value={productData.price}
+        onChange={(e) =>
+          setProductData({ ...productData, price: Number(e.target.value) })
+        }
+        placeholder="Price"
+        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+        required
+      />
+
+      <Select
+        onValueChange={(value) =>
+          setProductData({ ...productData, category: value })
+        }
+      >
+        <SelectTrigger className="">
+          <SelectValue placeholder="Select a category" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Categories</SelectLabel>
+            {categories?.map((category: any) => (
+              <SelectItem key={category._id} value={category._id}>
+                {category.name}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      {/* Image Upload Section */}
+      <div className="relative">
+        <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
+          <FiUpload className="h-8 w-8 text-gray-400" />
+          <CldUploadWidget
+            uploadPreset="pawchig"
+            onSuccess={(result) => {
+              const info = result.info as CloudinaryUploadWidgetInfo;
+              setProductData({
+                ...productData,
+                imageUrl: [info.secure_url]
+              });
+            }}
           >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}
+            {({ open }) => {
+              return <button onClick={() => open()}>Upload an Image</button>;
+            }}
+          </CldUploadWidget>
+        </label>
       </div>
-      <Separator />
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
-          <FormField
-            control={form.control}
-            name="imgUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  <FileUpload
-                    onChange={field.onChange}
-                    value={field.value}
-                    onRemove={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="gap-8 md:grid md:grid-cols-3">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product name"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product description"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input type="number" disabled={loading} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {categories.map((category) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+      <Button
+        onClick={handleSubmit}
+        disabled={loading}
+        className={`self-end px-4 py-3 font-medium text-white transition-colors
+          ${
+            loading
+              ? 'cursor-not-allowed bg-gray-400'
+              : 'bg-orange-500 hover:bg-orange-600 active:bg-orange-700'
+          }`}
+      >
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <div className="mr-2 h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            Creating...
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
-            {action}
-          </Button>
-        </form>
-      </Form>
-    </>
+        ) : (
+          'Create'
+        )}
+      </Button>
+    </form>
   );
-};
+}
