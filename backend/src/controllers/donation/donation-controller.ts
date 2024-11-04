@@ -88,20 +88,28 @@ export const addDonationComment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { comment, user } = req.body;
-    const donation = await Donations.findById(id).populate("comment.user");
-    if (donation) {
-      donation.comments.push({ comment, user, createAt: new Date() });
-      const addedComment = await donation.save();
-
-      res.status(200).json({
-        message: "Added comment successfully",
-        addedComment,
-      });
-    } else {
-      res.status(404).json({ message: "Donation not found" });
+    if (!id || !comment || !user) {
+      return res.status(400).json({ message: "All fields are required" });
     }
+
+    const donation = await Donations.findById(id).populate("comments.user");
+
+    if (!donation) {
+      return res.status(404).json({ message: "Donation post not found" });
+    }
+    donation.comments.push({ comment, user, createdAt: new Date() });
+    const addedComment = await donation.save();
+
+    return res.status(200).json({
+      message: "Added comment successfully",
+      addedComment,
+    });
   } catch (error) {
-    console.error("Couldn't add the comment", error);
-    res.status(400).json({ message: "Comment error", error });
+    console.error("Couldn't add the comment:", error);
+
+    return res.status(500).json({
+      message: "An error occurred while adding the comment",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
   }
 };

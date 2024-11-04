@@ -20,18 +20,16 @@ export type donationPostsProps = {
 const DonationDetail = () => {
   const mockData = ["1", "2", "3"];
   const { id } = useParams();
+
   const { fetchSingleDonationPosts, oneDonationPost } =
     useContext(DonationContext);
 
   const { donationPosts, fetchAllDonationData } = useContext(DonationContext);
-  useEffect(() => {
-    fetchAllDonationData();
-  });
+
   useEffect(() => {
     fetchSingleDonationPosts(id);
   }, [id]);
-
-  console.log("ID", id);
+  console.log("D.post", donationPosts);
   return (
     <div className="bg-slate-50 ">
       <div className="w-3/4 flex-col flex xl:flex-row mx-auto  p-6 gap-20 ">

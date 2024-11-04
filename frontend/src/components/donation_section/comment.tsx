@@ -1,10 +1,10 @@
 "use client";
-// CommentSection.tsx
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
-
 import { Textarea } from "@/components/ui/textarea";
+import { DonationContext } from "../context/donation_context";
+import { useParams } from "next/navigation";
 
 interface Comment {
   id: number;
@@ -12,27 +12,34 @@ interface Comment {
 }
 
 const Comments: React.FC = () => {
+  const { id } = useParams();
   const [comments, setComments] = useState<Comment[]>([]);
-  const [input, setInput] = useState<string>("");
+  const { comment, setComment, newComment } = useContext(DonationContext);
 
-  const handleAddComment = () => {
-    if (input.trim()) {
-      const newComment = { id: Date.now(), text: input };
-      setComments([newComment, ...comments]);
-      setInput("");
-    }
-  };
+  // const handleAddComment = () => {
+  //   if (comment.trim()) {
+  //     const newComment = { id: Date.now(), text: comment };
+  //     setComments([newComment, ...comments]);
+  //     setComment("");
+  //   }
+  //   console.log("mn", comment);
+  // };
 
   return (
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-xl font-bold mb-4">Сэтгэгдэл үлдээх</h2>
       <Textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
         placeholder="Сэтгэгдлээ бичнэ үү..."
         className="mb-4"
       />
-      <Button onClick={handleAddComment} className="mb-6">
+      <Button
+        onClick={() => {
+          newComment(id);
+        }}
+        className="mb-6"
+      >
         Сэтгэгдэл нэмэх
       </Button>
       <div className="space-y-4">

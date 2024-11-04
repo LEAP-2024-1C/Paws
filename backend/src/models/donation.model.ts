@@ -1,24 +1,28 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document, Types } from "mongoose";
 
-interface Donations {
+// Donation-д зориулсан Comment интерфэйс
+interface Comment {
+  user: Types.ObjectId;
+  comment: string;
+  createdAt: Date;
+}
+
+// Donations үндсэн интерфэйс
+interface Donations extends Document {
   description: string;
   title: string;
-  images: [string];
+  images: string[];
   totalAmount: number;
   currentAmount: number;
   contributors: number;
-  petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
-  userId?: { type: Schema.Types.ObjectId; ref: "User"; required: true };
-  createAt: Date;
-  comments: [
-    {
-      user: Schema.Types.ObjectId;
-      comment: string;
-      createAt: Date;
-    }
-  ];
+  petId: Types.ObjectId;
+  userId?: Types.ObjectId;
+  comments: Comment[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
+// Donations схем
 const DonationsSchema = new Schema<Donations>(
   {
     title: {
@@ -56,22 +60,19 @@ const DonationsSchema = new Schema<Donations>(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    createAt: {
-      type: Date,
-      default: Date.now,
-    },
     comments: [
       {
         user: {
           type: Schema.Types.ObjectId,
           ref: "User",
+          required: true,
         },
         comment: {
           type: String,
-          require: true,
+          required: true,
           trim: true,
         },
-        createAt: {
+        createdAt: {
           type: Date,
           default: Date.now,
         },
@@ -79,8 +80,9 @@ const DonationsSchema = new Schema<Donations>(
     ],
   },
   {
-    timestamps: true,
+    timestamps: true, // createdAt, updatedAt талбаруудыг автоматаар үүсгэнэ
   }
 );
+
 const Donations = model<Donations>("Donations", DonationsSchema);
 export default Donations;

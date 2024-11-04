@@ -17,10 +17,6 @@ export type donationPostsProps = {
 };
 const Donation = () => {
   const { donationPosts, fetchAllDonationData } = useContext(DonationContext);
-  useEffect(() => {
-    fetchAllDonationData();
-  });
-  const mockData = ["1", "2", "3", "4", "5", "6", "7", "8"];
   console.log("mm", donationPosts);
   return (
     <div className="mx-auto">
