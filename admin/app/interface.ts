@@ -280,3 +280,34 @@ export interface PetsContextType {
   refetch?: boolean;
   setRefetch?: (refetch: boolean) => void;
 }
+
+export interface IDonationPost {
+  title: string;
+  description: string;
+  status: string;
+  petId: string;
+  images: string[];
+  totalAmount: number;
+}
+
+export interface IGetDonationPost {
+  _id: string;
+  title: string;
+  description: string;
+  status: string;
+  petId: {
+    name: string;
+  };
+  images: string[];
+  totalAmount: number;
+  created_at: Date;
+}
+
+export interface DonationContextType {
+  donationPosts: IDonationPost;
+  setDonationPosts: (donationPosts: IDonationPost) => void;
+  createDonationPost: () => void;
+  getAllDonationPosts: () => void;
+  getDonationPosts: IGetDonationPost[];
+  setGetDonationPosts: React.Dispatch<React.SetStateAction<IGetDonationPost[]>>;
+}

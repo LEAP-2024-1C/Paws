@@ -11,6 +11,7 @@ import { UserProvider } from '@/components/context/user_context';
 import { AdoptionReqProvider } from '@/components/context/adoption-context';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { DonationProvider } from '@/components/context/donation-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,11 +35,13 @@ export default async function RootLayout({
           <ProfileProvider>
             <PetsProvider>
               <ShoppingProvider>
-                <AdoptionReqProvider>
-                <NextTopLoader showSpinner={false} />
-                <Toaster />
-                {children}
+                <DonationProvider>
+                  <AdoptionReqProvider>
+                    <NextTopLoader showSpinner={false} />
+                    <Toaster />
+                    {children}
                   </AdoptionReqProvider>
+                </DonationProvider>
               </ShoppingProvider>
             </PetsProvider>
           </ProfileProvider>

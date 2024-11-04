@@ -19,10 +19,9 @@ export default function Page() {
             { _id: '1', name: 'Kitty' },
             { _id: '2', name: 'Max' }
           ]}
-          preChecks={[
-            { _id: '1', name: 'vaccinated' },
-            { _id: '2', name: 'wormed' },
-            { _id: '3', name: 'spay' }
+          status={[
+            { _id: '1', name: 'in-progress' },
+            { _id: '2', name: 'done' }
           ]}
           initialData={null}
           key={null}

@@ -35,7 +35,7 @@ export const getSingleDonation = async (req: Request, res: Response) => {
 export const createDonations = async (req: Request, res: Response) => {
   try {
     const userId = req.user._id.toString(); //req.user
-    const { description, title, images, petId, totalAmount } = req.body;
+    const { description, title, images, petId, totalAmount, status } = req.body;
     if (!description || !title || !images || !totalAmount) {
       return res.status(400).json({ message: "Хоосон утга байж болохгүй" });
     }
@@ -46,6 +46,7 @@ export const createDonations = async (req: Request, res: Response) => {
       petId,
       totalAmount,
       userId,
+      status,
     });
     res.status(201).json({
       message: "Created donations successfully",

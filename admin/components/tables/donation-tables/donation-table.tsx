@@ -15,7 +15,9 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { DonationPosts } from '@/constants/data';
 import { CellAction } from './cell-action';
-import { Card } from '@/components/ui/card';
+import { useContext } from 'react';
+import { DonationContext } from '@/components/context/donation-context';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface DonationTableProps {
   data: DonationPosts[];
@@ -23,6 +25,8 @@ interface DonationTableProps {
 }
 
 export function DonationTable({ data, searchKey }: DonationTableProps) {
+  const { getDonationPosts } = useContext(DonationContext);
+  // console.log('DPS', getDonationPosts); //olon duudaad bga aldaag zasah
   return (
     <>
       <Input
@@ -43,13 +47,26 @@ export function DonationTable({ data, searchKey }: DonationTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody className="gap-2">
-            {data.map((post) => (
-              <TableRow key={post.id} className=" ">
-                <TableCell></TableCell>
-                <TableCell>{post.petName}</TableCell>
+            {getDonationPosts.map((post) => (
+              <TableRow
+                // key={post.id}
+                className=" "
+              >
+                <TableCell>
+                  <Avatar>
+                    <AvatarImage src={post.images[0]} alt="@shadcn" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </TableCell>
+                <TableCell>{post.petId?.name}</TableCell>
+                <TableCell>{post.totalAmount}</TableCell>
+                <TableCell>current amount</TableCell>
+                <TableCell>
+                  {new Date(post.created_at).toLocaleDateString()}
+                </TableCell>
                 <TableCell>{post.description}</TableCell>
                 <TableCell>
-                  <CellAction id={post.id} />
+                  <CellAction id={post._id} />
                 </TableCell>
               </TableRow>
             ))}
