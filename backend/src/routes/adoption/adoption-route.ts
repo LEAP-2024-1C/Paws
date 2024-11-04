@@ -10,12 +10,12 @@ import {
   updateAdoptionRequest,
   getOwnAdoptionInquiries,
 } from "../../controllers/adoption/adoption-controller";
-import { authentication } from "../../middlewares/authentication";
+import { authentication, authorize } from "../../middlewares/authentication";
 
 const router = Router();
 
 router.route("/").get(getAllAdoptionPosts);
-router.route("/create").post(createAdoptionPost);
+router.route("/create").post(authentication, authorize, createAdoptionPost);
 router.route("/req").get(getAdoptionInquiries);
 router.route("/newreq").post(authentication, submitInquiry);
 router
