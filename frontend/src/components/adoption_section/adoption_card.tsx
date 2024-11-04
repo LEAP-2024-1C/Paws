@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import { VscHeart } from "react-icons/vsc";
 import { VscHeartFilled } from "react-icons/vsc";
 import { GrLocationPin } from "react-icons/gr";
@@ -42,7 +42,8 @@ export default function AdoptionCard({
       <Button
         variant="ghost"
         className="p-0 absolute right-3 top-2 text-2xl hover:scale-150 hover:bg-transparent z-10"
-        onClick={wishList}>
+        onClick={wishList}
+      >
         {loved ? <VscHeartFilled /> : <VscHeart />}
       </Button>
       <CardHeader className="mb-4 p-0 h-48">

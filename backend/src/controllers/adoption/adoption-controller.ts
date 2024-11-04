@@ -39,6 +39,7 @@ export const getAdoptionPost = async (req: Request, res: Response) => {
 
 export const createAdoptionPost = async (req: Request, res: Response) => {
   try {
+    const userId = req.user._id.toString();
     const { title, description, pet, location, status, imgUrl } = req.body;
     const createPost = await Adoption.create({
       title,
@@ -48,6 +49,7 @@ export const createAdoptionPost = async (req: Request, res: Response) => {
       location,
       status,
       imgUrl,
+      userId,
     });
     res
       .status(201)
