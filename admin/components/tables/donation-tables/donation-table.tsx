@@ -15,6 +15,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { DonationPosts } from '@/constants/data';
 import { CellAction } from './cell-action';
+import { Card } from '@/components/ui/card';
 
 interface DonationTableProps {
   data: DonationPosts[];
@@ -32,16 +33,19 @@ export function DonationTable({ data, searchKey }: DonationTableProps) {
         <Table className="relative">
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Img</TableHead>
               <TableHead>Pet Name</TableHead>
+              <TableHead>Neccesary amount</TableHead>
+              <TableHead>Current amount</TableHead>
+              <TableHead>Created date</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="gap-2">
             {data.map((post) => (
-              <TableRow key={post.id}>
-                <TableCell>{post.userName}</TableCell>
+              <TableRow key={post.id} className=" ">
+                <TableCell></TableCell>
                 <TableCell>{post.petName}</TableCell>
                 <TableCell>{post.description}</TableCell>
                 <TableCell>
