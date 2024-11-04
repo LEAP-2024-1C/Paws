@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoArrowRight } from "react-icons/go";
 import { Textarea } from "../ui/textarea";
@@ -20,14 +19,16 @@ import { UserContext } from "../context/user_context";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
+import { AdoptionContext } from "../context/adoption_context";
 
 export function AdoptionEnquire() {
   const { user } = useContext(UserContext);
+  const { oneAdoptPost } = useContext(AdoptionContext);
+
   const [form, setForm] = useState({
-    firstname: user?.firstname || "",
-    lastname: user?.lastname || "",
-    email: user?.email || "",
-    phone: "",
+    status: "",
+    title: "",
+    petId: "",
     description: "",
     previousPetOwnership: "",
     currentPets: "",
@@ -70,13 +71,16 @@ export function AdoptionEnquire() {
     try {
       const finalForm = {
         ...form,
-        firstname: form.firstname || user?.firstname || "Guest",
-        lastname: form.lastname || user?.lastname || "User",
-        email: form.email || user?.email || "guest@example.com",
+        petId: form.petId || oneAdoptPost?.pet,
+        title: form.title || oneAdoptPost?.title,
+        status: "pending",
       };
+      const token = localStorage.getItem("token");
+      console.log("token", token);
       const response = await axios.post(
         `${apiUrl}/api/v1/adoption/newreq`,
-        finalForm
+        finalForm,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (response.status === 201) {
@@ -88,6 +92,8 @@ export function AdoptionEnquire() {
       toast.error("Error submitting inquiry");
     }
   };
+
+  // console.log("POst", oneAdoptPost);
 
   return (
     <>
@@ -111,48 +117,33 @@ export function AdoptionEnquire() {
                 </DialogDescription>
               </DialogHeader>
               <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-center col-span-4">
+                  Your personal information
+                </Label>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="firstname" className="text-right">
-                  Firstname
+                  Firstname:
                 </Label>
-                <Input
-                  id="firstname"
-                  defaultValue={user?.firstname}
-                  className="col-span-3"
-                  placeholder="Firstname"
-                  onChange={handleInputChange}
-                />
+                <Label>{user?.firstname}</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
-                  Lastname
+                  Lastname:
                 </Label>
-                <Input
-                  id="lastname"
-                  defaultValue={user?.lastname}
-                  className="col-span-3"
-                  onChange={handleInputChange}
-                />
+                <Label>{user?.lastname}</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
-                  Email
+                  Email:
                 </Label>
-                <Input
-                  id="email"
-                  defaultValue={user?.email}
-                  className="col-span-3"
-                  onChange={handleInputChange}
-                />
+                <Label>{user?.email}</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phone" className="text-right">
-                  Phone Number
+                  Phone Number:
                 </Label>
-                <Input
-                  id="phone"
-                  className="col-span-3"
-                  onChange={handleInputChange}
-                />
+                <Label>99999999</Label>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phone" className="text-right">
@@ -218,20 +209,19 @@ export function AdoptionEnquire() {
                   3. How many members are in your household?
                 </Label>
                 <RadioGroup
-                  defaultValue="small"
                   onValueChange={(value) =>
                     handleRadioChange(value, "householdMembers")
                   }>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="small" id="r7" />
+                    <RadioGroupItem value="1-2" id="r7" />
                     <Label htmlFor="r7">1-2</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="med" id="r8" />
+                    <RadioGroupItem value="3-4" id="r8" />
                     <Label htmlFor="r8">3-4</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="big" id="r9" />
+                    <RadioGroupItem value="4+" id="r9" />
                     <Label htmlFor="r">4+</Label>
                   </div>
                 </RadioGroup>

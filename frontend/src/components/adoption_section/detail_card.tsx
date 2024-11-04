@@ -6,6 +6,7 @@ import { LuDot } from "react-icons/lu";
 import { MdLocationCity } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa6";
+import { BsExclamationCircle } from "react-icons/bs";
 
 import {
   Card,
@@ -26,7 +27,7 @@ export function InfoCard() {
     <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.2)] border-none rounded-xl p-3">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span className="text-5xl">{oneAdoptPost.title}</span>
+          <span className="text-5xl">{oneAdoptPost.pet?.name}</span>
           <div className="flex gap-5">
             <Button
               variant="outline"
@@ -46,18 +47,18 @@ export function InfoCard() {
         </CardDescription>
         <CardDescription>
           <div className="flex items-center text-lg">
-            <span>Adult</span>
+            <span>{oneAdoptPost.pet.ageGroup}</span>
             <LuDot />
-            <span>Female</span>
+            <span>{oneAdoptPost.pet.gender}</span>
             <LuDot />
-            <span>Medium</span>
+            <span>{oneAdoptPost.pet.size}</span>
           </div>
         </CardDescription>
       </CardHeader>
       <Separator className="mb-8" />
       <CardContent>
         <h1 className="text-2xl font-semibold mb-4">
-          About {oneAdoptPost.title}
+          About {oneAdoptPost.pet?.name}
         </h1>
         <p className="text-lg">
           Description <br />
@@ -94,6 +95,7 @@ export function ContactDetail() {
 }
 
 export function MoreDetails() {
+  const { oneAdoptPost } = useContext(AdoptionContext);
   return (
     <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.2)] border-none rounded-xl p-3">
       <CardHeader>
@@ -107,30 +109,30 @@ export function MoreDetails() {
           <li className="flex items-center gap-2 mb-2">
             {" "}
             <span className="text-[#FD7E14] opacity-75 font-semibold">
-              Age:{" "}
+              Age:
             </span>
-            <span>5</span>
+            <span>{oneAdoptPost.pet.age}</span>
           </li>
           <li className="flex items-center gap-2 mb-2">
             {" "}
             <span className="text-[#FD7E14] opacity-75 font-semibold">
               Gender:{" "}
             </span>
-            <span>Female</span>
+            <span>{oneAdoptPost.pet.gender}</span>
           </li>
           <li className="flex items-center gap-2 mb-2">
             {" "}
             <span className="text-[#FD7E14] opacity-75 font-semibold">
               Breed:{" "}
             </span>
-            <span>Any</span>
+            <span>{oneAdoptPost.pet.breed}</span>
           </li>
           <li className="flex items-center gap-2 mb-2">
             {" "}
             <span className="text-[#FD7E14] opacity-75 font-semibold">
               Health Condition:{" "}
             </span>
-            <span>Healthy</span>
+            <span>{oneAdoptPost.pet.healthCondition}</span>
           </li>
         </ul>
       </CardContent>
@@ -138,16 +140,44 @@ export function MoreDetails() {
         <h1 className="text-2xl font-semibold mb-4">Pre-adoption checks</h1>
         <ul className="">
           <li className="flex items-center gap-2 mb-2">
-            {" "}
-            <FaCheck className="text-green-500" /> <span>Vaccinated</span>
+            {oneAdoptPost.pet.vaccinated ? (
+              <>
+                <FaCheck className="text-green-500" /> <span>Vaccinated</span>
+              </>
+            ) : (
+              <>
+                {" "}
+                <BsExclamationCircle className="text-yellow-500" />{" "}
+                <span>Not vaccinated</span>{" "}
+              </>
+            )}
           </li>
           <li className="flex items-center gap-2 mb-2">
-            <FaCheck className="text-green-500" />
-            <span>Interstate adoption (ACT, NSW, NT, QLD, TAS)</span>
+            {oneAdoptPost.pet.spayed ? (
+              <>
+                <FaCheck className="text-green-500" />{" "}
+                <span>Spayed/Neutered</span>
+              </>
+            ) : (
+              <>
+                {" "}
+                <BsExclamationCircle className="text-yellow-500" />{" "}
+                <span>Not spayed/neutered</span>{" "}
+              </>
+            )}
           </li>
           <li className="flex items-center gap-2 mb-2">
-            <FaCheck className="text-green-500" />
-            <span> Wormed</span>
+            {oneAdoptPost.pet.wormed ? (
+              <>
+                <FaCheck className="text-green-500" /> <span>Wormed</span>
+              </>
+            ) : (
+              <>
+                {" "}
+                <BsExclamationCircle className="text-yellow-500" />{" "}
+                <span>Not wormed</span>{" "}
+              </>
+            )}
           </li>
         </ul>
       </CardContent>
@@ -174,6 +204,27 @@ export function MoreDetails() {
         </div>
       </CardContent>
       <CardFooter className="flex justify-between"></CardFooter>
+    </Card>
+  );
+}
+
+export function ImageCard() {
+  const { oneAdoptPost } = useContext(AdoptionContext);
+  return (
+    <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.4)] border-none rounded-xl p-0 overflow-hidden">
+      <CardContent
+        style={{
+          backgroundImage: `url(${oneAdoptPost.pet.imageUrl[0]})`,
+        }}
+        className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}></CardContent>
+      {/* <CardContent className="p-0 ">
+        <img
+          src={oneAdoptPost.pet.imageUrl[0]}
+          alt=""
+          className="object-cover 
+        "
+        />
+      </CardContent> */}
     </Card>
   );
 }

@@ -1,4 +1,6 @@
+'use client';
 import { useContext, useState } from 'react';
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { apiUrl } from '@/utils/util';
@@ -46,9 +48,10 @@ export default function PetForm({ onSubmit }: PetFormProps) {
     spayed: true,
     neutered: true,
     wormed: true,
-    category: ''
+    category: '',
+    imageUrl: ['']
   });
-  const [imageUrl, setImageUrl] = useState('');
+  // const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -83,7 +86,6 @@ export default function PetForm({ onSubmit }: PetFormProps) {
   const removeImage = () => {
     setImage(null);
     setPreviewUrl('');
-    setImageUrl('');
   };
 
   const handleImageUpload = async () => {
@@ -127,7 +129,7 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         spayed: petData.spayed,
         wormed: petData.wormed,
         category: petData.category,
-        imageUrl: uploadedImageUrl
+        imageUrl: petData.imageUrl
       });
 
       if (res.status === 201) {
@@ -135,7 +137,7 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         // Clear form
         setImage(null);
         setPreviewUrl('');
-        setImageUrl('');
+        // setImageUrl('');
         onSubmit();
         router.push('/dashboard/pets');
         router.refresh();
@@ -302,13 +304,20 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         ) : (
           <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
             <FiUpload className="h-8 w-8 text-gray-400" />
-            <span className="mt-2 text-sm text-gray-500">Upload an image</span>
-            <Input
-              type="file"
-              className="hidden"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
+            <CldUploadWidget
+              uploadPreset="pawchig"
+              onSuccess={(result) => {
+                const info = result.info as CloudinaryUploadWidgetInfo;
+                setPetData({
+                  ...petData,
+                  imageUrl: [info.secure_url]
+                });
+              }}
+            >
+              {({ open }) => {
+                return <button onClick={() => open()}>Upload an Image</button>;
+              }}
+            </CldUploadWidget>
           </label>
         )}
       </div>
