@@ -8,7 +8,8 @@ interface Donations {
   currentAmount: number;
   contributors: number;
   petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
-  userId?: { type: Schema.Types.ObjectId; ref: "User"; required: true };
+  userId: { type: Schema.Types.ObjectId; ref: "User"; required: true }; //userId? ==> userId
+  status: string; //added status
   updateDate: Date;
   comments: [string];
 }
@@ -43,12 +44,17 @@ const DonationsSchema = new Schema<Donations>(
     },
     petId: {
       type: Schema.Types.ObjectId,
-      ref: "Pets",
+      ref: "PetProfle", // ref: "Pets" ==> "PetProfle"
       required: true,
     },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true, //added req: true
+    },
+    status: {
+      type: String,
+      enum: ["in-progress", "done"],
     },
     updateDate: {
       type: Date,
