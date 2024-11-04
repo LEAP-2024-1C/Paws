@@ -1,83 +1,80 @@
-// 'use client';
-// import React, { ChangeEvent, createContext, useEffect, useState } from 'react';
-// import { apiUrl } from '@/utils/util';
-// import axios from 'axios';
-// import { useRouter } from 'next/router';
-// import { toast } from 'react-toastify';
+'use client';
 
-// interface ArticleForm {
-//     id: string;
-//     title: string;
-//     text: string,
-//     images: [string];
-//     category: {name: ""}
-// }
+import { IArticles } from '@/lib/types';
+import { apiUrl } from '@/utils/util';
+import axios from 'axios';
+import { ReactNode, useEffect, useState, createContext } from 'react';
+import { toast } from 'react-toastify';
 
-// interface ArticleContextType{
-//     articleForm: ArticleForm;
-//     setArticleForm: (articleForm: ArticleForm) => void;
-//     handlePostValues: (e: React.ChangeEvent<HTMLInputElement>) => void;
-// }
+interface ArticleContextType {
+  articles: IArticles[];
+  setArticles: React.Dispatch<React.SetStateAction<IArticles[]>>;
+  getArticles: () => void;
+  findPost: (searchValue: string) => IArticles[];
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  deleteArticlePost: (id: string) => Promise<void>; // Ensure it's included in the type
+}
 
-// export const ArticleContext = createContext<ArticleContextType>({
-//     handlePostValues: () => {},
-//     articleForm: {
-//         id: "",
-//         title:"",
-//         text: "",
-//         images: [""],
-//         category: { name: "" }
-//     },
-//     setArticleForm: (articleForm: ArticleForm) => {},
-//     }
-// );
+export const ArticleContext = createContext<ArticleContextType>({
+  articles: [],
+  setArticles: () => {},
+  getArticles: () => {},
+  findPost: () => [],
+  setSearchValue: () => {},
+  deleteArticlePost: async () => {} // Default value for deleteArticlePost
+});
 
-// export const ArticleProvider = ({
-//   children
-// }: {
-//   children: React.ReactNode;
-// }) => {
-//   const router = useRouter();
-//   const [articleForm, setArticleForm] = useState<ArticleForm>({
-//     id: "",
-//     title:"",
-//     text: "",
-//     images: [""],
-//     category: { name: "" }
-//   });
-// }
-// console.log("ddd", articleForm);
-//  const handlePostValues = ( e: ChangeEvent<HTMLInputElement>) => {
-//     const { value, name} = e.target;
-//     setArticleForm({...setArticleForm, [name]: value})
-//  }
-// const createArticle = async () => {
-// //   const { id, title, text, images, category } = articleForm;
-//   try {
-//     const res= await axios.post(`${apiUrl}/api/v1/articles` {
-//         // title: articleForm.title,
-//         // text,
-//         // images,
-//         // category,
-//     });
-//   } catch (error) {
-//     console.log("error", error);
-//     toast.error("Failed to create article")
-//   }
-// };
-// function setArticleForm(arg0: any) {
-//     throw new Error('Function not implemented.');
-// }
+export const ArticleProvider: React.FC<{ children: ReactNode }> = ({
+  children
+}) => {
+  const [articles, setArticles] = useState<IArticles[]>([]);
+  const [searchValue, setSearchValue] = useState('');
 
-// return (
-//     <ArticleContext.Provider value={{
-//         handlePostValues,
-//         setArticleForm,
-//         articleForm
+  const getArticles = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/articles`);
+      setArticles(res.data.articles);
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to fetch articles');
+    }
+  };
 
-//     }}>
-//         {children}
-//     </ArticleContext.Provider>
-// )
+  const deleteArticlePost = async (id: string) => {
+    try {
+      const res = await axios.delete(`${apiUrl}/api/v1/articles/${id}`); // Use DELETE method
+      if (res.status === 200) {
+        await getArticles(); // Refresh articles after deletion
+        toast.success('Successfully deleted article post');
+      }
+    } catch (error) {
+      console.error('Failed to delete article post', error);
+      toast.error('Failed to delete article post');
+    }
+  };
 
-// export default ArticleProvider;
+  const findPost = (searchValue: string) => {
+    return articles.filter((card) =>
+      card.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    getArticles();
+  }, []);
+
+  return (
+    <ArticleContext.Provider
+      value={{
+        articles,
+        setArticles,
+        getArticles,
+        findPost,
+        setSearchValue,
+        deleteArticlePost
+      }}
+    >
+      {children}
+    </ArticleContext.Provider>
+  );
+};

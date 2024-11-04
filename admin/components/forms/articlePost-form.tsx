@@ -200,6 +200,7 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
       setLoading(false);
     }
   };
+
   console.log('new category name', newCategory);
   console.log('article form', articleData);
   return (

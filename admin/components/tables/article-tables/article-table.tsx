@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
 import {
   Table,
   TableBody,
@@ -14,38 +13,24 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { CellAction } from './cell-action';
-import axios from 'axios';
-import { apiUrl } from '@/utils/util';
-import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
-import { IArticles } from '@/lib/types';
 import { BiSearchAlt2 } from 'react-icons/bi';
+import { useContext } from 'react';
+import { ArticleContext } from '@/components/context/article_context';
+import { IArticles } from '@/lib/types';
 
 interface ArticleTableProps {
-  data: IArticles[];
   searchKey: string;
 }
 
-export function ArticleTable({ data, searchKey }: ArticleTableProps) {
-  const [articles, setArticles] = useState<IArticles[]>([]);
-  const [searchValue, setSearchValue] = useState('');
+export function ArticleTable({ searchKey }: ArticleTableProps) {
+  const { findPost, setSearchValue, deleteArticlePost } =
+    useContext(ArticleContext);
 
-  const getArticles = async () => {
-    try {
-      const res = await axios.get(`${apiUrl}/api/v1/articles`);
-      setArticles(res.data.articles);
-    } catch (error) {
-      console.error(error);
-      toast.error('Failed to fetch articles');
-    }
+  const handleDelete = async (id: string) => {
+    await deleteArticlePost(id);
   };
-  const findPost = articles?.filter(
-    (cards) => cards?.title?.toLowerCase().includes(searchValue.toLowerCase())
-  );
-  useEffect(() => {
-    getArticles();
-  }, []);
-  console.log('Find post', findPost);
+  console.log('article data', findPost);
+
   return (
     <>
       <div className="flex items-center rounded-xl outline outline-lime-600 md:max-w-sm">
@@ -61,23 +46,25 @@ export function ArticleTable({ data, searchKey }: ArticleTableProps) {
           <TableHeader>
             <TableRow className="border bg-lime-600 pl-5">
               <TableHead className="text-white">Title</TableHead>
-              <TableHead className="text-white">Category name</TableHead>
+              <TableHead className="text-white">Category Name</TableHead>
               <TableHead className="text-white">Author</TableHead>
-              <TableHead className="text-white">Published on</TableHead>
+              <TableHead className="text-white">Published On</TableHead>
               <TableHead className="text-white">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {findPost?.map((post) => (
-              <TableRow key={post.id}>
+            {findPost('').map((post: IArticles) => (
+              <TableRow key={post._id}>
                 <TableCell className="border pl-4">{post.title}</TableCell>
                 <TableCell className="border pl-4">
-                  {post.category.name}
+                  {post.category?.name}
                 </TableCell>
                 <TableCell className="border">Amy Harris</TableCell>
-                <TableCell className="border">{post.updatedAt}</TableCell>
+                <TableCell className="border">
+                  {new Date(post.updatedAt).toLocaleDateString()}
+                </TableCell>
                 <TableCell>
-                  <CellAction id={0} />
+                  <CellAction id={post._id} />
                 </TableCell>
               </TableRow>
             ))}

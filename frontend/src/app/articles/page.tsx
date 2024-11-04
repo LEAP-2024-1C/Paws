@@ -113,7 +113,7 @@ export const BlogsCards = ({ image, title, date, id }: CardType) => {
             </li>
             <li className="flex gap-2">
               <Calendar strokeWidth={1} size={20} />
-              {date}
+              {new Date(date).toLocaleDateString()}
             </li>
           </ul>
         </CardFooter>
