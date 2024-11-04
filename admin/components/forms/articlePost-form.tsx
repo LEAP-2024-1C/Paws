@@ -261,9 +261,9 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
               </label>
             )}
           </div>
-          <div className="md:grid md:max-w-[600px] md:grid-cols-1 md:gap-8">
+          <div className="grid gap-4 md:grid md:max-w-[600px] md:grid-cols-1 md:gap-8">
             <div>
-              <h2 className="mb-2 mt-3 text-sm font-semibold md:text-lg">
+              <h2 className="mb-2 mt-5 text-sm font-semibold md:text-lg">
                 Article title
               </h2>
               <Input
@@ -309,45 +309,28 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
                 Add Category
               </Button>
             </div>
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-semibold md:text-lg">
-                    Select a category
-                  </FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={(value) =>
-                      setArticleData({ ...articleData, category: value })
-                    }
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="shadow-lg">
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a category"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        {/* @ts-ignore  */}
-                        {articlesCat?.map((cat) => (
-                          <SelectItem key={cat._id} value={cat._id}>
-                            {cat.name}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+            <h2 className="md:text0lg font-semibold">Select a category</h2>
+            <Select
+              disabled={loading}
+              onValueChange={(value) =>
+                setArticleData({ ...articleData, category: value })
+              }
+            >
+              <SelectTrigger className="shadow-lg">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {/* @ts-ignore  */}
+                  {articlesCat?.map((cat) => (
+                    <SelectItem key={cat._id} value={cat._id}>
+                      {cat.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 
             <FormField
               name="description"
