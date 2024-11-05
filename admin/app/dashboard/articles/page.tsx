@@ -35,7 +35,7 @@ export default function Page() {
         </div>
         <Separator />
 
-        <ArticleTable searchKey="articles" data={[]} />
+        <ArticleTable searchKey="articles" />
       </div>
     </PageContainer>
   );

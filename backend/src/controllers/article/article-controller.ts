@@ -1,3 +1,4 @@
+import { errorMonitor } from "nodemailer/lib/xoauth2";
 import Article from "../../models/article/article.model";
 import { Request, Response } from "express";
 
@@ -40,5 +41,18 @@ export const getOneArticle = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Get one article successfully", article });
   } catch (error) {
     console.log("Failed to get article data", error);
+  }
+};
+
+export const deleteArticlePost = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const deletePost = await Article.findByIdAndDelete(id);
+    res
+      .status(200)
+      .json({ message: "Deleted articles post successfully", Article });
+  } catch (error) {
+    console.log("Failed to delete articles post", error);
+    res.status(500).json({ message: "Articles post delete error", error });
   }
 };

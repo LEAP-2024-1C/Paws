@@ -1,4 +1,5 @@
 'use client';
+import { ArticleContext } from '@/components/context/article_context';
 import { AlertModal } from '@/components/modal/alert-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,26 +11,40 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Check, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 interface CellActionProps {
-  id: number;
+  id: number | string;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { deleteArticlePost } = useContext(ArticleContext);
 
-  const onConfirm = async () => {};
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      await deleteArticlePost(id as string);
+      setOpen(false);
+    } catch (error) {
+      console.error('Error deleting article:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onConfirm = async (deletePost: void) => {};
 
   return (
     <>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={handleDelete}
         loading={loading}
+        id={''}
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
@@ -46,7 +61,7 @@ export const CellAction: React.FC<CellActionProps> = ({ id }) => {
             <Check className="mr-2 h-4 w-4" /> Accept
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
+            <Trash className="mr-2 h-4 w-4" onClick={handleDelete} /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
