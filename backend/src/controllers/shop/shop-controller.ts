@@ -14,6 +14,17 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+export const getProductById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    res.status(200).json({ message: "Get product by id success", product });
+  } catch (error) {
+    console.error("Error getting product by id:", error);
+    res.status(500).json({ message: "Failed to get product by id", error });
+  }
+};
+
 export const getAllCategories = async (req: Request, res: Response) => {
   try {
     const categories = await Category.find({}).sort({ createdAt: -1 });

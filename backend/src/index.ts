@@ -11,7 +11,8 @@ import { connectDB } from "./config/db";
 import shopRoute from "./routes/shop/shop-route";
 import sosRoute from "./routes/sos/sos-route";
 import donationRoute from "./routes/donation/donation-route";
-
+import cartRoute from "./routes/shop/cart-route";
+import wishlistRoute from "./routes/shop/wishlist-route";
 dotenv.config();
 
 //express application obj uusgeh
@@ -34,6 +35,8 @@ app.use("/api/v1/products", shopRoute);
 app.use("/api/v1/products/categories", shopRoute);
 app.use("/api/v1/sos", sosRoute);
 app.use("/api/v1/donation", donationRoute);
+app.use("/api/v1/cart", cartRoute);
+app.use("/api/v1/wishlist", wishlistRoute);
 
 connectDB(MONGO_URL);
 
