@@ -1,296 +1,180 @@
 'use client';
-import * as z from 'zod';
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+
+import { useContext } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 // import FileUpload from "@/components/FileUpload";
-import { useToast } from '../ui/use-toast';
-import FileUpload from '../file-upload';
-const ImgSchema = z.object({
-  fileName: z.string(),
-  name: z.string(),
-  fileSize: z.number(),
-  size: z.number(),
-  fileKey: z.string(),
-  key: z.string(),
-  fileUrl: z.string(),
-  url: z.string()
-});
-export const IMG_MAX_LIMIT = 3;
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'Pet Name must be at least 3 characters' }),
-  imgUrl: z
-    .array(ImgSchema)
-    .max(IMG_MAX_LIMIT, { message: 'You can only add up to 3 images' })
-    .min(1, { message: 'At least one image must be added.' }),
-  description: z.string().min(3, {
-    message: 'Adopt request description must be at least 3 characters'
-  }),
-  price: z.coerce.number(),
-  category: z.string().min(1, { message: 'Please select a category' }),
-  location: z.string(),
-  preCheck: z.string()
-});
 
-type DonationPostFormValues = z.infer<typeof formSchema>;
+import { PetsContext } from '../context/pets-context';
+import { Textarea } from '../ui/textarea';
+import { DonationContext } from '../context/donation-context';
+import { ProfileContext } from '../context/profile_context';
 
-interface DonationFormProps {
+interface AdoptionFormProps {
   initialData: any | null;
   pets: any;
-  preChecks: any;
+  status: any;
 }
 
-export const DonationPostForm: React.FC<DonationFormProps> = ({
+export const DonationPostForm: React.FC<AdoptionFormProps> = ({
   initialData,
-  pets,
-  preChecks
+  status
 }) => {
-  const params = useParams();
-  const router = useRouter();
-  const { toast } = useToast();
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState(false);
-  const title = initialData ? 'Edit post' : 'Create post';
-  const description = initialData ? 'Edit a post.' : 'Add a new post';
-  const toastMessage = initialData ? 'Post updated.' : 'Post created.';
   const action = initialData ? 'Save changes' : 'Create';
+  const { getPetData } = useContext(PetsContext);
+  const { isLoading } = useContext(ProfileContext);
+  const { donationPosts, setDonationPosts, createDonationPost } =
+    useContext(DonationContext);
 
   const defaultValues = initialData
     ? initialData
     : {
-        name: '',
-        description: '',
-        price: 0,
-        imgUrl: [],
-        category: '',
-        location: '',
-        preCheck: ''
+        status: ''
       };
 
-  const form = useForm<DonationPostFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues
-  });
-
-  const onSubmit = async (data: DonationPostFormValues) => {
-    try {
-      setLoading(true);
-      if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
-      } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
-      }
-      router.refresh();
-      router.push(`/dashboard/adoption`);
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onDelete = async () => {
-    try {
-      setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/adoption`);
-    } catch (error: any) {
-    } finally {
-      setLoading(false);
-      setOpen(false);
-    }
-  };
-
-  const triggerImgUrlValidation = () => form.trigger('imgUrl');
+  // console.log('FD', donationPosts); //olon udaa duudaad bga err zasah
 
   return (
     <>
-      {/* <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      /> */}
       <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-        {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}
+        <Heading title="Create Donation Post" description="Add a new post" />
       </div>
       <Separator />
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
-          <FormField
-            control={form.control}
-            name="imgUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  <FileUpload
-                    onChange={field.onChange}
-                    value={field.value}
-                    onRemove={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="gap-8 md:grid md:grid-cols-3">
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Select a pet</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a pet"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {pets.map((pet) => (
-                        <SelectItem key={pet._id} value={pet._id}>
-                          {pet.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="About Kitty"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Ulaanbaatar City"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="preCheck"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pre-adoption checks</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a value"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {/* @ts-ignore  */}
-                      {preChecks.map((check) => (
-                        <SelectItem key={check._id} value={check._id}>
-                          {check.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+
+      <form>
+        <div className="mb-4 w-full space-y-8">
+          <CldUploadWidget
+            uploadPreset="pawchig"
+            onSuccess={(result) => {
+              const info = result.info as CloudinaryUploadWidgetInfo;
+              setDonationPosts({
+                ...donationPosts,
+                images: [info.secure_url]
+              });
+            }}
+          >
+            {({ open }) => {
+              return <button onClick={() => open()}>Upload an Image</button>;
+            }}
+          </CldUploadWidget>
+        </div>
+
+        <div className="gap-8 md:grid md:grid-cols-3">
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
+            <Select
+              onValueChange={(value) =>
+                setDonationPosts({ ...donationPosts, petId: value })
+              }
+              required
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Select a pet" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Pet name</SelectLabel>
+                  {getPetData?.map((e) => (
+                    <SelectItem key={e._id} value={e._id}>
+                      {e.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Insert a title</h6>
+            <Input
+              type="text"
+              value={donationPosts.title}
+              onChange={(e) =>
+                setDonationPosts({ ...donationPosts, title: e.target.value })
+              }
+              placeholder="Title"
+              className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+              required
             />
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
-            {action}
-          </Button>
-        </form>
-      </Form>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">
+              Insert neccesary donation amount
+            </h6>
+            <Input
+              type="number"
+              value={donationPosts.totalAmount}
+              onChange={(e) =>
+                setDonationPosts({
+                  ...donationPosts,
+                  totalAmount: Number(e.target.value)
+                })
+              }
+              placeholder="Amount"
+              className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+              required
+            />
+          </div>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Select status</h6>
+            <Select
+              onValueChange={(value) =>
+                setDonationPosts({ ...donationPosts, status: value })
+              }
+              required
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Status</SelectLabel>
+                  {status?.map((e: any) => (
+                    <SelectItem key={e.name} value={e.name}>
+                      {e.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">
+              Insert description
+            </h6>
+            <Textarea
+              value={donationPosts.description}
+              onChange={(e) =>
+                setDonationPosts({
+                  ...donationPosts,
+                  description: e.target.value
+                })
+              }
+              placeholder="Description"
+              className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+              required
+            />
+          </div>
+        </div>
+        <Button
+          disabled={isLoading}
+          className="ml-auto"
+          onClick={createDonationPost}
+        >
+          {action}
+        </Button>
+      </form>
     </>
   );
 };

@@ -3,7 +3,16 @@ import Donations from "../../models/donation.model";
 
 export const getAllDonations = async (req: Request, res: Response) => {
   try {
-    const allDonations = await Donations.find({});
+    const allDonations = await Donations.find({})
+      .populate({
+        path: "petId",
+        model: "PetProfle",
+      }) //populated
+      .populate({
+        path: "userId",
+        model: "User",
+        select: "firstname lastname",
+      }); //populated
     res.status(200).json({ message: "Success", allDonations });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -25,8 +34,8 @@ export const getSingleDonation = async (req: Request, res: Response) => {
 
 export const createDonations = async (req: Request, res: Response) => {
   try {
-    const { description, title, images, petId, totalAmount, updateDate } =
-      req.body;
+    const userId = req.user._id.toString(); //req.user
+    const { description, title, images, petId, totalAmount, status } = req.body;
     if (!description || !title || !images || !totalAmount) {
       return res.status(400).json({ message: "Хоосон утга байж болохгүй" });
     }
@@ -36,13 +45,15 @@ export const createDonations = async (req: Request, res: Response) => {
       images,
       petId,
       totalAmount,
-      updateDate,
+      userId,
+      status,
     });
     res.status(201).json({
-      message: "Created danations successfully",
+      message: "Created donations successfully",
       category: newDonation,
     });
   } catch (error) {
+    console.log("err", error);
     res.status(500).json({ message: "Server error", error });
   }
 };

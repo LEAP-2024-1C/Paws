@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface CellActionProps {
-  id: number;
+  id: string;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ id }) => {
@@ -21,7 +21,7 @@ export const CellAction: React.FC<CellActionProps> = ({ id }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const onConfirm = async () => {};
+  const onConfirm = async (id: string) => {};
 
   return (
     <>
@@ -30,6 +30,7 @@ export const CellAction: React.FC<CellActionProps> = ({ id }) => {
         onClose={() => setOpen(false)}
         onConfirm={onConfirm}
         loading={loading}
+        id={id}
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>

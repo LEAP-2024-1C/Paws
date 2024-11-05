@@ -15,6 +15,9 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { DonationPosts } from '@/constants/data';
 import { CellAction } from './cell-action';
+import { useContext } from 'react';
+import { DonationContext } from '@/components/context/donation-context';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface DonationTableProps {
   data: DonationPosts[];
@@ -22,6 +25,8 @@ interface DonationTableProps {
 }
 
 export function DonationTable({ data, searchKey }: DonationTableProps) {
+  const { getDonationPosts } = useContext(DonationContext);
+  // console.log('DPS', getDonationPosts); //olon duudaad bga aldaag zasah
   return (
     <>
       <Input
@@ -32,20 +37,36 @@ export function DonationTable({ data, searchKey }: DonationTableProps) {
         <Table className="relative">
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Img</TableHead>
               <TableHead>Pet Name</TableHead>
+              <TableHead>Neccesary amount</TableHead>
+              <TableHead>Current amount</TableHead>
+              <TableHead>Created date</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {data.map((post) => (
-              <TableRow key={post.id}>
-                <TableCell>{post.userName}</TableCell>
-                <TableCell>{post.petName}</TableCell>
+          <TableBody className="gap-2">
+            {getDonationPosts.map((post) => (
+              <TableRow
+                // key={post.id}
+                className=" "
+              >
+                <TableCell>
+                  <Avatar>
+                    <AvatarImage src={post.images[0]} alt="@shadcn" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </TableCell>
+                <TableCell>{post.petId?.name}</TableCell>
+                <TableCell>{post.totalAmount}</TableCell>
+                <TableCell>current amount</TableCell>
+                <TableCell>
+                  {new Date(post.created_at).toLocaleDateString()}
+                </TableCell>
                 <TableCell>{post.description}</TableCell>
                 <TableCell>
-                  <CellAction id={post.id} />
+                  <CellAction id={post._id} />
                 </TableCell>
               </TableRow>
             ))}
