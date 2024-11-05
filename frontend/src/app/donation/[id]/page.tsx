@@ -29,7 +29,7 @@ const DonationDetail = () => {
   useEffect(() => {
     fetchSingleDonationPosts(id);
   }, [id]);
-  console.log("D.post", donationPosts);
+
   return (
     <div className="bg-slate-50 ">
       <div className="w-3/4 flex-col flex xl:flex-row mx-auto  p-6 gap-20 ">

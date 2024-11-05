@@ -1,13 +1,11 @@
 import { model, Schema, Document, Types } from "mongoose";
 
-// Donation-д зориулсан Comment интерфэйс
 interface Comment {
   user: Types.ObjectId;
   comment: string;
   createdAt: Date;
 }
 
-// Donations үндсэн интерфэйс
 interface Donations extends Document {
   description: string;
   title: string;
@@ -22,7 +20,6 @@ interface Donations extends Document {
   updatedAt?: Date;
 }
 
-// Donations схем
 const DonationsSchema = new Schema<Donations>(
   {
     title: {
@@ -80,7 +77,7 @@ const DonationsSchema = new Schema<Donations>(
     ],
   },
   {
-    timestamps: true, // createdAt, updatedAt талбаруудыг автоматаар үүсгэнэ
+    timestamps: true,
   }
 );
 

@@ -4,12 +4,14 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { apiUrl } from "@/utils/util";
 import axios from "axios";
 import { UserContext } from "./user_context";
+import { toast } from "react-toastify";
 
 type DonationProviderProps = {
   children: React.ReactNode;
 };
 
 interface IComment {
+  id: number;
   name: string;
   comment: string;
 }
@@ -105,12 +107,13 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
         user,
       });
       if (res.status === 200) {
-        setComment(""); // Clear the comment field
-        setRefetch(!refetch); // Trigger refetch to update comments
-        // console.log("console sth");
+        toast.success("Added comment successfull");
+        setComment("");
+        setRefetch(!refetch);
       }
     } catch (error) {
       console.error("Error adding comment:", error);
+      toast.error("Failed to post comment");
     }
   };
 

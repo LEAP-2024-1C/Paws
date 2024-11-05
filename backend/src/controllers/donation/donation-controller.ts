@@ -113,3 +113,58 @@ export const addDonationComment = async (req: Request, res: Response) => {
     });
   }
 };
+// export const deleteDonationComment = async (req: Request, res: Response) => {
+//   try {
+//     const { id, commentId } = req.params; // donation ID болон comment ID
+//     const { userId } = req.body;
+
+//     // ID-нуудыг шалгах
+//     if (!id || !commentId) {
+//       return res
+//         .status(400)
+//         .json({ message: "Donation ID and Comment ID are required" });
+//     }
+
+//     // Donation-ийг ID-гаар нь хайх
+//     const donation = await Donations.findById(id);
+
+//     // Donation олдохгүй бол алдааны мэдэгдэл буцаах
+//     if (!donation) {
+//       return res.status(404).json({ message: "Donation post not found" });
+//     }
+
+//     // Устгах сэтгэгдлийн индексийг олох
+//     const commentIndex = donation.comments.findIndex(
+//       (comment) => comment._id.toString() === commentId
+//     );
+
+//     // Сэтгэгдэл олдохгүй бол алдааны мэдэгдэл буцаах
+//     if (commentIndex === -1) {
+//       return res.status(404).json({ message: "Comment not found" });
+//     }
+//     const comment = donation.comments[commentIndex];
+//     if (comment.user.toString() !== userId) {
+//       return res
+//         .status(403)
+//         .json({ message: "You are not authorized to delete this comment" });
+//     }
+
+//     // Сэтгэгдлийг массив дотроос устгах
+//     donation.comments.splice(commentIndex, 1);
+
+//     // Өөрчлөлтийг хадгалах
+//     const updatedDonation = await donation.save();
+
+//     return res.status(200).json({
+//       message: "Comment deleted successfully",
+//       updatedDonation,
+//     });
+//   } catch (error) {
+//     console.error("Couldn't delete the comment:", error);
+
+//     return res.status(500).json({
+//       message: "An error occurred while deleting the comment",
+//       error: error instanceof Error ? error.message : "Unknown error",
+//     });
+//   }
+// };
