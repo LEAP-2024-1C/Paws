@@ -238,7 +238,7 @@ export interface IAdoptionRequest {
   userId: { _id: string; firstname: string; lastname: string; email: string };
 }
 
-export interface AdoptionReqContextType {
+export interface AdoptionContextType {
   adoptionRequests: IAdoptionRequest[];
   setAdoptionRequests: React.Dispatch<React.SetStateAction<IAdoptionRequest[]>>;
   getAllAdoptionRequests: () => void;
@@ -246,6 +246,36 @@ export interface AdoptionReqContextType {
     id: string,
     status: IAdoptionRequest['status']
   ) => void;
+  editAdoptionPost: IEditAdoptionPost;
+  setEditAdoptionPost: React.Dispatch<React.SetStateAction<IEditAdoptionPost>>;
+  getSingleAdoptionPost: (id: string | string[]) => void;
+  editAdoptionPostFunc: (id: string) => void;
+  formData: IFormData;
+  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
+  addAdoptionPost: (e: React.FormEvent) => void;
+}
+
+export interface IFormData {
+  title: string;
+  description: string;
+  petId: string;
+  location: string;
+  status: string;
+  imgUrl: string[];
+  [key: string]: any;
+}
+
+export interface IEditAdoptionPost {
+  _id: string;
+  title: string;
+  description: string;
+  status: string;
+  pet: {
+    _id: string;
+    name: string;
+  };
+  imgUrl: [string];
+  location: string;
 }
 
 export interface IPets {

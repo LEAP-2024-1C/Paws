@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -15,46 +15,44 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
-import { Textarea } from '../ui/textarea';
-import { AdoptionReqContext } from '../context/adoption-context';
-import { ProfileContext } from '../context/profile_context';
+// import FileUpload from "@/components/FileUpload";
+import { useToast } from '@/components/ui/use-toast';
+import { PetsContext } from '@/components/context/pets-context';
+import { Textarea } from '@/components/ui/textarea';
+import { AdoptionReqContext } from '@/components/context/adoption-context';
+import { ProfileContext } from '@/components/context/profile_context';
 import { FiUpload } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import Image from 'next/image';
 
-interface AdoptionFormProps {
-  status: any;
-  id: string | string[];
-}
-
-export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
-  status,
-  id
-}) => {
-  const { isLoading } = useContext(ProfileContext);
-  const { editAdoptionPost, setEditAdoptionPost, editAdoptionPostFunc } =
+export default function Page() {
+  const status = [
+    { _id: '1', name: 'posted' },
+    { _id: '2', name: 'in-progress' },
+    { _id: '3', name: 'adopted' }
+  ];
+  const { getPetData } = useContext(PetsContext);
+  const { formData, setFormData, addAdoptionPost } =
     useContext(AdoptionReqContext);
-  useEffect(() => {
-    console.log('Edit data changed:', editAdoptionPost);
-  }, [editAdoptionPost]);
+  const { isLoading } = useContext(ProfileContext);
 
   const removeImage = () => {
-    setEditAdoptionPost({ ...editAdoptionPost, imgUrl: [''] });
+    setFormData({ ...formData, imgUrl: [''] });
   };
 
   return (
-    <>
+    <div className="space-y-4 p-8">
       <div className="flex items-center justify-between">
-        <Heading title="Edit The Post" description="Edit adoption post" />
+        <Heading title="Create Post" description="Add a new post" />
       </div>
       <Separator />
 
       <form>
-        <div className="relative my-6 w-1/2 space-y-2">
-          {editAdoptionPost.imgUrl[0] ? (
+        <div className="relative mb-4 space-y-2">
+          {formData.imgUrl[0] ? (
             <div className="relative h-48 w-full overflow-hidden rounded-xl">
               <Image
-                src={editAdoptionPost.imgUrl[0]}
+                src={formData.imgUrl[0]}
                 alt="Preview"
                 fill
                 className="object-cover"
@@ -74,8 +72,8 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
                 uploadPreset="pawchig"
                 onSuccess={(result) => {
                   const info = result.info as CloudinaryUploadWidgetInfo;
-                  setEditAdoptionPost({
-                    ...editAdoptionPost,
+                  setFormData({
+                    ...formData,
                     imgUrl: [info.secure_url]
                   });
                 }}
@@ -89,7 +87,7 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
                         open();
                       }}
                     >
-                      Change an Image
+                      Upload an Image
                     </button>
                   );
                 }}
@@ -100,59 +98,66 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
 
         <div className="gap-8 md:grid md:grid-cols-3">
           <div className="">
-            <h6 className="mb-3 text-[0.9rem] font-medium">Pet Name</h6>
-
-            <Input
-              disabled={true}
-              type="text"
-              value={editAdoptionPost?.pet?.name}
-              className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+            <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
+            <Select
+              onValueChange={(value) =>
+                setFormData({ ...formData, petId: value })
+              }
               required
-            />
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Select a pet" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Pet name</SelectLabel>
+                  {getPetData?.map((e) => (
+                    <SelectItem key={e._id} value={e._id}>
+                      {e.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="">
-            <h6 className="mb-3 text-[0.9rem] font-medium">Edit a title</h6>
+            <h6 className="mb-3 text-[0.9rem] font-medium">Insert a title</h6>
             <Input
               type="text"
-              value={editAdoptionPost?.title}
+              value={formData.title}
               onChange={(e) =>
-                setEditAdoptionPost({
-                  ...editAdoptionPost,
-                  title: e.target.value
-                })
+                setFormData({ ...formData, title: e.target.value })
               }
               placeholder="Title"
               className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
-          <div className="">
-            <h6 className="mb-3 text-[0.9rem] font-medium">Edit location</h6>
-            <Input
-              type="text"
-              value={editAdoptionPost?.location}
+          <div className="row-span-2">
+            <h6 className="mb-3 text-[0.9rem] font-medium">
+              Insert description
+            </h6>
+            <Textarea
+              value={formData.description}
               onChange={(e) =>
-                setEditAdoptionPost({
-                  ...editAdoptionPost,
-                  location: e.target.value
-                })
+                setFormData({ ...formData, description: e.target.value })
               }
-              placeholder="Location"
+              placeholder="Description"
               className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
+
           <div className="">
-            <h6 className="mb-3 text-[0.9rem] font-medium">Change status</h6>
+            <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
             <Select
-              value={editAdoptionPost.status}
               onValueChange={(value) =>
-                setEditAdoptionPost({ ...editAdoptionPost, status: value })
+                setFormData({ ...formData, status: value })
               }
               required
             >
               <SelectTrigger className="">
-                <SelectValue placeholder="Change status" />
+                <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -166,17 +171,15 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
               </SelectContent>
             </Select>
           </div>
-          <div className="col-span-2">
-            <h6 className="mb-3 text-[0.9rem] font-medium">Edit description</h6>
-            <Textarea
-              value={editAdoptionPost?.description}
+          <div className="">
+            <h6 className="mb-3 text-[0.9rem] font-medium">Insert location</h6>
+            <Input
+              type="text"
+              value={formData.location}
               onChange={(e) =>
-                setEditAdoptionPost({
-                  ...editAdoptionPost,
-                  description: e.target.value
-                })
+                setFormData({ ...formData, location: e.target.value })
               }
-              placeholder="Description"
+              placeholder="Location"
               className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
               required
             />
@@ -184,14 +187,12 @@ export const AdoptionPostsForm: React.FC<AdoptionFormProps> = ({
         </div>
         <Button
           disabled={isLoading}
-          className="ml-auto"
-          onClick={() => {
-            editAdoptionPostFunc(id as string);
-          }}
+          className="ml-auto mt-6"
+          onClick={addAdoptionPost}
         >
-          Save Changes
+          Create
         </Button>
       </form>
-    </>
+    </div>
   );
-};
+}
