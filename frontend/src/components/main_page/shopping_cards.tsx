@@ -5,7 +5,7 @@ import React from "react";
 
 const ShoppingCards = ({ image, name, price, id }: Product) => (
   <div key={id} className=" border rounded-xl">
-    <Image src={image} alt="product image" width={290} height={306}></Image>
+    <Image src={image} alt="product image" width={340} height={306}></Image>
     <div className="flex justify-between mt-5 px-5">
       <h4 className="font-bold text-md">{name}</h4>
       <Heart color="orange" />

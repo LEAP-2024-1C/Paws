@@ -115,18 +115,6 @@ export const products: Product[] = [
     price: 120000,
     image: "/img/product.png",
   },
-  {
-    id: 6,
-    name: "Dog Bowl",
-    price: 120000,
-    image: "/img/product.png",
-  },
-  {
-    id: 7,
-    name: "Cat Food",
-    price: 120000,
-    image: "/img/product.png",
-  },
 ];
 
 export const Apps: AppsType[] = [

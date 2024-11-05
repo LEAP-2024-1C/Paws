@@ -1,16 +1,29 @@
 "use client";
 import PetsCard from "@/components/main_page/adoption-card";
-import { Cards, NewsBlogs, NewsCard, Product, products } from "@/lib/data";
+import { Product, products } from "@/lib/data";
 import { TfiArrowCircleRight, TfiArrowCircleLeft } from "react-icons/tfi";
 import Post from "@/components/main_page/post";
 import Logo from "@/components/main_page/logos";
-import NewsAndBlogs from "@/components/main_page/news_blogs";
 import ShoppingCards from "@/components/main_page/shopping_cards";
 import HeroComponent from "@/components/main_page/hero_component";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "@/components/sos/modal";
+import { BlogsCards } from "./articles/page";
+import { IArticles } from "@/lib/types";
+import { ArticleContext } from "@/components/context/article_context";
+import { AdoptionContext } from "@/components/context/adoption_context";
+import { DonationContext } from "@/components/context/donation_context";
+import HomeDonationCard from "@/components/main_page/donation_card";
+
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const { articles } = useContext(ArticleContext);
+  const { adoptionPosts } = useContext(AdoptionContext);
+  const { donationPosts } = useContext(DonationContext);
+  const articleCards = articles.slice(0, 3);
+  const donatCards = donationPosts.slice(0, 4);
+
+  console.log("adoption pets", adoptionPosts);
 
   return (
     <section>
@@ -23,8 +36,8 @@ export default function Home() {
         </div>
       </div>
       <div className="flex justify-center gap-6 mt-10">
-        {Cards.map((card, i) => (
-          <PetsCard image={card.image} name={card.name} id={card.id} key={i} />
+        {adoptionPosts?.map((pet, i) => (
+          <PetsCard pet={pet.pet} _id={pet._id} key={i} imgUrl={pet.imgUrl} />
         ))}
       </div>
       <div className="flex justify-between mt-20 md:w-[1300px] mx-auto">
@@ -34,32 +47,40 @@ export default function Home() {
           <TfiArrowCircleRight className="text-4xl text-white bg-black border rounded-full" />
         </div>
       </div>
+
       <div className="flex justify-center gap-6 mt-10">
-        {Cards.map((card, i) => (
-          <PetsCard image={card.image} name={card.name} id={card.id} key={i} />
+        {donatCards.map((card, i) => (
+          <HomeDonationCard
+            title={card.title}
+            _id={card._id}
+            key={i}
+            description={""}
+            images={card.images}
+            totalAmount={0}
+            updateDate={0}
+          />
         ))}
       </div>
+
       <Post />
       <Logo />
       <h2 className="text-center -mb-20 text-2xl font-bold mt-20">
         News & Blogs
       </h2>
-      <section className="flex justify-center gap-5 items-center h-fit my-40">
-        {NewsBlogs.map((card: NewsCard) => (
-          // eslint-disable-next-line react/jsx-key
-          <NewsAndBlogs
-            image={card.image}
-            id={card.id}
-            date={card.date}
+      <section className="grid  grid-flow-col-dense justify-center gap-8 md:mb-20">
+        {articleCards?.map((card: IArticles) => (
+          <BlogsCards
+            image={card.images[0]}
+            id={card._id}
+            date={card.updatedAt}
             title={card.title}
-            category={card.category}
           />
         ))}
       </section>
       <h2 className="text-xl font-bold text-center mb-20">
         Best selling products
       </h2>
-      <section className="grid grid-rows-2 grid-flow-col-dense justify-center gap-5 mb-40">
+      <section className="grid grid-rows-2 grid-flow-col-dense justify-center gap-8 mb-40">
         {products.map((product: Product) => (
           // eslint-disable-next-line react/jsx-key
           <ShoppingCards

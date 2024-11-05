@@ -15,6 +15,7 @@ import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
 import { CardType, CatType, IArticles } from "@/lib/types";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Articles = () => {
   const [articles, setArticles] = useState<IArticles[]>([]);
@@ -63,14 +64,13 @@ const Articles = () => {
           {articleCat?.map((category: CatType) => (
             <>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem
-                  value="default"
-                  id={category._id}
-                  className="text-lime-600"
-                />
-                <Label htmlFor="r1" className="text-lg font-medium">
+                <Checkbox id="terms" />
+                <label
+                  htmlFor="terms"
+                  className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
                   {category.name}
-                </Label>
+                </label>
               </div>
             </>
           ))}
