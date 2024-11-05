@@ -93,7 +93,7 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
                       open();
                     }}
                   >
-                    Upload an Image
+                    Change an Image
                   </button>
                 );
               }}
@@ -104,7 +104,7 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
 
       <div className="gap-8 md:grid md:grid-cols-3">
         <div className="">
-          <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
+          <h6 className="mb-3 text-[0.9rem] font-medium">Pet Name</h6>
 
           <Input
             type="text"
@@ -114,7 +114,7 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
           />
         </div>
         <div className="">
-          <h6 className="mb-3 text-[0.9rem] font-medium">Insert a title</h6>
+          <h6 className="mb-3 text-[0.9rem] font-medium">Edit a title</h6>
 
           <Input
             type="text"
@@ -129,7 +129,7 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
         </div>
         <div className="">
           <h6 className="mb-3 text-[0.9rem] font-medium">
-            Insert neccesary donation amount
+            Edit neccesary donation amount
           </h6>
 
           <Input
@@ -147,7 +147,7 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
           />
         </div>
         <div className="">
-          <h6 className="mb-3 text-[0.9rem] font-medium">Select status</h6>
+          <h6 className="mb-3 text-[0.9rem] font-medium">Change status</h6>
           <Select
             value={editData.status}
             onValueChange={(value) =>
@@ -171,7 +171,7 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
           </Select>
         </div>
         <div className="">
-          <h6 className="mb-3 text-[0.9rem] font-medium">Insert description</h6>
+          <h6 className="mb-3 text-[0.9rem] font-medium">Edit description</h6>
           <Textarea
             value={editData.description}
             onChange={(e) => {

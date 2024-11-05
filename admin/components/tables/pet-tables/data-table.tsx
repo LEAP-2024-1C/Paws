@@ -103,7 +103,9 @@ export const columns: ColumnDef<IPets, any>[] = [
     accessorKey: 'vaccinated',
     header: 'Vaccinated',
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('vaccinated')}</div>
+      <div className="capitalize">
+        {row.getValue('vaccinated') ? 'Yes' : 'No'}
+      </div>
     )
   },
   {
@@ -115,14 +117,14 @@ export const columns: ColumnDef<IPets, any>[] = [
     accessorKey: 'wormed',
     header: 'Wormed',
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('wormed')}</div>
+      <div className="capitalize">{row.getValue('wormed') ? 'Yes' : 'No'}</div>
     )
   },
   {
     accessorKey: 'spayed',
     header: 'Spayed/Neutered',
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('spayed')}</div>
+      <div className="capitalize">{row.getValue('spayed') ? 'Yes' : 'No'}</div>
     )
   },
   // {

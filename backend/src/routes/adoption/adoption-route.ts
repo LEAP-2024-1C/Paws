@@ -22,6 +22,7 @@ router
   .route("/:id")
   .get(getAdoptionPost)
   .patch(updateAdoptionPost)
+  .put(updateAdoptionPost)
   .delete(deleteAdoptionPost);
 router.route("/req/:id").patch(updateAdoptionRequest);
 router.route("/req/own").get(authentication, getOwnAdoptionInquiries);
