@@ -32,7 +32,6 @@ interface ShoppingContextType {
   loading: boolean;
   categories: Category[];
   cartItems: CartItem[];
-  wishlistItems: Product[];
 }
 
 export const ShoppingContext = createContext<ShoppingContextType>({
@@ -41,7 +40,6 @@ export const ShoppingContext = createContext<ShoppingContextType>({
   loading: false,
   categories: [],
   cartItems: [],
-  wishlistItems: [],
 });
 
 export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
@@ -51,7 +49,6 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
 
   const fetchAllProducts = async () => {
     setLoading(true);
@@ -80,7 +77,6 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
       toast.error("Failed to load categories");
     }
   };
-
   useEffect(() => {
     fetchAllProducts();
     getCategoriesData();
@@ -94,7 +90,6 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
         loading,
         categories,
         cartItems,
-        wishlistItems,
       }}
     >
       {children}

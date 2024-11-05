@@ -18,7 +18,7 @@ import { apiUrl } from '@/utils/util';
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 import { FiUpload } from 'react-icons/fi';
-import { CloudinaryUploadWidgetInfo } from 'next-cloudinary';
+import { CldOgImage, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import { CldUploadWidget } from 'next-cloudinary';
 
 interface ProductFormProps {
@@ -34,39 +34,15 @@ export default function ProductForm({
     name: '',
     price: 0,
     description: '',
-    imageUrl: [''],
+    images: [''],
     category: '',
     quantity: 0
   });
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>('');
   const router = useRouter();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('Image size should be less than 5MB');
-        return;
-      }
-      if (!file.type.startsWith('image/')) {
-        toast.error('Please upload an image file');
-        return;
-      }
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const removeImage = () => {
-    setImage(null);
-    setPreviewUrl('');
-    setProductData({ ...productData, imageUrl: [''] });
+    setProductData({ ...productData, images: [''] });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,7 +54,7 @@ export default function ProductForm({
         description: productData.description,
         price: productData.price,
         category: productData.category,
-        imageUrl: productData.imageUrl,
+        images: productData.images,
         quantity: productData.quantity
       });
 
@@ -88,12 +64,10 @@ export default function ProductForm({
           name: '',
           price: 0,
           description: '',
-          imageUrl: [''],
+          images: [''],
           category: '',
           quantity: 0
         });
-        setPreviewUrl('');
-        // onSubmit();
         router.push('/dashboard/product');
         router.refresh();
       }
@@ -147,7 +121,7 @@ export default function ProductForm({
       />
 
       <Input
-        type="number"
+        type="text"
         value={productData.price}
         onChange={(e) =>
           setProductData({ ...productData, price: Number(e.target.value) })
@@ -176,25 +150,48 @@ export default function ProductForm({
           </SelectGroup>
         </SelectContent>
       </Select>
-      {/* Image Upload Section */}
+      {/* Modify Image Upload Section */}
       <div className="relative">
-        <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
-          <FiUpload className="h-8 w-8 text-gray-400" />
-          <CldUploadWidget
-            uploadPreset="pawchig"
-            onSuccess={(result) => {
-              const info = result.info as CloudinaryUploadWidgetInfo;
-              setProductData({
-                ...productData,
-                imageUrl: [info.secure_url]
-              });
-            }}
-          >
-            {({ open }) => {
-              return <button onClick={() => open()}>Upload an Image</button>;
-            }}
-          </CldUploadWidget>
-        </label>
+        {productData.images[0] ? (
+          <div className="relative h-32 w-full">
+            <Image
+              src={productData.images[0]}
+              alt="Product preview"
+              fill
+              className="rounded-xl object-cover"
+            />
+            <button
+              onClick={removeImage}
+              className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
+              type="button"
+            >
+              <IoClose size={20} />
+            </button>
+          </div>
+        ) : (
+          <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
+            <FiUpload className="h-8 w-8 text-gray-400" />
+            <CldUploadWidget
+              uploadPreset="pawchig"
+              onSuccess={(result) => {
+                const info = result.info as CloudinaryUploadWidgetInfo;
+                setProductData({
+                  ...productData,
+                  images: [info.secure_url]
+                });
+              }}
+            >
+              {({ open }) => {
+                return (
+                  <button type="button" onClick={() => open()}>
+                    Upload an Image
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
+            {/* <CldOgImage alt="name" src={productData.images[0]} /> */}
+          </label>
+        )}
       </div>
 
       <Button

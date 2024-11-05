@@ -1,36 +1,36 @@
 "use client";
 import React, { useContext } from "react";
 import { FiTrash2, FiShoppingCart } from "react-icons/fi";
-import { ShoppingContext } from "@/components/context/shopping_context";
+import { WishListContext } from "@/components/context/wishlist_context";
 
 const WishlistPage: React.FC = () => {
-  const { wishlistItems } = useContext(ShoppingContext);
+  const { wishListData } = useContext(WishListContext);
 
   return (
     <div className="bg-gray-100 min-h-screen">
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-semibold mb-6">My Wishlist</h1>
 
-        {wishlistItems?.length === 0 ? (
+        {wishListData?.product?.length === 0 ? (
           <div className="text-center py-8">
             <p className="text-gray-500">Your wishlist is empty</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
-            {wishlistItems?.map((item) => (
+            {wishListData?.product?.map((item) => (
               <div
-                key={item._id}
+                key={item.product._id}
                 className="bg-white p-4 rounded-lg shadow flex items-center justify-between"
               >
                 <div className="flex items-center space-x-4">
                   <img
-                    src={item.images[0]}
-                    alt={item.name}
+                    src={item.product.images[0]}
+                    alt={item.product.name}
                     className="w-20 h-20 object-cover rounded"
                   />
                   <div>
-                    <h3 className="font-medium">{item.name}</h3>
-                    <p className="text-orange-500">${item.price}</p>
+                    <h3 className="font-medium">{item.product.name}</h3>
+                    <p className="text-orange-500">${item.product.price}</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">

@@ -66,7 +66,7 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
     if (!image) return null;
     const formData = new FormData();
     formData.append("file", image);
-    formData.append("upload_preset", "ml_default");
+    formData.append("upload_preset", "pawchig");
 
     try {
       const response = await axios.post(
