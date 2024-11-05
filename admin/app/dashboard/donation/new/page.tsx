@@ -1,10 +1,11 @@
 'use client';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
+
 import {
   Select,
   SelectContent,
@@ -17,32 +18,37 @@ import {
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 // import FileUpload from "@/components/FileUpload";
 
-import { Textarea } from '../ui/textarea';
-import { DonationContext } from '../context/donation-context';
-import { ProfileContext } from '../context/profile_context';
+import { PetsContext } from '@/components/context/pets-context';
+import { Textarea } from '@/components/ui/textarea';
+import { DonationContext } from '@/components/context/donation-context';
+import { ProfileContext } from '@/components/context/profile_context';
 
-interface AdoptionFormProps {
-  status: any;
-  id: string | string[];
-}
-
-export const DonationPostForm: React.FC<AdoptionFormProps> = ({
-  status,
-  id
-}) => {
+export default function Page() {
+  const status = [
+    { _id: '1', name: 'in-progress' },
+    { _id: '2', name: 'done' }
+  ];
+  const { getPetData } = useContext(PetsContext);
   const { isLoading } = useContext(ProfileContext);
-  const { editData, setEditData, editDonationPost } =
-    useContext(DonationContext);
+  const {
+    donationPosts,
+    setDonationPosts,
+    createDonationPost,
+    isEdit,
+    getDonationPosts
+  } = useContext(DonationContext);
 
-  const action = 'Save changes';
+  const action = 'Create';
 
   // console.log('FD', donationPosts); //olon udaa duudaad bga err zasah
-  console.log('Edit data', editData);
 
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <Heading title={` Edit Donation Post`} description="Add a new post" />
+    <div className="space-y-4 p-8">
+      <div className="flex flex-1 items-center justify-between ">
+        <Heading
+          title={`${isEdit ? 'Edit' : 'Create'} Donation Post`}
+          description="Add a new post"
+        />
       </div>
       <Separator />
 
@@ -51,8 +57,8 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
           uploadPreset="pawchig"
           onSuccess={(result) => {
             const info = result.info as CloudinaryUploadWidgetInfo;
-            setEditData({
-              ...editData,
+            setDonationPosts({
+              ...donationPosts,
               images: [info.secure_url]
             });
           }}
@@ -67,21 +73,35 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
         <div className="">
           <h6 className="mb-3 text-[0.9rem] font-medium">Select a pet</h6>
 
-          <Input
-            type="text"
-            value={editData.petId?.name}
-            className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+          <Select
+            onValueChange={(value) =>
+              setDonationPosts({ ...donationPosts, petId: value })
+            }
             required
-          />
+          >
+            <SelectTrigger className="">
+              <SelectValue placeholder="Select a pet" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Pet name</SelectLabel>
+                {getPetData?.map((e) => (
+                  <SelectItem key={e._id} value={e._id}>
+                    {e.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div className="">
           <h6 className="mb-3 text-[0.9rem] font-medium">Insert a title</h6>
 
           <Input
             type="text"
-            value={editData.title}
+            value={donationPosts.title}
             onChange={(e) => {
-              setEditData({ ...editData, title: e.target.value });
+              setDonationPosts({ ...donationPosts, title: e.target.value });
             }}
             // placeholder="Title"
             className="w-full  border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
@@ -95,10 +115,10 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
 
           <Input
             type="number"
-            value={editData.totalAmount}
+            value={donationPosts.totalAmount}
             onChange={(e) => {
-              setEditData({
-                ...editData,
+              setDonationPosts({
+                ...donationPosts,
                 totalAmount: Number(e.target.value)
               });
             }}
@@ -110,9 +130,9 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
         <div className="">
           <h6 className="mb-3 text-[0.9rem] font-medium">Select status</h6>
           <Select
-            value={editData.status}
+            value={donationPosts.status}
             onValueChange={(value) =>
-              setEditData({ ...editData, status: value })
+              setDonationPosts({ ...donationPosts, status: value })
             }
             required
           >
@@ -134,10 +154,10 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
         <div className="">
           <h6 className="mb-3 text-[0.9rem] font-medium">Insert description</h6>
           <Textarea
-            value={editData.description}
+            value={donationPosts.description}
             onChange={(e) => {
-              setEditData({
-                ...editData,
+              setDonationPosts({
+                ...donationPosts,
                 description: e.target.value
               });
             }}
@@ -151,12 +171,10 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
       <Button
         disabled={isLoading}
         className="ml-auto"
-        onClick={() => {
-          editDonationPost(id as string);
-        }}
+        onClick={createDonationPost}
       >
         {action}
       </Button>
-    </>
+    </div>
   );
-};
+}

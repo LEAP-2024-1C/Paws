@@ -1,4 +1,5 @@
 'use client';
+import { DonationContext } from '@/components/context/donation-context';
 import { AlertModal } from '@/components/modal/alert-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,13 +11,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Check, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 interface CellActionProps {
   id: string;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ id }) => {
+  const { deleteDonationPost, isEdit, setIsEdit } = useContext(DonationContext);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -28,7 +30,7 @@ export const CellAction: React.FC<CellActionProps> = ({ id }) => {
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={(id: string) => deleteDonationPost(id)}
         loading={loading}
         id={id}
       />
@@ -42,9 +44,9 @@ export const CellAction: React.FC<CellActionProps> = ({ id }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/adoption/${id}`)}
+            onClick={() => router.push(`/dashboard/donation/${id}`)}
           >
-            <Check className="mr-2 h-4 w-4" /> Accept
+            <Check className="mr-2 h-4 w-4" /> Edit
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete

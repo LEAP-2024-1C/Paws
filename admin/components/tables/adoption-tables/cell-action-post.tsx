@@ -10,13 +10,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/use-toast';
-import { toast } from '@/components/ui/use-toast';
 import { apiUrl } from '@/utils/util';
 import axios from 'axios';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
-import { ToastAction } from '@/components/ui/toast';
 
 interface CellActionProps {
   id: string;

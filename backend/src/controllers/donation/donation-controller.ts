@@ -91,12 +91,15 @@ export const deleteDonationReport = async (req: Request, res: Response) => {
 
 export const updateDonation = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const updateData = req.body; // Шинэ өгөгдлийг авах
+  const { description, title, images, petId, totalAmount, status } = req.body; // Шинэ өгөгдлийг авах
 
   try {
-    const report = await Donations.findByIdAndUpdate(id, updateData, {
+    const report = await Donations.findByIdAndUpdate(id, req.body, {
       new: true,
-    });
+    }).populate({
+      path: "petId",
+      model: "PetProfle",
+    }); //populated;
 
     // Устгасан мэдээлэл олдсон эсэхийг шалгах
     if (!report) {
