@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Check, MoreHorizontal, Trash } from 'lucide-react';
+import { Pencil, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
 
@@ -46,7 +46,7 @@ export const CellAction: React.FC<CellActionProps> = ({ id }) => {
           <DropdownMenuItem
             onClick={() => router.push(`/dashboard/donation/${id}`)}
           >
-            <Check className="mr-2 h-4 w-4" /> Edit
+            <Pencil className="mr-2 h-4 w-4" /> Edit
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete

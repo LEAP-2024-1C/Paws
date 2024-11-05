@@ -296,11 +296,12 @@ export interface IGetDonationPost {
   description: string;
   status: string;
   petId: {
+    _id: string;
     name: string;
   };
   images: string[];
   totalAmount: number;
-  created_at: Date;
+  createdAt: Date;
 }
 
 export interface DonationContextType {

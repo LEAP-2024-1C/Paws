@@ -41,11 +41,12 @@ export const DonationContext = createContext<DonationContextType>({
     description: '',
     status: '',
     petId: {
+      _id: '',
       name: ''
     },
     images: [''],
     totalAmount: 0,
-    created_at: new Date()
+    createdAt: new Date()
   },
   setEditData: (editData: IGetDonationPost) => {}
 });
@@ -63,11 +64,12 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
       description: '',
       status: '',
       petId: {
+        _id: '',
         name: ''
       },
       images: [''],
       totalAmount: 0,
-      created_at: new Date()
+      createdAt: new Date()
     }
   ]);
   const [donationPosts, setDonationPosts] = useState<IDonationPost>({
@@ -84,11 +86,12 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     description: '',
     status: '',
     petId: {
+      _id: '',
       name: ''
     },
     images: [''],
     totalAmount: 0,
-    created_at: new Date()
+    createdAt: new Date()
   });
 
   const createDonationPost = async (e: React.FormEvent) => {
@@ -182,7 +185,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
           status: editData.status,
           totalAmount: editData.totalAmount,
           images: editData.images,
-          petId: editData.petId.name
+          petId: editData.petId._id
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -204,10 +207,6 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
       console.log('Update err', error);
     }
   };
-
-  useEffect(() => {
-    getAllDonationPosts();
-  }, [refetch]);
 
   return (
     <DonationContext.Provider

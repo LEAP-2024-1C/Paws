@@ -250,7 +250,7 @@ export const navItems: NavItem[] = [
   {
     title: 'Articles',
     href: '/dashboard/articles',
-    icon: 'donation',
+    icon: 'article',
     label: 'login'
   },
   {

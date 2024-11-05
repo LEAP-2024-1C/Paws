@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -20,6 +20,9 @@ import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import { Textarea } from '../ui/textarea';
 import { DonationContext } from '../context/donation-context';
 import { ProfileContext } from '../context/profile_context';
+import { FiUpload } from 'react-icons/fi';
+import { IoClose } from 'react-icons/io5';
+import Image from 'next/image';
 
 interface AdoptionFormProps {
   status: any;
@@ -34,10 +37,15 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
   const { editData, setEditData, editDonationPost } =
     useContext(DonationContext);
 
+  const removeImage = () => {
+    setEditData({ ...editData, images: [''] });
+  };
+
   const action = 'Save changes';
 
-  // console.log('FD', donationPosts); //olon udaa duudaad bga err zasah
-  console.log('Edit data', editData);
+  useEffect(() => {
+    console.log('Edit data changed:', editData);
+  }, [editData]);
 
   return (
     <>
@@ -46,21 +54,52 @@ export const DonationPostForm: React.FC<AdoptionFormProps> = ({
       </div>
       <Separator />
 
-      <div className="mb-4 w-full space-y-8">
-        <CldUploadWidget
-          uploadPreset="pawchig"
-          onSuccess={(result) => {
-            const info = result.info as CloudinaryUploadWidgetInfo;
-            setEditData({
-              ...editData,
-              images: [info.secure_url]
-            });
-          }}
-        >
-          {({ open }) => {
-            return <button onClick={() => open()}>Upload an Image</button>;
-          }}
-        </CldUploadWidget>
+      <div className="relative my-6 w-1/2 space-y-2">
+        {editData.images[0] ? (
+          <div className="relative h-48 w-full overflow-hidden rounded-xl">
+            <Image
+              src={editData.images[0]}
+              alt="Preview"
+              fill
+              className="object-cover"
+            />
+            <button
+              type="button"
+              onClick={removeImage}
+              className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+            >
+              <IoClose size={20} />
+            </button>
+          </div>
+        ) : (
+          <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
+            <FiUpload className="h-8 w-8 text-gray-400" />
+            <CldUploadWidget
+              uploadPreset="pawchig"
+              onSuccess={(result) => {
+                const info = result.info as CloudinaryUploadWidgetInfo;
+                setEditData({
+                  ...editData,
+                  images: [info.secure_url]
+                });
+              }}
+            >
+              {({ open }) => {
+                return (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      open();
+                    }}
+                  >
+                    Upload an Image
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
+          </label>
+        )}
       </div>
 
       <div className="gap-8 md:grid md:grid-cols-3">

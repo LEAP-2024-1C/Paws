@@ -22,7 +22,11 @@ export const getAllDonations = async (req: Request, res: Response) => {
 export const getSingleDonation = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const getSinglePost = await Donations.findById(id);
+    const getSinglePost = await Donations.findById(id).populate({
+      path: "petId",
+      model: "PetProfle",
+      select: "name",
+    });
     res
       .status(200)
       .json({ message: "get donation post successfully", getSinglePost });
