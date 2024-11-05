@@ -26,7 +26,7 @@ interface DonationTableProps {
 
 export function DonationTable({ data, searchKey }: DonationTableProps) {
   const { getDonationPosts } = useContext(DonationContext);
-  // console.log('DPS', getDonationPosts); //olon duudaad bga aldaag zasah
+
   return (
     <>
       <Input
@@ -39,7 +39,7 @@ export function DonationTable({ data, searchKey }: DonationTableProps) {
             <TableRow>
               <TableHead>Img</TableHead>
               <TableHead>Pet Name</TableHead>
-              <TableHead>Neccesary amount</TableHead>
+              <TableHead>Necessary amount</TableHead>
               <TableHead>Current amount</TableHead>
               <TableHead>Created date</TableHead>
               <TableHead>Description</TableHead>
@@ -47,11 +47,8 @@ export function DonationTable({ data, searchKey }: DonationTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody className="gap-2">
-            {getDonationPosts.map((post) => (
-              <TableRow
-                // key={post.id}
-                className=" "
-              >
+            {getDonationPosts?.map((post) => (
+              <TableRow key={post._id} className=" ">
                 <TableCell>
                   <Avatar>
                     <AvatarImage src={post.images[0]} alt="@shadcn" />
@@ -62,7 +59,7 @@ export function DonationTable({ data, searchKey }: DonationTableProps) {
                 <TableCell>{post.totalAmount}</TableCell>
                 <TableCell>current amount</TableCell>
                 <TableCell>
-                  {new Date(post.created_at).toLocaleDateString()}
+                  {new Date(post.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell>{post.description}</TableCell>
                 <TableCell>

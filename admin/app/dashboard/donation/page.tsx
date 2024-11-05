@@ -1,4 +1,6 @@
+'use client';
 import { Breadcrumbs } from '@/components/breadcrumbs';
+import { DonationContext } from '@/components/context/donation-context';
 import PageContainer from '@/components/layout/page-container';
 import { DonationTable } from '@/components/tables/donation-tables/donation-table';
 import { buttonVariants } from '@/components/ui/button';
@@ -7,14 +9,24 @@ import { Separator } from '@/components/ui/separator';
 import { donationPosts } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
+import { useEffect } from 'react';
 import Link from 'next/link';
+import { useContext } from 'react';
+import { PetsContext } from '@/components/context/pets-context';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
   { title: 'Donation', link: '/dashboard/donation' }
 ];
 
-export default async function page() {
+export default function page() {
+  const { refetch } = useContext(PetsContext);
+  const { getAllDonationPosts, getDonationPosts } = useContext(DonationContext);
+
+  useEffect(() => {
+    getAllDonationPosts();
+  }, [refetch]);
+
   return (
     <PageContainer>
       <div className="space-y-4">

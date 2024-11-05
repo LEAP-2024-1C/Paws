@@ -15,6 +15,6 @@ router.route("/").get(getAllDonations);
 router.route("/create").post(authentication, authorize, createDonations); //added auth, authorize
 router.route("/:id").get(getSingleDonation);
 router.route("/:id").delete(deleteDonationReport);
-router.route("/:id").patch(updateDonation);
+router.route("/:id").put(authentication, updateDonation);
 
 export default router;

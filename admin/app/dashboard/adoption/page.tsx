@@ -9,6 +9,7 @@ import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { adoptionPostss } from '@/constants/data';
 import { cn } from '@/lib/utils';
+import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
@@ -19,7 +20,7 @@ const breadcrumbItems = [
 
 export default function page() {
   return (
-    <PageContainer>
+    <PageContainer scrollable={true}>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
 

@@ -296,18 +296,26 @@ export interface IGetDonationPost {
   description: string;
   status: string;
   petId: {
+    _id: string;
     name: string;
   };
   images: string[];
   totalAmount: number;
-  created_at: Date;
+  createdAt: Date;
 }
 
 export interface DonationContextType {
   donationPosts: IDonationPost;
   setDonationPosts: (donationPosts: IDonationPost) => void;
-  createDonationPost: () => void;
+  createDonationPost: (e: React.FormEvent) => void;
   getAllDonationPosts: () => void;
   getDonationPosts: IGetDonationPost[];
   setGetDonationPosts: React.Dispatch<React.SetStateAction<IGetDonationPost[]>>;
+  deleteDonationPost: (id: string) => void;
+  editDonationPost: (id: string) => void;
+  isEdit: boolean;
+  setIsEdit: (isEdit: boolean) => void;
+  getSingleDonationPost: (id: string | string[]) => void;
+  editData: IGetDonationPost;
+  setEditData: (editData: IGetDonationPost) => void;
 }
