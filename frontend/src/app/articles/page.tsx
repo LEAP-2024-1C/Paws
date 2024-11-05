@@ -19,6 +19,7 @@ import { CardType, CatType, IArticles } from "@/lib/types";
 const Articles = () => {
   const [articles, setArticles] = useState<IArticles[]>([]);
   const [articleCat, setArticleCat] = useState<CatType[]>([]);
+  const [activeCat, setActiveCat] = useState(false);
   const getArticles = async () => {
     try {
       const res = await axios.get(`${apiUrl}/api/v1/articles`);
@@ -38,7 +39,10 @@ const Articles = () => {
       toast.error("Failed to get fetch articles categories categories");
     }
   };
-
+  const findArticleCat = (activeCat: boolean) => {
+    setActiveCat(true);
+    return articleCat.filter((cat) => cat.category.includes(activeCat));
+  };
   useEffect(() => {
     getArticles();
     getCategories();
