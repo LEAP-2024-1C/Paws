@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import {
+  addDonationComment,
   createDonations,
   deleteDonationReport,
   getAllDonations,
@@ -16,5 +17,6 @@ router.route("/create").post(authentication, authorize, createDonations); //adde
 router.route("/:id").get(getSingleDonation);
 router.route("/:id").delete(deleteDonationReport);
 router.route("/:id").put(authentication, updateDonation);
+router.route("/:id").post(addDonationComment);
 
 export default router;

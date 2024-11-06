@@ -16,6 +16,7 @@ import { DialogButton } from "./dialog";
 import Link from "next/link";
 import { PayCard } from "./pay/pay_card";
 import { DonationContext } from "../context/donation_context";
+import { format } from "date-fns";
 const DetailCard = () => {
   const { oneDonationPost } = React.useContext(DonationContext);
   return (
@@ -47,8 +48,12 @@ const DetailCard = () => {
           <p>24</p>
           <p>Contributors</p>
         </div>
-        <DialogButton />
+        <div className="flex gap-2 ">
+          {format(oneDonationPost.updateDate, "dd/MMMM/yyyy")}
+          <DialogButton />
+        </div>
       </CardFooter>
+      <div className="flex flex-row-reverse"></div>
     </Card>
   );
 };
@@ -56,7 +61,7 @@ export default DetailCard;
 export function DonationPay() {
   const { oneDonationPost } = React.useContext(DonationContext);
   return (
-    <div className="mx-auto flex flex-col gap-4 sm:w-4/5 md:3/5 md:gap-8 xl:w-2/6 xl:h-1/2 bg-white border-0 rounded-xl p-[30px] ">
+    <div className="mx-auto flex flex-col gap-4 sm:w-4/5 md:3/5 md:gap-8  bg-white border-0 rounded-xl p-[30px] ">
       <CardTitle className="text-xl md:text-3xl xl:text-5xl font-bold">
         Help the dream come true
       </CardTitle>

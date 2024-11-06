@@ -53,7 +53,7 @@ export function PayCard() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid  grid-cols-3  w-3/5 mx-auto gap-6">
+          <div className="grid  grid-cols-3  w-3/5 mx-auto gap-6 ">
             {mockD?.map((c: MockType) => (
               <div className="col-span-1 row-span-1">
                 <CashButton cash={c.cash} />

@@ -18,8 +18,8 @@ export function DialogButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <FaShareFromSquare />
+        <Button variant="outline" className="w-2 h-4">
+          <FaShareFromSquare className="w-2 h-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
