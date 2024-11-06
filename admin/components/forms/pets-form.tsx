@@ -1,6 +1,10 @@
 'use client';
 import { useContext, useState } from 'react';
-import { CldUploadWidget, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
+import {
+  CldImage,
+  CldUploadWidget,
+  CloudinaryUploadWidgetInfo
+} from 'next-cloudinary';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { apiUrl } from '@/utils/util';
@@ -58,34 +62,8 @@ export default function PetForm({ onSubmit }: PetFormProps) {
   const { petCategory } = useContext(PetsContext);
   const router = useRouter();
 
-  const changeAgeValue = (e: any) => {
-    setPetData({ ...petData, id: e.target.value });
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        // 5MB limit
-        toast.error('Image size should be less than 5MB');
-        return;
-      }
-      if (!file.type.startsWith('image/')) {
-        toast.error('Please upload an image file');
-        return;
-      }
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const removeImage = () => {
-    setImage(null);
-    setPreviewUrl('');
+    setPetData({ ...petData, imageUrl: [''] });
   };
 
   const handleImageUpload = async () => {
@@ -152,11 +130,58 @@ export default function PetForm({ onSubmit }: PetFormProps) {
     }
   };
 
-  // console.log('PDDD', petData);
+  console.log('PDDD', petData);
   // console.log('----', petCategory);
 
   return (
     <form onSubmit={handleSubmit} className="w-full space-y-4">
+      <div className="relative space-y-2">
+        {petData.imageUrl[0] ? (
+          <div className="relative h-48 w-full overflow-hidden rounded-xl">
+            <Image
+              src={petData.imageUrl[0]}
+              alt="Preview"
+              fill
+              className="object-cover"
+            />
+            <button
+              type="button"
+              onClick={removeImage}
+              className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+            >
+              <IoClose size={20} />
+            </button>
+          </div>
+        ) : (
+          <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
+            <FiUpload className="h-8 w-8 text-gray-400" />
+            <CldUploadWidget
+              uploadPreset="pawchig"
+              onSuccess={(result) => {
+                const info = result.info as CloudinaryUploadWidgetInfo;
+                setPetData({
+                  ...petData,
+                  imageUrl: [info.secure_url]
+                });
+              }}
+            >
+              {({ open }) => {
+                return (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      open();
+                    }}
+                  >
+                    Upload an Image
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
+          </label>
+        )}
+      </div>
       <Input
         type="text"
         value={petData.name}
@@ -283,44 +308,6 @@ export default function PetForm({ onSubmit }: PetFormProps) {
         </SelectContent>
       </Select>
 
-      {/* Image Upload Section */}
-      <div className="relative">
-        {previewUrl ? (
-          <div className="relative h-48 w-full overflow-hidden rounded-xl">
-            <Image
-              src={previewUrl}
-              alt="Preview"
-              fill
-              className="object-cover"
-            />
-            <button
-              type="button"
-              onClick={removeImage}
-              className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
-            >
-              <IoClose size={20} />
-            </button>
-          </div>
-        ) : (
-          <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
-            <FiUpload className="h-8 w-8 text-gray-400" />
-            <CldUploadWidget
-              uploadPreset="pawchig"
-              onSuccess={(result) => {
-                const info = result.info as CloudinaryUploadWidgetInfo;
-                setPetData({
-                  ...petData,
-                  imageUrl: [info.secure_url]
-                });
-              }}
-            >
-              {({ open }) => {
-                return <button onClick={() => open()}>Upload an Image</button>;
-              }}
-            </CldUploadWidget>
-          </label>
-        )}
-      </div>
       <Button
         type="submit"
         disabled={loading}

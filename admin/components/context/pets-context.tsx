@@ -61,7 +61,6 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
       category: ''
     }
   ]);
-  const [imageUrl, setImageUrl] = useState('');
   const [petCategory, setPetCategory] = useState<IPetCategory[]>([
     {
       _id: '',
@@ -111,7 +110,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
   useEffect(() => {
     fetchAllPetsData();
     fetchPetCategories();
-  }, []);
+  }, [refetch]);
 
   // console.log('PEts', getPetData);
 

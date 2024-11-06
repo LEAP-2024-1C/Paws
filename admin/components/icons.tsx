@@ -33,6 +33,8 @@ import {
   SquarePen,
   X
 } from 'lucide-react';
+import { BiDonateHeart } from 'react-icons/bi';
+import { GrArticle } from 'react-icons/gr';
 
 export type Icon = LucideIcon;
 
@@ -65,7 +67,8 @@ export const Icons = {
   moon: Moon,
   laptop: Laptop,
   adoption: PawPrint,
-  donation: SquarePen,
+  donation: BiDonateHeart,
+  article: GrArticle,
   pet: Cat,
 
   gitHub: ({ ...props }: LucideProps) => (

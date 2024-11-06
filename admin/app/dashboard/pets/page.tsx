@@ -1,5 +1,6 @@
 'use client';
 import { Breadcrumbs } from '@/components/breadcrumbs';
+import { PetsContext } from '@/components/context/pets-context';
 import PageContainer from '@/components/layout/page-container';
 import { PetDataTable } from '@/components/tables/pet-tables/data-table';
 import { buttonVariants } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { pets } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import { useContext } from 'react';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
@@ -16,6 +18,7 @@ const breadcrumbItems = [
 ];
 
 export default function page() {
+  const { getPetData } = useContext(PetsContext);
   return (
     <PageContainer>
       <div className="space-y-4">
@@ -23,7 +26,7 @@ export default function page() {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Pets (${pets.length})`}
+            title={`Pets (${getPetData.length})`}
             description="Manage pet list (Server side table functionalities.)"
           />
 
