@@ -7,7 +7,9 @@ import DonationCard from "@/components/donation_section/donation_card";
 import { useParams } from "next/navigation";
 import { DonationContext } from "@/components/context/donation_context";
 import { useContext, useEffect } from "react";
+import { AdoptionContext } from "@/components/context/adoption_context";
 import Comments from "@/components/donation_section/comment";
+
 
 export type donationPostsProps = {
   title: string;
@@ -27,6 +29,7 @@ const DonationDetail = () => {
   useEffect(() => {
     fetchSingleDonationPosts(id);
   }, [id]);
+
 
   return (
     <div className="bg-slate-50 ">

@@ -27,8 +27,8 @@ export const getCurrentUser = async (
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const loggedUser = await User.findOne({ email });
+    const { email, password, login_type } = req.body;
+    const loggedUser = await User.findOne({ email, role: login_type });
     // console.log("loggedUser", loggedUser);
     if (!loggedUser) {
       res.status(404).json({ message: "User not found" });

@@ -87,7 +87,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/pets/${id}`);
       if (response.status === 200) {
-        console.log('SinglePost', response.data.getOnePost);
+        // console.log('SinglePost', response.data.getOnePost);
         // setOneAdoptPost(response.data.getOnePost);
       }
     } catch (error) {
