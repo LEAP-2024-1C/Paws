@@ -1,5 +1,6 @@
 "use client";
 import DetailCard, { DonationPay } from "@/components/donation_section/detail";
+import { format } from "date-fns";
 
 import Link from "next/link";
 import DonationCard from "@/components/donation_section/donation_card";
@@ -7,7 +8,8 @@ import { useParams } from "next/navigation";
 import { DonationContext } from "@/components/context/donation_context";
 import { useContext, useEffect } from "react";
 import { AdoptionContext } from "@/components/context/adoption_context";
-// import Comments from "@/components/donation_section/comment";
+import Comments from "@/components/donation_section/comment";
+
 
 export type donationPostsProps = {
   title: string;
@@ -18,26 +20,25 @@ export type donationPostsProps = {
   updateDate: number;
 };
 const DonationDetail = () => {
-  const mockData = ["1", "2", "3"];
   const { id } = useParams();
-  const { fetchSingleDonationPosts, oneDonationPost } =
-    useContext(DonationContext);
 
-  const { donationPosts, fetchAllDonationData } = useContext(DonationContext);
-  useEffect(() => {
-    fetchAllDonationData();
-  });
+  const { fetchSingleDonationPosts } = useContext(DonationContext);
+
+  const { donationPosts } = useContext(DonationContext);
+
   useEffect(() => {
     fetchSingleDonationPosts(id);
   }, [id]);
 
-  // console.log("ID", id);
+
   return (
     <div className="bg-slate-50 ">
       <div className="w-3/4 flex-col flex xl:flex-row mx-auto  p-6 gap-20 ">
         <DetailCard />
-        <DonationPay />
-        {/* <Comments /> */}
+        <div className="w-2/4">
+          <DonationPay />
+          <Comments />
+        </div>
       </div>
       <div className="py-10">
         <Link href="/donation_detail">
@@ -50,7 +51,7 @@ const DonationDetail = () => {
                   _id={c._id}
                   images={c.images}
                   totalAmount={c.totalAmount}
-                  updateDate={c.updateDate}
+                  updateDate={format(c.updateDate, "dd,MMM")}
                 />
               </div>
             ))}

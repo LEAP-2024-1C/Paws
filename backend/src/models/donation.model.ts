@@ -1,5 +1,10 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document, Types } from "mongoose";
 
+interface Comment {
+  user: Schema.Types.ObjectId;
+  comment: string;
+  createdAt: Date;
+}
 interface Donations {
   description: string;
   title: string;
@@ -10,8 +15,9 @@ interface Donations {
   petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
   userId: { type: Schema.Types.ObjectId; ref: "User"; required: true }; //userId? ==> userId
   status: string; //added status
-  updateDate: Date;
-  comments: [string];
+  comments: Comment[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const DonationsSchema = new Schema<Donations>(
@@ -56,13 +62,25 @@ const DonationsSchema = new Schema<Donations>(
       type: String,
       enum: ["in-progress", "done"],
     },
-    updateDate: {
-      type: Date,
-      default: Date.now,
-    },
-    comments: {
-      type: [String],
-    },
+    comments: [
+      {
+        _id: {
+          type: Schema.Types.ObjectId,
+        },
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        comment: {
+          type: String,
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
