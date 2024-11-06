@@ -58,7 +58,7 @@ export const DonationContext = createContext<DonationContextType>({
   },
   setOneDonationPost: () => {},
   fetchAllDonationData: () => {},
-  fetchSingleDonationPosts: () => {},
+  fetchSingleDonationPosts: (id: string | string[]) => {},
   refetch: false,
   setRefetch: () => {},
 });
