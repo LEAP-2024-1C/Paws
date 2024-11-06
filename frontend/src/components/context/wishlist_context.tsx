@@ -6,14 +6,13 @@ import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
 import { ShoppingContext } from "./shopping_context";
-
 type WishListProviderProps = {
   children: React.ReactNode;
 };
 
 export const WishListContext = createContext<WishListContextType>({
   wishListData: {
-    products: [
+    product: [
       {
         product: {
           name: "",
@@ -42,7 +41,7 @@ export const WishListProvider = ({ children }: WishListProviderProps) => {
   const { id } = useParams();
   const { product } = useContext(ShoppingContext);
   const [wishListData, setWishListData] = useState<IWishList>({
-    products: [
+    product: [
       {
         product: {
           name: "",
@@ -59,7 +58,7 @@ export const WishListProvider = ({ children }: WishListProviderProps) => {
         },
       },
     ],
-    productId: id,
+    productId: id as string,
   });
 
   const getWishListData = async () => {

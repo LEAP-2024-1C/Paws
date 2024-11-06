@@ -155,7 +155,7 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
               <button
                 type="button"
                 onClick={removeImage}
-                className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600"
+                className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-black hover:bg-red-600"
               >
                 <IoClose size={20} />
               </button>
@@ -185,7 +185,7 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Describe the emergency situation in detail..."
-          className="w-full p-2 border rounded-md focus:ring-orange-500 focus:border-orange-500"
+          className="w-full  text-black p-2 border rounded-md focus:ring-orange-500 focus:border-orange-500"
           rows={3}
           required
           minLength={10}
@@ -199,7 +199,7 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
         <select
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="w-full p-2 border rounded-md focus:ring-orange-500 focus:border-orange-500"
+          className="w-full text-black p-2 border rounded-md focus:ring-orange-500 focus:border-orange-500"
           required
         >
           <option value="">Select district / Дүүрэг сонгох</option>
@@ -219,9 +219,11 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
           country={"mn"}
           value={number}
           onChange={(phone) => setNumber(phone)}
-          inputClass="!w-full !p-2 !rounded-md"
+          inputClass="!w-full !p-2 !rounded-md text-left !pl-12"
           containerClass="!w-full"
           buttonClass="!rounded-l-md"
+          inputStyle={{ color: "black", textAlign: "left" }}
+          placeholder="Enter your phone number"
         />
       </div>
 

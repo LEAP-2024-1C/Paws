@@ -183,19 +183,24 @@ export interface CartContextType {
 }
 
 export interface IWishList {
-  product: {
-    name: string;
-    category: string;
-    comment: [];
-    description: string;
-    discount: 0;
-    images: [];
-    isNew: true;
-    price: 0;
-    quantity: 0;
-    size: string;
-    _id: string;
-  };
+  product: [
+    {
+      product: {
+        name: string;
+        category: string;
+        comment: [];
+        description: string;
+        discount: number;
+        images: [];
+        isNew: boolean;
+        price: number;
+        quantity: number;
+        size: string;
+        _id: string;
+      };
+    }
+  ];
+  productId: string;
 }
 
 export interface WishListContextType {
