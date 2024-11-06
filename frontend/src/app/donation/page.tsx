@@ -16,21 +16,21 @@ export type donationPostsProps = {
 };
 const Donation = () => {
   const { donationPosts } = useContext(DonationContext);
-  console.log("mm", donationPosts);
+
   return (
     <div className="mx-auto">
       <DonationHero />
-      <div className="py-5 md:py-10">
-        <div className="grid grid-cols gap-2 md:grid-cols-2 xl:grid-cols-3 md:w-3/5 mx-auto md:my-5 md:gap-6">
+      <div className="px-4 py-5 md:py-10">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 w-full md:w-4/5 lg:w-3/4 xl:w-3/5 mx-auto md:gap-6">
           {donationPosts?.map((c, i) => (
-            <div className="col-span-1 row-span-1" key={i}>
+            <div className="col-span-1" key={i}>
               <DonationCard
                 title={c.title}
                 description={c.description}
                 _id={c._id}
                 images={c.images}
                 totalAmount={c.totalAmount}
-                updateDate={format(c.updateDate, "dd/MMMM/yyyy")}
+                updateDate={format(c.updateDate, "dd,MMM")}
               />
             </div>
           ))}
