@@ -58,7 +58,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/donation`);
       if (response.status === 200) {
-        console.log("Pets", response.data.allDonations);
+        // console.log("Pets", response.data.allDonations);
         setDonationPosts(response.data.allDonations);
       }
     } catch (error) {
@@ -69,7 +69,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/donation/${id}`);
       if (response.status === 200) {
-        console.log("SinglePost", response.data.getSinglePost);
+        // console.log("SinglePost", response.data.getSinglePost);
         setOneDonationPost(response.data.getSinglePost);
       }
     } catch (error) {
@@ -80,7 +80,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     fetchAllDonationData();
   }, []);
 
-  console.log("Singlepost", oneDonationPost);
+  // console.log("Singlepost", oneDonationPost);
 
   return (
     <DonationContext.Provider
