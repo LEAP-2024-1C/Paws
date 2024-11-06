@@ -5,8 +5,6 @@ import ProductList from "./components/productlist";
 import { FiSearch, FiShoppingCart, FiHeart } from "react-icons/fi";
 import { ShoppingContext } from "@/components/context/shopping_context";
 import Link from "next/link";
-import { toast } from "react-toastify";
-
 const ShopPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");

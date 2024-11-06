@@ -6,6 +6,7 @@ import { apiUrl } from "@/utils/util";
 import axios from "axios";
 import { FiShoppingCart, FiHeart } from "react-icons/fi";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 interface Product {
   _id: string;
@@ -14,13 +15,12 @@ interface Product {
   description: string;
   images: string[];
 }
-
 type Size = "S" | "M" | "L";
 
 const ProductDetail: React.FC = () => {
   const params = useParams();
   const id = params.id as string;
-  const [product, setProduct] = React.useState<Product | null>(null);
+  const [product, setProduct] = React.useState<Product>();
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [quantity, setQuantity] = React.useState(1);
@@ -34,40 +34,63 @@ const ProductDetail: React.FC = () => {
         const response = await axios.get(`${apiUrl}/api/v1/products/${id}`);
         setProduct(response.data.product);
         setLoading(false);
+        console.log("PRODUCT", response.data.product);
       } catch (error) {
         console.error("Error fetching product:", error);
         setError("Failed to load product");
         setLoading(false);
+        setIsInWishlist;
       }
     };
 
     fetchProduct();
   }, [id]);
 
+  const insertCartData = async (id: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        `${apiUrl}/api/v1/cart/insert`,
+        {
+          productId: id,
+          quantity: quantity,
+          size: selectedSize,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        toast.success("Added to Cart successfully");
+      }
+    } catch (error) {
+      console.log("Can't insert product to Cart", error);
+      toast.error("Failed to add cart");
+    }
+  };
+
+  const handleWishlist = () => {};
+
   const handleAddToCart = () => {
-    if (!product || !selectedSize) {
-      alert("Please select a size before adding to cart");
+    if (!selectedSize) {
+      toast.error("Please select a size");
       return;
     }
 
-    // Add your cart logic here
-    const cartItem = {
-      productId: product._id,
-      quantity,
-      size: selectedSize,
-      price: product.price,
-      name: product.name,
-      image: product.images[0],
-    };
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login to add items to cart");
+      return;
+    }
 
-    console.log("Adding to cart:", cartItem);
-    // Implement your cart state management here
-  };
+    if (!product?._id) {
+      toast.error("Product not found");
+      return;
+    }
 
-  const handleWishlist = () => {
-    setIsInWishlist(!isInWishlist);
-    // Add your wishlist logic here
-    console.log("Toggling wishlist for product:", product?._id);
+    insertCartData(product._id);
   };
 
   if (loading) {
@@ -236,7 +259,7 @@ const ProductDetail: React.FC = () => {
             </div>
 
             <button
-              onClick={handleAddToCart}
+              onClick={() => insertCartData(product._id)}
               className="flex-1 bg-orange-500 text-white px-8 py-3 rounded-lg font-medium 
                 hover:bg-orange-600 transition-colors duration-300 flex items-center justify-center gap-2"
             >

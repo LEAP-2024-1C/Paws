@@ -10,28 +10,36 @@ export const getCartData = async (req: Request, res: Response) => {
     }).populate("products.product");
     res.status(200).json({ message: "Get cart data successfully", cartData });
   } catch (error) {
-    res.status(400).json({ message: "Failed to get the cart data", error });
+    res.status(404).json({ message: "Failed to get the cart data", error });
     console.log("Error: Failed to get the cart data", error);
   }
 };
 
 export const insertCartData = async (req: Request, res: Response) => {
   try {
-    const { id: userId } = req.user;
+    const userId = req.user._id.toString();
     const { productId, totalAmount, quantity, size } = req.body;
 
-    const findUserCart = await Cart.findOne({ user: userId });
-    // console.log("uuu", findUserCart);
+    // Validate required fields
+    if (!productId || !quantity) {
+      return res.status(400).json({
+        success: false,
+        message: "ProductId болон quantity заавал шаардлагатай",
+      });
+    }
 
+    const findUserCart = await Cart.findOne({ user: userId });
     if (!findUserCart) {
       const cartData = await Cart.create({
         user: userId,
-        products: { product: productId, quantity, size },
-        totalAmount,
+        products: [{ product: productId, quantity, size }],
+        totalAmount: totalAmount || 0,
       });
-      return res
-        .status(200)
-        .json({ message: "Inserted data successfully", cartData });
+      return res.status(201).json({
+        success: true,
+        message: "Сагс амжилттай үүслээ",
+        data: cartData,
+      });
     }
 
     const findDuplicated = findUserCart.products.findIndex(
@@ -46,12 +54,18 @@ export const insertCartData = async (req: Request, res: Response) => {
 
     const updatedCart = await findUserCart.save();
 
-    res
-      .status(200)
-      .json({ message: "Inserted data successfully", updatedCart });
+    return res.status(200).json({
+      success: true,
+      message: "Сагс амжилттай шинэчлэгдлээ",
+      data: updatedCart,
+    });
   } catch (error) {
-    console.log("Insert cart data error", error);
-    res.status(400).json({ message: "Failed to create a cart", error: error });
+    console.error("Сагсанд нэмэх үед алдаа гарлаа:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Сагс шинэчлэхэд алдаа гарлаа",
+      error: error instanceof Error ? error.message : "Тодорхойгүй алдаа",
+    });
   }
 };
 

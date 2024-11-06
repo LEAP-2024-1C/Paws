@@ -29,7 +29,6 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [number, setNumber] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
@@ -59,7 +58,6 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
   const removeImage = () => {
     setImage(null);
     setPreviewUrl("");
-    setImageUrl("");
   };
 
   const handleImageUpload = async () => {
@@ -121,16 +119,13 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
         setNumber("");
         setImage(null);
         setPreviewUrl("");
-        setImageUrl("");
         onSubmit();
         router.push("/sos");
         router.refresh();
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Failed to submit SOS report:", error);
-      toast.error(
-        error.response?.data?.message || "Failed to submit SOS report"
-      );
+      toast.error("Failed to submit SOS report");
     } finally {
       setLoading(false);
     }

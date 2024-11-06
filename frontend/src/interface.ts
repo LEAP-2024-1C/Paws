@@ -183,7 +183,7 @@ export interface CartContextType {
 }
 
 export interface IWishList {
-  product: [
+  products: [
     {
       product: {
         name: string;
@@ -208,7 +208,7 @@ export interface WishListContextType {
   setWishListData: (wishListData: IWishList) => void;
   getWishListData: () => void;
   addToWishList: (id: string) => void;
-  deleteList: (productId: string) => void;
+  removeFromWishList: (productId: string) => void;
 }
 
 export interface IAdoptionReq {

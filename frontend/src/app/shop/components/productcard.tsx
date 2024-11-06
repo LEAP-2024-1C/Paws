@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { WishListContext } from "@/components/context/wishlist_context";
+import { toast } from "react-toastify";
+
 interface Product {
   _id: string;
   name: string;
@@ -13,7 +15,7 @@ interface ProductCard {
 }
 
 const ProductCard: React.FC<ProductCard> = ({ product }) => {
-  const { addToWishList, deleteList } = useContext(WishListContext);
+  const { addToWishList, removeFromWishList } = useContext(WishListContext);
 
   const [loved, setLoved] = useState(false);
 
@@ -23,12 +25,12 @@ const ProductCard: React.FC<ProductCard> = ({ product }) => {
         await addToWishList(product._id);
         setLoved(true);
       } else {
-        await deleteList(product._id);
+        await removeFromWishList(product._id);
         setLoved(false);
       }
     } catch (error) {
       console.error("Error updating wishlist:", error);
-      // Optionally add user feedback here (e.g., toast notification)
+      toast.error("e");
     }
   };
 

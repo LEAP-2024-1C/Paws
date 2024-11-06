@@ -5,14 +5,13 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
-import { ShoppingContext } from "./shopping_context";
 type WishListProviderProps = {
   children: React.ReactNode;
 };
 
 export const WishListContext = createContext<WishListContextType>({
   wishListData: {
-    product: [
+    products: [
       {
         product: {
           name: "",
@@ -31,17 +30,16 @@ export const WishListContext = createContext<WishListContextType>({
     ],
     productId: "",
   },
-  setWishListData: (wishListData: IWishList) => {},
+  setWishListData: (_wishListData: IWishList) => {},
   getWishListData: () => {},
-  addToWishList: (id: string) => {},
-  deleteList: (productId: string) => {},
+  addToWishList: (_id: string) => {},
+  removeFromWishList: (_productId: string) => {},
 });
 
 export const WishListProvider = ({ children }: WishListProviderProps) => {
   const { id } = useParams();
-  const { product } = useContext(ShoppingContext);
   const [wishListData, setWishListData] = useState<IWishList>({
-    product: [
+    products: [
       {
         product: {
           name: "",
@@ -69,8 +67,11 @@ export const WishListProvider = ({ children }: WishListProviderProps) => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log("Response", res);
+
       if (res.status === 200) {
-        let wishlists = res.data.wishListData;
+        const wishlists = res.data.wishListData;
         console.log("WISHLISTS", wishlists);
         setWishListData(wishlists);
       }
@@ -81,8 +82,6 @@ export const WishListProvider = ({ children }: WishListProviderProps) => {
 
   const addToWishList = async (id: string) => {
     try {
-      const postingProduct = product.find((cur) => cur._id === id);
-      console.log("PCID", postingProduct);
       const token = localStorage.getItem("token");
       const res = await axios.post(
         `${apiUrl}/api/v1/wishlist/add`,
@@ -104,7 +103,7 @@ export const WishListProvider = ({ children }: WishListProviderProps) => {
     }
   };
 
-  const deleteList = async (productId: string) => {
+  const removeFromWishList = async (productId: string) => {
     console.log("productId", productId);
     try {
       // const id = i.product._id;
@@ -127,6 +126,10 @@ export const WishListProvider = ({ children }: WishListProviderProps) => {
     }
   };
 
+  useEffect(() => {
+    getWishListData();
+  }, []);
+
   return (
     <WishListContext.Provider
       value={{
@@ -134,7 +137,7 @@ export const WishListProvider = ({ children }: WishListProviderProps) => {
         setWishListData,
         getWishListData,
         addToWishList,
-        deleteList,
+        removeFromWishList,
       }}
     >
       {children}

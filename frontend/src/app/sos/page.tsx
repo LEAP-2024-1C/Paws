@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, type FC, useRef } from "react";
+import { useState, useRef } from "react";
 import GridCarousel from "@/components/sos/grid_carousel";
 import SideModal from "@/components/sos/SideModal";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 export default function SOSPage() {
-  const [isReportSubmitted, setIsReportSubmitted] = useState(false);
+  const [isReportSubmitted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const leftSectionRef = useRef(null);
 
