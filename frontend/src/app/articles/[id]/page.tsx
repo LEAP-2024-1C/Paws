@@ -118,14 +118,12 @@ const ArticleCardDetail = () => {
         </h3>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-2 mb-10 md:mb-0">
           {relatedReading?.map((card: IArticles) => (
-            // <Link href={`/articles/${id}`} key={card.id}>
             <BlogsCards
               image={card.images[0]}
               id={card._id}
               date={card.updatedAt}
               title={card.title}
             />
-            // </Link>
           ))}
         </section>
       </main>
