@@ -11,6 +11,7 @@ interface ArticleContextType {
   setArticles: React.Dispatch<React.SetStateAction<IArticles[]>>;
   getArticles: () => void;
   findPost: (searchValue: string) => IArticles[];
+  searchValue: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
   deleteArticlePost: (id: string) => Promise<void>; // Ensure it's included in the type
 }
@@ -20,6 +21,7 @@ export const ArticleContext = createContext<ArticleContextType>({
   setArticles: () => {},
   getArticles: () => {},
   findPost: () => [],
+  searchValue: "",
   setSearchValue: () => {},
   deleteArticlePost: async () => {}, // Default value for deleteArticlePost
 });
@@ -70,6 +72,7 @@ export const ArticleProvider: React.FC<{ children: ReactNode }> = ({
         setArticles,
         getArticles,
         findPost,
+        searchValue,
         setSearchValue,
         deleteArticlePost,
       }}

@@ -1,8 +1,25 @@
 import { useState } from "react";
 import HomeDonationCard from "./donation_card";
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
-const Carousel = ({ cards }) => {
+interface ICards {
+  title: string;
+  _id: string;
+  description: string;
+  totalAmount: number;
+  images: string;
+}
+
+interface CarouselProps {
+  cards: ICards[];
+}
+
+const DonationCarousel = ({ cards }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () => {
@@ -18,50 +35,54 @@ const Carousel = ({ cards }) => {
   };
 
   return (
-    <>
-      <section className="flex flex-col gap-10">
-        <div className="flex justify-between mt-20 md:w-[1300px] mx-auto">
-          <h3 className="text-3xl font-bold">Donation</h3>
+    <section className="w-full px-4 md:px-6 lg:px-8">
+      <div className="flex flex-col gap-6 md:gap-10 max-w-[1300px] mx-auto">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row justify-between items-center mt-10 md:mt-20 gap-4">
+          <h3 className="text-2xl md:text-3xl font-bold">Donation</h3>
           <div className="flex gap-2">
             <button
-              className="bg-white p-2 rounded-full shadow"
+              className="bg-white p-1.5 md:p-2 rounded-full shadow hover:shadow-lg transition-shadow"
               onClick={handlePrev}
+              aria-label="Previous slide"
             >
-              <TfiArrowCircleLeft className="text-4xl text-white bg-black border rounded-full" />
+              <TfiArrowCircleLeft className="text-2xl md:text-4xl text-white bg-black border rounded-full" />
             </button>
             <button
-              className="bg-white p-2 rounded-full shadow"
+              className="bg-white p-1.5 md:p-2 rounded-full shadow hover:shadow-lg transition-shadow"
               onClick={handleNext}
+              aria-label="Next slide"
             >
-              <TfiArrowCircleRight className="text-4xl text-white bg-black border rounded-full" />
+              <TfiArrowCircleRight className="text-2xl md:text-4xl text-white bg-black border rounded-full" />
             </button>
           </div>
         </div>
-        <div className="w-full max-w-4xl mx-auto overflow-hidden">
-          <div
-            className="flex transition-transform duration-300 ease-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-          >
+        {/* Carousel Section */}
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-1 md:-ml-2">
             {cards.map((card, i) => (
-              <div
+              <CarouselItem
                 key={i}
-                className="flex justify-center md:basis-1/5 lg:basis-1/4"
+                className="pl-1 md:pl-2 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
               >
-                <HomeDonationCard
-                  title={card.title}
-                  _id={card._id}
-                  description=""
-                  images={card.images}
-                  totalAmount={0}
-                  updateDate={0}
-                />
-              </div>
+                <div className="h-full mx-1">
+                  <HomeDonationCard
+                    title={card.title}
+                    _id={card._id}
+                    description=""
+                    images={card.images}
+                    totalAmount={0}
+                    updateDate={0}
+                  />
+                </div>
+              </CarouselItem>
             ))}
-          </div>
-        </div>
-      </section>
-    </>
+          </CarouselContent>
+        </Carousel>
+      </div>
+    </section>
   );
 };
 
-export default Carousel;
+export default DonationCarousel;

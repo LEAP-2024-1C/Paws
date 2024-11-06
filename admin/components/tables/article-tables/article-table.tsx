@@ -39,12 +39,12 @@ export function ArticleTable({ searchKey }: ArticleTableProps) {
           className="max-h-20 md:max-w-sm"
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        <BiSearchAlt2 className="h-10 w-10 rounded-r-lg bg-lime-600 p-2 text-white" />
+        <BiSearchAlt2 className="h-10 w-10 rounded-r-lg bg-lime-700 p-2 text-white" />
       </div>
       <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
         <Table className="relative">
           <TableHeader>
-            <TableRow className="border bg-lime-600 pl-5">
+            <TableRow className="border bg-lime-700 pl-5">
               <TableHead className="text-white">Title</TableHead>
               <TableHead className="text-white">Category Name</TableHead>
               <TableHead className="text-white">Author</TableHead>

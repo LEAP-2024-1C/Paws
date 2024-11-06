@@ -4,8 +4,15 @@ import Image from "next/image";
 import React from "react";
 
 const ShoppingCards = ({ image, name, price, id }: Product) => (
-  <div key={id} className=" border rounded-xl">
-    <Image src={image} alt="product image" width={340} height={306}></Image>
+  <div key={id} className="border rounded-xl shadow-lg">
+    <Image
+      src={image}
+      alt="Example"
+      width={1200}
+      height={800}
+      quality={100}
+      priority
+    />
     <div className="flex justify-between mt-5 px-5">
       <h4 className="font-bold text-md">{name}</h4>
       <Heart color="orange" />
