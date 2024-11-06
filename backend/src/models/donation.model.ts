@@ -1,7 +1,7 @@
 import { model, Schema, Document, Types } from "mongoose";
 
 interface Comment {
-  user: Types.ObjectId;
+  user: Schema.Types.ObjectId;
   comment: string;
   createdAt: Date;
 }
@@ -65,7 +65,7 @@ const DonationsSchema = new Schema<Donations>(
     comments: [
       {
         _id: {
-          type: String,
+          type: Schema.Types.ObjectId,
         },
         user: {
           type: Schema.Types.ObjectId,
@@ -74,8 +74,6 @@ const DonationsSchema = new Schema<Donations>(
         },
         comment: {
           type: String,
-          required: true,
-          trim: true,
         },
         createdAt: {
           type: Date,
