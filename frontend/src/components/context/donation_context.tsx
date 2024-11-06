@@ -82,7 +82,6 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/donation`);
       if (response.status === 200) {
-
         // console.log("Pets", response.data.allDonations);
 
         setDonationPosts(response.data.allDonations);
@@ -96,7 +95,6 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/donation/${id}`);
       if (response.status === 200) {
-
         // console.log("SinglePost", response.data.getSinglePost);
 
         setOneDonationPost(response.data.getSinglePost);
@@ -127,8 +125,6 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     fetchAllDonationData();
   }, []);
   // console.log("Singlepost", oneDonationPost);
-  }, [refetch]);
-
 
   return (
     <DonationContext.Provider
@@ -144,8 +140,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
         fetchSingleDonationPosts,
         refetch,
         setRefetch,
-      }}
-    >
+      }}>
       {children}
     </DonationContext.Provider>
   );
