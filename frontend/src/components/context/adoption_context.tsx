@@ -46,7 +46,7 @@ export const AdoptionContext = createContext<AdoptionContextType>({
   fetchSingleadoptionPosts: (_id: string | string[]) => {},
   refetch: false,
   setRefetch: () => {},
-  createTransactionData: () => {},
+
   fetchTransactionData: (id: string | string[]) => {},
   getTransactionData: {
     amount: 0,
@@ -54,12 +54,6 @@ export const AdoptionContext = createContext<AdoptionContextType>({
     donationId: "",
   },
   setGetTransactionData: () => {},
-  insertTransactionData: {
-    amount: 0,
-    description: "",
-    donationId: "",
-  },
-  setInsertTransactionData: () => {},
 });
 
 export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
@@ -70,12 +64,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
       description: "",
       donationId: "",
     });
-  const [insertTransactionData, setInsertTransactionData] =
-    useState<IDonationTransactionData>({
-      amount: 0,
-      description: "",
-      donationId: "",
-    });
+
   const [adoptionPosts, setAdoptionPosts] = useState<IAdoptionReq[]>([]);
   const [oneAdoptPost, setOneAdoptPost] = useState<IAdoptionReq>({
     _id: "",
@@ -142,22 +131,6 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     }
   };
 
-  const createTransactionData = async () => {
-    try {
-      const res = await axios.post(`${apiUrl}/api/v1/donation/transaction`, {
-        amount: insertTransactionData.amount,
-        description: insertTransactionData.description,
-        donationId: insertTransactionData.donationId,
-      });
-      if (res.status === 201) {
-        toast.success("Donated successfully");
-      }
-    } catch (error) {
-      toast.error("Couldn't send donation req");
-      console.log("error", error);
-    }
-  };
-
   // console.log("Singlepost", oneAdoptPost);
   console.log("TRD", getTransactionData);
 
@@ -172,14 +145,11 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         refetch,
         setRefetch,
         fetchSingleadoptionPosts,
-        createTransactionData,
+
         fetchTransactionData,
         getTransactionData,
         setGetTransactionData,
-        insertTransactionData,
-        setInsertTransactionData,
-      }}
-    >
+      }}>
       {children}
     </AdoptionContext.Provider>
   );

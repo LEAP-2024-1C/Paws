@@ -20,76 +20,88 @@ import { Separator } from "../ui/separator";
 import { Checkbox } from "../ui/checkbox";
 import { AdoptionEnquire } from "./adoption_enquire";
 import { AdoptionContext } from "../context/adoption_context";
+import { HeartIcon } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 export function InfoCard() {
   const { oneAdoptPost } = useContext(AdoptionContext);
   return (
-    <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.2)] border-none rounded-xl p-3">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span className="text-5xl">{oneAdoptPost.pet?.name}</span>
-          <div className="flex gap-5">
+    <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-none rounded-xl">
+      <CardHeader className="space-y-4">
+        <CardTitle className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <span className="text-4xl md:text-5xl text-gray-800 font-bold">
+            {oneAdoptPost.pet?.name}
+          </span>
+          <div className="flex flex-col sm:flex-row gap-3">
             <Button
               variant="outline"
-              className="rounded-full w-40 py-6 text-2xl">
+              className="rounded-full px-6 py-2 text-lg hover:bg-orange-50">
+              <HeartIcon className="mr-2 h-5 w-5 text-orange-500" />
               Favorite
             </Button>
-            <Button className="rounded-full bg-[#FD7E14] w-56 py-6 text-2xl">
-              Submit An Inquiry
-            </Button>
+
+            <AdoptionEnquire />
           </div>
         </CardTitle>
-        <CardDescription>
-          <div className="flex items-center gap-1 text-2xl mt-6">
-            <GrLocationPin />
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-lg text-gray-600">
+            <GrLocationPin className="text-orange-500" />
             <span>{oneAdoptPost.location}</span>
           </div>
-        </CardDescription>
-        <CardDescription>
-          <div className="flex items-center text-lg">
-            <span>{oneAdoptPost.pet.ageGroup}</span>
-            <LuDot />
-            <span>{oneAdoptPost.pet.gender}</span>
-            <LuDot />
-            <span>{oneAdoptPost.pet.size}</span>
+          <div className="flex flex-wrap items-center text-md text-gray-500">
+            <Badge variant="secondary" className="mr-2">
+              {oneAdoptPost.pet.ageGroup}
+            </Badge>
+            <Badge variant="secondary" className="mr-2">
+              {oneAdoptPost.pet.gender}
+            </Badge>
+            <Badge variant="secondary">{oneAdoptPost.pet.size}</Badge>
           </div>
-        </CardDescription>
+        </div>
       </CardHeader>
-      <Separator className="mb-8" />
-      <CardContent>
-        <h1 className="text-2xl font-semibold mb-4">
+      <Separator />
+      <CardContent className="pt-6">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
           About {oneAdoptPost.pet?.name}
-        </h1>
-        <p className="text-lg">
-          Description <br />
+        </h2>
+        <p className="text-lg leading-relaxed text-gray-600">
           {oneAdoptPost.description}
         </p>
+        <div className="flex items-center gap-2 text-orange-600 font-medium mt-6">
+          <span className="px-3 py-1 bg-orange-100 rounded-full text-sm">
+            Available for Adoption
+          </span>
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-between"></CardFooter>
     </Card>
   );
 }
 
 export function ContactDetail() {
   return (
-    <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.2)] border-none rounded-xl p-3">
+    <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-none rounded-xl">
       <CardHeader>
-        <CardTitle className="text-4xl font-normal">
-          Lucky Paws NGO - Ulaanbaatar, Mongolia
-        </CardTitle>
+        <CardTitle className="text-3xl text-gray-800">Lucky Paws NGO</CardTitle>
+        <CardDescription className="text-lg text-gray-600">
+          Ulaanbaatar, Mongolia
+        </CardDescription>
       </CardHeader>
-      <CardContent className="flex text-xl gap-2">
-        <MdLocationCity className="text-4xl text-[#FD7E14]" />
-        <span className="w-1/3">
-          3, 1st building, Chingeltei district, Ulaanbaatar, Mongolia
-        </span>
+      <CardContent className="space-y-4">
+        <div className="flex items-start gap-3 p-4 bg-orange-50 rounded-lg">
+          <MdLocationCity className="text-2xl text-orange-500 flex-shrink-0" />
+          <p className="text-gray-700">
+            3, 1st building, Chingeltei district, Ulaanbaatar, Mongolia
+          </p>
+        </div>
+        <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-lg">
+          <HiOutlineMail className="text-2xl text-orange-500 flex-shrink-0" />
+          <a
+            href="mailto:contact@aztaisavar.mn"
+            className="text-gray-700 hover:text-orange-500 transition-colors">
+            contact@aztaisavar.mn
+          </a>
+        </div>
       </CardContent>
-      <CardContent className="flex items-center text-xl gap-2">
-        <HiOutlineMail className="text-4xl text-[#FD7E14]" />
-        <span className="w-1/3">contact@aztaisavar.mn</span>
-      </CardContent>
-
-      <CardFooter className="flex justify-between"></CardFooter>
     </Card>
   );
 }
@@ -97,113 +109,61 @@ export function ContactDetail() {
 export function MoreDetails() {
   const { oneAdoptPost } = useContext(AdoptionContext);
   return (
-    <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.2)] border-none rounded-xl p-3">
+    <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-none rounded-xl">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span className="text-4xl">More Details</span>
-        </CardTitle>
+        <CardTitle className="text-3xl text-gray-800">More Details</CardTitle>
       </CardHeader>
-      <CardContent>
-        <h1 className="text-2xl font-semibold mb-4">Detail Info</h1>
-        <ul className="">
-          <li className="flex items-center gap-2 mb-2">
-            {" "}
-            <span className="text-[#FD7E14] opacity-75 font-semibold">
-              Age:
-            </span>
-            <span>{oneAdoptPost.pet.age}</span>
-          </li>
-          <li className="flex items-center gap-2 mb-2">
-            {" "}
-            <span className="text-[#FD7E14] opacity-75 font-semibold">
-              Gender:{" "}
-            </span>
-            <span>{oneAdoptPost.pet.gender}</span>
-          </li>
-          <li className="flex items-center gap-2 mb-2">
-            {" "}
-            <span className="text-[#FD7E14] opacity-75 font-semibold">
-              Breed:{" "}
-            </span>
-            <span>{oneAdoptPost.pet.breed}</span>
-          </li>
-          <li className="flex items-center gap-2 mb-2">
-            {" "}
-            <span className="text-[#FD7E14] opacity-75 font-semibold">
-              Health Condition:{" "}
-            </span>
-            <span>{oneAdoptPost.pet.healthCondition}</span>
-          </li>
-        </ul>
-      </CardContent>
-      <CardContent>
-        <h1 className="text-2xl font-semibold mb-4">Pre-adoption checks</h1>
-        <ul className="">
-          <li className="flex items-center gap-2 mb-2">
-            {oneAdoptPost.pet.vaccinated ? (
-              <>
-                <FaCheck className="text-green-500" /> <span>Vaccinated</span>
-              </>
-            ) : (
-              <>
-                {" "}
-                <BsExclamationCircle className="text-yellow-500" />{" "}
-                <span>Not vaccinated</span>{" "}
-              </>
-            )}
-          </li>
-          <li className="flex items-center gap-2 mb-2">
-            {oneAdoptPost.pet.spayed ? (
-              <>
-                <FaCheck className="text-green-500" />{" "}
-                <span>Spayed/Neutered</span>
-              </>
-            ) : (
-              <>
-                {" "}
-                <BsExclamationCircle className="text-yellow-500" />{" "}
-                <span>Not spayed/neutered</span>{" "}
-              </>
-            )}
-          </li>
-          <li className="flex items-center gap-2 mb-2">
-            {oneAdoptPost.pet.wormed ? (
-              <>
-                <FaCheck className="text-green-500" /> <span>Wormed</span>
-              </>
-            ) : (
-              <>
-                {" "}
-                <BsExclamationCircle className="text-yellow-500" />{" "}
-                <span>Not wormed</span>{" "}
-              </>
-            )}
-          </li>
-        </ul>
-      </CardContent>
-      <CardContent>
-        <h1 className="text-2xl font-semibold mb-4">Submit An Inquiry</h1>
-        <div className="flex items-center space-x-2 mb-4">
-          <Checkbox id="terms" />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Insert your full information
-          </label>
+      <CardContent className="space-y-6">
+        <div>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">Pet Info</h3>
+          <dl className="space-y-2">
+            {[
+              { label: "Age", value: oneAdoptPost.pet.age },
+              { label: "Gender", value: oneAdoptPost.pet.gender },
+              { label: "Breed", value: oneAdoptPost.pet.breed },
+              { label: "Health", value: oneAdoptPost.pet.healthCondition },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex justify-between items-center py-2 border-b border-gray-100">
+                <dt className="text-orange-500 font-medium">{item.label}</dt>
+                <dd className="text-gray-700">{item.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-        <div className="flex items-center space-x-2 mb-8">
-          <Checkbox id="terms" />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Accept terms and conditions
-          </label>
-        </div>
-        <div className="">
-          <AdoptionEnquire />
+
+        <div>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            Health Status
+          </h3>
+          <div className="space-y-3">
+            {[
+              { label: "Vaccinated", status: oneAdoptPost.pet.vaccinated },
+              { label: "Spayed/Neutered", status: oneAdoptPost.pet.spayed },
+              { label: "Wormed", status: oneAdoptPost.pet.wormed },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className={`flex items-center gap-2 p-2 rounded-lg ${
+                  item.status ? "bg-green-50" : "bg-yellow-50"
+                }`}>
+                {item.status ? (
+                  <FaCheck className="text-green-500" />
+                ) : (
+                  <BsExclamationCircle className="text-yellow-500" />
+                )}
+                <span
+                  className={
+                    item.status ? "text-green-700" : "text-yellow-700"
+                  }>
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between"></CardFooter>
     </Card>
   );
 }
@@ -211,20 +171,19 @@ export function MoreDetails() {
 export function ImageCard() {
   const { oneAdoptPost } = useContext(AdoptionContext);
   return (
-    <Card className="shadow-[0_0px_15px_1px_rgba(0,0,0,0.4)] border-none rounded-xl p-0 overflow-hidden">
-      <CardContent
-        style={{
-          backgroundImage: `url(${oneAdoptPost.pet.imageUrl[0]})`,
-        }}
-        className={`flex items-end justify-center flex-1 h-96 bg-no-repeat z-0 bg-[length:100%] bg-center`}></CardContent>
-      {/* <CardContent className="p-0 ">
+    <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-none rounded-xl overflow-hidden">
+      <div className="relative aspect-square">
         <img
           src={oneAdoptPost.pet.imageUrl[0]}
-          alt=""
-          className="object-cover 
-        "
+          alt={oneAdoptPost.pet.name}
+          className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
         />
-      </CardContent> */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+          <h3 className="text-white text-xl font-semibold">
+            {oneAdoptPost.pet.name}
+          </h3>
+        </div>
+      </div>
     </Card>
   );
 }
