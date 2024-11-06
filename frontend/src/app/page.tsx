@@ -13,7 +13,7 @@ import { IArticles } from "@/lib/types";
 import { ArticleContext } from "@/components/context/article_context";
 import { AdoptionContext } from "@/components/context/adoption_context";
 import { DonationContext } from "@/components/context/donation_context";
-import HomeDonationCard from "@/components/main_page/donation_card";
+import Carousel from "@/components/main_page/donation_carousel";
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -21,7 +21,6 @@ export default function Home() {
   const { adoptionPosts } = useContext(AdoptionContext);
   const { donationPosts } = useContext(DonationContext);
   const articleCards = articles.slice(0, 3);
-  const donatCards = donationPosts.slice(0, 4);
 
   console.log("adoption pets", adoptionPosts);
 
@@ -40,26 +39,8 @@ export default function Home() {
           <PetsCard pet={pet.pet} _id={pet._id} key={i} imgUrl={pet.imgUrl} />
         ))}
       </div>
-      <div className="flex justify-between mt-20 md:w-[1300px] mx-auto">
-        <h3 className="text-3xl font-bold">Donation</h3>
-        <div className="flex gap-2">
-          <TfiArrowCircleLeft className="text-4xl text-white bg-black border rounded-full" />
-          <TfiArrowCircleRight className="text-4xl text-white bg-black border rounded-full" />
-        </div>
-      </div>
-
       <div className="flex justify-center gap-6 mt-10">
-        {donatCards.map((card, i) => (
-          <HomeDonationCard
-            title={card.title}
-            _id={card._id}
-            key={i}
-            description={""}
-            images={card.images}
-            totalAmount={0}
-            updateDate={0}
-          />
-        ))}
+        <Carousel cards={donationPosts} />
       </div>
 
       <Post />
@@ -67,9 +48,10 @@ export default function Home() {
       <h2 className="text-center -mb-20 text-2xl font-bold mt-20">
         News & Blogs
       </h2>
-      <section className="grid  grid-flow-col-dense justify-center gap-8 md:mb-20">
+      <section className="grid grid-flow-col-dense justify-center gap-8 md:mb-20">
         {articleCards?.map((card: IArticles) => (
           <BlogsCards
+            key={card.id}
             image={card.images[0]}
             id={card._id}
             date={card.updatedAt}

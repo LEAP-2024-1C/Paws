@@ -1,7 +1,6 @@
 "use client";
 import HeroComponent from "@/components/main_page/hero_component";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Calendar, Pencil } from "lucide-react";
 import {
   Card,
@@ -20,7 +19,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 const Articles = () => {
   const [articles, setArticles] = useState<IArticles[]>([]);
   const [articleCat, setArticleCat] = useState<CatType[]>([]);
-  const [activeCat, setActiveCat] = useState(false);
   const getArticles = async () => {
     try {
       const res = await axios.get(`${apiUrl}/api/v1/articles`);
@@ -39,10 +37,6 @@ const Articles = () => {
       console.error(error);
       toast.error("Failed to get fetch articles categories categories");
     }
-  };
-  const findArticleCat = (activeCat: boolean) => {
-    setActiveCat(true);
-    return articleCat.filter((cat) => cat.category.includes(activeCat));
   };
   useEffect(() => {
     getArticles();
@@ -77,6 +71,7 @@ const Articles = () => {
         </RadioGroup>
         <section className="grid grid-cols-1 md:grid-cols-3 gap-5 mx-16 my-10">
           {articles?.map((card: IArticles) => (
+            // eslint-disable-next-line react/jsx-key
             <BlogsCards
               image={card.images[0]}
               id={card._id}
