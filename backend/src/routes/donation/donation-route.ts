@@ -19,7 +19,7 @@ const router = Router();
 router.route("/").get(getAllDonations);
 router.route("/create").post(authentication, authorize, createDonations);
 
-router.route("/transaction").post(createTransaction);
+router.route("/transaction/:donationId").post(createTransaction);
 router.route("/transaction/:id").get(getTransactionData);
 router.route("/:id").get(getSingleDonation);
 router.route("/:id").delete(deleteDonationReport);

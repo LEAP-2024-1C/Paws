@@ -5,12 +5,19 @@ interface Comment {
   comment: string;
   createdAt: Date;
 }
+
 interface Donations {
   description: string;
   title: string;
   images: [string];
   totalAmount: number;
-  currentAmount: number;
+  collectedDonations?: [
+    {
+      description: string;
+      // userEmail: string;
+      amount: number;
+    }
+  ];
   contributors: number;
   petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
   userId: { type: Schema.Types.ObjectId; ref: "User"; required: true }; //userId? ==> userId
@@ -39,11 +46,20 @@ const DonationsSchema = new Schema<Donations>(
       type: Number,
       required: true,
     },
-    currentAmount: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    collectedDonations: [
+      {
+        description: {
+          type: String,
+        },
+        amount: {
+          type: Number,
+        },
+        //   userEmail: {
+        //     type: String,
+        //     required: true
+        //   },
+      },
+    ],
     contributors: {
       type: Number,
       default: 0,

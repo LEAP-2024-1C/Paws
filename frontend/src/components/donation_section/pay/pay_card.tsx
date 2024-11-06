@@ -1,73 +1,256 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import React, { useContext, useState } from "react";
+import { DonationContext } from "@/components/context/donation_context";
+
 export interface MockType {
   cash: string;
 }
 
-import { CashButton } from "./chash_button";
-// const mockData = ["10$", "15$", "20$", "25$"];
 const mockD = [
+  { cash: "$15" },
+  { cash: "$30" },
+  { cash: "$50" },
+  { cash: "$100" },
+  { cash: "$250" },
+  { cash: "$500" },
+];
+const bankLogos = [
   {
-    cash: "5$",
+    bankLogo:
+      "https://play-lh.googleusercontent.com/Aw4bwCDJgAzu6AFAbbcfCFpheVMB6ZKiEM3JlrJ3cAM65fK-1QaTZZs_Vk4UFBzykQ",
   },
   {
-    cash: "10$",
+    bankLogo:
+      "https://play-lh.googleusercontent.com/9tUBesUsI4UIkpgO1MPIMLFvhDa_4vZE75TrVAUHFA7a0bJ7IIgeyh2r1QXs9VlmXmkX",
   },
   {
-    cash: "15$",
+    bankLogo:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9OWAoZ4ChNhfYTyI7Knf4kwOfRM3xI8EF6g&s",
   },
   {
-    cash: "20$",
+    bankLogo:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBCEuWnamoyP22Qe1Snf9LKEEwVjuK93k_KA&s",
   },
+  { bankLogo: "https://d20ytcq1zkh3th.cloudfront.net/6powyvkm0uj682f.png" },
   {
-    cash: "25$",
-  },
-
-  {
-    cash: "30$",
+    bankLogo:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzoLAwUeLaczwD8YquehlTkLMVYsZTEBQfWg&s",
   },
 ];
-export function PayCard() {
+export function PayCard({ id }: { id: string | string[] }) {
+  const [step, setStep] = useState(1);
+  const {
+    insertTransactionData,
+    setInsertTransactionData,
+    createTransactionData,
+  } = useContext(DonationContext);
+  console.log("iddddd", id);
+  console.log("itd", insertTransactionData);
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) setStep(1);
+      }}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-[#FD7E14] text-white">
+        <Button
+          variant="outline"
+          className="bg-[#FD7E14] text-white rounded-lg">
           Donate
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle> Help the dream come true</DialogTitle>
-          <DialogDescription>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Totam,
-            cum?
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid  grid-cols-3  w-3/5 mx-auto gap-6 ">
+      {step === 1 && (
+        <DialogContent className="sm:max-w-[500px] transform transition-all duration-900 ease-in-out">
+          {/* Progress dots */}
+          <div className="flex justify-center gap-2 mb-6">
+            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
+            <div className="w-3 h-3 rounded-full bg-gray-200"></div>
+            <div className="w-3 h-3 rounded-full bg-gray-200"></div>
+          </div>
+
+          <div className="flex rounded-full bg-gray-100 p-1 mb-6">
+            <button className="flex-1 rounded-full py-2 bg-white">
+              ❤️ Donate
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-4 mb-6">
             {mockD?.map((c: MockType) => (
-              <div className="col-span-1 row-span-1">
-                <CashButton cash={c.cash} />
-              </div>
+              <button className="p-4 border rounded-xl hover:bg-[#FD7E14] border-[#FD7E14] text-xl font-bold">
+                {c.cash}
+              </button>
             ))}
           </div>
-        </div>
-        <DialogFooter>
-          <div className="flex w-full max-w-sm items-center space-x-2">
-            <Input type="Number" placeholder="Enter custom amount" />
-            <Button type="submit">Next</Button>
+
+          <div className="mb-6">
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                $
+              </span>
+              <Input
+                type="number"
+                placeholder="Enter custom amount"
+                className="pl-8 py-6 text-lg rounded-xl"
+                onChange={(e) => {
+                  setInsertTransactionData({
+                    ...insertTransactionData,
+                    amount: Number(e.target.value),
+                  });
+                }}
+              />
+            </div>
           </div>
-        </DialogFooter>
-      </DialogContent>
+
+          <Button
+            className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg"
+            onClick={() => {
+              setStep(2);
+            }}>
+            Next
+          </Button>
+
+          <div className="flex justify-center gap-8 mt-6">
+            {bankLogos?.map((e) => (
+              <img
+                src={`${e.bankLogo}`}
+                alt="bankLogo"
+                className="h-8 rounded-md"
+              />
+            ))}
+          </div>
+        </DialogContent>
+      )}
+      {step === 2 && (
+        <DialogContent className="sm:max-w-[500px] transform transition-all duration-900 ease-in-out">
+          {/* Progress dots */}
+          <div className="flex justify-center gap-2 mb-6">
+            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
+            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
+            <div className="w-3 h-3 rounded-full bg-gray-200"></div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="text-center text-lg font-medium mb-6">
+              ❤️ Donating $100
+            </div>
+
+            <Input
+              type="email"
+              placeholder="Email"
+              className="w-full rounded-lg"
+              // required
+              // onChange={(e) => {
+              //   setInsertTransactionData({
+              //     ...insertTransactionData,
+              //     email: e.target.value,
+              //   });
+              // }}
+            />
+
+            <textarea
+              placeholder="Your Message"
+              className="w-full rounded-lg border p-2 min-h-[100px]"
+              onChange={(e) => {
+                setInsertTransactionData({
+                  ...insertTransactionData,
+                  description: e.target.value,
+                });
+              }}
+            />
+
+            <Button
+              className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white mt-6"
+              onClick={() => {
+                setStep(3);
+              }}>
+              Next
+            </Button>
+          </div>
+        </DialogContent>
+      )}
+      {step === 3 && (
+        <DialogContent className="sm:max-w-[500px] transform transition-all duration-300 ease-in-out">
+          {/* Progress dots */}
+          <div className="flex justify-center gap-2 mb-6">
+            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
+            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
+            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-center text-lg">Enter your payment details</h3>
+
+            {/* Secure payment message */}
+            <div className="bg-gray-50 p-4 rounded-lg flex gap-3">
+              <div className="text-blue-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round">
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <div>
+                <div className="font-medium">Secure payment</div>
+                <div className="text-sm text-gray-500">
+                  Our payments are protected by industry best-practice
+                  encryption technology.
+                </div>
+              </div>
+            </div>
+
+            {/* Payment form */}
+            <div className="space-y-4">
+              <div className="flex relative">
+                <Input
+                  placeholder="Card number"
+                  className="w-full rounded-lg"
+                />
+                <div className="flex gap-2 mt-1 absolute right-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2zdNlBjcvJec5Aq1c60qfwT-sWkyTpQgG8w&s"
+                    alt="visa"
+                    className="h-6"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input placeholder="Expiration date" className="rounded-lg" />
+                <Input placeholder="Security code" className="rounded-lg" />
+              </div>
+
+              <div>
+                <Input
+                  placeholder="Country"
+                  className="w-full rounded-lg"
+                  defaultValue="Mongolia"
+                />
+              </div>
+
+              <div className="text-center text-sm">
+                Donating $261.75 every month in United States Dollars
+              </div>
+
+              <Button
+                className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white"
+                onClick={() => {
+                  createTransactionData(id);
+                }}>
+                Donate $261.75 monthly
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      )}
     </Dialog>
   );
 }
