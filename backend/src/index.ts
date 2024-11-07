@@ -15,9 +15,7 @@ import donationRoute from "./routes/donation/donation-route";
 import cartRoute from "./routes/shop/cart-route";
 import wishlistRoute from "./routes/shop/wishlist-route";
 
-
 import Stripe from "stripe";
-
 
 dotenv.config();
 
@@ -50,18 +48,20 @@ const stripe = new Stripe(
 );
 
 app.post("/checkout", async (req: Request, res: Response) => {
-  const {} = req.body;
+  const { donationId } = req.params;
+  const { description, amount } = req.body;
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
         price_data: {
           product_data: {
-            name: "Mary -Danation",
-            images: [
-              "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
-            ],
+            name: "Donation",
+            description: description,
+            // images: [
+            //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+            // ],
           },
-          unit_amount: 50 * 100,
+          unit_amount: amount,
           currency: "usd",
         },
 
