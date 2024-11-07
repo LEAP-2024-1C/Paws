@@ -8,7 +8,7 @@ import { ProfileContext } from "@/components/context/profile_context";
 const RecoverPass = () => {
   const { step } = useContext(ProfileContext);
   return (
-    <div className="flex h-[calc(100vh-290px)] justify-center bg-gray-100 dark:bg-[#121212]">
+    <div className="flex h-[calc(100vh-290px)] justify-center bg-[#F8F9FA] dark:bg-[#121212]">
       <div className="w-1/5 mt-24">
         {step === 1 && <ForgetPass />}
         {step === 2 && <GetNewPass />}

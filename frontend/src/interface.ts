@@ -245,6 +245,11 @@ export interface AdoptionContextType {
   fetchSingleadoptionPosts: (id: string | string[]) => void;
   refetch?: boolean;
   setRefetch?: (refetch: boolean) => void;
+  fetchTransactionData: (id: string | string[]) => void;
+  getTransactionData: IDonationTransactionData;
+  setGetTransactionData: React.Dispatch<
+    React.SetStateAction<IDonationTransactionData>
+  >;
 }
 
 export interface IPetCategory {
@@ -252,4 +257,10 @@ export interface IPetCategory {
   name: string;
   description: string;
   // count?: number;
+}
+
+export interface IDonationTransactionData {
+  amount: number;
+  description: string;
+  donationId: string;
 }

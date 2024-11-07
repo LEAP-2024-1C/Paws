@@ -1,10 +1,10 @@
 "use client";
 
 import DonationCard from "@/components/donation_section/donation_card";
-import React, { useContext, useEffect } from "react";
-import Link from "next/link";
+import React, { useContext } from "react";
 import DonationHero from "@/components/donation_section/hero";
 import { DonationContext } from "@/components/context/donation_context";
+import { format } from "date-fns";
 
 export type donationPostsProps = {
   title: string;
@@ -15,11 +15,7 @@ export type donationPostsProps = {
   updateDate: number;
 };
 const Donation = () => {
-  const { donationPosts, fetchAllDonationData } = useContext(DonationContext);
-  useEffect(() => {
-    fetchAllDonationData();
-  });
-  const mockData = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const { donationPosts } = useContext(DonationContext);
   console.log("mm", donationPosts);
   return (
     <div className="mx-auto">
@@ -34,7 +30,7 @@ const Donation = () => {
                 _id={c._id}
                 images={c.images}
                 totalAmount={c.totalAmount}
-                updateDate={c.updateDate}
+                updateDate={format(c.updateDate, "dd/MMMM/yyyy")}
               />
             </div>
           ))}
