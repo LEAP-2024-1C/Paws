@@ -15,6 +15,7 @@ import { GrLocationPin } from "react-icons/gr";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { useState } from "react";
+import type { CarouselApi } from "@/components/ui/carousel";
 
 interface SosItem {
   _id: string;
@@ -27,7 +28,7 @@ interface SosItem {
 }
 
 export default function GridCarousel() {
-  const [api, setApi] = React.useState<any>();
+  const [api, setApi] = React.useState<CarouselApi | null>(null);
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
   const [sosItems, setSosItems] = React.useState<SosItem[]>([]);

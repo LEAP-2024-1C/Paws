@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
+import { WishListContext } from "@/components/context/wishlist_context";
+import { toast } from "react-toastify";
+
 interface Product {
   _id: string;
   name: string;
@@ -12,6 +15,25 @@ interface ProductCard {
 }
 
 const ProductCard: React.FC<ProductCard> = ({ product }) => {
+  const { addToWishList, removeFromWishList } = useContext(WishListContext);
+
+  const [loved, setLoved] = useState(false);
+
+  const wishlist = async () => {
+    try {
+      if (!loved) {
+        await addToWishList(product._id);
+        setLoved(true);
+      } else {
+        await removeFromWishList(product._id);
+        setLoved(false);
+      }
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+      toast.error("e");
+    }
+  };
+
   return (
     <div className="bg-gray-100 rounded-lg p-4 flex flex-col">
       <Link href={`/shop/${product._id}`}>
@@ -24,11 +46,11 @@ const ProductCard: React.FC<ProductCard> = ({ product }) => {
       </Link>
       <div className="flex justify-between items-center">
         <p className="text-lg font-thin">${product.price.toFixed(2)}</p>
-        <button className="text-orange-500">
+        <button onClick={wishlist} className="text-orange-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
-            fill="none"
+            fill={loved ? "currentColor" : "none"}
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
