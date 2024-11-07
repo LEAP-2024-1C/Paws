@@ -17,6 +17,7 @@ export type donationPostsProps = {
   description: string;
   images: string;
   totalAmount: number;
+  currentAmount: number;
   _id: string;
   updateDate: string;
 };
@@ -25,11 +26,12 @@ const DonationCard = ({
   _id,
   images,
   totalAmount,
+  currentAmount,
   updateDate,
 }: donationPostsProps) => {
   return (
     <Link href={"/donation/" + _id}>
-      <Card className="m-auto w-[90%] sm:w-[85%] md:w-[80%] lg:w-[400px] relative p-2 flex flex-col gap-2 lg:gap-3">
+      <Card className="m-auto w-[90%] sm:w-[85%] md:w-[80%] lg:w-[400px] relative p-2 flex flex-col gap-2 lg:gap-3 hover:shadow-xl">
         <CardHeader className="mb-2 lg:mb-4 p-0 h-36 sm:h-40 md:h-44 lg:h-48">
           <div className="overflow-hidden rounded-t-lg">
             <img
@@ -55,7 +57,7 @@ const DonationCard = ({
         <CardTitle className="flex gap-1 lg:gap-3 items-baseline px-2 sm:px-3">
           <p className="text-base sm:text-lg lg:text-2xl">{totalAmount}$</p>
           <p className="text-xs sm:text-sm lg:text-lg">raised out of</p>
-          <p className="text-xs sm:text-sm lg:text-xl">43$</p>
+          <p className="text-xs sm:text-sm lg:text-xl">{currentAmount}$</p>
         </CardTitle>
 
         <span className="px-2 sm:px-3">
@@ -64,7 +66,7 @@ const DonationCard = ({
 
         <CardFooter className="flex justify-between p-2 sm:p-3">
           <div className="flex items-center gap-1 lg:gap-2">
-            <FaHeart className="text-sm sm:text-base" />
+            <FaHeart className="text-sm sm:text-base text-red-500" />
             <p className="text-xs sm:text-sm 2xl:text-base">25</p>
             <p className="text-xs sm:text-sm 2xl:text-base">Contributors</p>
           </div>
