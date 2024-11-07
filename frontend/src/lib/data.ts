@@ -137,3 +137,10 @@ export const Apps: AppsType[] = [
     url: "https://www.linkedin.com/",
   },
 ];
+
+export interface NewsCard {
+  image: string;
+  title: string;
+  date: string;
+  id: number;
+}

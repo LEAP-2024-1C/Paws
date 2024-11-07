@@ -1,6 +1,5 @@
 "use client";
 import HeroComponent from "@/components/main_page/hero_component";
-import { RadioGroup } from "@/components/ui/radio-group";
 import { Calendar, Pencil } from "lucide-react";
 import {
   Card,

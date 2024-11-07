@@ -10,9 +10,9 @@ import { IArticles } from "@/lib/types";
 import { ArticleContext } from "@/components/context/article_context";
 import { AdoptionContext } from "@/components/context/adoption_context";
 import { DonationContext } from "@/components/context/donation_context";
-import DonationCarousel from "@/components/main_page/donation_carousel";
-import AdoptionCarousel from "@/components/main_page/adoption_carousel";
 import { ShoppingContext } from "@/components/context/shopping_context";
+import AdoptionSwiper from "@/components/main_page/adop_swiper";
+import DonationSwiper from "@/components/main_page/donat_swiper";
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -33,12 +33,14 @@ export default function Home() {
       <HeroComponent />
       <div className="flex justify-center mt-10">
         <div className="w-full max-w-7xl">
-          <AdoptionCarousel cards={adoptionPosts} />
+          <h3 className="text-2xl md:text-3xl font-bold my-10">Adopt me</h3>
+          <AdoptionSwiper cards={adoptionPosts} />
         </div>
       </div>
       <div className="flex justify-center mt-10">
         <div className="w-full max-w-7xl">
-          <DonationCarousel cards={donationPosts} />
+          <h3 className="text-2xl md:text-3xl font-bold my-10">Donation</h3>
+          <DonationSwiper cards={donationPosts} />
         </div>
       </div>
       <Post />
