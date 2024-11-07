@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 import { AdoptionProvider } from "@/components/context/adoption_context";
 import { DonationProvider } from "@/components/context/donation_context";
 import { WishListProvider } from "@/components/context/wishlist_context";
+import { CartProvider } from "@/components/context/cart_context";
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
 //   variable: "--font-geist-sans",
@@ -38,17 +39,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body>
           <UserProvider>
             <ShoppingProvider>
-              <WishListProvider>
-                <ProfileProvider>
-                  <AdoptionProvider>
-                    <DonationProvider>
-                      <Header />
-                      {children}
-                      <Footer />
-                    </DonationProvider>
-                  </AdoptionProvider>
-                </ProfileProvider>
-              </WishListProvider>
+              <CartProvider>
+                <WishListProvider>
+                  <ProfileProvider>
+                    <AdoptionProvider>
+                      <DonationProvider>
+                        <Header />
+                        {children}
+                        <Footer />
+                      </DonationProvider>
+                    </AdoptionProvider>
+                  </ProfileProvider>
+                </WishListProvider>
+              </CartProvider>
             </ShoppingProvider>
           </UserProvider>
           <ToastContainer />

@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { WishListContextType, IWishList } from "@/interface";
 import { useParams } from "next/navigation";
 import axios from "axios";

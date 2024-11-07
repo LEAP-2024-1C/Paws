@@ -8,12 +8,14 @@ import { toast } from "react-toastify";
 interface Product {
   _id: string;
   name: string;
-  price: number;
   description: string;
+  price: number;
+  size?: string;
   images: string[];
-  category: string;
+  isNew?: boolean;
   quantity: number;
-  size: string;
+  discount?: number;
+  category: string;
 }
 
 interface Category {
@@ -21,16 +23,11 @@ interface Category {
   name: string;
   count: number;
 }
-
-interface CartItem extends Product {
-  size: string;
-  quantity: number;
-}
 type Size = "S" | "M" | "L";
 
 interface ShoppingContextType {
-  product: Product;
-  setProduct: React.Dispatch<React.SetStateAction<Product>>;
+  product: Product[];
+  setProduct: React.Dispatch<React.SetStateAction<Product[]>>;
   loading: boolean;
   categories: Category[];
   cartItems: Product[];
@@ -42,16 +39,7 @@ interface ShoppingContextType {
 }
 
 export const ShoppingContext = createContext<ShoppingContextType>({
-  product: {
-    _id: "",
-    name: "",
-    price: 0,
-    description: "",
-    images: [],
-    category: "",
-    quantity: 0,
-    size: "",
-  },
+  product: [],
   setProduct: () => {},
   loading: false,
   categories: [],
@@ -69,18 +57,10 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [product, setProduct] = React.useState<Product>({
-    _id: "",
-    name: "",
-    price: 0,
-    description: "",
-    images: [],
-    category: "",
-    quantity: 0,
-    size: "",
-  });
-  const [quantity, setQuantity] = React.useState(1);
-  const [selectedSize, setSelectedSize] = React.useState<Size | null>(null);
+  const [product, setProduct] = useState<Product[]>([]);
+
+  const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
 
   const fetchAllProducts = async () => {
     setLoading(true);

@@ -5,12 +5,16 @@ import ProductList from "./components/productlist";
 import { FiSearch, FiShoppingCart, FiHeart } from "react-icons/fi";
 import { ShoppingContext } from "@/components/context/shopping_context";
 import Link from "next/link";
+import { CartContext } from "@/components/context/cart_context";
+import { WishListContext } from "@/components/context/wishlist_context";
 const ShopPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("latest");
 
   const { categories } = useContext(ShoppingContext);
+  const { cartData } = useContext(CartContext);
+  const { wishListData } = useContext(WishListContext);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -31,7 +35,7 @@ const ShopPage: React.FC = () => {
 
           <div className="flex gap-4 justify-end">
             <div className="relative group">
-              <Link href="/shop_cart">
+              <Link href="/shop/cart">
                 <button
                   className="p-2.5 hover:bg-gray-100 rounded-lg relative transition-all duration-200 
                   group-hover:shadow-md flex items-center gap-2"
@@ -45,7 +49,7 @@ const ShopPage: React.FC = () => {
                     w-5 h-5 text-xs flex items-center justify-center shadow-sm 
                     transform transition-transform group-hover:scale-110"
                   >
-                    0
+                    {cartData.products.length}
                   </span>
                 </button>
               </Link>
@@ -74,7 +78,7 @@ const ShopPage: React.FC = () => {
                     w-5 h-5 text-xs flex items-center justify-center shadow-sm 
                     transform transition-transform group-hover:scale-110"
                   >
-                    0
+                    {wishListData.products.length}
                   </span>
                 </button>
               </Link>

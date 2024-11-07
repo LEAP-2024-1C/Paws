@@ -71,28 +71,6 @@ const ProductDetail: React.FC = () => {
     }
   };
 
-  const handleWishlist = () => {};
-
-  const handleAddToCart = () => {
-    if (!selectedSize) {
-      toast.error("Please select a size");
-      return;
-    }
-
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Please login to add items to cart");
-      return;
-    }
-
-    if (!product?._id) {
-      toast.error("Product not found");
-      return;
-    }
-
-    insertCartData(product._id);
-  };
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -184,7 +162,7 @@ const ProductDetail: React.FC = () => {
             <div className="flex gap-4 ml-auto">
               <button className="p-2.5 hover:bg-gray-200 rounded-lg relative transition-colors duration-200">
                 <FiShoppingCart className="text-2xl text-gray-700" />
-                <Link href="/shop_cart">
+                <Link href="/shop/cart">
                   <span
                     className="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full 
                     w-5 h-5 text-xs flex items-center justify-center shadow-sm 
@@ -276,7 +254,6 @@ const ProductDetail: React.FC = () => {
           </div>
 
           <button
-            onClick={handleWishlist}
             className={`p-3 rounded-lg transition-all duration-300 ${
               isInWishlist
                 ? "bg-red-50 text-red-500 hover:bg-red-100"

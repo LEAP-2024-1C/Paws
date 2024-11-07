@@ -168,6 +168,7 @@ export interface CartContextType {
   count: number;
   setCount: (count: number) => void;
   minus: () => void;
+  plus: () => void;
   add: () => void;
   getcartData: () => void;
   deleteProduct: (productId: string) => Promise<void>;
@@ -179,7 +180,11 @@ export interface CartContextType {
   setProductSize: (productSize: ISizeLists) => void;
   sizeList: ISizeLists[];
   updateCartData: (productId: string, newQuantity: number) => Promise<void>;
-  // insertCartData: IInsertData;
+  addToCart: (id: string, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
+  selectedSize: ISizeLists;
+  setSelectedSize: (selectedSize: ISizeLists) => void;
 }
 
 export interface IWishList {
