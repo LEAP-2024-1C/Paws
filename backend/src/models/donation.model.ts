@@ -1,17 +1,30 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document, Types } from "mongoose";
+
+interface Comment {
+  user: Schema.Types.ObjectId;
+  comment: string;
+  createdAt: Date;
+}
 
 interface Donations {
   description: string;
   title: string;
   images: [string];
   totalAmount: number;
-  currentAmount: number;
+  collectedDonations?: [
+    {
+      description: string;
+      // userEmail: string;
+      amount: number;
+    }
+  ];
   contributors: number;
   petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
   userId: { type: Schema.Types.ObjectId; ref: "User"; required: true }; //userId? ==> userId
   status: string; //added status
-  updateDate: Date;
-  comments: [string];
+  comments: Comment[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const DonationsSchema = new Schema<Donations>(
@@ -33,11 +46,20 @@ const DonationsSchema = new Schema<Donations>(
       type: Number,
       required: true,
     },
-    currentAmount: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    collectedDonations: [
+      {
+        description: {
+          type: String,
+        },
+        amount: {
+          type: Number,
+        },
+        //   userEmail: {
+        //     type: String,
+        //     required: true
+        //   },
+      },
+    ],
     contributors: {
       type: Number,
       default: 0,
@@ -56,13 +78,25 @@ const DonationsSchema = new Schema<Donations>(
       type: String,
       enum: ["in-progress", "done"],
     },
-    updateDate: {
-      type: Date,
-      default: Date.now,
-    },
-    comments: {
-      type: [String],
-    },
+    comments: [
+      {
+        _id: {
+          type: Schema.Types.ObjectId,
+        },
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        comment: {
+          type: String,
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

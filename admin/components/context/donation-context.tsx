@@ -10,6 +10,7 @@ import axios from 'axios';
 import { apiUrl } from '@/utils/util';
 import { useToast } from '../ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { PetsContext } from './pets-context';
 
 type DonationProviderProps = {
   children: React.ReactNode;
@@ -25,16 +26,37 @@ export const DonationContext = createContext<DonationContextType>({
     totalAmount: 0
   },
   setDonationPosts: (donationPosts: IDonationPost) => {},
-  createDonationPost: () => {},
+  createDonationPost: (e: React.FormEvent) => {},
   getAllDonationPosts: () => {},
   getDonationPosts: [],
-  setGetDonationPosts: () => {}
+  setGetDonationPosts: () => {},
+  deleteDonationPost: (id: string) => {},
+  editDonationPost: (id: string) => {},
+  isEdit: false,
+  setIsEdit: () => {},
+  getSingleDonationPost: (id: string | string[]) => {},
+  editData: {
+    _id: '',
+    title: '',
+    description: '',
+    status: '',
+    petId: {
+      _id: '',
+      name: ''
+    },
+    images: [''],
+    totalAmount: 0,
+    createdAt: new Date()
+  },
+  setEditData: (editData: IGetDonationPost) => {}
 });
 
 export const DonationProvider = ({ children }: DonationProviderProps) => {
   const { toast } = useToast();
   const router = useRouter();
   const { setIsLoading } = useContext(ProfileContext);
+  const { refetch, setRefetch } = useContext(PetsContext);
+  const [isEdit, setIsEdit] = useState(false);
   const [getDonationPosts, setGetDonationPosts] = useState<IGetDonationPost[]>([
     {
       _id: '',
@@ -42,11 +64,12 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
       description: '',
       status: '',
       petId: {
+        _id: '',
         name: ''
       },
       images: [''],
       totalAmount: 0,
-      created_at: new Date()
+      createdAt: new Date()
     }
   ]);
   const [donationPosts, setDonationPosts] = useState<IDonationPost>({
@@ -57,8 +80,22 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     images: [''],
     totalAmount: 0
   });
+  const [editData, setEditData] = useState<IGetDonationPost>({
+    _id: '',
+    title: '',
+    description: '',
+    status: '',
+    petId: {
+      _id: '',
+      name: ''
+    },
+    images: [''],
+    totalAmount: 0,
+    createdAt: new Date()
+  });
 
-  const createDonationPost = async () => {
+  const createDonationPost = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
@@ -99,10 +136,6 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
       const res = await axios.get(`${apiUrl}/api/v1/donation`);
       if (res.status === 200) {
         setGetDonationPosts(res.data.allDonations);
-        toast({
-          variant: 'default',
-          title: 'Successfully posted'
-        });
       }
     } catch (error) {
       toast({
@@ -114,9 +147,66 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     }
   };
 
-  useEffect(() => {
-    getAllDonationPosts();
-  }, []);
+  const getSingleDonationPost = async (id: string | string[]) => {
+    try {
+      const res = await axios.get(`${apiUrl}/api/v1/donation/${id}`);
+      if (res.status === 200) {
+        setEditData(res.data.getSinglePost);
+      }
+    } catch (error) {
+      console.log('Err', error);
+    }
+  };
+
+  const deleteDonationPost = async (id: string) => {
+    try {
+      const res = await axios.delete(`${apiUrl}/api/v1/donation/${id}`);
+      if (res.status === 200) {
+        console.log('Deleted successfully');
+        toast({
+          title: 'Deleted post successfully',
+          description: `${new Date().toLocaleDateString()}`
+        });
+        setRefetch?.(!refetch);
+      }
+    } catch (error) {
+      console.log('Failed to delete', error);
+    }
+  };
+
+  const editDonationPost = async (id: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.put(
+        `${apiUrl}/api/v1/donation/${id}`,
+        {
+          title: editData.title,
+          description: editData.description,
+          status: editData.status,
+          totalAmount: editData.totalAmount,
+          images: editData.images,
+          petId: editData.petId._id
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (res.status === 200) {
+        toast({
+          title: 'Updated successfully',
+          description: `${new Date().toLocaleDateString()}`
+        });
+        setRefetch?.(!refetch);
+        router.push('/dashboard/donation');
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error updating donation',
+        description: 'Please try again'
+      });
+      console.log('Update err', error);
+    }
+  };
 
   return (
     <DonationContext.Provider
@@ -126,7 +216,14 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
         getDonationPosts,
         setGetDonationPosts,
         createDonationPost,
-        getAllDonationPosts
+        getAllDonationPosts,
+        deleteDonationPost,
+        editDonationPost,
+        isEdit,
+        setIsEdit,
+        getSingleDonationPost,
+        editData,
+        setEditData
       }}
     >
       {children}

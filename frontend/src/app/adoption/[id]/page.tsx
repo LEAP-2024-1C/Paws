@@ -11,7 +11,8 @@ import React, { useContext, useEffect } from "react";
 
 const AdoptionDetailPage = () => {
   const { id } = useParams();
-  const { fetchSingleadoptionPosts } = useContext(AdoptionContext);
+  const { fetchSingleadoptionPosts, oneAdoptPost } =
+    useContext(AdoptionContext);
 
   useEffect(() => {
     fetchSingleadoptionPosts(id);
@@ -20,30 +21,24 @@ const AdoptionDetailPage = () => {
   // console.log("ID", id);
 
   return (
-    <div className="">
-      <div className="bg-[#F8F9FA] h-1/3 w-full">
-        <section className="w-3/5 flex m-auto">
-          <div className="flex flex-1 relative overflow-hidden items-center h-20">
-            <div>
-              <img
-                src="/img/shape.png"
-                alt=""
-                className="w-28 absolute top-[-60px] left-60 z-20"
-              />
-            </div>
-          </div>
-        </section>
+    <div className="min-h-screen bg-[#F8F9FA] py-24">
+      {/* Hero Section */}
+      <div className="relative  overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/img/pattern.png')] opacity-10"></div>
+
+        {/* Decorative Bottom Wave */}
       </div>
-      <div className="grid grid-cols-3 w-3/4 m-auto gap-10 my-24">
-        <div className="col-span-2">
-          <InfoCard />
-        </div>
-        <div className="col-span-1 row-span-3 flex flex-col gap-10">
-          <ImageCard />
-          <MoreDetails />
-        </div>
-        <div className="col-span-2">
-          <ContactDetail />
+
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
+          <div className="lg:col-span-2 space-y-6">
+            <InfoCard />
+            <ContactDetail />
+          </div>
+          <div className="lg:col-span-1 space-y-6">
+            <ImageCard />
+            <MoreDetails />
+          </div>
         </div>
       </div>
     </div>

@@ -61,7 +61,6 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
       category: ''
     }
   ]);
-  const [imageUrl, setImageUrl] = useState('');
   const [petCategory, setPetCategory] = useState<IPetCategory[]>([
     {
       _id: '',
@@ -88,7 +87,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/pets/${id}`);
       if (response.status === 200) {
-        console.log('SinglePost', response.data.getOnePost);
+        // console.log('SinglePost', response.data.getOnePost);
         // setOneAdoptPost(response.data.getOnePost);
       }
     } catch (error) {
@@ -111,7 +110,7 @@ export const PetsProvider = ({ children }: PetsProviderProps) => {
   useEffect(() => {
     fetchAllPetsData();
     fetchPetCategories();
-  }, []);
+  }, [refetch]);
 
   // console.log('PEts', getPetData);
 

@@ -1,8 +1,13 @@
 "use client";
 import React, { createContext, useState } from "react";
-import { AdoptionContextType, IAdoptionReq } from "@/interface";
+import {
+  AdoptionContextType,
+  IAdoptionReq,
+  IDonationTransactionData,
+} from "@/interface";
 import { apiUrl } from "@/utils/util";
 import axios from "axios";
+import { toast } from "react-toastify";
 // import { useRouter } from "next/navigation";
 
 type AdoptionProviderProps = {
@@ -41,10 +46,25 @@ export const AdoptionContext = createContext<AdoptionContextType>({
   fetchSingleadoptionPosts: (_id: string | string[]) => {},
   refetch: false,
   setRefetch: () => {},
+
+  fetchTransactionData: (id: string | string[]) => {},
+  getTransactionData: {
+    amount: 0,
+    description: "",
+    donationId: "",
+  },
+  setGetTransactionData: () => {},
 });
 
 export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
   const [refetch, setRefetch] = useState(false);
+  const [getTransactionData, setGetTransactionData] =
+    useState<IDonationTransactionData>({
+      amount: 0,
+      description: "",
+      donationId: "",
+    });
+
   const [adoptionPosts, setAdoptionPosts] = useState<IAdoptionReq[]>([]);
   const [oneAdoptPost, setOneAdoptPost] = useState<IAdoptionReq>({
     _id: "",
@@ -89,7 +109,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/adoption/${id}`);
       if (response.status === 200) {
-        console.log("SinglePost", response.data.getOnePost);
+        // console.log("SinglePost", response.data.getOnePost);
         setOneAdoptPost(response.data.getOnePost);
       }
     } catch (error) {
@@ -97,7 +117,22 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     }
   };
 
+  const fetchTransactionData = async (id: string | string[]) => {
+    try {
+      const res = await axios.get(
+        `${apiUrl}/api/v1/donation/transaction/${id}`
+      );
+      if (res.status === 200) {
+        setGetTransactionData(res.data.transactionData);
+        console.log("TD", res.data.transactionData);
+      }
+    } catch (error) {
+      console.error("Error fetching donation transaction data:", error);
+    }
+  };
+
   // console.log("Singlepost", oneAdoptPost);
+  console.log("TRD", getTransactionData);
 
   return (
     <AdoptionContext.Provider
@@ -110,8 +145,11 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         refetch,
         setRefetch,
         fetchSingleadoptionPosts,
-      }}
-    >
+
+        fetchTransactionData,
+        getTransactionData,
+        setGetTransactionData,
+      }}>
       {children}
     </AdoptionContext.Provider>
   );

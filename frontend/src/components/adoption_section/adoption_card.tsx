@@ -38,12 +38,11 @@ export default function AdoptionCard({
     setLoved(!loved);
   };
   return (
-    <Card className="w-[350px] relative shadow-md">
+    <Card className="w-[335px] relative shadow-md">
       <Button
         variant="ghost"
         className="p-0 absolute right-3 top-2 text-2xl hover:scale-150 hover:bg-transparent z-10"
-        onClick={wishList}
-      >
+        onClick={wishList}>
         {loved ? <VscHeartFilled /> : <VscHeart />}
       </Button>
       <CardHeader className="mb-4 p-0 h-48">
