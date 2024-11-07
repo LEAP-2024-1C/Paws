@@ -168,6 +168,7 @@ export interface CartContextType {
   count: number;
   setCount: (count: number) => void;
   minus: () => void;
+  plus: () => void;
   add: () => void;
   getcartData: () => void;
   deleteProduct: (productId: string) => Promise<void>;
@@ -179,7 +180,11 @@ export interface CartContextType {
   setProductSize: (productSize: ISizeLists) => void;
   sizeList: ISizeLists[];
   updateCartData: (productId: string, newQuantity: number) => Promise<void>;
-  // insertCartData: IInsertData;
+  addToCart: (id: string, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
+  selectedSize: ISizeLists;
+  setSelectedSize: (selectedSize: ISizeLists) => void;
 }
 
 export interface IWishList {
@@ -190,17 +195,17 @@ export interface IWishList {
         category: string;
         comment: [];
         description: string;
-        discount: 0;
+        discount: number;
         images: [];
-        isNew: true;
-        price: 0;
-        quantity: 0;
+        isNew: boolean;
+        price: number;
+        quantity: number;
         size: string;
         _id: string;
       };
     }
   ];
-  productId: string | string[];
+  productId: string;
 }
 
 export interface WishListContextType {
@@ -208,7 +213,7 @@ export interface WishListContextType {
   setWishListData: (wishListData: IWishList) => void;
   getWishListData: () => void;
   addToWishList: (id: string) => void;
-  deleteList: (productId: string) => void;
+  removeFromWishList: (productId: string) => void;
 }
 
 export interface IAdoptionReq {
