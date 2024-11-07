@@ -26,10 +26,10 @@ const ShoppingCards = ({ images, name, price, _id }: IProduct) => (
         <div className="flex justify-between mt-5 px-5">
           <div>
             <h4 className="font-bold text-lg">{name}</h4>
-            <p className="pl-5 pb-5 text-sm">{price.toLocaleString()}₮</p>
           </div>
           <Heart color="orange" />
         </div>
+        <p className="pl-5 pb-5 text-sm">{price.toLocaleString()}₮</p>
       </div>
     </Card>
   </Link>
