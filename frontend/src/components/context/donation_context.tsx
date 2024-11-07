@@ -213,8 +213,9 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
         insertTransactionData,
         setInsertTransactionData,
         loading: false,
-      }}
-    >
+
+      }}>
+
       {children}
     </DonationContext.Provider>
   );
