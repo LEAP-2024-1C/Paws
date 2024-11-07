@@ -26,4 +26,8 @@ router
   .delete(deleteAdoptionPost);
 router.route("/req/:id").patch(updateAdoptionRequest);
 router.route("/req/own").get(authentication, getOwnAdoptionInquiries);
+// router.route("/get").get(authentication, getWishlistData);
+// router.route("/add").post(authentication, addToWishList);
+// router.route("/delete").delete(authentication, deleteFromWishList);
+
 export default router;
