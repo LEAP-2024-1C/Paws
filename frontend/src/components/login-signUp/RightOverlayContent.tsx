@@ -1,10 +1,11 @@
 import React from "react";
 
 import { Fredoka } from "next/font/google";
+import { ILoginProps } from "@/interface";
 
 const fredoka = Fredoka({ subsets: ["latin"] });
 
-const RightOverlayContent = ({ isAnimated, setIsAnimated }: any) => {
+const RightOverlayContent = ({ isAnimated, setIsAnimated }: ILoginProps) => {
   return (
     <div className="p-8 text-center">
       <h1 className={`${fredoka.className} text-6xl font-bold  mb-4`}>
@@ -17,7 +18,7 @@ const RightOverlayContent = ({ isAnimated, setIsAnimated }: any) => {
       <div className="mt-16">
         <button
           className={`${fredoka.className} py-3 px-6 bg-transparent rounded-full text-center font-bold uppercase ring-2 ring-[#FD7E14] active:scale-110 transition-transform ease-in`}
-          onClick={(e) => {
+          onClick={() => {
             setIsAnimated(!isAnimated);
           }}>
           Sign Up

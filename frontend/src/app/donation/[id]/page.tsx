@@ -21,13 +21,8 @@ export type donationPostsProps = {
 };
 const DonationDetail = () => {
   const { id } = useParams();
-  const {
-    fetchSingleDonationPosts,
-    oneDonationPost,
-    donationPosts,
-    loading,
-    refetch,
-  } = useContext(DonationContext);
+  const { fetchSingleDonationPosts, oneDonationPost, donationPosts, loading } =
+    useContext(DonationContext);
 
   const progressPercentage = Math.floor(
     Math.min(

@@ -7,7 +7,6 @@ import {
   FaFacebook,
   FaInstagram,
   FaLinkedin,
-  FaTwitter,
   FaXTwitter,
 } from "react-icons/fa6";
 
@@ -16,14 +15,12 @@ const Footer = () => {
     <footer>
       <div
         style={{ backgroundImage: "url('/images/footer.png')" }}
-        className="w-full min-h-[240px] m-auto"
-      >
+        className="w-full min-h-[240px] m-auto">
         <div className="flex flex-col md:flex-row justify-around items-start gap-8 p-6 md:p-8">
           <div className="w-full md:w-auto text-center md:text-left flex flex-col gap-6">
             <Link
               href="/"
-              className="flex gap-4 items-center justify-center md:justify-start"
-            >
+              className="flex gap-4 items-center justify-center md:justify-start">
               <img src="/images/logo.png" alt="logo" className="w-8 h-8" />
               <p className="font-bold text-lg">Pawchig</p>
             </Link>
@@ -38,38 +35,32 @@ const Footer = () => {
           <ul className="flex flex-wrap justify-center md:flex-row gap-6 md:gap-10 text-sm md:text-base w-full md:w-auto md:my-auto">
             <Link
               href="/"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
+              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform">
               Home
             </Link>
             <Link
               href="/adoption"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
+              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform">
               Adoption
             </Link>
             <Link
               href="/donation"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
+              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform">
               Donation
             </Link>
             <Link
               href="/sos"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
+              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform">
               Emergency
             </Link>
             <Link
               href="/shop"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
+              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform">
               Shop
             </Link>
             <Link
               href="/articles"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
+              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform">
               Blog
             </Link>
           </ul>

@@ -1,17 +1,13 @@
+"use client";
 import React, { useContext, useState } from "react";
-
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
-import { UserContext } from "../context/user_context";
 import { ProfileContext } from "../context/profile_context";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 
-const logoImg = require("../../assets/images/NavBar/logo.png");
-
 const PhoneRegister = () => {
-  const {}: any = useContext(UserContext);
   const [userForm, setUserForm] = useState({
     email: "",
     firstname: "",
@@ -20,12 +16,11 @@ const PhoneRegister = () => {
     password: "",
     rePassword: "",
   });
+  const { setIsLoading } = useContext(ProfileContext);
+  const router = useRouter();
+  const { firstname, lastname, email, password, rePassword, role } = userForm;
 
   const handleSignUp = async () => {
-    const { isLoading, setIsLoading } = useContext(ProfileContext);
-    const router = useRouter();
-    const { firstname, lastname, email, password, rePassword, role } = userForm;
-
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters long");
       return;
