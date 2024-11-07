@@ -4,16 +4,19 @@ export type Card = {
   image: string;
 };
 
-export type NewsCard = {
+export interface IProduct {
+  _id: string;
+  name: string;
+  price: number;
+  description: string;
+  images: string[];
   category: string;
-  id: number;
-  date: string;
-  image: string;
-  title: string;
-};
+  quantity: number;
+  size: string;
+}
 
 export type Product = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -51,79 +54,40 @@ export const Cards: Card[] = [
   },
 ];
 
-export const NewsBlogs: NewsCard[] = [
-  {
-    id: 1,
-    date: "24 May,2024",
-    image:
-      "https://i.pinimg.com/736x/ab/24/f3/ab24f377227dbf8c77de68b180e4d282.jpg",
-    title: "Interesting facts about dogs",
-    category: "Pet Care",
-  },
-  {
-    id: 2,
-    date: "24 May,2024",
-    image:
-      "https://i.pinimg.com/736x/2d/3d/fd/2d3dfd302b000d7202266798e243080d.jpg",
-    title: "National walk your dog week",
-    category: "Dog Health",
-  },
-  {
-    id: 3,
-    date: "24 May,2024",
-    image:
-      "https://i.pinimg.com/736x/e7/62/54/e7625411d29c16343b960edc01fca131.jpg",
-    title: "4 Tips to protect your pet in the cold",
-    category: "Pet Health",
-  },
-];
-
 export const products: Product[] = [
   {
-    id: 1,
+    id: "",
     name: "Cat Bowl",
     price: 35000,
     image: "/img/product.png",
   },
   {
-    id: 2,
+    id: "",
     name: "Cat Bowl",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 3,
+    id: "",
     name: "Dog Leash",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 3,
+    id: "",
     name: "Premium Cat food",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 4,
+    id: "",
     name: "Dog Bed",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 5,
+    id: "",
     name: "Premium Dog Food",
-    price: 120000,
-    image: "/img/product.png",
-  },
-  {
-    id: 6,
-    name: "Dog Bowl",
-    price: 120000,
-    image: "/img/product.png",
-  },
-  {
-    id: 7,
-    name: "Cat Food",
     price: 120000,
     image: "/img/product.png",
   },
@@ -173,3 +137,10 @@ export const Apps: AppsType[] = [
     url: "https://www.linkedin.com/",
   },
 ];
+
+export interface NewsCard {
+  image: string;
+  title: string;
+  date: string;
+  id: number;
+}

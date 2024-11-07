@@ -9,8 +9,12 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { AdoptionProvider } from "@/components/context/adoption_context";
 import { DonationProvider } from "@/components/context/donation_context";
+
+import { ArticleProvider } from "@/components/context/article_context";
+
 import { WishListProvider } from "@/components/context/wishlist_context";
 import { CartProvider } from "@/components/context/cart_context";
+
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
 //   variable: "--font-geist-sans",
@@ -39,19 +43,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body>
           <UserProvider>
             <ShoppingProvider>
+
               <CartProvider>
                 <WishListProvider>
                   <ProfileProvider>
                     <AdoptionProvider>
                       <DonationProvider>
-                        <Header />
-                        {children}
-                        <Footer />
+                      <ArticleProvider>
+                      <Header />
+                      {children}
+                      <Footer />
+                    </ArticleProvider>
                       </DonationProvider>
                     </AdoptionProvider>
                   </ProfileProvider>
                 </WishListProvider>
               </CartProvider>
+
             </ShoppingProvider>
           </UserProvider>
           <ToastContainer />

@@ -1,78 +1,81 @@
 "use client";
-import PetsCard from "@/components/main_page/adoption-card";
-import { Cards, NewsBlogs, NewsCard, Product, products } from "@/lib/data";
-import { TfiArrowCircleRight, TfiArrowCircleLeft } from "react-icons/tfi";
+import { IProduct } from "@/lib/data";
 import Post from "@/components/main_page/post";
-import Logo from "@/components/main_page/logos";
-import NewsAndBlogs from "@/components/main_page/news_blogs";
 import ShoppingCards from "@/components/main_page/shopping_cards";
 import HeroComponent from "@/components/main_page/hero_component";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "@/components/sos/modal";
+import { BlogsCards } from "./articles/page";
+import { IArticles } from "@/lib/types";
+import { ArticleContext } from "@/components/context/article_context";
+import { AdoptionContext } from "@/components/context/adoption_context";
+import { DonationContext } from "@/components/context/donation_context";
+import { ShoppingContext } from "@/components/context/shopping_context";
+import AdoptionSwiper from "@/components/main_page/adop_swiper";
+import DonationSwiper from "@/components/main_page/donat_swiper";
+
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const { articles } = useContext(ArticleContext);
+  const { adoptionPosts, fetchAllAdoptionData } = useContext(AdoptionContext);
+  const { donationPosts } = useContext(DonationContext);
+  const { product } = useContext(ShoppingContext);
+  const articleCards = articles.slice(0, 3);
+
+  useEffect(() => {
+    fetchAllAdoptionData();
+  }, []);
+
+  console.log("adoption pets", adoptionPosts);
 
   return (
-    <section>
+    <section className="px-4 md:px-6 lg:px-8">
       <HeroComponent />
-      <div className="flex justify-between mt-20 md:w-[1300px] mx-auto">
-        <h3 className="text-3xl font-bold">Adopt me</h3>
-        <div className="flex gap-2">
-          <TfiArrowCircleLeft className="text-4xl text-white bg-black border rounded-full" />
-          <TfiArrowCircleRight className="text-4xl text-white bg-black border rounded-full" />
+      <div className="flex justify-center mt-10">
+        <div className="w-full max-w-7xl">
+          <h3 className="text-2xl md:text-3xl font-bold my-10">Adopt me</h3>
+          <AdoptionSwiper cards={adoptionPosts} />
         </div>
       </div>
-      <div className="flex justify-center gap-6 mt-10">
-        {Cards.map((card, i) => (
-          <PetsCard image={card.image} name={card.name} id={card.id} key={i} />
-        ))}
-      </div>
-      <div className="flex justify-between mt-20 md:w-[1300px] mx-auto">
-        <h3 className="text-3xl font-bold">Donation</h3>
-        <div className="flex gap-2">
-          <TfiArrowCircleLeft className="text-4xl text-white bg-black border rounded-full" />
-          <TfiArrowCircleRight className="text-4xl text-white bg-black border rounded-full" />
+      <div className="flex justify-center mt-10">
+        <div className="w-full max-w-7xl">
+          <h3 className="text-2xl md:text-3xl font-bold my-10">Donation</h3>
+          <DonationSwiper cards={donationPosts} />
         </div>
-      </div>
-      <div className="flex justify-center gap-6 mt-10">
-        {Cards.map((card, i) => (
-          <PetsCard image={card.image} name={card.name} id={card.id} key={i} />
-        ))}
       </div>
       <Post />
-      <Logo />
-      <h2 className="text-center -mb-20 text-2xl font-bold mt-20">
+      {/* <Logo /> */}
+      <h2 className="text-center text-xl md:text-2xl font-bold mt-16 mb-8">
         News & Blogs
       </h2>
-      <section className="flex justify-center gap-5 items-center h-fit my-40">
-        {NewsBlogs.map((card: NewsCard) => (
-          // eslint-disable-next-line react/jsx-key
-          <NewsAndBlogs
-            image={card.image}
-            id={card.id}
-            date={card.date}
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 justify-center max-w-6xl mx-auto mb-20">
+        {articleCards?.map((card: IArticles) => (
+          <BlogsCards
+            key={card.id}
+            image={card.images[0]}
+            id={card._id}
+            date={card.updatedAt}
             title={card.title}
-            category={card.category}
           />
         ))}
       </section>
-      <h2 className="text-xl font-bold text-center mb-20">
+      <h2 className="text-xl md:text-2xl font-bold text-center mb-8">
         Best selling products
       </h2>
-      <section className="grid grid-rows-2 grid-flow-col-dense justify-center gap-5 mb-40">
-        {products.map((product: Product) => (
-          // eslint-disable-next-line react/jsx-key
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center max-w-6xl mx-auto mb-20">
+        {product?.map((product: IProduct) => (
           <ShoppingCards
-            id={product.id}
+            _id={product._id}
             name={product.name}
             price={product.price}
-            image={product.image}
+            images={product.images}
+            description={""}
+            category={""}
+            quantity={0}
+            size={""}
           />
         ))}
       </section>
-
-      {/* Emergency Report Button */}
-
       <button
         onClick={() => setIsChatOpen(!isChatOpen)}
         className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center"
@@ -109,7 +112,6 @@ export default function Home() {
           </svg>
         )}
       </button>
-
       {isChatOpen && (
         <Modal isShowing={isChatOpen} onClose={() => setIsChatOpen(false)} />
       )}
