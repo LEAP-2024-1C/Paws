@@ -21,9 +21,8 @@ export type donationPostsProps = {
 };
 const DonationDetail = () => {
   const { id } = useParams();
-  const { fetchSingleDonationPosts, oneDonationPost, loading } =
+  const { fetchSingleDonationPosts, oneDonationPost, donationPosts, loading } =
     useContext(DonationContext);
-  const { donationPosts } = useContext(DonationContext);
 
   const progressPercentage = Math.floor(
     Math.min(
@@ -39,6 +38,8 @@ const DonationDetail = () => {
   if (loading) {
     return <DonationDetailSkeleton />;
   }
+
+  console.log("ODP", oneDonationPost);
 
   return (
     <div className="bg-gradient-to-b from-slate-50 to-orange-50 py-24 px-4 min-h-screen">
@@ -113,8 +114,7 @@ const DonationDetail = () => {
                   {[1, 2, 3].map((_, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors"
-                    >
+                      className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors">
                       <Avatar className="h-12 w-12 border-2 border-orange-200">
                         <AvatarFallback className="bg-orange-100 text-orange-600">
                           {index === 0 ? "JD" : index === 1 ? "MP" : "AK"}
@@ -145,14 +145,12 @@ const DonationDetail = () => {
                 <div className="flex gap-4 justify-center">
                   <Button
                     variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                  >
+                    className="flex-1 flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-colors">
                     <FaFacebook className="text-xl" /> Share
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-sky-50 hover:text-sky-600 transition-colors"
-                  >
+                    className="flex-1 flex items-center gap-2 hover:bg-sky-50 hover:text-sky-600 transition-colors">
                     <FaTwitter className="text-xl" /> Tweet
                   </Button>
                 </div>
@@ -170,8 +168,7 @@ const DonationDetail = () => {
             {donationPosts?.slice(0, 3).map((c, i) => (
               <div
                 key={i}
-                className="transform hover:scale-105 transition-transform"
-              >
+                className="transform hover:scale-105 transition-transform">
                 <DonationCard
                   {...c}
                   updateDate={format(c.updateDate, "dd,MMM")}

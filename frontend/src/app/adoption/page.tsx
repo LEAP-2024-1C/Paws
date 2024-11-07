@@ -31,7 +31,6 @@ const AdoptionPage = () => {
   };
 
   useEffect(() => {
-    fetchAllAdoptionData();
     fetchPetCategories();
   }, []);
 

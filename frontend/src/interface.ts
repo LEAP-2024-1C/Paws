@@ -269,3 +269,8 @@ export interface IDonationTransactionData {
   description: string;
   donationId: string;
 }
+
+export interface ILoginProps {
+  isAnimated: boolean;
+  setIsAnimated: (isAnimated: boolean) => void;
+}

@@ -84,7 +84,7 @@ const Header = () => {
             </div>
           ) : (
             <Button size="custom" className="bg-[#FD7E14]">
-              <Link href="/signin">Нэвтрэх</Link>
+              <Link href="/signin">Login</Link>
             </Button>
           )}
         </span>

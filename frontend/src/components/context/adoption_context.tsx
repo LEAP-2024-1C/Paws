@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   AdoptionContextType,
   IAdoptionReq,
@@ -131,8 +131,12 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     }
   };
 
+  useEffect(() => {
+    fetchAllAdoptionData();
+  }, []);
+
   // console.log("Singlepost", oneAdoptPost);
-  console.log("TRD", getTransactionData);
+  // console.log("TRD", getTransactionData);
 
   return (
     <AdoptionContext.Provider
@@ -149,8 +153,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         fetchTransactionData,
         getTransactionData,
         setGetTransactionData,
-      }}
-    >
+      }}>
       {children}
     </AdoptionContext.Provider>
   );

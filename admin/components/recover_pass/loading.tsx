@@ -1,13 +1,13 @@
-import React from "react";
-import ClipLoader from "react-spinners/ClipLoader";
+import React from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Loading = () => {
   return (
     <>
-      <div className="flex flex-col h-[calc(100vh-290px)] items-center bg-gray-100 dark:bg-[#121212]">
-        <span className="loading loading-spinner text-[#0166FF] mt-24 mb-2"></span>
+      <div className="flex flex-col items-center bg-[#F8F9FA]  dark:bg-[#121212]">
+        <span className="loading loading-spinner mb-2 mt-24 text-[#0166FF]"></span>
         <ClipLoader color="dark:white" />
-        <p className="text-slate-900 dark:text-white font-semibold text-base mt-3">
+        <p className="mt-3 text-base font-semibold text-slate-900 dark:text-white">
           Түр хүлээнэ үү...
         </p>
       </div>

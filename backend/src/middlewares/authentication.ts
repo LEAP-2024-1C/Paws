@@ -28,7 +28,7 @@ export const authentication = async (
     // console.log("REQ user", req.user._id.toString());
     next();
   } catch (error) {
-    console.log("cattt", error);
+    // console.log("cattt", error);
     res.status(400).json({ message: "Please sign In first" });
   }
 };
@@ -45,7 +45,7 @@ export const authorize = async (
 
     next();
   } catch (error) {
-    console.log("cattt", error);
+    // console.log("cattt", error);
     res.status(400).json({ message: "Admin erheer ene uildliig hiine" });
   }
 };
