@@ -73,7 +73,7 @@ const DonationCarousel = ({ cards }: CarouselProps) => {
                     description=""
                     images={card.images}
                     totalAmount={0}
-                    updateDate={0}
+                    updateDate={""}
                   />
                 </div>
               </CarouselItem>

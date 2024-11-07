@@ -4,8 +4,19 @@ export type Card = {
   image: string;
 };
 
+export interface IProduct {
+  _id: string;
+  name: string;
+  price: number;
+  description: string;
+  images: string[];
+  category: string;
+  quantity: number;
+  size: string;
+}
+
 export type Product = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -45,37 +56,37 @@ export const Cards: Card[] = [
 
 export const products: Product[] = [
   {
-    id: 1,
+    id: "",
     name: "Cat Bowl",
     price: 35000,
     image: "/img/product.png",
   },
   {
-    id: 2,
+    id: "",
     name: "Cat Bowl",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 3,
+    id: "",
     name: "Dog Leash",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 3,
+    id: "",
     name: "Premium Cat food",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 4,
+    id: "",
     name: "Dog Bed",
     price: 120000,
     image: "/img/product.png",
   },
   {
-    id: 5,
+    id: "",
     name: "Premium Dog Food",
     price: 120000,
     image: "/img/product.png",

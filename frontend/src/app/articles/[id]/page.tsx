@@ -116,9 +116,10 @@ const ArticleCardDetail = () => {
         <h3 className="text-xl md:text-2xl font-bold mt-10 mb-6">
           Related reading
         </h3>
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-2 mb-10 md:mb-0">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 lg:gap-32 mb-10 md:mb-0 max-w-[1000px]">
           {relatedReading?.map((card: IArticles) => (
             <BlogsCards
+              key={card._id}
               image={card.images[0]}
               id={card._id}
               date={card.updatedAt}

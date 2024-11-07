@@ -1,12 +1,9 @@
 "use client";
-import PetsCard from "@/components/main_page/adoption_card";
-import { Product, products } from "@/lib/data";
-import { TfiArrowCircleRight, TfiArrowCircleLeft } from "react-icons/tfi";
+import { IProduct } from "@/lib/data";
 import Post from "@/components/main_page/post";
-import Logo from "@/components/main_page/logos";
 import ShoppingCards from "@/components/main_page/shopping_cards";
 import HeroComponent from "@/components/main_page/hero_component";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "@/components/sos/modal";
 import { BlogsCards } from "./articles/page";
 import { IArticles } from "@/lib/types";
@@ -15,13 +12,19 @@ import { AdoptionContext } from "@/components/context/adoption_context";
 import { DonationContext } from "@/components/context/donation_context";
 import DonationCarousel from "@/components/main_page/donation_carousel";
 import AdoptionCarousel from "@/components/main_page/adoption_carousel";
+import { ShoppingContext } from "@/components/context/shopping_context";
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { articles } = useContext(ArticleContext);
-  const { adoptionPosts } = useContext(AdoptionContext);
+  const { adoptionPosts, fetchAllAdoptionData } = useContext(AdoptionContext);
   const { donationPosts } = useContext(DonationContext);
+  const { product } = useContext(ShoppingContext);
   const articleCards = articles.slice(0, 3);
+
+  useEffect(() => {
+    fetchAllAdoptionData();
+  }, []);
 
   console.log("adoption pets", adoptionPosts);
 
@@ -58,13 +61,16 @@ export default function Home() {
         Best selling products
       </h2>
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center max-w-6xl mx-auto mb-20">
-        {products.map((product: Product) => (
+        {product?.map((product: IProduct) => (
           <ShoppingCards
-            key={product.id}
-            id={product.id}
+            _id={product._id}
             name={product.name}
             price={product.price}
-            image={product.image}
+            images={product.images}
+            description={""}
+            category={""}
+            quantity={0}
+            size={""}
           />
         ))}
       </section>

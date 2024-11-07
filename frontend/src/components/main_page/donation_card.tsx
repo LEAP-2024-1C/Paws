@@ -2,34 +2,26 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { donationPostsProps } from "../donation_section/donation_card";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
-
-export type Card = {
-  _id: string;
-  imgUrl: string[];
-  pet: {
-    name: string;
-  };
-};
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 const HomeDonationCard = ({ title, images, _id }: donationPostsProps) => {
   return (
     <Link href={`../donation/${_id}`}>
-      <div
-        className="border w-[340x] rounded-xl h-full bg-slate-100 hover:brightness-[.70] hover:scale-105"
+      <Card
+        className="border w-[340x] rounded-xl h-full bg-slate-100 hover:brightness-[.70] hover:scale-10"
         key={_id}
       >
-        <div
+        <CardContent
           className="w-full h-[300px] bg-center bg-cover overflow-auto rounded-t-xl"
           style={{ backgroundImage: `url(${images[0]})` }}
-        ></div>
-        <div className="flex justify-between bg-slate-100 min-h-16 px-5 pt-3 shadow-2xl">
+        ></CardContent>
+        <CardFooter className="flex justify-between min-h-16 px-5 pt-3 shadow-xl rounded-b-xl">
           <h2 className="font-bold text-xl">{title}</h2>
           <p className="w-8 h-8 rounded-full bg-slate-200 flex justify-center items-center text-amber-600">
             <FaArrowRight />
           </p>
-        </div>
-      </div>
+        </CardFooter>
+      </Card>
     </Link>
   );
 };
