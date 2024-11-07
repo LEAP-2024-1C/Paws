@@ -12,6 +12,13 @@ import shopRoute from "./routes/shop/shop-route";
 import sosRoute from "./routes/sos/sos-route";
 import donationRoute from "./routes/donation/donation-route";
 
+import cartRoute from "./routes/shop/cart-route";
+import wishlistRoute from "./routes/shop/wishlist-route";
+
+
+import Stripe from "stripe";
+
+
 dotenv.config();
 
 //express application obj uusgeh
@@ -34,6 +41,82 @@ app.use("/api/v1/products", shopRoute);
 app.use("/api/v1/products/categories", shopRoute);
 app.use("/api/v1/sos", sosRoute);
 app.use("/api/v1/donation", donationRoute);
+app.use("/api/v1/cart", cartRoute);
+app.use("/api/v1/wishlist", wishlistRoute);
+
+// test stripe
+const stripe = new Stripe(
+  "sk_test_51QILpBP8SQqRfG8k6t13ZjvS1RClpR1wmPLuXk92CO6r6EBLOEyrjZjaqhVm3ung5peJMkAox6RhIhXyShkrPDxW000GIBRgDY"
+);
+
+app.post("/checkout", async (req: Request, res: Response) => {
+  const {} = req.body;
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          product_data: {
+            name: "Mary -Danation",
+            images: [
+              "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+            ],
+          },
+          unit_amount: 50 * 100,
+          currency: "usd",
+        },
+
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+    success_url: `http://localhost:3000/success`,
+    cancel_url: `http://localhost:3000/cancel`,
+  });
+
+  res.redirect(session.url!);
+  // res.send("Success");
+});
+
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  async (req: Request, res: Response) => {
+    // const event = stripe.
+    let event: Stripe.Event;
+    const sig = req.headers["stripe-signature"];
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig!,
+        "whsec_zbJ9gRq8WMYRRyMQERyJwgyJZ1zU5xNc"
+      );
+    } catch (err) {
+      // On error, log and return the error message
+      console.log(`❌ Error message: {err.message}`);
+      res.status(400).send(`Webhook Error: {err.message}`);
+      return;
+    }
+
+    // Successfully constructed event
+    console.log("✅ Success:", event.id);
+
+    // Cast event data to Stripe object
+    if (event.type === "payment_intent.succeeded") {
+      const stripeObject: Stripe.PaymentIntent = event.data
+        .object as Stripe.PaymentIntent;
+      console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
+    } else if (event.type === "charge.succeeded") {
+      const charge = event.data.object as Stripe.Charge;
+      console.log(`💵 Charge id: ${charge.id}`);
+    } else {
+      console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
+    }
+
+    // Return a response to acknowledge receipt of the event
+    res.json({ received: true });
+  }
+);
 
 connectDB(MONGO_URL);
 

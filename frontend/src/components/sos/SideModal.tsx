@@ -54,20 +54,17 @@ const SideMenu: FC<Props> = ({ isShowing, onClose }: Props) => {
         className="fixed inset-0 z-50 flex items-center justify-end"
       >
         <div
-          className="absolute inset-0 cursor-pointer bg-black/40 backdrop-blur-sm"
+          className="absolute inset-0 cursor-pointer backdrop-blur-[2px]"
           onClick={onClose}
         >
           <div
-            className="content absolute right-0 top-0 h-full w-[400px] bg-gradient-to-b from-zinc-900 to-black border-zinc-800 p-6 text-white shadow-2xl border-l overflow-y-auto"
+            className="content absolute right-0 top-0 h-full w-[400px] bg-gradient-to-b from-zinc-200 to-zinc-250 text-white shadow-2xl  border-zinc-800/50 overflow-y-auto rounded-l-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="sticky top-0 pb-4 mb-4 border-b border-zinc-800">
-              <h2 className="text-xl font-bold text-center text-green-500">
-                Emergency Assistance
-              </h2>
+            <div className="sticky top-0 bg-zinc-250/50 backdrop-blur-sm px-6 py-4 mb-4 border-zinc-800/50 rounded-tl-2xl"></div>
+            <div className="px-6">
+              <ReportForm onSubmit={() => {}} />
             </div>
-
-            <ReportForm onSubmit={() => {}} />
           </div>
         </div>
       </div>

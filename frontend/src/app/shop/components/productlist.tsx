@@ -3,14 +3,14 @@ import ProductCard from "./productcard";
 import Pagination from "./pagination";
 import { ShoppingContext } from "../../../components/context/shopping_context";
 
-interface ProductList {
+interface ProductListProps {
   selectedCategory: string;
   searchTerm: string;
   sortOrder: string;
   setSortOrder: (order: string) => void;
 }
 
-const ProductList: React.FC<ProductList> = ({
+const ProductList: React.FC<ProductListProps> = ({
   selectedCategory,
   searchTerm,
   sortOrder,

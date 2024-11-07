@@ -95,7 +95,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
   };
   useEffect(() => {
     fetchAllProducts();
-  }, []);
+  }, [refetch]);
   return (
     <ShoppingContext.Provider
       value={{
