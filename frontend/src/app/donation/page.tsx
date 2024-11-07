@@ -12,6 +12,7 @@ export type donationPostsProps = {
   _id: string;
   images: string;
   totalAmount: number;
+  currentAmount: number;
   updateDate: number;
 };
 const Donation = () => {
@@ -23,7 +24,10 @@ const Donation = () => {
       <div className="px-4 py-5 md:py-10">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 w-full md:w-4/5 lg:w-3/4 xl:w-3/5 mx-auto md:gap-6">
           {donationPosts?.map((c, i) => (
-            <div className="col-span-1" key={i}>
+            <div
+              className="col-span-1 transform hover:scale-105 transition-transform"
+              key={i}
+            >
               <DonationCard
                 title={c.title}
                 description={c.description}
