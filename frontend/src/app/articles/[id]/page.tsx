@@ -3,7 +3,7 @@ import { Apps, AppsType } from "@/lib/data";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
-import { BlogsCards } from "../page";
+
 import { Rating, RoundedStar } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { IArticles, IOneArticle } from "@/lib/types";
@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import DonateCard from "@/components/home/donate_card";
 import { ArticleContext } from "@/components/context/article_context";
+import { BlogsCards } from "@/components/home/blog-cards";
 
 const ArticleCardDetail = () => {
   const [rating, setRating] = React.useState(5);

@@ -1,27 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
-import { Cards } from "@/lib/data";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { DonationContext } from "../context/donation_context";
 
-export type ICard = {
-  id: number;
-  name: string;
-  image: string;
-};
+// export type ICard = {
+//   id: number;
+//   name: string;
+//   image: string;
+// };
 
 const DonateCard = () => {
+  const { donationPosts } = useContext(DonationContext);
+
   return (
     <>
       <Card className="md:my-10 pb-10">
         <CardHeader className="text-xl font-semibold">Donate</CardHeader>
-        {Cards.map((c: ICard) => (
-          <Link href="../donation">
+        {donationPosts?.map((c, i) => (
+          <Link href="../donation" key={i}>
             <CardContent className="w-[400px] relative pb-2">
               <div className="h-40 overflow-hidden rounded-xl brightness-[.70] bg-blend-darken">
                 <Image
-                  src="https://i.pinimg.com/736x/f8/98/55/f8985511417fca41f90dc399518a9fcf.jpg"
+                  src={c.images[0]}
                   alt="img"
                   height={30}
                   width={400}

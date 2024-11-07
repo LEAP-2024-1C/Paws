@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-import { generateHtmlTemplate } from "./generateHTMLTemplate";
 import dotenv from "dotenv";
+import { generateHtmlTemplate } from "./generateHtmlTemplate";
 dotenv.config();
 
 const otp = Math.floor(Math.random() * 10000)

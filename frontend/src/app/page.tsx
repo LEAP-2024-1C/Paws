@@ -1,11 +1,10 @@
 "use client";
-import { IProduct } from "@/lib/data";
 import Post from "@/components/main_page/post";
 import ShoppingCards from "@/components/main_page/shopping_cards";
 import HeroComponent from "@/components/main_page/hero_component";
 import { useContext, useEffect, useState } from "react";
 import Modal from "@/components/sos/modal";
-import { BlogsCards } from "./articles/page";
+
 import { IArticles } from "@/lib/types";
 import { ArticleContext } from "@/components/context/article_context";
 import { AdoptionContext } from "@/components/context/adoption_context";
@@ -13,6 +12,7 @@ import { DonationContext } from "@/components/context/donation_context";
 import { ShoppingContext } from "@/components/context/shopping_context";
 import AdoptionSwiper from "@/components/main_page/adop_swiper";
 import DonationSwiper from "@/components/main_page/donat_swiper";
+import { BlogsCards } from "@/components/home/blog-cards";
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -63,16 +63,13 @@ export default function Home() {
         Best selling products
       </h2>
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center max-w-6xl mx-auto mb-20">
-        {product?.map((product: IProduct) => (
+        {product?.map((product, i) => (
           <ShoppingCards
+            key={i}
             _id={product._id}
             name={product.name}
             price={product.price}
             images={product.images}
-            description={""}
-            category={""}
-            quantity={0}
-            size={""}
           />
         ))}
       </section>

@@ -1,17 +1,17 @@
-import { IProduct } from "@/lib/data";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import {
-  Card,
-  CardTitle,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import Link from "next/link";
 
-const ShoppingCards = ({ images, name, price, _id }: IProduct) => (
+interface IData {
+  _id: string;
+  name: string;
+  price: number;
+  images: string[];
+}
+
+const ShoppingCards = ({ images, name, price, _id }: IData) => (
   <Link href={`../shop/${_id}`}>
     <Card key={_id} className="border rounded-xl shadow-lg">
       <Image

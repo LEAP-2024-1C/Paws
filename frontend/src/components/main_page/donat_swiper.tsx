@@ -47,6 +47,7 @@ export default function DonationSwiper({ cards }: CarouselProps) {
               images={card.images}
               totalAmount={0}
               updateDate={""}
+              currentAmount={0}
             />
           </SwiperSlide>
         ))}
