@@ -72,7 +72,7 @@ const DonationsSchema = new Schema<Donations>(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true, //added req: true
+      // required: true,
     },
     status: {
       type: String,

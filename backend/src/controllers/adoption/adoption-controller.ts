@@ -142,7 +142,7 @@ export const submitInquiry = async (req: Request, res: Response) => {
   //   return res.status(401).json({ message: "Authentication required" });
   // }
   const userId = req.user._id.toString();
-  console.log("UIDDDD", userId);
+  // console.log("UIDDDD", userId);
 
   const {
     petId,
