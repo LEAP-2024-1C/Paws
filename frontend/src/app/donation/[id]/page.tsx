@@ -7,7 +7,7 @@ import DonationCard from "@/components/donation_section/donation_card";
 import { useParams } from "next/navigation";
 import { DonationContext } from "@/components/context/donation_context";
 import { useContext, useEffect } from "react";
-import Comments from "@/components/donation_section/comment";
+// import Comments from "@/components/donation_section/comment";
 
 export type donationPostsProps = {
   title: string;
@@ -28,6 +28,7 @@ const DonationDetail = () => {
     fetchSingleDonationPosts(id);
   }, [id]);
 
+  console.log("ID", id);
   return (
     <div className="bg-slate-50 ">
       <div className="w-3/4 flex-col flex xl:flex-row mx-auto  p-6 gap-20 ">
