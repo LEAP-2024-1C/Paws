@@ -19,7 +19,7 @@ const breadcrumbItems = [
   { title: 'Donation', link: '/dashboard/donation' }
 ];
 
-export default function page() {
+export default function Page() {
   const { refetch } = useContext(PetsContext);
   const { getAllDonationPosts, getDonationPosts } = useContext(DonationContext);
 

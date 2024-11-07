@@ -77,7 +77,7 @@ export const DonationContext = createContext<DonationContextType>({
   },
   setOneDonationPost: () => {},
   fetchAllDonationData: () => {},
-  fetchSingleDonationPosts: (id: string | string[]) => {},
+  fetchSingleDonationPosts: (_id: string | string[]) => {},
   refetch: false,
   setRefetch: () => {},
   insertTransactionData: {
@@ -86,7 +86,7 @@ export const DonationContext = createContext<DonationContextType>({
     donationId: "",
   },
   setInsertTransactionData: () => {},
-  createTransactionData: (id: string | string[]) => {},
+  createTransactionData: (_id: string | string[]) => {},
   loading: false,
 });
 
@@ -213,9 +213,8 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
         insertTransactionData,
         setInsertTransactionData,
         loading: false,
-
-      }}>
-
+      }}
+    >
       {children}
     </DonationContext.Provider>
   );
