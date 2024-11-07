@@ -1,16 +1,25 @@
 "use client";
-import { apiUrl } from "@/utils/util";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import axios from "axios";
-import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { apiUrl } from "@/utils/util";
 import Loading from "@/components/recover_pass/loading";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 
+const NewPassPage = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <EnterNewPass />
+    </Suspense>
+  );
+};
+// Create a separate component that uses useSearchParams
 const EnterNewPass = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const resetToken = searchParams.get("resettoken");
   const [isLoading, setIsLoading] = useState(false);
@@ -92,4 +101,4 @@ const EnterNewPass = () => {
   );
 };
 
-export default EnterNewPass;
+export default NewPassPage;

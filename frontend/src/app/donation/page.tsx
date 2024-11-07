@@ -30,6 +30,7 @@ const Donation = () => {
                 _id={c._id}
                 images={c.images}
                 totalAmount={c.totalAmount}
+                currentAmount={c.currentAmount}
                 updateDate={format(c.updateDate, "dd,MMM")}
               />
             </div>

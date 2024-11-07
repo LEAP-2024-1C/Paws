@@ -16,7 +16,7 @@ const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
   { title: 'Product', link: '/dashboard/product' }
 ];
-export default function page() {
+export default function Page() {
   const { product } = useContext(ShoppingContext);
 
   return (

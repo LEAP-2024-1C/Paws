@@ -3,10 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -189,7 +186,8 @@ export function AdoptionEnquire() {
                       className="flex gap-4"
                       onValueChange={(value) =>
                         handleRadioChange(value, "previousPetOwnership")
-                      }>
+                      }
+                    >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="yes" id="r1" />
                         <Label htmlFor="r1">Yes</Label>
@@ -211,7 +209,8 @@ export function AdoptionEnquire() {
                       className="space-y-2"
                       onValueChange={(value) =>
                         handleRadioChange(value, "currentPets")
-                      }>
+                      }
+                    >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="no" id="r3" />
                         <Label htmlFor="r3">No</Label>
@@ -240,7 +239,8 @@ export function AdoptionEnquire() {
                       className="flex gap-4"
                       onValueChange={(value) =>
                         handleRadioChange(value, "householdMembers")
-                      }>
+                      }
+                    >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="1-2" id="r7" />
                         <Label htmlFor="r7">1-2</Label>
@@ -271,7 +271,8 @@ export function AdoptionEnquire() {
                         />
                         <label
                           htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           Under 5 years old
                         </label>
                       </div>
@@ -284,7 +285,8 @@ export function AdoptionEnquire() {
                         />
                         <label
                           htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           5-12
                         </label>
                       </div>
@@ -300,7 +302,8 @@ export function AdoptionEnquire() {
                         />
                         <label
                           htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           13-17
                         </label>
                       </div>
@@ -316,7 +319,8 @@ export function AdoptionEnquire() {
                         />
                         <label
                           htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           18+
                         </label>
                       </div>
@@ -332,7 +336,8 @@ export function AdoptionEnquire() {
             <Button
               type="submit"
               onClick={handleSubmit}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-full transition-all duration-300">
+              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-full transition-all duration-300"
+            >
               Submit Application
             </Button>
           </DialogFooter>

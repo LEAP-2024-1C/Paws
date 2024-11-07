@@ -53,11 +53,13 @@ export function PayCard({ id }: { id: string | string[] }) {
     <Dialog
       onOpenChange={(open) => {
         if (!open) setStep(1);
-      }}>
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-[#FD7E14] text-white rounded-lg">
+          className="bg-[#FD7E14] text-white rounded-lg"
+        >
           Donate
         </Button>
       </DialogTrigger>
@@ -76,8 +78,11 @@ export function PayCard({ id }: { id: string | string[] }) {
             </button>
           </div>
           <div className="grid grid-cols-3 gap-4 mb-6">
-            {mockD?.map((c: MockType) => (
-              <button className="p-4 border rounded-xl hover:bg-[#FD7E14] border-[#FD7E14] text-xl font-bold">
+            {mockD?.map((c: MockType, i) => (
+              <button
+                className="p-4 border rounded-xl hover:bg-[#FD7E14] border-[#FD7E14] text-xl font-bold"
+                key={i}
+              >
                 {c.cash}
               </button>
             ))}
@@ -106,13 +111,15 @@ export function PayCard({ id }: { id: string | string[] }) {
             className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg"
             onClick={() => {
               setStep(2);
-            }}>
+            }}
+          >
             Next
           </Button>
 
           <div className="flex justify-center gap-8 mt-6">
-            {bankLogos?.map((e) => (
+            {bankLogos?.map((e, i) => (
               <img
+                key={i}
                 src={`${e.bankLogo}`}
                 alt="bankLogo"
                 className="h-8 rounded-md"
@@ -163,7 +170,8 @@ export function PayCard({ id }: { id: string | string[] }) {
               className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white mt-6"
               onClick={() => {
                 setStep(3);
-              }}>
+              }}
+            >
               Next
             </Button>
           </div>
@@ -193,7 +201,8 @@ export function PayCard({ id }: { id: string | string[] }) {
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
-                  strokeLinejoin="round">
+                  strokeLinejoin="round"
+                >
                   <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
@@ -244,7 +253,8 @@ export function PayCard({ id }: { id: string | string[] }) {
                 className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white"
                 onClick={() => {
                   createTransactionData(id);
-                }}>
+                }}
+              >
                 Donate $261.75 monthly
               </Button>
             </div>

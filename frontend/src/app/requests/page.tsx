@@ -7,13 +7,6 @@ import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { useToast } from "@/hooks/use-toast";
 
-interface Inquiry {
-  id: string;
-  petName: string;
-  status: "pending" | "approved" | "rejected";
-  date: string;
-}
-
 const Adoption_Donation_Requests = () => {
   const [myInquiries, setMyInquiries] = useState([
     {
@@ -28,10 +21,6 @@ const Adoption_Donation_Requests = () => {
     },
   ]);
   const { toast } = useToast();
-
-  const inquiries: Inquiry[] = [
-    { id: "1", petName: "Max", status: "pending", date: "2024-03-20" },
-  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {

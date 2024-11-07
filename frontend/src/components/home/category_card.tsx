@@ -1,9 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import Image from "next/image";
-import { Cards } from "@/lib/data";
-import { Button } from "../ui/button";
-import Link from "next/link";
+import { Card, CardHeader } from "@/components/ui/card";
 
 const CategoryCard = () => {
   return (
