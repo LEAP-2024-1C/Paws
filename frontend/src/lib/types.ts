@@ -1,5 +1,5 @@
 export type CatType = {
-  [x: string]: any;
+  x: string[];
   _id: string;
   name: string;
   createdAt?: Date;

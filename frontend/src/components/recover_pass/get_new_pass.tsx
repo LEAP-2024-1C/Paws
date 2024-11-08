@@ -9,11 +9,9 @@ const GetNewPass = () => {
   return (
     <>
       <img src="/images/email.png" alt="" className="m-auto" />
-      <h1 className="font-semibold text-2xl text-center mb-2 mt-6">
-        Баталгаажуулах
-      </h1>
+      <h1 className="font-semibold text-2xl text-center mb-2 mt-6">Confirm</h1>
       <p className="text-center">
-        {`"${enterEmail}" хаягт илгээсэн баталгаажуулах кодыг оруулна уу`}
+        {`Please enter the code sent to "${enterEmail}" `}
       </p>
       <div className="flex justify-center mt-6 mb-12">
         <InputOTP maxLength={4} value={otpValue} onChange={handleConfirmOtp}>
@@ -31,7 +29,7 @@ const GetNewPass = () => {
           variant="ghost"
           className="text-center underline text-sm text-[#71717A] mt-4 mb-12"
           onClick={handleResendOtp}>
-          Дахин илгээх ({countDown})
+          Send code again ({countDown})
         </Button>
       </div>
     </>

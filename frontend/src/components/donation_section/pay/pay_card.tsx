@@ -47,8 +47,8 @@ export function PayCard({ id }: { id: string | string[] }) {
     setInsertTransactionData,
     createTransactionData,
   } = useContext(DonationContext);
-  console.log("iddddd", id);
-  console.log("itd", insertTransactionData);
+  // console.log("iddddd", id);
+  // console.log("itd", insertTransactionData);
   return (
     <Dialog
       onOpenChange={(open) => {
@@ -76,8 +76,10 @@ export function PayCard({ id }: { id: string | string[] }) {
             </button>
           </div>
           <div className="grid grid-cols-3 gap-4 mb-6">
-            {mockD?.map((c: MockType) => (
-              <button className="p-4 border rounded-xl hover:bg-[#FD7E14] border-[#FD7E14] text-xl font-bold">
+            {mockD?.map((c: MockType, i) => (
+              <button
+                className="p-4 border rounded-xl hover:bg-[#FD7E14] border-[#FD7E14] text-xl font-bold"
+                key={i}>
                 {c.cash}
               </button>
             ))}
@@ -111,8 +113,9 @@ export function PayCard({ id }: { id: string | string[] }) {
           </Button>
 
           <div className="flex justify-center gap-8 mt-6">
-            {bankLogos?.map((e) => (
+            {bankLogos?.map((e, i) => (
               <img
+                key={i}
                 src={`${e.bankLogo}`}
                 alt="bankLogo"
                 className="h-8 rounded-md"
@@ -132,7 +135,7 @@ export function PayCard({ id }: { id: string | string[] }) {
 
           <div className="space-y-4">
             <div className="text-center text-lg font-medium mb-6">
-              ❤️ Donating $100
+              ❤️ Donating ${`${insertTransactionData.amount}`}
             </div>
 
             <Input
@@ -237,7 +240,8 @@ export function PayCard({ id }: { id: string | string[] }) {
               </div>
 
               <div className="text-center text-sm">
-                Donating $261.75 every month in United States Dollars
+                Donating ${`${insertTransactionData.amount}`} in United States
+                Dollars
               </div>
 
               <Button
@@ -245,7 +249,7 @@ export function PayCard({ id }: { id: string | string[] }) {
                 onClick={() => {
                   createTransactionData(id);
                 }}>
-                Donate $261.75 monthly
+                Donate ${`${insertTransactionData.amount}`}
               </Button>
             </div>
           </div>

@@ -10,20 +10,19 @@ const ForgetPass = () => {
     // {step === 2 && <GetNewPass/>}
     <>
       <h1 className="font-semibold text-2xl text-center mb-8">
-        Нууц үг сэргээх
+        Reset Password
       </h1>
       <Input
         type="email"
         className="rounded-full grow border-none h-9 focus-visible:ring-0 focus-visible:ring-offset-0 px-3 py-1 mb-4"
-        placeholder="И-мэйл хаяг оруулах"
+        placeholder="Please enter your email"
         onChange={handleEmail}
       />
       <Button
         className="bg-[#FD7E14] w-full"
         size="custom"
-        onClick={handleSend}
-      >
-        Илгээх
+        onClick={handleSend}>
+        Send
       </Button>
     </>
   );

@@ -1,16 +1,25 @@
 "use client";
-import { apiUrl } from "@/utils/util";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import axios from "axios";
-import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { apiUrl } from "@/utils/util";
 import Loading from "@/components/recover_pass/loading";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 
+const NewPassPage = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <EnterNewPass />
+    </Suspense>
+  );
+};
+// Create a separate component that uses useSearchParams
 const EnterNewPass = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const resetToken = searchParams.get("resettoken");
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +27,8 @@ const EnterNewPass = () => {
     password: "",
     rePassword: "",
   });
+
+  const isPasswordValid = userData.password.length >= 8;
 
   const createNewPass = async () => {
     const { password, rePassword } = userData;
@@ -52,12 +63,12 @@ const EnterNewPass = () => {
     <div className="flex h-[calc(100vh-290px)] justify-center bg-[#F8F9FA] dark:bg-[#121212]">
       <div className="w-1/5 mt-24">
         <h1 className="font-semibold text-2xl text-center mb-8">
-          Нууц үг сэргээх
+          Recover Password
         </h1>
         <Input
           type="password"
           className="rounded-full flex items-center px-4 py-1 grow border-none h-9 focus-visible:ring-0 focus-visible:ring-offset-0"
-          placeholder="Шинэ нууц үг"
+          placeholder="New Password"
           value={userData.password}
           onChange={(e) => {
             setUserData({ ...userData, password: e.target.value });
@@ -66,25 +77,23 @@ const EnterNewPass = () => {
         <Input
           type="password"
           className="rounded-full flex items-center px-4 py-1 grow border-none h-9 focus-visible:ring-0 focus-visible:ring-offset-0 my-4"
-          placeholder="Шинэ нууц үг дахин оруулах"
+          placeholder="Enter your password again"
           value={userData.rePassword}
           onChange={(e) => {
             setUserData({ ...userData, rePassword: e.target.value });
           }}
         />
-        <ul className=" flex flex-col text-xs list-disc px-4 mb-4 gap-1">
-          <li className="">Том үсэг орсон байх</li>
-          <li>Жижиг үсэг орсон байх</li>
-          <li>Тоо орсон байх</li>
-          <li>Тэмдэгт орсон байх</li>
-        </ul>
+        <div className="flex flex-col text-xs list-disc my-4 gap-1">
+          <div className={isPasswordValid ? "text-green-500" : "text-red-500"}>
+            Password must be at least 8 characters long
+          </div>
+        </div>
         <div className="flex flex-col gap-12">
           <Button
             className="bg-[#FD7E14]"
             size="custom"
-            onClick={createNewPass}
-          >
-            Үүсгэх
+            onClick={createNewPass}>
+            Save
           </Button>
         </div>
       </div>
@@ -92,4 +101,4 @@ const EnterNewPass = () => {
   );
 };
 
-export default EnterNewPass;
+export default NewPassPage;

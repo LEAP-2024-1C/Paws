@@ -17,7 +17,8 @@ import Link from "next/link";
 import { PayCard } from "./pay/pay_card";
 import { DonationContext } from "../context/donation_context";
 import { format } from "date-fns";
-const DetailCard = ({ id }: { id: string | string[] }) => {
+
+const DetailCard = () => {
   const { oneDonationPost } = React.useContext(DonationContext);
 
   return (

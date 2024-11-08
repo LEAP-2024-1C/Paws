@@ -14,7 +14,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -69,7 +68,7 @@ const SignUp = () => {
   const isPasswordValid = userForm.password.length >= 8;
 
   if (isLoading) return <Loading />;
-  console.log("USerform", userForm);
+  // console.log("USerform", userForm);
 
   return (
     <div className="flex min-h-[calc(100vh-290px)] justify-center items-center bg-[#F8F9FA] dark:bg-[#121212] px-4 py-8">

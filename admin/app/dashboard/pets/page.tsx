@@ -17,7 +17,7 @@ const breadcrumbItems = [
   { title: 'Pets', link: '/dashboard/pets' }
 ];
 
-export default function page() {
+export default function Page() {
   const { getPetData } = useContext(PetsContext);
   return (
     <PageContainer>

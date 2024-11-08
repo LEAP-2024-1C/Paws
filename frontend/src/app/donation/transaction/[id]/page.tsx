@@ -12,16 +12,13 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 import { PayCard } from "@/components/donation_section/pay_card";
-import DetailCard, { DonationPay } from "@/components/donation_section/detail";
-import DonationCard from "@/components/donation_section/donation_card";
 
 const TransPage = () => {
-  const mockData = ["1", "2", "3"];
   const { id } = useParams();
   const { fetchSingleDonationPosts, oneDonationPost } =
     useContext(DonationContext);
 
-  const { donationPosts, fetchAllDonationData } = useContext(DonationContext);
+  const { fetchAllDonationData } = useContext(DonationContext);
   const { fetchTransactionData, getTransactionData } =
     useContext(AdoptionContext);
   useEffect(() => {

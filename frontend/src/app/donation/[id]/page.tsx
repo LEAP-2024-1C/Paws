@@ -1,13 +1,10 @@
 "use client";
 import DetailCard, { DonationPay } from "@/components/donation_section/detail";
 import { format } from "date-fns";
-
-import Link from "next/link";
 import DonationCard from "@/components/donation_section/donation_card";
 import { useParams } from "next/navigation";
 import { DonationContext } from "@/components/context/donation_context";
 import { useContext, useEffect } from "react";
-import { AdoptionContext } from "@/components/context/adoption_context";
 import Comments from "@/components/donation_section/comment";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -24,9 +21,8 @@ export type donationPostsProps = {
 };
 const DonationDetail = () => {
   const { id } = useParams();
-  const { fetchSingleDonationPosts, oneDonationPost, loading } =
+  const { fetchSingleDonationPosts, oneDonationPost, donationPosts, loading } =
     useContext(DonationContext);
-  const { donationPosts } = useContext(DonationContext);
 
   const progressPercentage = Math.floor(
     Math.min(
@@ -42,6 +38,8 @@ const DonationDetail = () => {
   if (loading) {
     return <DonationDetailSkeleton />;
   }
+
+  console.log("ODP", oneDonationPost);
 
   return (
     <div className="bg-gradient-to-b from-slate-50 to-orange-50 py-24 px-4 min-h-screen">
@@ -78,7 +76,7 @@ const DonationDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left column */}
           <div className="lg:col-span-2 space-y-6">
-            <DetailCard id={id} />
+            <DetailCard />
 
             {/* Campaign Updates Section - Enhanced */}
             <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
@@ -89,7 +87,7 @@ const DonationDetail = () => {
                 <div className="border-l-4 border-orange-500 pl-4 py-2 bg-orange-50 rounded-r-lg">
                   <p className="font-medium text-lg">{`Milestone: ${progressPercentage}% Achieved!`}</p>
                   <p className="text-gray-600 mt-2">
-                    Thanks to our amazing supporters, we're making great
+                    Thanks to our amazing supporters, we are making great
                     progress...
                   </p>
                   <p className="text-sm text-gray-500 mt-2">
@@ -116,9 +114,7 @@ const DonationDetail = () => {
                   {[1, 2, 3].map((_, index) => (
                     <div
                       key={index}
-
                       className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors">
-
                       <Avatar className="h-12 w-12 border-2 border-orange-200">
                         <AvatarFallback className="bg-orange-100 text-orange-600">
                           {index === 0 ? "JD" : index === 1 ? "MP" : "AK"}
@@ -149,16 +145,12 @@ const DonationDetail = () => {
                 <div className="flex gap-4 justify-center">
                   <Button
                     variant="outline"
-
                     className="flex-1 flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-
                     <FaFacebook className="text-xl" /> Share
                   </Button>
                   <Button
                     variant="outline"
-
                     className="flex-1 flex items-center gap-2 hover:bg-sky-50 hover:text-sky-600 transition-colors">
-
                     <FaTwitter className="text-xl" /> Tweet
                   </Button>
                 </div>
@@ -176,9 +168,7 @@ const DonationDetail = () => {
             {donationPosts?.slice(0, 3).map((c, i) => (
               <div
                 key={i}
-
                 className="transform hover:scale-105 transition-transform">
-
                 <DonationCard
                   {...c}
                   updateDate={format(c.updateDate, "dd,MMM")}

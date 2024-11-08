@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-import { Button } from "../ui/button";
-import { ProfileContext } from "../context/profile_context";
+import React, { useContext } from 'react';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
+import { Button } from '../ui/button';
+import { ProfileContext } from '../context/profile_context';
 
 const GetNewPass = () => {
   const { enterEmail, otpValue, handleConfirmOtp, handleResendOtp, countDown } =
@@ -9,13 +9,11 @@ const GetNewPass = () => {
   return (
     <>
       <img src="/images/email.png" alt="" className="m-auto" />
-      <h1 className="font-semibold text-2xl text-center mb-2 mt-6">
-        Баталгаажуулах
-      </h1>
+      <h1 className="mb-2 mt-6 text-center text-2xl font-semibold">Confirm</h1>
       <p className="text-center">
-        {`"${enterEmail}" хаягт илгээсэн баталгаажуулах кодыг оруулна уу`}
+        {`Please enter the code sent to "${enterEmail}" `}
       </p>
-      <div className="flex justify-center mt-6 mb-12">
+      <div className="mb-12 mt-6 flex justify-center">
         <InputOTP maxLength={4} value={otpValue} onChange={handleConfirmOtp}>
           <InputOTPGroup>
             <InputOTPSlot index={0} />
@@ -29,9 +27,10 @@ const GetNewPass = () => {
       <div className="flex flex-col gap-12">
         <Button
           variant="ghost"
-          className="text-center underline text-sm text-[#71717A] mt-4 mb-12"
-          onClick={handleResendOtp}>
-          Дахин илгээх ({countDown})
+          className="mb-12 mt-4 text-center text-sm text-[#71717A] underline"
+          onClick={handleResendOtp}
+        >
+          Send code again ({countDown})
         </Button>
       </div>
     </>

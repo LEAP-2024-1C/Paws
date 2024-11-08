@@ -22,7 +22,7 @@ export function UserNav() {
   const logOut = () => {
     localStorage.removeItem('token');
     setUser(null);
-    router.push('/signin');
+    router.push('/');
   };
 
   if (data) {

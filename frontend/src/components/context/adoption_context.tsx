@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   AdoptionContextType,
   IAdoptionReq,
@@ -7,7 +7,7 @@ import {
 } from "@/interface";
 import { apiUrl } from "@/utils/util";
 import axios from "axios";
-import { toast } from "react-toastify";
+
 // import { useRouter } from "next/navigation";
 
 type AdoptionProviderProps = {
@@ -47,7 +47,7 @@ export const AdoptionContext = createContext<AdoptionContextType>({
   refetch: false,
   setRefetch: () => {},
 
-  fetchTransactionData: (id: string | string[]) => {},
+  fetchTransactionData: (_id: string | string[]) => {},
   getTransactionData: {
     amount: 0,
     description: "",
@@ -131,8 +131,12 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     }
   };
 
+  useEffect(() => {
+    fetchAllAdoptionData();
+  }, []);
+
   // console.log("Singlepost", oneAdoptPost);
-  console.log("TRD", getTransactionData);
+  // console.log("TRD", getTransactionData);
 
   return (
     <AdoptionContext.Provider
