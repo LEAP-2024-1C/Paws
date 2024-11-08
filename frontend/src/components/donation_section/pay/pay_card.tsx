@@ -43,6 +43,7 @@ const bankLogos = [
 ];
 export function PayCard({ id }: { id: string | string[] }) {
   const [step, setStep] = useState(1);
+  console.log("ID", id);
   const {
     insertTransactionData,
     setInsertTransactionData,
@@ -50,18 +51,16 @@ export function PayCard({ id }: { id: string | string[] }) {
   } = useContext(DonationContext);
   // console.log("iddddd", id);
   // console.log("itd", insertTransactionData);
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <Dialog
       onOpenChange={(open) => {
         if (!open) setStep(1);
-      }}
-    >
+      }}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-[#FD7E14] text-white rounded-lg"
-        >
+          className="bg-[#FD7E14] text-white rounded-lg">
           Donate
         </Button>
       </DialogTrigger>
@@ -83,8 +82,7 @@ export function PayCard({ id }: { id: string | string[] }) {
             {mockD?.map((c: MockType, i) => (
               <button
                 className="p-4 border rounded-xl hover:bg-[#FD7E14] border-[#FD7E14] text-xl font-bold"
-                key={i}
-              >
+                key={i}>
                 {c.cash}
               </button>
             ))}
@@ -113,8 +111,7 @@ export function PayCard({ id }: { id: string | string[] }) {
             className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg"
             onClick={() => {
               setStep(2);
-            }}
-          >
+            }}>
             Next
           </Button>
 
@@ -175,8 +172,7 @@ export function PayCard({ id }: { id: string | string[] }) {
                 // router.replace(
                 //   "https://checkout.stripe.com/c/pay/cs_test_a1B0g1tcJpCspk27CuIWEkgAent1FYFtXzQkCZiQK8zncPCMmRzD0DJwnl#fidkdWxOYHwnPyd1blpxYHZxWjA0VExJdUdVPVZUdFdjQj1uNzdRb2ZNZ0BKTkF1N01GVGJDZEYzZ1VnPGgwSXNqd21saH0wfHBMS3xMSmhEbEdoM2NGY05UNExzd3B9bzJBdW83d0FkPGJ8NTU3ZlEwdTI0bycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
                 // );
-              }}
-            >
+              }}>
               Next
             </Button>
           </div>
@@ -206,8 +202,7 @@ export function PayCard({ id }: { id: string | string[] }) {
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                  strokeLinejoin="round">
                   <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
@@ -259,8 +254,7 @@ export function PayCard({ id }: { id: string | string[] }) {
                 className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white"
                 onClick={() => {
                   createTransactionData(id);
-                }}
-              >
+                }}>
                 Donate ${`${insertTransactionData.amount}`}
               </Button>
             </div>
