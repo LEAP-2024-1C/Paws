@@ -8,7 +8,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 
 const AdoptionPage = () => {
-  const { adoptionPosts, fetchAllAdoptionData } = useContext(AdoptionContext);
+  const { adoptionPosts } = useContext(AdoptionContext);
   const [petCategory, setPetCategory] = useState([
     {
       _id: "",
@@ -78,7 +78,8 @@ const AdoptionPage = () => {
             {filteredPets?.map((pet, i) => (
               <div
                 key={i}
-                className="w-full max-w-sm transform transition-transform duration-300 hover:scale-105">
+                className="w-full max-w-sm transform transition-transform duration-300 hover:scale-105"
+              >
                 <AdoptionCard
                   description={pet.description}
                   location={pet.location}

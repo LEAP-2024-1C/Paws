@@ -58,9 +58,11 @@ export default function Home() {
         </h2>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 justify-center max-w-6xl mx-auto mb-20 px-4">
           {articleCards?.map((card: IArticles, i) => (
-            <div className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+            <div
+              className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              key={i}
+            >
               <BlogsCards
-                key={i}
                 image={card.images[0]}
                 id={card._id}
                 date={card.updatedAt}
