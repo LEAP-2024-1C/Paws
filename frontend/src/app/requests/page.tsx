@@ -6,6 +6,7 @@ import HeroComponent from "@/components/main_page/hero_component";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { useToast } from "@/hooks/use-toast";
+import { AlertDialogDemo } from "@/components/home/dialog";
 
 interface Inquiry {
   id: string;
@@ -85,9 +86,12 @@ const Adoption_Donation_Requests = () => {
                     {new Date(inquiry.created_at).toLocaleDateString()}
                   </p>
                 </div>
-                <Badge className={`${getStatusColor(inquiry.status)}`}>
-                  {inquiry.status.toUpperCase()}
-                </Badge>
+                <div className="flex gap-2">
+                  <Badge className={`${getStatusColor(inquiry.status)}`}>
+                    {inquiry.status.toUpperCase()}
+                  </Badge>
+                  <AlertDialogDemo />
+                </div>
               </CardContent>
             </Card>
           ))}
