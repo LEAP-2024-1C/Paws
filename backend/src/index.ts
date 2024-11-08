@@ -119,6 +119,7 @@ app.post(
 );
 
 connectDB(MONGO_URL);
+console.log("MONGO_URL", MONGO_URL);
 
 app.listen(PORT, () => {
   console.log(`Server started at localhost:${PORT}`);
