@@ -12,6 +12,7 @@ interface IAdoptReq {
   title: string;
   description: string;
   status?: string;
+  response?: string;
   previousPetOwnership: string;
   currentPets: string;
   householdMembers: string;
@@ -48,6 +49,9 @@ const AdoptionRequestSchema = new Schema<IAdoptReq>({
     type: String,
     enum: ["approved", "pending", "rejected"],
     default: null,
+  },
+  response: {
+    type: String,
   },
   previousPetOwnership: {
     type: String,

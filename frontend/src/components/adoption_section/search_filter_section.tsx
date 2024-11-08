@@ -25,7 +25,7 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
 }) => {
   return (
     <div>
-      <Accordion type="single" collapsible className="">
+      <Accordion type="single" collapsible className="px-5">
         <AccordionItem value="item-1">
           <AccordionTrigger className="w-56">Search for a pet</AccordionTrigger>
           <AccordionContent className="w-56">

@@ -8,7 +8,7 @@ const HomeDonationCard = ({ title, images, _id }: donationPostsProps) => {
   return (
     <Link href={`../donation/${_id}`}>
       <Card
-        className="border w-[340x] rounded-xl h-full bg-slate-100 hover:brightness-[.70] hover:scale-10"
+        className="border w-[340x] rounded-xl h-full bg-slate-100 hover:brightness-[.70] hover:scale-105"
         key={_id}
       >
         <CardContent

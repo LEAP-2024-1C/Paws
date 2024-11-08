@@ -26,7 +26,12 @@ export default function DonationSwiper({ cards }: CarouselProps) {
     <>
       <Swiper
         className="mySwiper"
-        slidesPerView={4}
+        slidesPerView={1}
+        breakpoints={{
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+        }}
         spaceBetween={30}
         pagination={{
           clickable: true,

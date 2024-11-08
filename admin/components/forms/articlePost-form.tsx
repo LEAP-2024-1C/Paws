@@ -244,7 +244,7 @@ export const ArticlePostForm: React.FC<ArticleFormProps> = ({
               <label className="flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50 md:h-32">
                 <FiUpload className="h-8 w-8 text-gray-400" />
                 <CldUploadWidget
-                  uploadPreset="adminarticle"
+                  uploadPreset="pawchig"
                   onSuccess={(result) => {
                     const info = result.info as CloudinaryUploadWidgetInfo;
                     setArticleData({

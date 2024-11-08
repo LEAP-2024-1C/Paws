@@ -24,6 +24,7 @@ import { CellAction } from './cell-action';
 import { useContext } from 'react';
 import { AdoptionReqContext } from '@/components/context/adoption-context';
 import { IAdoptionRequest } from '@/app/interface';
+import { ResDialogDemo } from './request-response';
 
 interface AdoptionPostsTableProps {
   data: adoptionPostss[];
@@ -47,6 +48,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
               <TableHead>Pet Name</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Response</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -89,6 +91,9 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
                       <SelectItem value="refused">Refused</SelectItem>
                     </SelectContent>
                   </Select>
+                </TableCell>
+                <TableCell>
+                  <ResDialogDemo />
                 </TableCell>
                 <TableCell>
                   <CellAction id={req._id} />
