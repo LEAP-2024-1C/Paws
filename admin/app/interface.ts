@@ -232,6 +232,7 @@ export interface IAdoptionRequest {
     age13to17: boolean;
     age18plus: boolean;
   };
+  response: string;
   created_at: Date;
   status: 'pending' | 'accepted' | 'refused';
   petId: { _id: string; name: string; breed: string };
@@ -239,12 +240,15 @@ export interface IAdoptionRequest {
 }
 
 export interface AdoptionContextType {
+  setResValue: React.Dispatch<React.SetStateAction<string>>;
+  resValue: string;
   adoptionRequests: IAdoptionRequest[];
   setAdoptionRequests: React.Dispatch<React.SetStateAction<IAdoptionRequest[]>>;
   getAllAdoptionRequests: () => void;
   updateAdoptionRequest: (
     id: string,
-    status: IAdoptionRequest['status']
+    status: IAdoptionRequest['status'],
+    response: string
   ) => void;
   editAdoptionPost: IEditAdoptionPost;
   setEditAdoptionPost: React.Dispatch<React.SetStateAction<IEditAdoptionPost>>;
@@ -261,6 +265,7 @@ export interface IFormData {
   petId: string;
   location: string;
   status: string;
+  response: string;
   imgUrl: string[];
   [key: string]: any;
 }

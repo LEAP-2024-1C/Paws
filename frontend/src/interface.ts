@@ -222,6 +222,7 @@ export interface IAdoptionReq {
   description: string;
   location: string;
   status: string;
+  response: string;
   imgUrl: string[];
   pet: {
     _id: string;

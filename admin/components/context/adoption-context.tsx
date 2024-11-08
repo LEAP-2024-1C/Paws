@@ -19,6 +19,8 @@ type AdoptionProviderProps = {
 
 export const AdoptionReqContext = createContext<AdoptionContextType>({
   adoptionRequests: [],
+  setResValue: () => {},
+  resValue: '',
   setAdoptionRequests: () => {},
   getAllAdoptionRequests: () => {},
   updateAdoptionRequest: (id: string, status: IAdoptionRequest['status']) => {},
@@ -43,6 +45,7 @@ export const AdoptionReqContext = createContext<AdoptionContextType>({
     petId: '',
     location: '',
     status: '',
+    response: '',
     imgUrl: ['']
   },
   setFormData: () => {},
@@ -52,6 +55,7 @@ export const AdoptionReqContext = createContext<AdoptionContextType>({
 export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
   const { toast } = useToast();
   const router = useRouter();
+  const [resValue, setResValue] = useState('');
   const { refetch, setRefetch } = useContext(PetsContext);
   const { setIsLoading } = useContext(ProfileContext);
   const [adoptionRequests, setAdoptionRequests] = useState<IAdoptionRequest[]>([
@@ -68,6 +72,7 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
         age13to17: false,
         age18plus: false
       },
+      response: '',
       created_at: new Date(),
       status: 'pending',
       petId: { _id: '', name: '', breed: '' },
@@ -94,6 +99,7 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
     petId: '',
     location: '',
     status: '',
+    response: '',
     imgUrl: ['']
   });
 
@@ -121,6 +127,7 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
           pet: formData.petId,
           location: formData.location,
           status: formData.status,
+          response: formData.response,
           imgUrl: formData.imgUrl
         },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -162,17 +169,22 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
 
   const updateAdoptionRequest = async (
     id: string,
-    status: IAdoptionRequest['status']
+    status: IAdoptionRequest['status'],
+    response: string
   ) => {
     try {
       await axios.patch(`${apiUrl}/api/v1/adoption/req/${id}`, {
-        status
+        status,
+        response: resValue
       });
       setRefetch?.(!refetch);
     } catch (error) {
       console.log('update err', error);
     }
   };
+  // const handleResValue = async () => {
+  //   return updateAdoptionRequest;
+  // };
 
   const getSingleAdoptionPost = async (id: string | string[]) => {
     try {
@@ -228,6 +240,8 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
     <AdoptionReqContext.Provider
       value={{
         adoptionRequests,
+        setResValue,
+        resValue,
         setAdoptionRequests,
         getAllAdoptionRequests,
         updateAdoptionRequest,

@@ -152,6 +152,7 @@ export const submitInquiry = async (req: Request, res: Response) => {
     householdMembers,
     ageRanges,
     status,
+    response,
     title,
   } = req.body;
   // console.log(id);
@@ -180,13 +181,23 @@ export const submitInquiry = async (req: Request, res: Response) => {
 
 export const updateAdoptionRequest = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { response } = req.body;
+
   try {
-    const updatePost = await AdoptionRequest.findByIdAndUpdate(id, req.body, {
-      new: true,
+    const updatePost = await AdoptionRequest.findByIdAndUpdate(
+      id,
+      { response },
+      { new: true }
+    );
+
+    if (!updatePost) {
+      return res.status(404).json({ message: "Adoption request not found" });
+    }
+
+    res.status(200).json({
+      message: "Updated adoption req successfully",
+      updatePost,
     });
-    res
-      .status(200)
-      .json({ message: "Updated adoption req successfully", updatePost });
   } catch (error) {
     console.log("Couldn't update adoption req", error);
     res.status(500).json({ message: "Adoption post update error", error });

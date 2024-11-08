@@ -23,6 +23,7 @@ export const AdoptionContext = createContext<AdoptionContextType>({
     description: "",
     location: "",
     status: "",
+    response: "",
     imgUrl: [],
     pet: {
       _id: "",
@@ -72,6 +73,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     description: "",
     location: "",
     status: "",
+    response: "",
     imgUrl: [],
     pet: {
       _id: "",
@@ -153,7 +155,8 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         fetchTransactionData,
         getTransactionData,
         setGetTransactionData,
-      }}>
+      }}
+    >
       {children}
     </AdoptionContext.Provider>
   );
