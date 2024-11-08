@@ -2,7 +2,7 @@
 import Post from "@/components/main_page/post";
 import ShoppingCards from "@/components/main_page/shopping_cards";
 import HeroComponent from "@/components/main_page/hero_component";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "@/components/sos/modal";
 
 import { IArticles } from "@/lib/types";
@@ -57,10 +57,10 @@ export default function Home() {
           <div className="h-1 bg-orange-500 w-20 rounded-full mx-auto mt-4" />
         </h2>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 justify-center max-w-6xl mx-auto mb-20 px-4">
-          {articleCards?.map((card: IArticles) => (
+          {articleCards?.map((card: IArticles, i) => (
             <div className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
               <BlogsCards
-                key={card.id}
+                key={i}
                 image={card.images[0]}
                 id={card._id}
                 date={card.updatedAt}
@@ -97,7 +97,8 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor">
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -119,7 +120,8 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor">
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -141,7 +143,8 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor">
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -161,14 +164,16 @@ export default function Home() {
 
       <button
         onClick={() => setIsChatOpen(!isChatOpen)}
-        className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center">
+        className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center"
+      >
         {isChatOpen ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor">
+            stroke="currentColor"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -182,7 +187,8 @@ export default function Home() {
             className="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor">
+            stroke="currentColor"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
