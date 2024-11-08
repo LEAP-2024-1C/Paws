@@ -37,8 +37,9 @@ app.post(
       event = stripe.webhooks.constructEvent(
         req.body,
         sig!,
-        "whsec_zbJ9gRq8WMYRRyMQERyJwgyJZ1zU5xNc"
+        "whsec_2868aeaa993615336ab7badcb11f26c6969370ca23ea44b9f7f4edcd23d330f0"
       );
+      console.log("event", event);
     } catch (err) {
       // On error, log and return the error message
       console.log(`❌ Error message: {err.message}`);
@@ -87,21 +88,23 @@ app.use("/api/v1/wishlist", wishlistRoute);
 
 // test stripe
 const stripe = new Stripe(
-  "sk_test_51QILpBP8SQqRfG8k6t13ZjvS1RClpR1wmPLuXk92CO6r6EBLOEyrjZjaqhVm3ung5peJMkAox6RhIhXyShkrPDxW000GIBRgDY"
+  "sk_test_51QFT20FG0rSCc90h6WziJAOOndtuauhRmLYnTN1iHbelFRCGyrOHxr6fYrXaJObOhEEEzZIMuQZFjYttq4E7QfbU00FW37ODTT"
 );
 
 app.post("/checkout", async (req: Request, res: Response) => {
   const { description, amount, donationId } = req.body;
   const session = await stripe.checkout.sessions.create({
-    metadata: {
-      donationId,
-    },
+    // metadata: {
+    //   donationId,
+    // },
     line_items: [
       {
         price_data: {
           product_data: {
             name: "Donation",
-
+            metadata: {
+              donationId,
+            },
             description: description,
             // images: [
             //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
