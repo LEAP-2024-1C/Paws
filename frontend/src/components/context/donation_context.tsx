@@ -156,14 +156,11 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
 
   const createTransactionData = async (id: string | string[]) => {
     try {
-      const res = await axios.post(
-        `${apiUrl}/api/v1/donation/transaction/${id}`,
-        {
-          amount: insertTransactionData.amount,
-          description: insertTransactionData.description,
-          donationId: id,
-        }
-      );
+      const res = await axios.post(`${apiUrl}/checkout`, {
+        amount: insertTransactionData.amount,
+        description: insertTransactionData.description,
+        donationId: id,
+      });
       if (res.status === 201) {
         toast.success("Donated successfully");
       }

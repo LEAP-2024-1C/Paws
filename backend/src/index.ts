@@ -25,58 +25,6 @@ const app = express();
 const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL || "";
 
-//middlewares
-app.use(express.json());
-app.use(cors());
-app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/pets", petRoute);
-app.use("/api/v1/pets/category", petCategoryRoute);
-app.use("/api/v1/sos", sosRoute);
-app.use("/api/v1/articles", articleRoute);
-app.use("/api/v1/articlesCat", articleCatRoute);
-app.use("/api/v1/adoption", adoptionRoute);
-app.use("/api/v1/products", shopRoute);
-app.use("/api/v1/products/categories", shopRoute);
-app.use("/api/v1/sos", sosRoute);
-app.use("/api/v1/donation", donationRoute);
-app.use("/api/v1/cart", cartRoute);
-app.use("/api/v1/wishlist", wishlistRoute);
-
-// test stripe
-const stripe = new Stripe(
-  "sk_test_51QILpBP8SQqRfG8k6t13ZjvS1RClpR1wmPLuXk92CO6r6EBLOEyrjZjaqhVm3ung5peJMkAox6RhIhXyShkrPDxW000GIBRgDY"
-);
-
-app.post("/checkout", async (req: Request, res: Response) => {
-  const { donationId } = req.params;
-  const { description, amount } = req.body;
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          product_data: {
-            name: "Donation",
-            description: description,
-            // images: [
-            //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
-            // ],
-          },
-          unit_amount: amount,
-          currency: "usd",
-        },
-
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    success_url: `http://localhost:3000/success`,
-    cancel_url: `http://localhost:3000/cancel`,
-  });
-
-  res.redirect(session.url!);
-  // res.send("Success");
-});
-
 app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
@@ -105,7 +53,9 @@ app.post(
     if (event.type === "payment_intent.succeeded") {
       const stripeObject: Stripe.PaymentIntent = event.data
         .object as Stripe.PaymentIntent;
-      console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
+      console.log(
+        `💰 PaymentIntent status: ${stripeObject.metadata.donationId}`
+      );
     } else if (event.type === "charge.succeeded") {
       const charge = event.data.object as Stripe.Charge;
       console.log(`💵 Charge id: ${charge.id}`);
@@ -117,6 +67,76 @@ app.post(
     res.json({ received: true });
   }
 );
+
+//middlewares
+app.use(express.json());
+app.use(cors());
+app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/pets", petRoute);
+app.use("/api/v1/pets/category", petCategoryRoute);
+app.use("/api/v1/sos", sosRoute);
+app.use("/api/v1/articles", articleRoute);
+app.use("/api/v1/articlesCat", articleCatRoute);
+app.use("/api/v1/adoption", adoptionRoute);
+app.use("/api/v1/products", shopRoute);
+app.use("/api/v1/products/categories", shopRoute);
+app.use("/api/v1/sos", sosRoute);
+app.use("/api/v1/donation", donationRoute);
+app.use("/api/v1/cart", cartRoute);
+app.use("/api/v1/wishlist", wishlistRoute);
+
+// test stripe
+const stripe = new Stripe(
+  "sk_test_51QILpBP8SQqRfG8k6t13ZjvS1RClpR1wmPLuXk92CO6r6EBLOEyrjZjaqhVm3ung5peJMkAox6RhIhXyShkrPDxW000GIBRgDY"
+);
+
+app.post("/checkout", async (req: Request, res: Response) => {
+  const { description, amount, donationId } = req.body;
+  const session = await stripe.checkout.sessions.create({
+    metadata: {
+      donationId,
+    },
+    line_items: [
+      {
+        price_data: {
+          product_data: {
+            name: "Donation",
+
+            description: description,
+            // images: [
+            //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+            // ],
+          },
+          unit_amount: amount * 100,
+          currency: "usd",
+        },
+
+        quantity: 1,
+      },
+      // {
+      //   price_data: {
+      //     product_data: {
+      //       name: "Donation",
+      //       description: description,
+      //       // images: [
+      //       //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+      //       // ],
+      //     },
+      //     unit_amount: amount * 100,
+      //     currency: "usd",
+      //   },
+
+      //   quantity: 1,
+      // },
+    ],
+    mode: "payment",
+    success_url: `http://localhost:3000/success`,
+    cancel_url: `http://localhost:3000/cancel`,
+  });
+
+  res.json({ paymentUrl: session.url! });
+  // res.send("Success");
+});
 
 connectDB(MONGO_URL);
 console.log("MONGO_URL", MONGO_URL);

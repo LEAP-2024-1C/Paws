@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import React, { useContext, useState } from "react";
 import { DonationContext } from "@/components/context/donation_context";
+import { useRouter } from "next/navigation";
 
 export interface MockType {
   cash: string;
@@ -42,6 +43,7 @@ const bankLogos = [
 ];
 export function PayCard({ id }: { id: string | string[] }) {
   const [step, setStep] = useState(1);
+  console.log("ID", id);
   const {
     insertTransactionData,
     setInsertTransactionData,
@@ -49,6 +51,7 @@ export function PayCard({ id }: { id: string | string[] }) {
   } = useContext(DonationContext);
   // console.log("iddddd", id);
   // console.log("itd", insertTransactionData);
+  // const router = useRouter();
   return (
     <Dialog
       onOpenChange={(open) => {
@@ -166,6 +169,9 @@ export function PayCard({ id }: { id: string | string[] }) {
               className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white mt-6"
               onClick={() => {
                 setStep(3);
+                // router.replace(
+                //   "https://checkout.stripe.com/c/pay/cs_test_a1B0g1tcJpCspk27CuIWEkgAent1FYFtXzQkCZiQK8zncPCMmRzD0DJwnl#fidkdWxOYHwnPyd1blpxYHZxWjA0VExJdUdVPVZUdFdjQj1uNzdRb2ZNZ0BKTkF1N01GVGJDZEYzZ1VnPGgwSXNqd21saH0wfHBMS3xMSmhEbEdoM2NGY05UNExzd3B9bzJBdW83d0FkPGJ8NTU3ZlEwdTI0bycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
+                // );
               }}>
               Next
             </Button>
