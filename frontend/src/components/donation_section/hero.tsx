@@ -31,18 +31,22 @@ const DonationHero = () => {
             <Button className="w-32 mx-auto md:mx-0">Donate Now</Button>
           </div>
           <img
-            src="/img/shape.png"
+            src="https://i.ibb.co/71DzHdF/shape.png"
             alt=""
             className="hidden md:block w-28 absolute bottom-[-70px] right-60"
           />
         </div>
         <div
           style={{
-            backgroundImage: "url('/img/image.png')",
+            backgroundImage: "url('/images/image.png')",
           }}
           className={`flex items-end justify-center flex-1 h-64 md:h-96 bg-no-repeat z-0 bg-cover md:bg-[length:100%] bg-center mt-8 md:mt-0`}
         >
-          <img src="img\cat&dog.png" alt="" className="w-4/5 md:w-3/5" />
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/037/749/723/large_2x/ai-generated-dog-and-cat-on-transparent-background-free-png.png"
+            alt=""
+            className="w-4/5 md:w-3/5"
+          />
         </div>
       </section>
     </div>

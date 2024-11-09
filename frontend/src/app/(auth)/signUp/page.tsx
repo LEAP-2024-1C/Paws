@@ -56,7 +56,7 @@ const SignUp = () => {
       if (res.status === 201) {
         toast.success("User signed up successfully");
         setIsLoading(false);
-        router.push("/signin");
+        router.push("/login");
       }
     } catch (error) {
       console.error("There was an error signing up:", error);

@@ -11,32 +11,47 @@ import { GoArrowRight } from "react-icons/go";
 import { Textarea } from "../ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/user_context";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { toast } from "react-toastify";
 import { AdoptionContext } from "../context/adoption_context";
+import { useRouter } from "next/navigation";
 
 export function AdoptionEnquire() {
   const { user } = useContext(UserContext);
   const { oneAdoptPost } = useContext(AdoptionContext);
+  const router = useRouter();
 
+  // Initialize form with default values
   const [form, setForm] = useState({
-    status: "",
-    title: "",
-    petId: "",
-    description: "",
-    previousPetOwnership: "",
-    currentPets: "",
-    householdMembers: "",
+    status: "pending",
+    title: oneAdoptPost?.title || "",
+    petId: oneAdoptPost?.pet?._id || "",
+    description:
+      "I am interested in adopting this lovely pet. I believe I can provide a loving and caring home.", // Default description
+    previousPetOwnership: "yes", // Default to 'yes'
+    currentPets: "no", // Default to 'no'
+    householdMembers: "1-2", // Default to '1-2'
     ageRanges: {
       under5: false,
       age5to12: false,
       age13to17: false,
-      age18plus: false,
+      age18plus: true, // Default to true for 18+
     },
   });
+
+  // Auto-fill form when user or oneAdoptPost data changes
+  useEffect(() => {
+    if (user || oneAdoptPost) {
+      setForm((prev) => ({
+        ...prev,
+        title: oneAdoptPost?.title || prev.title,
+        petId: oneAdoptPost?.pet?._id || prev.petId,
+      }));
+    }
+  }, [user, oneAdoptPost]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -65,6 +80,23 @@ export function AdoptionEnquire() {
   };
 
   const handleSubmit = async () => {
+    // Validate required fields
+    if (!form.description.trim()) {
+      toast.error("Please tell us why you want to adopt");
+      return;
+    }
+
+    if (!form.householdMembers) {
+      toast.error("Please select your household size");
+      return;
+    }
+
+    // Check if at least one age range is selected
+    if (!Object.values(form.ageRanges).some((value) => value)) {
+      toast.error("Please select at least one age group");
+      return;
+    }
+
     try {
       const finalForm = {
         ...form,
@@ -83,14 +115,13 @@ export function AdoptionEnquire() {
       if (response.status === 201) {
         console.log("Inquiry submitted successfully");
         toast.success("Inquiry submitted successfully");
+        router.push("/adoption");
       }
     } catch (error) {
       console.error("Error submitting inquiry:", error);
       toast.error("Error submitting inquiry");
     }
   };
-
-  // console.log("POst", oneAdoptPost);
 
   return (
     <Dialog>
@@ -182,7 +213,7 @@ export function AdoptionEnquire() {
                       Have you owned a pet before?
                     </Label>
                     <RadioGroup
-                      defaultValue="no"
+                      value={form.previousPetOwnership}
                       className="flex gap-4"
                       onValueChange={(value) =>
                         handleRadioChange(value, "previousPetOwnership")
@@ -205,7 +236,7 @@ export function AdoptionEnquire() {
                       Current pets in your home:
                     </Label>
                     <RadioGroup
-                      defaultValue="no"
+                      value={form.currentPets}
                       className="space-y-2"
                       onValueChange={(value) =>
                         handleRadioChange(value, "currentPets")
@@ -236,6 +267,7 @@ export function AdoptionEnquire() {
                       Household size:
                     </Label>
                     <RadioGroup
+                      value={form.householdMembers}
                       className="flex gap-4"
                       onValueChange={(value) =>
                         handleRadioChange(value, "householdMembers")
@@ -251,7 +283,7 @@ export function AdoptionEnquire() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="4+" id="r9" />
-                        <Label htmlFor="r">4+</Label>
+                        <Label htmlFor="r9">4+</Label>
                       </div>
                     </RadioGroup>
                   </div>
@@ -262,68 +294,29 @@ export function AdoptionEnquire() {
                       Age groups in your household:
                     </Label>
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="under5"
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange(checked as boolean, "under5")
-                          }
-                        />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Under 5 years old
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="age5to12"
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange(checked as boolean, "age5to12")
-                          }
-                        />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          5-12
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="age13to17"
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange(
-                              checked as boolean,
-                              "age13to17"
-                            )
-                          }
-                        />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          13-17
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="age18plus"
-                          onCheckedChange={(checked) =>
-                            handleCheckboxChange(
-                              checked as boolean,
-                              "age18plus"
-                            )
-                          }
-                        />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          18+
-                        </label>
-                      </div>
+                      {Object.entries(form.ageRanges).map(([key, checked]) => (
+                        <div key={key} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={key}
+                            checked={checked}
+                            onCheckedChange={(checked) =>
+                              handleCheckboxChange(checked as boolean, key)
+                            }
+                          />
+                          <label
+                            htmlFor={key}
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            {key === "under5"
+                              ? "Under 5 years old"
+                              : key === "age5to12"
+                              ? "5-12"
+                              : key === "age13to17"
+                              ? "13-17"
+                              : "18+"}
+                          </label>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -331,7 +324,7 @@ export function AdoptionEnquire() {
             </div>
           </div>
 
-          {/* Footer */}
+          {/* Submit Button */}
           <DialogFooter className="mt-8">
             <Button
               type="submit"

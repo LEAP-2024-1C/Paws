@@ -47,7 +47,7 @@ const EnterNewPass = () => {
       );
       if (response.status === 200) {
         toast.success("Changed password successfully");
-        router.push("/signin");
+        router.push("/login");
       }
       setIsLoading(false);
     } catch (error) {
@@ -92,7 +92,8 @@ const EnterNewPass = () => {
           <Button
             className="bg-[#FD7E14]"
             size="custom"
-            onClick={createNewPass}>
+            onClick={createNewPass}
+          >
             Save
           </Button>
         </div>
