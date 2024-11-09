@@ -11,11 +11,11 @@ import { connectDB } from "./config/db";
 import shopRoute from "./routes/shop/shop-route";
 import sosRoute from "./routes/sos/sos-route";
 import donationRoute from "./routes/donation/donation-route";
-
 import cartRoute from "./routes/shop/cart-route";
 import wishlistRoute from "./routes/shop/wishlist-route";
-
 import Stripe from "stripe";
+import DonationTransaction from "./models/transaction.model";
+import Donations from "./models/donation.model";
 
 dotenv.config();
 
@@ -54,9 +54,7 @@ app.post(
     if (event.type === "payment_intent.succeeded") {
       const stripeObject: Stripe.PaymentIntent = event.data
         .object as Stripe.PaymentIntent;
-      console.log(
-        `💰 PaymentIntent status: ${stripeObject.metadata.donationId}`
-      );
+      console.log(`💰 PaymentIntent status: ${stripeObject.metadata}`);
     } else if (event.type === "charge.succeeded") {
       const charge = event.data.object as Stripe.Charge;
       console.log(`💵 Charge id: ${charge.id}`);
@@ -92,53 +90,87 @@ const stripe = new Stripe(
 );
 
 app.post("/checkout", async (req: Request, res: Response) => {
-  const { description, amount, donationId } = req.body;
-  const session = await stripe.checkout.sessions.create({
-    // metadata: {
-    //   donationId,
-    // },
-    line_items: [
-      {
-        price_data: {
-          product_data: {
-            name: "Donation",
-            metadata: {
-              donationId,
-            },
-            description: description,
-            // images: [
-            //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
-            // ],
-          },
-          unit_amount: amount * 100,
-          currency: "usd",
-        },
+  const {
+    description,
+    amount,
+    donationId,
+    userName,
+    status = "pending",
+    paymentMethod = "card",
+    transactionNumber = Date.now().toString(),
+  } = req.body;
 
-        quantity: 1,
-      },
-      // {
-      //   price_data: {
-      //     product_data: {
-      //       name: "Donation",
-      //       description: description,
-      //       // images: [
-      //       //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
-      //       // ],
-      //     },
-      //     unit_amount: amount * 100,
-      //     currency: "usd",
-      //   },
+  try {
+    const donation = await Donations.findById(donationId);
 
-      //   quantity: 1,
+    if (!donation) {
+      return res.status(404).json({ message: "Donation post not found" });
+    }
+    donation.collectedDonations.push({
+      transactionNumber,
+      amount,
+      status,
+      paymentMethod,
+      description,
+      userName,
+    });
+    const updatedDonation = await donation.save();
+
+    const session = await stripe.checkout.sessions.create({
+      // metadata: {
+      //   donationId,
       // },
-    ],
-    mode: "payment",
-    success_url: `http://localhost:3000/success`,
-    cancel_url: `http://localhost:3000/cancel`,
-  });
+      line_items: [
+        {
+          price_data: {
+            product_data: {
+              name: "Donation",
+              metadata: {
+                donationId,
+              },
+              description: description,
+              // images: [
+              //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+              // ],
+            },
+            unit_amount: amount * 100,
+            currency: "usd",
+          },
+          quantity: 1,
+        },
+        // {
+        //   price_data: {
+        //     product_data: {
+        //       name: "Donation",
+        //       description: description,
+        //       // images: [
+        //       //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+        //       // ],
+        //     },
+        //     unit_amount: amount * 100,
+        //     currency: "usd",
+        //   },
 
-  res.json({ paymentUrl: session.url! });
-  // res.send("Success");
+        //   quantity: 1,
+        // },
+      ],
+      mode: "payment",
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cancel`,
+    });
+
+    // Send only ONE response
+    return res.status(200).json({
+      paymentUrl: session.url,
+      updatedDonation,
+    });
+  } catch (error) {
+    // Always send an error response
+    return res.status(500).json({
+      message: "Failed to create checkout session",
+      error,
+    });
+  }
 });
 
 connectDB(MONGO_URL);

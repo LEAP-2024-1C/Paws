@@ -2,20 +2,21 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DonationContext } from "@/components/context/donation_context";
+import { UserContext } from "@/components/context/user_context";
 
 export interface MockType {
-  cash: string;
+  cash: number;
 }
 
 const mockD = [
-  { cash: "$15" },
-  { cash: "$30" },
-  { cash: "$50" },
-  { cash: "$100" },
-  { cash: "$250" },
-  { cash: "$500" },
+  { cash: 15 },
+  { cash: 30 },
+  { cash: 50 },
+  { cash: 100 },
+  { cash: 250 },
+  { cash: 500 },
 ];
 const bankLogos = [
   {
@@ -48,20 +49,42 @@ export function PayCard({ id }: { id: string | string[] }) {
     setInsertTransactionData,
     createTransactionData,
   } = useContext(DonationContext);
-  // console.log("iddddd", id);
-  // console.log("itd", insertTransactionData);
-  // const router = useRouter();
+  const { user } = useContext(UserContext);
+
+  const [selectedMockAmount, setSelectedMockAmount] = useState<number | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (user) {
+      setInsertTransactionData((prev) => ({
+        ...prev,
+        userName: user.firstname || prev.userName,
+        description:
+          `Donation from ${user.firstname} ${user.lastname}` ||
+          prev.description,
+      }));
+    }
+  }, [user]);
+
+  const handleMockAmountClick = (amount: number) => {
+    setSelectedMockAmount(amount);
+    setInsertTransactionData((prev) => ({
+      ...prev,
+      amount: amount,
+    }));
+    setStep(2); // Skip to step 2 directly
+  };
+
   return (
     <Dialog
       onOpenChange={(open) => {
         if (!open) setStep(1);
-      }}
-    >
+      }}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-[#FD7E14] text-white rounded-lg"
-        >
+          className="bg-[#FD7E14] text-white rounded-lg">
           Donate
         </Button>
       </DialogTrigger>
@@ -79,42 +102,45 @@ export function PayCard({ id }: { id: string | string[] }) {
               ❤️ Donate
             </button>
           </div>
+
           <div className="grid grid-cols-3 gap-4 mb-6">
-            {mockD?.map((c: MockType, i) => (
+            {mockD?.map((amount, index) => (
               <button
-                className="p-4 border rounded-xl hover:bg-[#FD7E14] border-[#FD7E14] text-xl font-bold"
-                key={i}
-              >
-                {c.cash}
+                key={index}
+                onClick={() => handleMockAmountClick(amount.cash)}
+                className={`p-4 text-xl font-bold rounded-xl border border-[#FD7E14] ${
+                  selectedMockAmount === amount.cash
+                    ? "bg-primary "
+                    : "hover:bg-[#FD7E14] "
+                }`}>
+                ${amount.cash}
               </button>
             ))}
           </div>
 
-          <div className="mb-6">
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                $
-              </span>
-              <Input
-                type="number"
-                placeholder="Enter custom amount"
-                className="pl-8 py-6 text-lg rounded-xl"
-                onChange={(e) => {
-                  setInsertTransactionData({
-                    ...insertTransactionData,
-                    amount: Number(e.target.value),
-                  });
-                }}
-              />
-            </div>
+          <div className="relative">
+            <p className="text-sm text-gray-500 mb-2">
+              Or enter custom amount:
+            </p>
+            <Input
+              type="number"
+              placeholder="Enter amount"
+              value={insertTransactionData.amount || ""}
+              onChange={(e) => {
+                setSelectedMockAmount(null); // Clear selected mock amount
+                setInsertTransactionData({
+                  ...insertTransactionData,
+                  amount: parseFloat(e.target.value),
+                });
+              }}
+            />
           </div>
 
           <Button
             className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg"
             onClick={() => {
               setStep(2);
-            }}
-          >
+            }}>
             Next
           </Button>
 
@@ -145,20 +171,22 @@ export function PayCard({ id }: { id: string | string[] }) {
             </div>
 
             <Input
-              type="email"
-              placeholder="Email"
+              type="name"
+              placeholder="Your Name"
               className="w-full rounded-lg"
-              // required
-              // onChange={(e) => {
-              //   setInsertTransactionData({
-              //     ...insertTransactionData,
-              //     email: e.target.value,
-              //   });
-              // }}
+              required
+              value={insertTransactionData.userName}
+              onChange={(e) => {
+                setInsertTransactionData({
+                  ...insertTransactionData,
+                  userName: e.target.value,
+                });
+              }}
             />
 
             <textarea
               placeholder="Your Message"
+              value={insertTransactionData.description}
               className="w-full rounded-lg border p-2 min-h-[100px]"
               onChange={(e) => {
                 setInsertTransactionData({
@@ -171,99 +199,14 @@ export function PayCard({ id }: { id: string | string[] }) {
             <Button
               className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white mt-6"
               onClick={() => {
-                setStep(3);
+                createTransactionData(id);
+                // setStep(3);
                 // router.replace(
                 //   "https://checkout.stripe.com/c/pay/cs_test_a1B0g1tcJpCspk27CuIWEkgAent1FYFtXzQkCZiQK8zncPCMmRzD0DJwnl#fidkdWxOYHwnPyd1blpxYHZxWjA0VExJdUdVPVZUdFdjQj1uNzdRb2ZNZ0BKTkF1N01GVGJDZEYzZ1VnPGgwSXNqd21saH0wfHBMS3xMSmhEbEdoM2NGY05UNExzd3B9bzJBdW83d0FkPGJ8NTU3ZlEwdTI0bycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
                 // );
-              }}
-            >
-              Next
+              }}>
+              Donate ${`${insertTransactionData.amount}`}
             </Button>
-          </div>
-        </DialogContent>
-      )}
-      {step === 3 && (
-        <DialogContent className="sm:max-w-[500px] transform transition-all duration-300 ease-in-out">
-          {/* Progress dots */}
-          <div className="flex justify-center gap-2 mb-6">
-            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
-            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
-            <div className="w-3 h-3 rounded-full bg-[#FD7E14]"></div>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-center text-lg">Enter your payment details</h3>
-
-            {/* Secure payment message */}
-            <div className="bg-gray-50 p-4 rounded-lg flex gap-3">
-              <div className="text-blue-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              </div>
-              <div>
-                <div className="font-medium">Secure payment</div>
-                <div className="text-sm text-gray-500">
-                  Our payments are protected by industry best-practice
-                  encryption technology.
-                </div>
-              </div>
-            </div>
-
-            {/* Payment form */}
-            <div className="space-y-4">
-              <div className="flex relative">
-                <Input
-                  placeholder="Card number"
-                  className="w-full rounded-lg"
-                />
-                <div className="flex gap-2 mt-1 absolute right-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2zdNlBjcvJec5Aq1c60qfwT-sWkyTpQgG8w&s"
-                    alt="visa"
-                    className="h-6"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Input placeholder="Expiration date" className="rounded-lg" />
-                <Input placeholder="Security code" className="rounded-lg" />
-              </div>
-
-              <div>
-                <Input
-                  placeholder="Country"
-                  className="w-full rounded-lg"
-                  defaultValue="Mongolia"
-                />
-              </div>
-
-              <div className="text-center text-sm">
-                Donating ${`${insertTransactionData.amount}`} in United States
-                Dollars
-              </div>
-
-              <Button
-                className="w-full rounded-xl bg-[#FD7E14] py-6 text-lg text-white"
-                onClick={() => {
-                  createTransactionData(id);
-                }}
-              >
-                Donate ${`${insertTransactionData.amount}`}
-              </Button>
-            </div>
           </div>
         </DialogContent>
       )}

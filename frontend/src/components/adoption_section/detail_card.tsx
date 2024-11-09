@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-import { Button } from "@/components/ui/button";
 import { GrLocationPin } from "react-icons/gr";
 import { MdLocationCity } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
@@ -17,7 +16,6 @@ import {
 import { Separator } from "../ui/separator";
 import { AdoptionEnquire } from "./adoption_enquire";
 import { AdoptionContext } from "../context/adoption_context";
-import { HeartIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 
 export function InfoCard() {
@@ -30,15 +28,15 @@ export function InfoCard() {
             {oneAdoptPost.pet?.name}
           </span>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button
+            {/* <Button
               variant="outline"
-              className="rounded-full px-6 py-2 text-lg hover:bg-orange-50"
-            >
+              className="rounded-full px-6 py-2 text-lg hover:bg-orange-50">
               <HeartIcon className="mr-2 h-5 w-5 text-orange-500" />
               Favorite
-            </Button>
-
-            <AdoptionEnquire />
+            </Button> */}
+            <div className="">
+              <AdoptionEnquire />
+            </div>
           </div>
         </CardTitle>
         <div className="space-y-2">
@@ -95,8 +93,7 @@ export function ContactDetail() {
           <HiOutlineMail className="text-2xl text-orange-500 flex-shrink-0" />
           <a
             href="mailto:contact@aztaisavar.mn"
-            className="text-gray-700 hover:text-orange-500 transition-colors"
-          >
+            className="text-gray-700 hover:text-orange-500 transition-colors">
             contact@aztaisavar.mn
           </a>
         </div>
@@ -124,8 +121,7 @@ export function MoreDetails() {
             ].map((item) => (
               <div
                 key={item.label}
-                className="flex justify-between items-center py-2 border-b border-gray-100"
-              >
+                className="flex justify-between items-center py-2 border-b border-gray-100">
                 <dt className="text-orange-500 font-medium">{item.label}</dt>
                 <dd className="text-gray-700">{item.value}</dd>
               </div>
@@ -147,16 +143,16 @@ export function MoreDetails() {
                 key={item.label}
                 className={`flex items-center gap-2 p-2 rounded-lg ${
                   item.status ? "bg-green-50" : "bg-yellow-50"
-                }`}
-              >
+                }`}>
                 {item.status ? (
                   <FaCheck className="text-green-500" />
                 ) : (
                   <BsExclamationCircle className="text-yellow-500" />
                 )}
                 <span
-                  className={item.status ? "text-green-700" : "text-yellow-700"}
-                >
+                  className={
+                    item.status ? "text-green-700" : "text-yellow-700"
+                  }>
                   {item.label}
                 </span>
               </div>

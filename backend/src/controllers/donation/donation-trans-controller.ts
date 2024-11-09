@@ -19,28 +19,28 @@ import Donations from "../../models/donation.model";
 //   }
 // };
 
-export const createTransaction = async (req: Request, res: Response) => {
-  try {
-    const { donationId } = req.params;
-    const {
-      description,
-      amount,
-      //  userEmail
-    } = req.body;
-    const donationTrans = await Donations.findById(donationId);
-    donationTrans?.collectedDonations?.push({ description, amount });
-    const currentAmount = await donationTrans?.save();
-    res.status(201).json({
-      message: "Created donation trans successfully",
-      currentAmount,
-    });
+// export const createTransaction = async (req: Request, res: Response) => {
+//   try {
+//     const { donationId } = req.params;
+//     const {
+//       description,
+//       amount,
+//       //  userName
+//     } = req.body;
+//     const donationTrans = await Donations.findById(donationId);
+//     donationTrans?.collectedDonations?.push({ description, amount });
+//     const currentAmount = await donationTrans?.save();
+//     res.status(201).json({
+//       message: "Created donation trans successfully",
+//       currentAmount,
+//     });
 
-    // console.log("Amount:", amount, "Type:", typeof amount);
-  } catch (error) {
-    console.log("err", error);
-    res.status(500).json({ message: "Server error", error });
-  }
-};
+//     // console.log("Amount:", amount, "Type:", typeof amount);
+//   } catch (error) {
+//     console.log("err", error);
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };
 
 export const getTransactionData = async (req: Request, res: Response) => {
   const { id: donationId } = req.params;

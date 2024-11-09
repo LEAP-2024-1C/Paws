@@ -1,55 +1,51 @@
-// const f = [
-//   {
-//     donationId: "12312414",
-//     title: "",
-//     amount: 5,
-//     userEmail: "123123",
-//   },
-//   {
-//     donationId: "12312414",
-//     title: "",
-//     amount: 5,
-//     userEmail: "123123",
-//   },
-//   {
-//     donationId: "98876",
-//     title: "",
-//     amount: 3,
-//     userEmail: "123123",
-//   },
-// ];
+import mongoose, { Schema } from "mongoose";
 
-// f.find({donationId});
-
-import { model, Schema } from "mongoose";
-
-interface DonationTransaction {
-  donationId: Schema.Types.ObjectId;
-  description: string;
-  amount: number;
-  userEmail: string;
-}
-
-const DonationTransactionSchema = new Schema<DonationTransaction>({
+const transactionSchema = new mongoose.Schema({
+  transactionNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    // required: true,
+  },
   donationId: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Donations",
     required: true,
-  },
-  description: {
-    type: String,
   },
   amount: {
     type: Number,
     required: true,
   },
-  userEmail: {
+  status: {
     type: String,
+    enum: ["pending", "completed", "failed"],
+    default: "pending",
+  },
+  paymentMethod: {
+    type: String,
+    default: "card",
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  userName: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
-const DonationTransaction = model<DonationTransaction>(
+const DonationTransaction = mongoose.model(
   "DonationTransaction",
-  DonationTransactionSchema
+  transactionSchema
 );
+
 export default DonationTransaction;

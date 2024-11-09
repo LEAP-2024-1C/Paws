@@ -26,18 +26,22 @@ export default function DonationSwiper({ cards }: CarouselProps) {
     <>
       <Swiper
         className="mySwiper"
-        slidesPerView={4}
-        spaceBetween={30}
+        slidesPerView={1}
+        spaceBetween={20}
+        breakpoints={{
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+        }}
         pagination={{
           clickable: true,
         }}
         autoplay={{
-          delay: 4500,
+          delay: 2500,
           disableOnInteraction: false,
         }}
         navigation={true}
-        modules={[Autoplay, Navigation]}
-      >
+        modules={[Autoplay, Navigation]}>
         {cards?.map((card, i) => (
           <SwiperSlide key={i}>
             <HomeDonationCard

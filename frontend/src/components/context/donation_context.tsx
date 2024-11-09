@@ -84,6 +84,7 @@ export const DonationContext = createContext<DonationContextType>({
     amount: 0,
     description: "",
     donationId: "",
+    userName: "",
   },
   setInsertTransactionData: () => {},
   createTransactionData: (_id: string | string[]) => {},
@@ -116,6 +117,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
       amount: 0,
       description: "",
       donationId: "",
+      userName: "",
     });
 
   const fetchAllDonationData = async () => {
@@ -154,19 +156,62 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     }
   };
 
+  // const createTransactionData = async (data: CreateTransactionData) => {
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           description: data.description,
+  //           amount: data.amount,
+  //           donationId: data.donationId,
+  //           userId: data.userId,
+  //           status: data.status || "pending",
+  //           paymentMethod: data.paymentMethod || "card",
+  //           transactionNumber: data.transactionNumber || Date.now().toString(),
+  //         }),
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Payment initiation failed");
+  //     }
+
+  //     const { paymentUrl } = await response.json();
+  //     window.location.href = paymentUrl;
+  //   } catch (error) {
+  //     console.error("Payment error:", error);
+  //     throw error;
+  //   }
+  // };
+
   const createTransactionData = async (id: string | string[]) => {
     try {
-      const res = await axios.post(`${apiUrl}/checkout`, {
-        amount: insertTransactionData.amount,
-        description: insertTransactionData.description,
-        donationId: id,
+      const response = await fetch(`${apiUrl}/checkout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: insertTransactionData.amount,
+          description: insertTransactionData.description,
+          donationId: id,
+          userName: insertTransactionData.userName,
+        }),
       });
-      if (res.status === 201) {
-        toast.success("Donated successfully");
-      }
+      // if (!response.ok) {
+      //   throw new Error("Payment initiation failed");
+      // }
+
+      const { paymentUrl } = await response.json();
+      window.location.href = paymentUrl;
     } catch (error) {
-      toast.error("Couldn't send donation req");
-      console.log("error", error);
+      console.error("Payment error:", error);
+      throw error;
     }
   };
 
@@ -210,8 +255,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
         insertTransactionData,
         setInsertTransactionData,
         loading: false,
-      }}
-    >
+      }}>
       {children}
     </DonationContext.Provider>
   );

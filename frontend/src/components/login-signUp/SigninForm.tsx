@@ -71,8 +71,7 @@ const SigninForm = () => {
           <div className="mx-auto overflow-hidden">
             <div className="p-8 ">
               <h1
-                className={`${fredoka.className} text-5xl font-bold text-orange-500 mb-7`}
-              >
+                className={`${fredoka.className} text-center text-5xl font-bold text-orange-500 mb-7`}>
                 Welcome back!
               </h1>
               <div className="flex justify-evenly items-center w-full mb-7 p-5">
@@ -99,8 +98,7 @@ const SigninForm = () => {
                   />
                   <label
                     htmlFor="email"
-                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}
-                  >
+                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}>
                     Email
                   </label>
                 </div>
@@ -118,8 +116,7 @@ const SigninForm = () => {
                   />
                   <label
                     htmlFor="password"
-                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}
-                  >
+                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}>
                     Password
                   </label>
                 </div>
@@ -133,8 +130,7 @@ const SigninForm = () => {
               </div>
               <Link
                 href="/recoverpass"
-                className={`${fredoka.className} mt-4 block text-sm text-center font-medium text-orange-500 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-              >
+                className={`${fredoka.className} mt-4 block text-sm text-center font-medium text-orange-500 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500`}>
                 {" "}
                 Forgot your password?{" "}
               </Link>

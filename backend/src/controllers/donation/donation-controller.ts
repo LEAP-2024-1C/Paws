@@ -13,6 +13,7 @@ export const getAllDonations = async (req: Request, res: Response) => {
         model: "User",
         select: "firstname lastname",
       });
+    // .populate("collectedDonations");
     res.status(200).json({ message: "Success", allDonations });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -27,6 +28,7 @@ export const getSingleDonation = async (req: Request, res: Response) => {
       model: "PetProfle",
       select: "name",
     });
+    // .populate("collectedDonations");
     res
       .status(200)
       .json({ message: "get donation post successfully", getSinglePost });

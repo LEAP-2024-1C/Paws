@@ -11,15 +11,19 @@ interface Donations {
   title: string;
   images: [string];
   totalAmount: number;
-  collectedDonations?: [
+  collectedDonations: [
     {
-      description: string;
-      // userEmail: string;
+      transactionNumber: string;
+      // donationId: ;
       amount: number;
+      status: string;
+      paymentMethod: string;
+      description: string;
+      userName: string;
     }
   ];
   contributors: number;
-  petId: { type: Schema.Types.ObjectId; ref: "Pets"; required: true };
+  petId: { type: Schema.Types.ObjectId; ref: "PetProfile"; required: true };
   userId: { type: Schema.Types.ObjectId; ref: "User"; required: true }; //userId? ==> userId
   status: string; //added status
   comments: Comment[];
@@ -48,16 +52,27 @@ const DonationsSchema = new Schema<Donations>(
     },
     collectedDonations: [
       {
-        description: {
+        transactionNumber: {
           type: String,
         },
+
         amount: {
           type: Number,
+          required: true,
         },
-        //   userEmail: {
-        //     type: String,
-        //     required: true
-        //   },
+        status: {
+          type: String,
+        },
+        paymentMethod: {
+          type: String,
+        },
+        description: {
+          type: String,
+          required: true,
+        },
+        userName: {
+          type: String,
+        },
       },
     ],
     contributors: {

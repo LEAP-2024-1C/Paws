@@ -4,17 +4,17 @@ import DonationCard from "@/components/donation_section/donation_card";
 import React, { useContext } from "react";
 import DonationHero from "@/components/donation_section/hero";
 import { DonationContext } from "@/components/context/donation_context";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 
-export type donationPostsProps = {
+export interface donationPostsProps {
   title: string;
   description: string;
   _id: string;
   images: string;
   totalAmount: number;
   currentAmount: number;
-  updateDate: number;
-};
+  updateDate: Date;
+}
 const Donation = () => {
   const { donationPosts } = useContext(DonationContext);
 
@@ -26,8 +26,7 @@ const Donation = () => {
           {donationPosts?.map((c, i) => (
             <div
               className="col-span-1 transform hover:scale-105 transition-transform"
-              key={i}
-            >
+              key={i}>
               <DonationCard
                 title={c.title}
                 description={c.description}
@@ -35,7 +34,7 @@ const Donation = () => {
                 images={c.images}
                 totalAmount={c.totalAmount}
                 currentAmount={c.currentAmount}
-                updateDate={format(c.updateDate, "dd,MMM")}
+                updateDate={new Date(c.updateDate).toLocaleDateString()}
               />
             </div>
           ))}
