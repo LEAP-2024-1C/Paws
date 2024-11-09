@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+"use client";
+import { useContext, useState, useEffect } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 
@@ -26,6 +27,22 @@ const SigninForm = () => {
     rePassword: "",
   });
 
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "F") {
+        e.preventDefault();
+        setUserForm((prev) => ({
+          ...prev,
+          email: "john@gmail.com",
+          password: "password123",
+        }));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, []);
+
   const handleSignIn = async () => {
     try {
       const res = await axios.post(`${apiUrl}/api/v1/auth/login`, {
@@ -46,89 +63,6 @@ const SigninForm = () => {
       toast.error("User not found");
     }
   };
-  // const [open, setOpen] = useState(false);
-  // const router = useRouter();
-  // const [user, setUser] = useState();
-  // const [status, setStatus] = useState("error");
-  // const [isSignIn, setisSignIn] = useState(false);
-
-  // const success = () => {
-  //   return toast.success("🦄 Wow Success!", {
-  //     position: "top-center",
-  //     autoClose: 3000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "dark",
-  //   });
-  // };
-  // const errorAlert = () => {
-  //   return toast.error("🦄 Oops!!! ERROR!", {
-  //     position: "top-center",
-  //     autoClose: 3000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "dark",
-  //   });
-  // };
-  // const warningAlert = () => {
-  //   return toast.warn("Хэрэглэгчийн мэдээлэл хоосон байна.", {
-  //     position: "top-center",
-  //     autoClose: 3000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "dark",
-  //   });
-  // };
-  // const handleClose = () => setOpen(false);
-
-  // const login = async (email: string, password: string) => {
-  //   try {
-  //     const result = await axios.post(`http://localhost:8008/user/signin`, {
-  //       email,
-  //       password,
-  //     });
-  //     const data = await result.data;
-  //     console.log("SUCCESS", await data.data);
-  //     localStorage.setItem("user", JSON.stringify(data.data));
-
-  //     if (String(data.status) === "ok") {
-  //       success();
-  //       setUser(data.data.user);
-  //     } else {
-  //       console.log(data);
-  //     }
-  //     setTimeout(() => {
-  //       router.push("/home");
-  //       handleClose();
-  //     }, 3000);
-  //     handleClose();
-  //   } catch (error: any) {
-  //     console.log(error);
-  //     setStatus("error");
-  //     errorAlert();
-  //     // alert(error.response.data.error);
-  //   }
-  // };
-  // const handleClick = async () => {
-  //   if (email === "" || password === "") {
-  //     // alert("Хэрэглэгчийн мэдээлэл хоосон байна.");
-  //     warningAlert();
-  //     console.log("Хэрэглэгчийн мэдээлэл хоосон байнаа.");
-
-  //     return;
-  //   }
-
-  //   login(email, password);
-  // };
 
   return (
     <div className="selection:bg-indigo-500 selection:text-white">
@@ -137,7 +71,8 @@ const SigninForm = () => {
           <div className="mx-auto overflow-hidden">
             <div className="p-8 ">
               <h1
-                className={`${fredoka.className} text-5xl font-bold text-orange-500 mb-7`}>
+                className={`${fredoka.className} text-5xl font-bold text-orange-500 mb-7`}
+              >
                 Welcome back!
               </h1>
               <div className="flex justify-evenly items-center w-full mb-7 p-5">
@@ -164,7 +99,8 @@ const SigninForm = () => {
                   />
                   <label
                     htmlFor="email"
-                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}>
+                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}
+                  >
                     Email
                   </label>
                 </div>
@@ -182,7 +118,8 @@ const SigninForm = () => {
                   />
                   <label
                     htmlFor="password"
-                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}>
+                    className={`${fredoka.className} absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm`}
+                  >
                     Password
                   </label>
                 </div>
@@ -196,10 +133,14 @@ const SigninForm = () => {
               </div>
               <Link
                 href="/recoverpass"
-                className={`${fredoka.className} mt-4 block text-sm text-center font-medium text-orange-500 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500`}>
+                className={`${fredoka.className} mt-4 block text-sm text-center font-medium text-orange-500 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              >
                 {" "}
                 Forgot your password?{" "}
               </Link>
+              <p className="text-xs text-gray-500 text-center mt-4">
+                Press Ctrl/Cmd + Shift + F to auto-fill
+              </p>
             </div>
           </div>
         </div>

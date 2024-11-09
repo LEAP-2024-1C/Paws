@@ -39,6 +39,7 @@ export const AdoptionContext = createContext<AdoptionContextType>({
       updatedAt: "",
       vaccinated: true,
       wormed: true,
+      category: "",
     },
   },
   setOneAdoptPost: () => {},
@@ -88,6 +89,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
       updatedAt: "",
       vaccinated: true,
       wormed: true,
+      category: "",
     },
   });
 
@@ -153,7 +155,8 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         fetchTransactionData,
         getTransactionData,
         setGetTransactionData,
-      }}>
+      }}
+    >
       {children}
     </AdoptionContext.Provider>
   );

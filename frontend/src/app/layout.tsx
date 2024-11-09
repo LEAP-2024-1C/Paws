@@ -43,26 +43,24 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body>
           <UserProvider>
             <ShoppingProvider>
-
               <CartProvider>
                 <WishListProvider>
                   <ProfileProvider>
                     <AdoptionProvider>
                       <DonationProvider>
-                      <ArticleProvider>
-                      <Header />
-                      {children}
-                      <Footer />
-                    </ArticleProvider>
+                        <ArticleProvider>
+                          <Header />
+                          {children}
+                          <Footer />
+                          <ToastContainer />
+                        </ArticleProvider>
                       </DonationProvider>
                     </AdoptionProvider>
                   </ProfileProvider>
                 </WishListProvider>
               </CartProvider>
-
             </ShoppingProvider>
           </UserProvider>
-          <ToastContainer />
         </body>
       </html>
     </>

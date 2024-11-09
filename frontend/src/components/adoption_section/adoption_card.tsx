@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import { VscHeart } from "react-icons/vsc";
-import { VscHeartFilled } from "react-icons/vsc";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { GrLocationPin } from "react-icons/gr";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +11,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import Link from "next/link";
 
 export type adoptionPostsProps = {
   // title: string;
@@ -25,32 +25,42 @@ export type adoptionPostsProps = {
 };
 
 export default function AdoptionCard({
-  // title,
   location,
   description,
   _id,
-  // imgUrl,
   pet,
 }: adoptionPostsProps) {
-  const [loved, setLoved] = React.useState(false);
+  // const [loved, setLoved] = React.useState(false);
+  const router = useRouter();
 
-  const wishList = () => {
-    setLoved(!loved);
+  // const wishList = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   setLoved(!loved);
+  // };
+
+  const handleCardClick = () => {
+    router.prefetch(`/adoption/${_id}`);
+    router.push(`/adoption/${_id}`);
   };
+
   return (
-    <Card className="w-[335px] relative shadow-md">
-      <Button
+    <Card
+      className="w-[335px] relative shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+      onClick={handleCardClick}
+    >
+      {/* <Button
         variant="ghost"
         className="p-0 absolute right-3 top-2 text-2xl hover:scale-150 hover:bg-transparent z-10"
-        onClick={wishList}>
+        onClick={wishList}
+      >
         {loved ? <VscHeartFilled /> : <VscHeart />}
-      </Button>
+      </Button> */}
       <CardHeader className="mb-4 p-0 h-48">
-        <div className="overflow-hidden rounded-t-lg object-fill">
+        <div className="overflow-hidden rounded-t-lg">
           <img
             src={pet.imageUrl[0]}
-            alt="Sample Image"
-            className="rounded-[20px] object-fill scale-105"
+            alt={`Photo of ${pet.name}`}
+            className="rounded-[10px] object-cover"
           />
         </div>
       </CardHeader>
@@ -65,9 +75,7 @@ export default function AdoptionCard({
           <GrLocationPin />
           <span>{location}</span>
         </div>
-        <Link href={"/adoption/" + _id}>
-          <Button className="bg-[#FD7E14]">See more</Button>
-        </Link>
+        <Button className="bg-[#FD7E14]">See more</Button>
       </CardFooter>
     </Card>
   );
