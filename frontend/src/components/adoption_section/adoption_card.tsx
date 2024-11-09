@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
-import { VscHeart, VscHeartFilled } from "react-icons/vsc";
+// import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { GrLocationPin } from "react-icons/gr";
 import { Button } from "@/components/ui/button";
 import {

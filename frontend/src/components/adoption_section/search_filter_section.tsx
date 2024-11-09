@@ -4,11 +4,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { GoArrowRight } from "react-icons/go";
 
 import React from "react";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+
 import { IPetCategory } from "@/interface";
 
 // Add or update the interface for the component's props
