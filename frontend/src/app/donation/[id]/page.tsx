@@ -17,7 +17,7 @@ export type donationPostsProps = {
   _id: string;
   images: string;
   totalAmount: number;
-  updateDate: number;
+  updateDate: Date;
 };
 const DonationDetail = () => {
   const { id } = useParams();
@@ -91,7 +91,7 @@ const DonationDetail = () => {
                     progress...
                   </p>
                   <p className="text-sm text-gray-500 mt-2">
-                    Updated: {format(new Date(), "MMM dd, yyyy")}
+                    Updated: {new Date().toLocaleDateString()}
                   </p>
                 </div>
               </div>

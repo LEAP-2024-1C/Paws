@@ -11,11 +11,11 @@ import { connectDB } from "./config/db";
 import shopRoute from "./routes/shop/shop-route";
 import sosRoute from "./routes/sos/sos-route";
 import donationRoute from "./routes/donation/donation-route";
-
 import cartRoute from "./routes/shop/cart-route";
 import wishlistRoute from "./routes/shop/wishlist-route";
-
 import Stripe from "stripe";
+import DonationTransaction from "./models/transaction.model";
+import Donations from "./models/donation.model";
 
 dotenv.config();
 
@@ -37,8 +37,9 @@ app.post(
       event = stripe.webhooks.constructEvent(
         req.body,
         sig!,
-        "whsec_zbJ9gRq8WMYRRyMQERyJwgyJZ1zU5xNc"
+        "whsec_2868aeaa993615336ab7badcb11f26c6969370ca23ea44b9f7f4edcd23d330f0"
       );
+      console.log("event", event);
     } catch (err) {
       // On error, log and return the error message
       console.log(`❌ Error message: {err.message}`);
@@ -53,9 +54,7 @@ app.post(
     if (event.type === "payment_intent.succeeded") {
       const stripeObject: Stripe.PaymentIntent = event.data
         .object as Stripe.PaymentIntent;
-      console.log(
-        `💰 PaymentIntent status: ${stripeObject.metadata.donationId}`
-      );
+      console.log(`💰 PaymentIntent status: ${stripeObject.metadata}`);
     } else if (event.type === "charge.succeeded") {
       const charge = event.data.object as Stripe.Charge;
       console.log(`💵 Charge id: ${charge.id}`);
@@ -87,55 +86,91 @@ app.use("/api/v1/wishlist", wishlistRoute);
 
 // test stripe
 const stripe = new Stripe(
-  "sk_test_51QILpBP8SQqRfG8k6t13ZjvS1RClpR1wmPLuXk92CO6r6EBLOEyrjZjaqhVm3ung5peJMkAox6RhIhXyShkrPDxW000GIBRgDY"
+  "sk_test_51QFT20FG0rSCc90h6WziJAOOndtuauhRmLYnTN1iHbelFRCGyrOHxr6fYrXaJObOhEEEzZIMuQZFjYttq4E7QfbU00FW37ODTT"
 );
 
 app.post("/checkout", async (req: Request, res: Response) => {
-  const { description, amount, donationId } = req.body;
-  const session = await stripe.checkout.sessions.create({
-    metadata: {
-      donationId,
-    },
-    line_items: [
-      {
-        price_data: {
-          product_data: {
-            name: "Donation",
+  const {
+    description,
+    amount,
+    donationId,
+    userName,
+    status = "pending",
+    paymentMethod = "card",
+    transactionNumber = Date.now().toString(),
+  } = req.body;
 
-            description: description,
-            // images: [
-            //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
-            // ],
-          },
-          unit_amount: amount * 100,
-          currency: "usd",
-        },
+  try {
+    const donation = await Donations.findById(donationId);
 
-        quantity: 1,
-      },
-      // {
-      //   price_data: {
-      //     product_data: {
-      //       name: "Donation",
-      //       description: description,
-      //       // images: [
-      //       //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
-      //       // ],
-      //     },
-      //     unit_amount: amount * 100,
-      //     currency: "usd",
-      //   },
+    if (!donation) {
+      return res.status(404).json({ message: "Donation post not found" });
+    }
+    donation.collectedDonations.push({
+      transactionNumber,
+      amount,
+      status,
+      paymentMethod,
+      description,
+      userName,
+    });
+    const updatedDonation = await donation.save();
 
-      //   quantity: 1,
+    const session = await stripe.checkout.sessions.create({
+      // metadata: {
+      //   donationId,
       // },
-    ],
-    mode: "payment",
-    success_url: `http://localhost:3000/success`,
-    cancel_url: `http://localhost:3000/cancel`,
-  });
+      line_items: [
+        {
+          price_data: {
+            product_data: {
+              name: "Donation",
+              metadata: {
+                donationId,
+              },
+              description: description,
+              // images: [
+              //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+              // ],
+            },
+            unit_amount: amount * 100,
+            currency: "usd",
+          },
+          quantity: 1,
+        },
+        // {
+        //   price_data: {
+        //     product_data: {
+        //       name: "Donation",
+        //       description: description,
+        //       // images: [
+        //       //   "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nfGVufDB8fDB8fHww",
+        //       // ],
+        //     },
+        //     unit_amount: amount * 100,
+        //     currency: "usd",
+        //   },
 
-  res.json({ paymentUrl: session.url! });
-  // res.send("Success");
+        //   quantity: 1,
+        // },
+      ],
+      mode: "payment",
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cancel`,
+    });
+
+    // Send only ONE response
+    return res.status(200).json({
+      paymentUrl: session.url,
+      updatedDonation,
+    });
+  } catch (error) {
+    // Always send an error response
+    return res.status(500).json({
+      message: "Failed to create checkout session",
+      error,
+    });
+  }
 });
 
 connectDB(MONGO_URL);

@@ -123,6 +123,18 @@ export function AdoptionEnquire() {
     }
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -131,11 +143,21 @@ export function AdoptionEnquire() {
           <GoArrowRight className="text-xl" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[900px] p-0 bg-gradient-to-br from-orange-50 to-slate-50">
+      <DialogContent
+        className={`
+        p-0 bg-white rounded-lg
+        md:max-w-[900px] 
+        ${isMobile ? "max-h-[90vh] overflow-y-auto" : ""}
+      `}>
         {/* Header with Pet Image */}
-        <div className="relative w-full h-32 bg-orange-500 rounded-t-lg overflow-hidden">
+        <div
+          className={`
+          relative w-full bg-orange-500 rounded-t-lg
+          ${isMobile ? "sticky top-0 z-50" : ""}
+          h-24
+        `}>
           <div className="absolute inset-0 bg-[url('/img/pattern.png')] opacity-20"></div>
-          <div className="relative h-full max-w-5xl mx-auto px-6 flex items-center justify-between">
+          <div className="relative h-full px-6 flex items-center justify-between">
             <div>
               <h2 className="text-white text-2xl font-bold">
                 Adoption Inquiry
@@ -146,17 +168,17 @@ export function AdoptionEnquire() {
               <img
                 src={oneAdoptPost.pet.imageUrl[0]}
                 alt={oneAdoptPost.pet.name}
-                className="h-24 w-24 rounded-full border-4 border-white shadow-lg absolute -bottom-8 right-6"
+                className="h-20 w-20 rounded-full border-4 border-white shadow-lg absolute -bottom-6 right-6"
               />
             )}
           </div>
         </div>
 
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Personal Information Section */}
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="bg-white rounded-xl border">
+              <div className="p-5">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                   <span className="h-8 w-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center">
                     1
@@ -197,8 +219,8 @@ export function AdoptionEnquire() {
             </div>
 
             {/* Questionnaire Section */}
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="bg-white rounded-xl border">
+              <div className="p-5">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                   <span className="h-8 w-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center">
                     2
@@ -217,8 +239,7 @@ export function AdoptionEnquire() {
                       className="flex gap-4"
                       onValueChange={(value) =>
                         handleRadioChange(value, "previousPetOwnership")
-                      }
-                    >
+                      }>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="yes" id="r1" />
                         <Label htmlFor="r1">Yes</Label>
@@ -240,8 +261,7 @@ export function AdoptionEnquire() {
                       className="space-y-2"
                       onValueChange={(value) =>
                         handleRadioChange(value, "currentPets")
-                      }
-                    >
+                      }>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="no" id="r3" />
                         <Label htmlFor="r3">No</Label>
@@ -271,8 +291,7 @@ export function AdoptionEnquire() {
                       className="flex gap-4"
                       onValueChange={(value) =>
                         handleRadioChange(value, "householdMembers")
-                      }
-                    >
+                      }>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="1-2" id="r7" />
                         <Label htmlFor="r7">1-2</Label>
@@ -305,8 +324,7 @@ export function AdoptionEnquire() {
                           />
                           <label
                             htmlFor={key}
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                             {key === "under5"
                               ? "Under 5 years old"
                               : key === "age5to12"
@@ -325,12 +343,11 @@ export function AdoptionEnquire() {
           </div>
 
           {/* Submit Button */}
-          <DialogFooter className="mt-8">
+          <DialogFooter className="mt-6 border-t pt-6">
             <Button
               type="submit"
               onClick={handleSubmit}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-full transition-all duration-300"
-            >
+              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-full transition-all duration-300">
               Submit Application
             </Button>
           </DialogFooter>

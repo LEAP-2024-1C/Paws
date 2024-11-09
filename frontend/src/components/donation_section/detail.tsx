@@ -16,7 +16,7 @@ import { DialogButton } from "./dialog";
 import Link from "next/link";
 import { PayCard } from "./pay/pay_card";
 import { DonationContext } from "../context/donation_context";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 
 const DetailCard = () => {
   const { oneDonationPost } = React.useContext(DonationContext);
@@ -45,7 +45,7 @@ const DetailCard = () => {
               <div>
                 <p className="font-medium">Aztai sawar</p>
                 <p className="text-sm opacity-75">
-                  {format(oneDonationPost.updateDate, "MMMM dd, yyyy")}
+                  {new Date(oneDonationPost.updateDate).toLocaleDateString()}
                 </p>
               </div>
             </div>
@@ -70,6 +70,7 @@ const DetailCard = () => {
   );
 };
 export default DetailCard;
+
 export function DonationPay({
   id,
   progressPercentage,

@@ -1,10 +1,6 @@
 "use client";
 import React, { createContext, useEffect, useState } from "react";
-import {
-  AdoptionContextType,
-  IAdoptionReq,
-  IDonationTransactionData,
-} from "@/interface";
+import { AdoptionContextType, IAdoptionReq } from "@/interface";
 import { apiUrl } from "@/utils/util";
 import axios from "axios";
 
@@ -47,25 +43,10 @@ export const AdoptionContext = createContext<AdoptionContextType>({
   fetchSingleadoptionPosts: (_id: string | string[]) => {},
   refetch: false,
   setRefetch: () => {},
-
-  fetchTransactionData: (_id: string | string[]) => {},
-  getTransactionData: {
-    amount: 0,
-    description: "",
-    donationId: "",
-  },
-  setGetTransactionData: () => {},
 });
 
 export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
   const [refetch, setRefetch] = useState(false);
-  const [getTransactionData, setGetTransactionData] =
-    useState<IDonationTransactionData>({
-      amount: 0,
-      description: "",
-      donationId: "",
-    });
-
   const [adoptionPosts, setAdoptionPosts] = useState<IAdoptionReq[]>([]);
   const [oneAdoptPost, setOneAdoptPost] = useState<IAdoptionReq>({
     _id: "",
@@ -119,20 +100,6 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
     }
   };
 
-  const fetchTransactionData = async (id: string | string[]) => {
-    try {
-      const res = await axios.get(
-        `${apiUrl}/api/v1/donation/transaction/${id}`
-      );
-      if (res.status === 200) {
-        setGetTransactionData(res.data.transactionData);
-        console.log("TD", res.data.transactionData);
-      }
-    } catch (error) {
-      console.error("Error fetching donation transaction data:", error);
-    }
-  };
-
   useEffect(() => {
     fetchAllAdoptionData();
   }, []);
@@ -151,12 +118,7 @@ export const AdoptionProvider = ({ children }: AdoptionProviderProps) => {
         refetch,
         setRefetch,
         fetchSingleadoptionPosts,
-
-        fetchTransactionData,
-        getTransactionData,
-        setGetTransactionData,
-      }}
-    >
+      }}>
       {children}
     </AdoptionContext.Provider>
   );

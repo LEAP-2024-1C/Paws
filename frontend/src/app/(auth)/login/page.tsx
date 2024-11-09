@@ -1,44 +1,75 @@
 "use client";
-// import LoginDesktop from "@/components/login-signUp/Desktop";
 import LeftOverlayContent from "@/components/login-signUp/LeftOverlayContent";
-// import Phone from "@/components/login-signUp/Phone";
 import RightOverlayContent from "@/components/login-signUp/RightOverlayContent";
 import SigninForm from "@/components/login-signUp/SigninForm";
 import SignupForm from "@/components/login-signUp/SignupForm";
 import { Card } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function LoginPage() {
   const [isAnimated, setIsAnimated] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <div className="bg-[#F8F9FA]">
-      {/* <LoginDesktop /> */}
-      {/* <Phone /> */}
-      <div className="">
-        <div className="container m-auto h-screen w-full relative overflow-hidden rounded-3xl ">
+    <div className="bg-[#F8F9FA] min-h-screen w-full">
+      {/* Mobile View */}
+      {isMobile ? (
+        <div className="p-4 flex flex-col gap-4">
+          {/* Overlay Content First */}
+          <div className="text-center p-6 bg-hero-image rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              {!isAnimated ? "Welcome Back!" : "Create Account"}
+            </h2>
+            {!isAnimated ? (
+              <RightOverlayContent
+                isAnimated={isAnimated}
+                setIsAnimated={setIsAnimated}
+              />
+            ) : (
+              <LeftOverlayContent
+                isAnimated={isAnimated}
+                setIsAnimated={setIsAnimated}
+              />
+            )}
+          </div>
+          {/* Form Card */}
+          <Card className="w-full p-6">
+            {!isAnimated ? <SigninForm /> : <SignupForm />}
+          </Card>
+        </div>
+      ) : (
+        /* Desktop View - Unchanged */
+        <div className="container m-auto h-screen w-full relative overflow-hidden rounded-3xl">
           <div
             id="signin"
-            className={` absolute top-0 left-0 h-full w-1/2 flex justify-center items-center transition-all duration-700 ease-in-out z-20 ${
+            className={`absolute top-0 left-0 h-full w-1/2 flex justify-center items-center transition-all duration-700 ease-in-out z-20 ${
               isAnimated ? "translate-x-full opacity-0" : ""
             }`}>
-            <Card>
+            <Card className="w-[90%] max-w-xl">
               <SigninForm />
             </Card>
           </div>
 
           <div
             id="signup"
-            className={` absolute top-0 left-0 h-full w-1/2 flex justify-center items-center transition-all duration-700 ease-in-out ${
+            className={`absolute top-0 left-0 h-full w-1/2 flex justify-center items-center transition-all duration-700 ease-in-out ${
               isAnimated
                 ? "translate-x-full opacity-100 z-50 animate-show"
                 : "opacity-0 z-10"
             }`}>
-            <div className="h-full w-full flex justify-center items-center">
-              <Card>
-                <SignupForm />
-              </Card>
-            </div>
+            <Card className="w-[90%] max-w-xl">
+              <SignupForm />
+            </Card>
           </div>
 
           <div
@@ -74,7 +105,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -14,7 +14,9 @@ import Image from "next/image";
 export const BlogsCards = ({ image, title, date, id }: CardType) => {
   return (
     <Link href={"/articles/" + id}>
-      <Card className="w-[340px] shadow-xl hover:brightness-[.70]" key={id}>
+      <Card
+        className="w-[340px] shadow-xl hover:brightness-[.70] m-auto"
+        key={id}>
         <CardHeader className="mb-4 relative p-0 h-48">
           <div className="overflow-hidden rounded-t-lg">
             <Image
