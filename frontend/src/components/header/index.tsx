@@ -25,7 +25,7 @@ const Header = () => {
   const logOut = () => {
     localStorage.removeItem("token");
     setUser(null);
-    router.push("/signin");
+    router.push("/login");
   };
 
   return (
@@ -44,7 +44,8 @@ const Header = () => {
             <Link href="/donation">Donation</Link>
             <Link
               href="/sos"
-              className="animate-blink text-red-600 font-semibold">
+              className="animate-blink text-red-600 font-semibold"
+            >
               Emergency
             </Link>
 
@@ -54,7 +55,8 @@ const Header = () => {
         </span>
         <button
           className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
           {isMenuOpen ? <X /> : <Menu />}
         </button>
         <span className="hidden md:block">
@@ -84,7 +86,7 @@ const Header = () => {
             </div>
           ) : (
             <Button size="custom" className="bg-[#FD7E14]">
-              <Link href="/signin">Login</Link>
+              <Link href="/login">Login</Link>
             </Button>
           )}
         </span>
@@ -103,7 +105,8 @@ const Header = () => {
             </Link>
             <Link
               href="/sos"
-              className="p-2 hover:bg-gray-100 rounded animate-blink text-red-600 font-semibold">
+              className="p-2 hover:bg-gray-100 rounded animate-blink text-red-600 font-semibold"
+            >
               Emergency
             </Link>
             <Link href="/shop" className="p-2 hover:bg-gray-100 rounded">
@@ -116,19 +119,21 @@ const Header = () => {
               <>
                 <Link
                   href="/user_section"
-                  className="p-2 hover:bg-gray-100 rounded">
+                  className="p-2 hover:bg-gray-100 rounded"
+                >
                   Profile
                 </Link>
                 <Button
                   onClick={logOut}
                   variant="ghost"
-                  className="w-full justify-start p-2">
+                  className="w-full justify-start p-2"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </Button>
               </>
             ) : (
-              <Link href="/signin" className="p-2 hover:bg-gray-100 rounded">
+              <Link href="/login" className="p-2 hover:bg-gray-100 rounded">
                 Нэвтрэх
               </Link>
             )}

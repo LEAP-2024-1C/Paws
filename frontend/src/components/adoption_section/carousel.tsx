@@ -5,12 +5,12 @@ import "swiper/css";
 
 export default function Carousel() {
   return (
-    <div className="bg-[#F8F9FA] w-full ">
+    <div className="bg-[#F8F9FA] w-full h-[360px] overflow-hidden">
       <section className="w-full md:w-4/5 lg:w-3/5 flex flex-col md:flex-row mx-auto px-4 md:px-0">
         {/* Left Section */}
         <div className="flex flex-1 relative overflow-hidden items-center mb-8 md:mb-0">
           <img
-            src="/img/shape.png"
+            src="https://i.ibb.co/71DzHdF/shape.png"
             alt=""
             className="w-20 md:w-28 absolute top-[-20px] md:top-[-30px] left-4 md:left-60"
           />
@@ -38,13 +38,14 @@ export default function Carousel() {
         {/* Right Section */}
         <div
           style={{
-            backgroundImage: "url('/img/image.png')",
+            backgroundImage: "url('/images/image.png')",
           }}
-          className="flex items-end justify-center flex-1 h-64 md:h-96 bg-no-repeat bg-[length:100%] bg-bottom">
+          className="flex items-end justify-center flex-1 h-64 md:h-96 bg-no-repeat bg-[length:85%] bg-bottom "
+        >
           <img
-            src="https://i.ibb.co/tDwSPg9/kitty.png"
+            src="https://static.vecteezy.com/system/resources/previews/034/925/406/large_2x/ai-generated-shorthair-cat-on-transparent-background-image-png.png"
             alt=""
-            className="w-1/2 md:w-1/2"
+            className=" w-1/2 md:w-1/2 "
           />
         </div>
       </section>

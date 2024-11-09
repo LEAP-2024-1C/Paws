@@ -238,6 +238,7 @@ export interface IAdoptionReq {
     updatedAt: string;
     vaccinated: boolean;
     wormed: boolean;
+    category: string;
   };
 }
 

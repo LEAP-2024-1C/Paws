@@ -17,6 +17,7 @@ const AdoptionPage = () => {
     },
   ]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSpecies, setSelectedSpecies] = useState("");
 
   const fetchPetCategories = async () => {
     try {
@@ -34,9 +35,14 @@ const AdoptionPage = () => {
     fetchPetCategories();
   }, []);
 
-  const filteredPets = adoptionPosts?.filter((pet) =>
-    pet.pet.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPets = adoptionPosts?.filter((pet) => {
+    const nameMatch = pet.pet.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const speciesMatch =
+      selectedSpecies === "" || pet.pet.category === selectedSpecies;
+    return nameMatch && speciesMatch;
+  });
 
   // console.log("adoptionPposts", adoptionPosts);
   return (
@@ -70,6 +76,8 @@ const AdoptionPage = () => {
             petCategory={petCategory}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
+            selectedSpecies={selectedSpecies}
+            setSelectedSpecies={setSelectedSpecies}
           />
         </div>
 

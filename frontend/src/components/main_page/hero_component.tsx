@@ -11,9 +11,9 @@ const HeroComponent = () => {
           <div className="flex-1 relative flex items-center justify-center">
             {/* Decorative Images - Hidden on mobile */}
             <img
-              src="/img/shape.png"
+              src="https://i.ibb.co/71DzHdF/shape.png"
               alt=""
-              className="w-16 md:w-20 lg:w-28 absolute top-[-20px] left-4 md:left-20 hidden md:block"
+              className="w-16 md:w-20 lg:w-28 absolute top-[-40px] left-4 md:left-20 hidden md:block"
             />
             <img
               src="/img/parrot.png"
@@ -46,9 +46,9 @@ const HeroComponent = () => {
 
             {/* Bottom Shape - Hidden on mobile */}
             <img
-              src="/img/shape.png"
+              src="https://i.ibb.co/71DzHdF/shape.png"
               alt=""
-              className="w-16 md:w-20 lg:w-28 absolute bottom-[-30px] right-4 md:right-20 hidden md:block"
+              className="w-16 md:w-20 lg:w-28 absolute bottom-[-50px] right-4 md:right-20 hidden md:block"
             />
           </div>
 
@@ -56,12 +56,12 @@ const HeroComponent = () => {
           <div className="flex-1 min-h-[300px] md:min-h-[400px] lg:min-h-[500px] relative mt-8 md:mt-0">
             <div
               style={{
-                backgroundImage: "url('/img/image.png')",
+                backgroundImage: "url('/images/image.png')",
               }}
               className="absolute inset-0 bg-no-repeat bg-cover bg-center"
             />
             <img
-              src="img/cat&dog.png"
+              src="https://i.ibb.co/P51h23c/cat-dog.png"
               alt="Pets"
               className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 md:w-3/4 object-contain"
             />
