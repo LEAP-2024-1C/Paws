@@ -99,14 +99,15 @@ export default function GridCarousel() {
                   .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
                   .map((item) => (
                     <Link href={`/sos/${item._id}`} key={item._id}>
-                      <Card className="h-full hover:shadow-lg transition-shadow duration-200">
+                      <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
                         <CardContent className="p-0">
-                          <div className="relative aspect-square">
+                          <div className="relative aspect-square group">
                             <img
                               src={item.imageUrl}
                               alt={item.title || "SOS Image"}
-                              className="object-cover w-full h-full rounded-t-lg"
+                              className="object-cover w-full h-full rounded-t-lg transition-transform duration-300 group-hover:scale-110"
                             />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           </div>
                           <div className="p-4 space-y-3">
                             <h3 className="text-lg font-semibold text-orange-500 line-clamp-1">

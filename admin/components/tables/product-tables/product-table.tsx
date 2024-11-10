@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import Image from 'next/image';
 
 import {
   Table,
@@ -32,17 +33,28 @@ export function ProductTable({ data, searchKey }: DataTableProps) {
         <Table className="relative">
           <TableHeader>
             <TableRow>
-              <TableHead>Product</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Description</TableHead>
+              <TableHead>Product Image</TableHead>
+              <TableHead>Product Name</TableHead>
+              <TableHead>Product Category</TableHead>
+              <TableHead>Product Price</TableHead>
+              <TableHead>Product Quantity</TableHead>
+              <TableHead>Product Description</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((product) => (
               <TableRow key={product.id?.toString() || product._id?.toString()}>
+                <TableCell>
+                  <div className="relative h-10 w-10">
+                    <Image
+                      src={product.images[0] || '/placeholder-image.jpg'}
+                      alt={product.name || 'Product image'}
+                      fill
+                      className="rounded-full object-cover"
+                    />
+                  </div>
+                </TableCell>
                 <TableCell>{product.name?.toString()}</TableCell>
                 <TableCell>{product.category?.name?.toString()}</TableCell>
                 <TableCell>{product.price?.toString()}$</TableCell>

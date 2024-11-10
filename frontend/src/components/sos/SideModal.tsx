@@ -5,14 +5,15 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 
-type Props = {
-  isShowing: boolean;
+interface Props {
+  isOpen: boolean;
   onClose: () => void;
-};
+  onSubmit: () => void;
+}
 
 gsap.registerPlugin(useGSAP);
 
-const SideMenu: FC<Props> = ({ isShowing, onClose }: Props) => {
+const SideMenu: FC<Props> = ({ isOpen, onClose, onSubmit }: Props) => {
   const container = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope: container });
 
@@ -41,7 +42,7 @@ const SideMenu: FC<Props> = ({ isShowing, onClose }: Props) => {
 
   return (
     <Transition
-      in={isShowing}
+      in={isOpen}
       timeout={{ enter: 0, exit: 300 }}
       mountOnEnter
       unmountOnExit
@@ -63,7 +64,7 @@ const SideMenu: FC<Props> = ({ isShowing, onClose }: Props) => {
           >
             <div className="sticky top-0 bg-zinc-250/50 backdrop-blur-sm px-6 py-4 mb-4 border-zinc-800/50 rounded-tl-2xl"></div>
             <div className="px-6">
-              <ReportForm onSubmit={() => {}} />
+              <ReportForm onSubmit={onSubmit} />
             </div>
           </div>
         </div>
