@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-import { useRouter } from "next/navigation";
 // import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { GrLocationPin } from "react-icons/gr";
 import { Button } from "@/components/ui/button";
@@ -32,7 +31,6 @@ export default function AdoptionCard({
   pet,
 }: adoptionPostsProps) {
   // const [loved, setLoved] = React.useState(false);
-  const router = useRouter();
 
   // const wishList = (e: React.MouseEvent) => {
   //   e.stopPropagation();
