@@ -1,5 +1,5 @@
 'use client';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import { apiUrl } from '@/utils/util';
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 import { FiUpload } from 'react-icons/fi';
-import { CldOgImage, CloudinaryUploadWidgetInfo } from 'next-cloudinary';
+import { CloudinaryUploadWidgetInfo } from 'next-cloudinary';
 import { CldUploadWidget } from 'next-cloudinary';
 
 interface ProductFormProps {
@@ -42,7 +42,10 @@ export default function ProductForm({
   const router = useRouter();
 
   const removeImage = () => {
-    setProductData({ ...productData, images: [''] });
+    setProductData((prevData) => ({
+      ...prevData,
+      images: ['']
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,115 +92,155 @@ export default function ProductForm({
   console.log(productData);
 
   return (
-    <form className="w-full space-y-4">
-      <Input
-        value={productData.name}
-        onChange={(e) =>
-          setProductData({ ...productData, name: e.target.value })
-        }
-        placeholder="Product name"
-        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-        required
-      />
-      <Input
-        type="number"
-        value={productData.quantity}
-        onChange={(e) =>
-          setProductData({ ...productData, quantity: Number(e.target.value) })
-        }
-        placeholder="Quantity"
-        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-        required
-      />
+    <form className="w-full max-w-3xl space-y-6 rounded-xl bg-white p-8 shadow-md">
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-700">
+          Product Name
+        </label>
+        <Input
+          value={productData.name}
+          onChange={(e) =>
+            setProductData({ ...productData, name: e.target.value })
+          }
+          placeholder="Enter product name"
+          className="w-full rounded-lg border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+          required
+        />
+      </div>
 
-      <Input
-        value={productData.description}
-        onChange={(e) =>
-          setProductData({ ...productData, description: e.target.value })
-        }
-        placeholder="Product description"
-        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-        required
-      />
+      <div className="grid grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Quantity</label>
+          <Input
+            type="number"
+            value={productData.quantity}
+            onChange={(e) =>
+              setProductData({
+                ...productData,
+                quantity: Number(e.target.value)
+              })
+            }
+            placeholder="Enter quantity"
+            className="w-full rounded-lg border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+            required
+          />
+        </div>
 
-      <Input
-        type="text"
-        value={productData.price}
-        onChange={(e) =>
-          setProductData({ ...productData, price: Number(e.target.value) })
-        }
-        placeholder="Price"
-        className="w-full border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-        required
-      />
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700">Price</label>
+          <Input
+            type="text"
+            value={productData.price}
+            onChange={(e) =>
+              setProductData({ ...productData, price: Number(e.target.value) })
+            }
+            placeholder="Enter price"
+            className="w-full rounded-lg border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+            required
+          />
+        </div>
+      </div>
 
-      <Select
-        onValueChange={(value) =>
-          setProductData({ ...productData, category: value })
-        }
-      >
-        <SelectTrigger className="">
-          <SelectValue placeholder="Select a category" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Categories</SelectLabel>
-            {categories?.map((category: any) => (
-              <SelectItem key={category._id} value={category._id}>
-                {category.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      {/* Modify Image Upload Section */}
-      <div className="relative">
-        {productData.images[0] ? (
-          <div className="relative h-32 w-full">
-            <Image
-              src={productData.images[0]}
-              alt="Product preview"
-              fill
-              className="rounded-xl object-cover"
-            />
-            <button
-              onClick={removeImage}
-              className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
-              type="button"
-            >
-              <IoClose size={20} />
-            </button>
-          </div>
-        ) : (
-          <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 hover:bg-gray-50">
-            <FiUpload className="h-8 w-8 text-gray-400" />
-            <CldUploadWidget
-              uploadPreset="pawchig"
-              onSuccess={(result) => {
-                const info = result.info as CloudinaryUploadWidgetInfo;
-                setProductData({
-                  ...productData,
-                  images: [info.secure_url]
-                });
-              }}
-            >
-              {({ open }) => {
-                return (
-                  <button type="button" onClick={() => open()}>
-                    Upload an Image
-                  </button>
-                );
-              }}
-            </CldUploadWidget>
-            {/* <CldOgImage alt="name" src={productData.images[0]} /> */}
-          </label>
-        )}
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-700">Description</label>
+        <textarea
+          value={productData.description}
+          onChange={(e) =>
+            setProductData({ ...productData, description: e.target.value })
+          }
+          placeholder="Enter product description"
+          className="min-h-[100px] w-full resize-none rounded-lg border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-700">Category</label>
+        <Select
+          onValueChange={(value) =>
+            setProductData({ ...productData, category: value })
+          }
+        >
+          <SelectTrigger className="w-full rounded-lg border p-3 focus:border-transparent focus:ring-2 focus:ring-orange-500">
+            <SelectValue placeholder="Select a category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Categories</SelectLabel>
+              {categories?.map((category: any) => (
+                <SelectItem key={category._id} value={category._id}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-700">
+          Product Image
+        </label>
+        <div className="relative">
+          {productData.images[0] ? (
+            <div className="group relative h-64 w-full overflow-hidden rounded-xl border-2 border-gray-200">
+              <Image
+                src={productData.images[0]}
+                alt="Product preview"
+                fill
+                className="rounded-xl object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                <button
+                  onClick={removeImage}
+                  className="flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
+                  type="button"
+                >
+                  <IoClose size={18} />
+                  Remove Image
+                </button>
+              </div>
+            </div>
+          ) : (
+            <label className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 transition-all hover:border-orange-500 hover:bg-gray-100">
+              <div className="flex flex-col items-center justify-center space-y-3">
+                <FiUpload className="h-10 w-10 text-gray-400" />
+                <div className="flex flex-col items-center justify-center space-y-2">
+                  <span className="text-sm font-medium text-gray-600">
+                    Click to upload an image
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    PNG, JPG, JPEG up to 10MB
+                  </span>
+                </div>
+              </div>
+              <CldUploadWidget
+                uploadPreset="pawchig"
+                onSuccess={(result) => {
+                  const info = result.info as CloudinaryUploadWidgetInfo;
+                  setProductData((prevData) => ({
+                    ...prevData,
+                    images: [info.secure_url]
+                  }));
+                }}
+              >
+                {({ open }) => (
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    className="absolute inset-0 h-full w-full cursor-pointer"
+                  />
+                )}
+              </CldUploadWidget>
+            </label>
+          )}
+        </div>
       </div>
 
       <Button
         onClick={handleSubmit}
         disabled={loading}
-        className={`self-end px-4 py-3 font-medium text-white transition-colors
+        className={`w-full rounded-lg py-3 font-medium text-white transition-colors
           ${
             loading
               ? 'cursor-not-allowed bg-gray-400'
@@ -210,7 +253,7 @@ export default function ProductForm({
             Creating...
           </div>
         ) : (
-          'Create'
+          'Create Product'
         )}
       </Button>
     </form>

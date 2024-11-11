@@ -140,26 +140,31 @@ export default function ReportForm({ onSubmit }: ReportFormProps) {
         </label>
         <div className="relative">
           {previewUrl ? (
-            <div className="relative w-full h-32 rounded-md overflow-hidden">
+            <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-orange-500 shadow-md group">
               <Image
                 src={previewUrl}
                 alt="Preview"
                 fill
-                className="object-cover"
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
               />
-              <button
-                type="button"
-                onClick={removeImage}
-                className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-black hover:bg-red-600"
-              >
-                <IoClose size={20} />
-              </button>
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300">
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="absolute top-3 right-3 p-2 bg-white bg-opacity-90 rounded-full text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-lg"
+                >
+                  <IoClose size={24} />
+                </button>
+              </div>
             </div>
           ) : (
-            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-md cursor-pointer hover:bg-gray-50">
-              <FiUpload className="w-6 h-6 text-gray-400" />
+            <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 hover:bg-orange-50 transition-all duration-300">
+              <FiUpload className="w-8 h-8 text-gray-400" />
               <span className="mt-2 text-sm text-gray-500">
-                Upload an image
+                Click or drag an image to upload
+              </span>
+              <span className="mt-1 text-xs text-gray-400">
+                Maximum size: 10MB
               </span>
               <input
                 type="file"
