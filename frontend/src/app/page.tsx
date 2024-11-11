@@ -45,7 +45,12 @@ export default function Home() {
             <h3 className="text-2xl md:text-3xl font-bold">Donation</h3>
             <div className="h-1 bg-orange-500 w-20 rounded-full" />
           </div>
-          <DonationSwiper cards={donationPosts} />
+          <DonationSwiper
+            cards={donationPosts.map((post) => ({
+              ...post,
+              images: [post.images],
+            }))}
+          />
         </div>
       </div>
 

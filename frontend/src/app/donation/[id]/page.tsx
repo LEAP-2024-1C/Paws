@@ -1,6 +1,5 @@
 "use client";
 import DetailCard, { DonationPay } from "@/components/donation_section/detail";
-import { format } from "date-fns";
 import DonationCard from "@/components/donation_section/donation_card";
 import { useParams } from "next/navigation";
 import { DonationContext } from "@/components/context/donation_context";

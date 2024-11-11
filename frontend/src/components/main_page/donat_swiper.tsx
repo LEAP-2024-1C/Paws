@@ -12,9 +12,8 @@ import HomeDonationCard from "./donation_card";
 interface ICards {
   title: string;
   _id: string;
-  description: string;
-  totalAmount: number;
-  images: string;
+
+  images: string[];
 }
 
 interface CarouselProps {
@@ -47,11 +46,7 @@ export default function DonationSwiper({ cards }: CarouselProps) {
             <HomeDonationCard
               title={card.title}
               _id={card._id}
-              description=""
-              images={card.images}
-              totalAmount={0}
-              updateDate={""}
-              currentAmount={0}
+              images={card.images || []}
             />
           </SwiperSlide>
         ))}
