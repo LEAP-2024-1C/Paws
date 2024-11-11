@@ -16,6 +16,7 @@ import axios from "axios";
 import { apiUrl } from "@/utils/util";
 import { useState } from "react";
 import type { CarouselApi } from "@/components/ui/carousel";
+import MapModal from "../map/map-modal";
 
 interface SosItem {
   _id: string;
@@ -28,6 +29,7 @@ interface SosItem {
 }
 
 export default function GridCarousel() {
+  const [isMapOpen, setIsMapOpen] = useState(false);
   const [api, setApi] = React.useState<CarouselApi | null>(null);
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -97,10 +99,13 @@ export default function GridCarousel() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {savedSosItems
                   .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
-                  .map((item) => (
-                    <Link href={`/sos/${item._id}`} key={item._id}>
-                      <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                        <CardContent className="p-0">
+                  .map((item, i) => (
+                    // <Link href={`/sos/${item._id}`} key={item._id}>
+                    <Card
+                      className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]"
+                      key={i}>
+                      <CardContent className="p-0">
+                        <Link href={`/sos/${item._id}`} key={item._id}>
                           <div className="relative aspect-square group">
                             <img
                               src={item.imageUrl}
@@ -109,33 +114,41 @@ export default function GridCarousel() {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           </div>
-                          <div className="p-4 space-y-3">
-                            <h3 className="text-lg font-semibold text-orange-500 line-clamp-1">
-                              {item.title || "Emergency Report"}
-                            </h3>
-                            <div className="flex items-center justify-between">
-                              <h2 className="text-md">Current Status:</h2>
-                              <span
-                                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeStyle(
-                                  item.status
-                                )}`}
-                              >
-                                {item.status}
-                              </span>
-                            </div>
-                            <p className="text-sm text-grey-300 line-clamp-2">
-                              {item.description}
-                            </p>
-                            <div className="flex items-center gap-2">
-                              <GrLocationPin className="text-red-500 flex-shrink-0" />
-                              <p className="text-sm text-blue-500 line-clamp-1">
-                                {item.location}
-                              </p>
-                            </div>
+                        </Link>
+                        <div className="p-4 space-y-3">
+                          <h3 className="text-lg font-semibold text-orange-500 line-clamp-1">
+                            {item.title || "Emergency Report"}
+                          </h3>
+                          <div className="flex items-center justify-between">
+                            <h2 className="text-md">Current Status:</h2>
+                            <span
+                              className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeStyle(
+                                item.status
+                              )}`}>
+                              {item.status}
+                            </span>
                           </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
+                          <p className="text-sm text-grey-300 line-clamp-2">
+                            {item.description}
+                          </p>
+                          <div
+                            className="flex items-center gap-2 cursor-pointer"
+                            onClick={() => setIsMapOpen(true)}>
+                            <GrLocationPin className="text-red-500 flex-shrink-0" />
+                            <p className="text-sm text-blue-500 line-clamp-1">
+                              {item.location}
+                            </p>
+                          </div>
+                          <MapModal
+                            isOpen={isMapOpen}
+                            onClose={() => setIsMapOpen(false)}
+                            location={item.location}
+                            title={item.title}
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    //Link
                   ))}
               </div>
             </CarouselItem>
@@ -147,8 +160,7 @@ export default function GridCarousel() {
           <CarouselPrevious
             variant="outline"
             size="icon"
-            className="relative left-0 right-auto mr-2"
-          >
+            className="relative left-0 right-auto mr-2">
             <ChevronLeft className="h-4 w-4" />
           </CarouselPrevious>
           <span className="text-sm text-muted-foreground">
@@ -157,8 +169,7 @@ export default function GridCarousel() {
           <CarouselNext
             variant="outline"
             size="icon"
-            className="relative left-auto right-0 ml-2"
-          >
+            className="relative left-auto right-0 ml-2">
             <ChevronRight className="h-4 w-4" />
           </CarouselNext>
         </div>

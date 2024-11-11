@@ -42,8 +42,7 @@ const Header = () => {
             <Link href="/donation">Donation</Link>
             <Link
               href="/sos"
-              className="animate-blink text-red-600 font-semibold"
-            >
+              className="animate-blink text-red-600 font-semibold">
               Emergency
             </Link>
 
@@ -53,8 +52,7 @@ const Header = () => {
         </span>
         <button
           className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
+          onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X /> : <Menu />}
         </button>
         <span className="hidden md:block">
@@ -103,8 +101,7 @@ const Header = () => {
             </Link>
             <Link
               href="/sos"
-              className="p-2 hover:bg-gray-100 rounded animate-blink text-red-600 font-semibold"
-            >
+              className="p-2 hover:bg-gray-100 rounded animate-blink text-red-600 font-semibold">
               Emergency
             </Link>
             <Link href="/shop" className="p-2 hover:bg-gray-100 rounded">
@@ -117,15 +114,13 @@ const Header = () => {
               <>
                 <Link
                   href="/user_section"
-                  className="p-2 hover:bg-gray-100 rounded"
-                >
+                  className="p-2 hover:bg-gray-100 rounded">
                   Profile
                 </Link>
                 <Button
                   onClick={logOut}
                   variant="ghost"
-                  className="w-full justify-start p-2"
-                >
+                  className="w-full justify-start p-2">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </Button>

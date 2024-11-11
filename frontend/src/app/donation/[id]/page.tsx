@@ -3,7 +3,7 @@ import DetailCard, { DonationPay } from "@/components/donation_section/detail";
 import DonationCard from "@/components/donation_section/donation_card";
 import { useParams } from "next/navigation";
 import { DonationContext } from "@/components/context/donation_context";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Comments from "@/components/donation_section/comment";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -26,8 +26,17 @@ export type donationPostsProps = {
 };
 const DonationDetail = () => {
   const { id } = useParams();
-  const { fetchSingleDonationPosts, oneDonationPost, donationPosts, loading } =
-    useContext(DonationContext);
+
+  const {
+    fetchSingleDonationPosts,
+    oneDonationPost,
+    donationPosts,
+    loading,
+    refetch,
+  } = useContext(DonationContext);
+
+  // Add this state for the URL
+  const [currentUrl, setCurrentUrl] = useState("");
 
   const progressPercentage = Math.floor(
     Math.min(
@@ -38,7 +47,12 @@ const DonationDetail = () => {
 
   useEffect(() => {
     fetchSingleDonationPosts(id);
-  }, [id]);
+  }, [id, refetch]);
+
+  useEffect(() => {
+    // Set the URL after component mounts (client-side only)
+    setCurrentUrl(window.location.href);
+  }, []);
 
   if (loading) {
     return <DonationDetailSkeleton />;
@@ -117,12 +131,11 @@ const DonationDetail = () => {
                 </h3>
                 <div className="space-y-4">
                   {oneDonationPost.collectedDonations
-                    ?.slice(0, 3)
-
-                    .sort(
+                    ?.sort(
                       (a: { amount: number }, b: { amount: number }) =>
                         b.amount - a.amount
                     )
+                    .slice(0, 3)
                     .map((c, index) => (
                       <div
                         key={index}
@@ -151,16 +164,16 @@ const DonationDetail = () => {
                 <div className="flex gap-4 justify-center">
                   <Link
                     className="flex-1 flex items-center gap-2"
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}>
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}>
                     <Button
                       variant="outline"
-                      className=" hover:bg-blue-50 hover:text-blue-600 transition-colors w-full">
+                      className="hover:bg-blue-50 hover:text-blue-600 transition-colors w-full">
                       <FaFacebook className="text-xl" /> Share
                     </Button>
                   </Link>
                   <Link
                     className="flex-1 flex items-center gap-2"
-                    href={`https://twitter.com/intent/tweet?url=${window.location.href}`}>
+                    href={`https://twitter.com/intent/tweet?url=${currentUrl}`}>
                     <Button
                       variant="outline"
                       className="w-full hover:bg-sky-50 hover:text-sky-600 transition-colors">

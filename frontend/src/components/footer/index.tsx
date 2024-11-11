@@ -12,88 +12,96 @@ import {
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className="bg-white shadow-[inset_0_8px_6px_-6px_rgba(0,0,0,0.5)] z-10">
       <div
         style={{
           backgroundImage: "url('https://i.ibb.co/Y2pqdhK/footer.png')",
+          backgroundRepeat: "no- repeat",
+          // backgroundSize: "contain",
         }}
-        className="w-full min-h-[240px] m-auto bg-cover bg-center"
-      >
-        <div className="flex flex-col md:flex-row justify-around items-start gap-8 p-6 md:p-8">
-          <div className="w-full md:w-auto text-center md:text-left flex flex-col gap-6">
-            <Link
-              href="/"
-              className="flex gap-4 items-center justify-center md:justify-start"
-            >
-              <img src="/images/logo.png" alt="logo" className="w-8 h-8" />
-              <p className="font-bold text-lg">Pawchig</p>
-            </Link>
+        className="w-full bg-center bg-cover">
+        <div className="max-w-7xl mx-auto py-12">
+          {/* Main Footer Content */}
+          <div className="flex flex-col md:flex-row justify-between items-start gap-12 px-6 md:px-8">
+            {/* Logo & Description */}
+            <div className="w-full md:w-1/4 flex flex-col gap-6">
+              <Link
+                href="/"
+                className="flex gap-4 items-center justify-center md:justify-start">
+                <img src="/images/logo.png" alt="logo" className="w-10 h-10" />
+                <p className="font-bold text-xl">Pawchig</p>
+              </Link>
 
-            <p className="text-xs hidden lg:block">
-              We make the world a better place <br />
-              for pets by investing in community <br />
-              partners that advocate & care for the <br />
-              well-being ofpets and all who love them.
-            </p>
+              <p className="text-sm text-gray-600 hidden lg:block leading-relaxed">
+                We make the world a better place for pets by investing in
+                community partners that advocate & care for the well-being of
+                pets and all who love them.
+              </p>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="w-full md:w-auto">
+              <h4 className="font-bold text-lg mb-4 text-center md:text-left">
+                Quick Links
+              </h4>
+              <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-4 text-gray-600">
+                {[
+                  ["Home", "/"],
+                  ["Adoption", "/adoption"],
+                  ["Donation", "/donation"],
+                  ["Emergency", "/sos"],
+                  ["Shop", "/shop"],
+                  ["Blog", "/articles"],
+                ].map(([title, url]) => (
+                  <li key={title}>
+                    <Link
+                      href={url}
+                      className="hover:text-[#f3d6b4] transition-colors duration-200">
+                      {title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact Information */}
+            <div className="w-full md:w-auto">
+              <h4 className="font-bold text-lg mb-4 text-center md:text-left">
+                Contact
+              </h4>
+              <div className="flex flex-col gap-4 text-gray-600">
+                <span className="flex items-center gap-3">
+                  <IoIosCall className="text-xl" />
+                  <p>(976) 7007-1234</p>
+                </span>
+                <span className="flex items-center gap-3">
+                  <IoIosMail className="text-xl" />
+                  <p>contact@pawchig.mn</p>
+                </span>
+              </div>
+            </div>
           </div>
-          <ul className="flex flex-wrap justify-center md:flex-row gap-6 md:gap-10 text-sm md:text-base w-full md:w-auto md:my-auto">
-            <Link
-              href="/"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
-              Home
-            </Link>
-            <Link
-              href="/adoption"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
-              Adoption
-            </Link>
-            <Link
-              href="/donation"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
-              Donation
-            </Link>
-            <Link
-              href="/sos"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
-              Emergency
-            </Link>
-            <Link
-              href="/shop"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
-              Shop
-            </Link>
-            <Link
-              href="/articles"
-              className="font-3xl transform hover:scale-125 hover:text-[#f3d6b4] transition-transform"
-            >
-              Blog
-            </Link>
-          </ul>
-          <div className="text-center md:text-left w-full md:w-auto flex flex-col gap-3">
-            <p className="font-bold">Contact</p>
-            <span className="flex items-center justify-center md:justify-start gap-2 mb-2">
-              <IoIosCall />
-              <p>(976) 7007-1234</p>
-            </span>
-            <span className="flex items-center justify-center md:justify-start gap-2 mb-4">
-              <IoIosMail />
-              <p>contact@pawchig.mn</p>
-            </span>
+
+          {/* Footer Bottom */}
+          <div className="mt-12 pt-6 px-6 md:px-8 border-t border-gray-200">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-sm text-gray-600">
+                © 2024 Pawchig. All rights reserved.
+              </p>
+              <div className="flex gap-6">
+                {[
+                  [FaFacebook, "#144afd"],
+                  [FaInstagram, "#e94fb1"],
+                  [FaXTwitter, "#000000"],
+                  [FaLinkedin, "#14cafd"],
+                ].map(([Icon], index) => (
+                  <Link href="#" key={index}>
+                    <Icon className="size-5 text-gray-600 hover:text-[#f3d6b4] transition-colors duration-200" />
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex justify-between border-t-2 pt-8 pb-5 px-5 md:mx-56">
-          <p className="font-sm">© 2024 Pawchig</p>
-          <ul className="flex gap-6 justify-center md:justify-start">
-            <FaFacebook className=" transform hover:scale-125 hover:text-[#144afd] transition-transform size-5" />
-            <FaInstagram className=" transform hover:scale-125 hover:text-[#e94fb1] transition-transform size-5" />
-            <FaXTwitter className=" transform hover:scale-125  transition-transform size-5" />
-            <FaLinkedin className=" transform hover:scale-125 hover:text-[#14cafd] transition-transform size-5" />
-          </ul>
         </div>
       </div>
     </footer>

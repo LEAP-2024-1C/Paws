@@ -38,8 +38,7 @@ const ShopPage: React.FC = () => {
               <Link href="/shop/cart">
                 <button
                   className="p-2.5 hover:bg-gray-100 rounded-lg relative transition-all duration-200 
-                  group-hover:shadow-md flex items-center gap-2"
-                >
+                  group-hover:shadow-md flex items-center gap-2">
                   <FiShoppingCart className="text-2xl text-gray-700" />
                   <span className="hidden sm:inline text-sm text-gray-600">
                     Cart
@@ -47,16 +46,14 @@ const ShopPage: React.FC = () => {
                   <span
                     className="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full 
                     w-5 h-5 text-xs flex items-center justify-center shadow-sm 
-                    transform transition-transform group-hover:scale-110"
-                  >
-                    {cartData.products.length}
+                    transform transition-transform group-hover:scale-110">
+                    {cartData?.products?.length}
                   </span>
                 </button>
               </Link>
               <div
                 className="hidden group-hover:block absolute right-0 top-full mt-2 w-72 bg-white 
-                rounded-lg shadow-lg border border-gray-100 p-4 z-50"
-              >
+                rounded-lg shadow-lg border border-gray-100 p-4 z-50">
                 <p className="text-gray-500 text-sm text-center">
                   Your cart is empty
                 </p>
@@ -67,8 +64,7 @@ const ShopPage: React.FC = () => {
               <Link href="/wishlist">
                 <button
                   className="p-2.5 hover:bg-gray-100 rounded-lg relative transition-all duration-200 
-                  group-hover:shadow-md flex items-center gap-2"
-                >
+                  group-hover:shadow-md flex items-center gap-2">
                   <FiHeart className="text-2xl text-gray-700" />
                   <span className="hidden sm:inline text-sm text-gray-600">
                     Wishlist
@@ -76,16 +72,14 @@ const ShopPage: React.FC = () => {
                   <span
                     className="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full 
                     w-5 h-5 text-xs flex items-center justify-center shadow-sm 
-                    transform transition-transform group-hover:scale-110"
-                  >
-                    {wishListData.products.length}
+                    transform transition-transform group-hover:scale-110">
+                    {wishListData?.products?.length}
                   </span>
                 </button>
               </Link>
               <div
                 className="hidden group-hover:block absolute right-0 top-full mt-2 w-72 bg-white 
-                rounded-lg shadow-lg border border-gray-100 p-4 z-50"
-              >
+                rounded-lg shadow-lg border border-gray-100 p-4 z-50">
                 <p className="text-gray-500 text-sm text-center">
                   Your wishlist is empty
                 </p>

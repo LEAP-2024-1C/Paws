@@ -26,11 +26,11 @@ const Donation = () => {
   return (
     <div className="mx-auto">
       <DonationHero />
-      <div className="px-4 py-5 md:py-10">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 w-full md:w-4/5 lg:w-3/4 xl:w-3/5 mx-auto md:gap-6">
+      <div className="px-4 py-5 md:py-10 my-12">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 w-full md:w-4/5 lg:w-full xl:w-4/6 mx-auto md:gap-0">
           {donationPosts?.map((c, i) => (
             <div
-              className="col-span-1 transform hover:scale-105 transition-transform"
+              className="col-span-1 transform hover:scale-105 transition-transform duration-300 my-4"
               key={i}>
               <DonationCard
                 title={c.title}
