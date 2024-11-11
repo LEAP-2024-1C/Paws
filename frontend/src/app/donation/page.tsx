@@ -13,10 +13,15 @@ export interface donationPostsProps {
   images: string;
   totalAmount: number;
   currentAmount: number;
-  updateDate: Date;
+  updatedAt: Date;
+  userId: {
+    firstname: string;
+    lastname: string;
+  };
 }
 const Donation = () => {
   const { donationPosts } = useContext(DonationContext);
+  console.log("DonationPosts", donationPosts);
 
   return (
     <div className="mx-auto">
@@ -29,12 +34,14 @@ const Donation = () => {
               key={i}>
               <DonationCard
                 title={c.title}
+                userId={c.userId || { firstname: "", lastname: "" }}
                 description={c.description}
                 _id={c._id}
                 images={c.images}
                 totalAmount={c.totalAmount}
                 currentAmount={c.currentAmount}
-                updateDate={new Date(c.updateDate).toLocaleDateString()}
+                collectedDonations={c.collectedDonations || []}
+                updatedAt={c.updatedAt}
               />
             </div>
           ))}

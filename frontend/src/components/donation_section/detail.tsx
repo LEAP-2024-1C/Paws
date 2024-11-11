@@ -45,7 +45,7 @@ const DetailCard = () => {
               <div>
                 <p className="font-medium">Aztai sawar</p>
                 <p className="text-sm opacity-75">
-                  {new Date(oneDonationPost.updateDate).toLocaleDateString()}
+                  {new Date(oneDonationPost.updatedAt).toLocaleDateString()}
                 </p>
               </div>
             </div>

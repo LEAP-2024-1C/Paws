@@ -58,8 +58,8 @@ export default function AdoptionCard({
         <CardHeader className="mb-4 p-0 h-48">
           <div className="overflow-hidden rounded-t-lg">
             <img
-              src={pet.imageUrl[0]}
-              alt={`Photo of ${pet.name}`}
+              src={pet?.imageUrl[0]}
+              alt={`Photo of ${pet?.name}`}
               className="rounded-[10px] object-cover"
             />
           </div>

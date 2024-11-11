@@ -13,6 +13,7 @@ import { ShoppingContext } from "@/components/context/shopping_context";
 import AdoptionSwiper from "@/components/main_page/adop_swiper";
 import DonationSwiper from "@/components/main_page/donat_swiper";
 import { BlogsCards } from "@/components/home/blog-cards";
+import Link from "next/link";
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -206,9 +207,12 @@ export default function Home() {
             through Paws.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-orange-100 transition-colors">
-              Adopt a Pet
-            </button>
+            <Link href="/adoption">
+              <button className="bg-white text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-orange-100 transition-colors">
+                Adopt a Pet
+              </button>
+            </Link>
+
             <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
               Make a Donation
             </button>

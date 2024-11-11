@@ -19,7 +19,13 @@ export type donationPostsProps = {
   totalAmount: number;
   currentAmount: number;
   _id: string;
-  updateDate: string;
+  updatedAt: Date;
+  collectedDonations: { amount: number }[];
+  userId: {
+    firstname: string;
+    lastname: string;
+  };
+  // oneDonationPost: any;
 };
 const DonationCard = ({
   title,
@@ -27,8 +33,15 @@ const DonationCard = ({
   images,
   totalAmount,
   currentAmount,
-  updateDate,
-}: donationPostsProps) => {
+  updatedAt,
+  collectedDonations,
+  userId,
+}: // oneDonationPost,
+donationPostsProps) => {
+  const progressPercentage = Math.floor(
+    Math.min((currentAmount / totalAmount) * 100, 100)
+  );
+
   return (
     <Link href={"/donation/" + _id}>
       <Card className="m-auto w-[90%] sm:w-[85%] md:w-[80%] lg:w-[400px] relative p-2 flex flex-col gap-2 lg:gap-3 hover:shadow-xl">
@@ -47,7 +60,16 @@ const DonationCard = ({
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <p className="text-xs sm:text-sm lg:text-lg font-bold">Aztai sawar</p>
+          <div className="text-xs sm:text-sm lg:text-lg font-bold">
+            <span className="mr-1">
+              {userId.firstname.charAt(0).toUpperCase() +
+                userId.firstname.slice(1).toLowerCase()}
+            </span>
+            <span>
+              {userId.lastname.charAt(0).toUpperCase() +
+                userId.lastname.slice(1).toLowerCase()}
+            </span>
+          </div>
         </CardContent>
 
         <CardContent className="p-2 sm:p-3">
@@ -61,16 +83,20 @@ const DonationCard = ({
         </CardTitle>
 
         <span className="px-2 sm:px-3">
-          <Progress value={33} />
+          <Progress value={progressPercentage} />
         </span>
 
         <CardFooter className="flex justify-between p-2 sm:p-3">
           <div className="flex items-center gap-1 lg:gap-2">
             <FaHeart className="text-sm sm:text-base text-red-500" />
-            <p className="text-xs sm:text-sm 2xl:text-base">25</p>
+            <p className="text-xs sm:text-sm 2xl:text-base">
+              {collectedDonations?.length}
+            </p>
             <p className="text-xs sm:text-sm 2xl:text-base">Contributors</p>
           </div>
-          <p className="text-xs sm:text-sm 2xl:text-base">{updateDate}</p>
+          <p className="text-xs sm:text-sm 2xl:text-base">
+            {new Date(updatedAt).toLocaleDateString()}
+          </p>
         </CardFooter>
       </Card>
     </Link>

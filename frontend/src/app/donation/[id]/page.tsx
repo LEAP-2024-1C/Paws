@@ -8,8 +8,10 @@ import { useContext, useEffect } from "react";
 import Comments from "@/components/donation_section/comment";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import DonationDetailSkeleton from "./loading";
+import Link from "next/link";
 
 export type donationPostsProps = {
   title: string;
@@ -17,7 +19,11 @@ export type donationPostsProps = {
   _id: string;
   images: string;
   totalAmount: number;
-  updateDate: Date;
+  updatedAt: Date;
+  userId: {
+    firstname: string;
+    lastname: string;
+  };
 };
 const DonationDetail = () => {
   const { id } = useParams();
@@ -113,12 +119,15 @@ const DonationDetail = () => {
                 <div className="space-y-4">
                   {oneDonationPost.collectedDonations
                     ?.slice(0, 3)
-                    // .sort((a:{amount:number}, b:{amount:number})=> a - b )
+
+                    .sort(
+                      (a: { amount: number }, b: { amount: number }) =>
+                        b.amount - a.amount
+                    )
                     .map((c, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors"
-                      >
+                        className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors">
                         <Avatar className="h-12 w-12 border-2 border-orange-200">
                           <AvatarFallback className="bg-orange-100 text-orange-600"></AvatarFallback>
                         </Avatar>
@@ -141,18 +150,24 @@ const DonationDetail = () => {
                   Share This Campaign
                 </h3>
                 <div className="flex gap-4 justify-center">
-                  <Button
-                    variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                  >
-                    <FaFacebook className="text-xl" /> Share
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-sky-50 hover:text-sky-600 transition-colors"
-                  >
-                    <FaTwitter className="text-xl" /> Tweet
-                  </Button>
+                  <Link
+                    className="flex-1 flex items-center gap-2"
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}>
+                    <Button
+                      variant="outline"
+                      className=" hover:bg-blue-50 hover:text-blue-600 transition-colors w-full">
+                      <FaFacebook className="text-xl" /> Share
+                    </Button>
+                  </Link>
+                  <Link
+                    className="flex-1 flex items-center gap-2"
+                    href={`https://twitter.com/intent/tweet?url=${window.location.href}`}>
+                    <Button
+                      variant="outline"
+                      className="w-full hover:bg-sky-50 hover:text-sky-600 transition-colors">
+                      <FaXTwitter className="text-xl" /> Tweet
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -168,11 +183,12 @@ const DonationDetail = () => {
             {donationPosts?.slice(0, 3).map((c, i) => (
               <div
                 key={i}
-                className="transform hover:scale-105 transition-transform"
-              >
+                className="transform hover:scale-105 transition-transform">
                 <DonationCard
                   {...c}
-                  updateDate={format(c.updateDate, "dd,MMM")}
+                  updatedAt={c.updatedAt}
+                  collectedDonations={c.collectedDonations || []}
+                  userId={c.userId || { firstname: "", lastname: "" }}
                 />
               </div>
             ))}
