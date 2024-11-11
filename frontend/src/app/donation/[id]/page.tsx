@@ -111,29 +111,27 @@ const DonationDetail = () => {
                   Top Donors
                 </h3>
                 <div className="space-y-4">
-                  {[1, 2, 3].map((_, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors">
-                      <Avatar className="h-12 w-12 border-2 border-orange-200">
-                        <AvatarFallback className="bg-orange-100 text-orange-600">
-                          {index === 0 ? "JD" : index === 1 ? "MP" : "AK"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium text-gray-800">
-                          {index === 0
-                            ? "John Doe"
-                            : index === 1
-                            ? "Mary Parker"
-                            : "Alex Kim"}
-                        </p>
-                        <p className="text-sm text-orange-600 font-semibold">
-                          ${index === 0 ? "500" : index === 1 ? "350" : "250"}
-                        </p>
+                  {oneDonationPost.collectedDonations
+                    ?.slice(0, 3)
+                    // .sort((a:{amount:number}, b:{amount:number})=> a - b )
+                    .map((c, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors"
+                      >
+                        <Avatar className="h-12 w-12 border-2 border-orange-200">
+                          <AvatarFallback className="bg-orange-100 text-orange-600"></AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium text-gray-800">
+                            {c.userName}
+                          </p>
+                          <p className="text-sm text-orange-600 font-semibold">
+                            ${c.amount}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
 
@@ -145,12 +143,14 @@ const DonationDetail = () => {
                 <div className="flex gap-4 justify-center">
                   <Button
                     variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                    className="flex-1 flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
                     <FaFacebook className="text-xl" /> Share
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-sky-50 hover:text-sky-600 transition-colors">
+                    className="flex-1 flex items-center gap-2 hover:bg-sky-50 hover:text-sky-600 transition-colors"
+                  >
                     <FaTwitter className="text-xl" /> Tweet
                   </Button>
                 </div>
@@ -168,7 +168,8 @@ const DonationDetail = () => {
             {donationPosts?.slice(0, 3).map((c, i) => (
               <div
                 key={i}
-                className="transform hover:scale-105 transition-transform">
+                className="transform hover:scale-105 transition-transform"
+              >
                 <DonationCard
                   {...c}
                   updateDate={format(c.updateDate, "dd,MMM")}

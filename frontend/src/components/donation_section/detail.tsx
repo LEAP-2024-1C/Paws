@@ -62,7 +62,9 @@ const DetailCard = () => {
       <CardFooter className="px-6 py-4 bg-gray-50 flex justify-between items-center">
         <div className="flex items-center gap-3 text-gray-600">
           <FaHeart className="text-red-500" />
-          <span className="font-medium">24 Contributors</span>
+          <span className="font-medium">
+            {oneDonationPost.collectedDonations?.length} Contributors
+          </span>
         </div>
         <DialogButton />
       </CardFooter>

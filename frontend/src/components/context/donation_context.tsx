@@ -30,6 +30,7 @@ interface IDonationReq {
   collectedDonations?: {
     description: string;
     amount: number;
+    userName: string;
   }[];
 }
 
@@ -72,6 +73,7 @@ export const DonationContext = createContext<DonationContextType>({
       {
         description: "",
         amount: 0,
+        userName: "",
       },
     ],
   },
@@ -109,6 +111,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
       {
         description: "",
         amount: 0,
+        userName: "",
       },
     ],
   });
@@ -255,7 +258,8 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
         insertTransactionData,
         setInsertTransactionData,
         loading: false,
-      }}>
+      }}
+    >
       {children}
     </DonationContext.Provider>
   );
