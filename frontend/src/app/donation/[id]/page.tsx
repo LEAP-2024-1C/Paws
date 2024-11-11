@@ -1,6 +1,5 @@
 "use client";
 import DetailCard, { DonationPay } from "@/components/donation_section/detail";
-import { format } from "date-fns";
 import DonationCard from "@/components/donation_section/donation_card";
 import { useParams } from "next/navigation";
 import { DonationContext } from "@/components/context/donation_context";
@@ -8,8 +7,10 @@ import { useContext, useEffect } from "react";
 import Comments from "@/components/donation_section/comment";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import DonationDetailSkeleton from "./loading";
+import Link from "next/link";
 
 export type donationPostsProps = {
   title: string;
@@ -17,7 +18,11 @@ export type donationPostsProps = {
   _id: string;
   images: string;
   totalAmount: number;
-  updateDate: Date;
+  updatedAt: Date;
+  userId: {
+    firstname: string;
+    lastname: string;
+  };
 };
 const DonationDetail = () => {
   const { id } = useParams();
@@ -111,29 +116,30 @@ const DonationDetail = () => {
                   Top Donors
                 </h3>
                 <div className="space-y-4">
-                  {[1, 2, 3].map((_, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors">
-                      <Avatar className="h-12 w-12 border-2 border-orange-200">
-                        <AvatarFallback className="bg-orange-100 text-orange-600">
-                          {index === 0 ? "JD" : index === 1 ? "MP" : "AK"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium text-gray-800">
-                          {index === 0
-                            ? "John Doe"
-                            : index === 1
-                            ? "Mary Parker"
-                            : "Alex Kim"}
-                        </p>
-                        <p className="text-sm text-orange-600 font-semibold">
-                          ${index === 0 ? "500" : index === 1 ? "350" : "250"}
-                        </p>
+                  {oneDonationPost.collectedDonations
+                    ?.slice(0, 3)
+
+                    .sort(
+                      (a: { amount: number }, b: { amount: number }) =>
+                        b.amount - a.amount
+                    )
+                    .map((c, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors">
+                        <Avatar className="h-12 w-12 border-2 border-orange-200">
+                          <AvatarFallback className="bg-orange-100 text-orange-600"></AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium text-gray-800">
+                            {c.userName}
+                          </p>
+                          <p className="text-sm text-orange-600 font-semibold">
+                            ${c.amount}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
 
@@ -143,16 +149,24 @@ const DonationDetail = () => {
                   Share This Campaign
                 </h3>
                 <div className="flex gap-4 justify-center">
-                  <Button
-                    variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                    <FaFacebook className="text-xl" /> Share
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1 flex items-center gap-2 hover:bg-sky-50 hover:text-sky-600 transition-colors">
-                    <FaTwitter className="text-xl" /> Tweet
-                  </Button>
+                  <Link
+                    className="flex-1 flex items-center gap-2"
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}>
+                    <Button
+                      variant="outline"
+                      className=" hover:bg-blue-50 hover:text-blue-600 transition-colors w-full">
+                      <FaFacebook className="text-xl" /> Share
+                    </Button>
+                  </Link>
+                  <Link
+                    className="flex-1 flex items-center gap-2"
+                    href={`https://twitter.com/intent/tweet?url=${window.location.href}`}>
+                    <Button
+                      variant="outline"
+                      className="w-full hover:bg-sky-50 hover:text-sky-600 transition-colors">
+                      <FaXTwitter className="text-xl" /> Tweet
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -171,7 +185,9 @@ const DonationDetail = () => {
                 className="transform hover:scale-105 transition-transform">
                 <DonationCard
                   {...c}
-                  updateDate={format(c.updateDate, "dd,MMM")}
+                  updatedAt={c.updatedAt}
+                  collectedDonations={c.collectedDonations || []}
+                  userId={c.userId || { firstname: "", lastname: "" }}
                 />
               </div>
             ))}

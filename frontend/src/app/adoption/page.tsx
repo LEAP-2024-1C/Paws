@@ -36,7 +36,7 @@ const AdoptionPage = () => {
   }, []);
 
   const filteredPets = adoptionPosts?.filter((pet) => {
-    const nameMatch = pet.pet.name
+    const nameMatch = pet.pet?.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     const speciesMatch =
@@ -86,8 +86,7 @@ const AdoptionPage = () => {
             {filteredPets?.map((pet, i) => (
               <div
                 key={i}
-                className="w-full max-w-sm transform transition-transform duration-300 hover:scale-105"
-              >
+                className="w-full max-w-sm transform transition-transform duration-300 hover:scale-105">
                 <AdoptionCard
                   description={pet.description}
                   location={pet.location}

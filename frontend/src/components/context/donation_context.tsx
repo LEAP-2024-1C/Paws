@@ -24,13 +24,18 @@ interface IDonationReq {
   images: string;
   totalAmount: number;
   currentAmount: number;
-  updateDate: Date;
+  updatedAt: Date;
   comments?: IComment[];
   newComments?: IComment[];
   collectedDonations?: {
     description: string;
     amount: number;
+    userName: string;
   }[];
+  userId: {
+    firstname: string;
+    lastname: string;
+  };
 }
 
 interface DonationContextType {
@@ -66,14 +71,19 @@ export const DonationContext = createContext<DonationContextType>({
     images: "",
     totalAmount: 0,
     currentAmount: 0,
-    updateDate: new Date(),
+    updatedAt: new Date(),
     comments: [],
     collectedDonations: [
       {
         description: "",
         amount: 0,
+        userName: "",
       },
     ],
+    userId: {
+      firstname: "",
+      lastname: "",
+    },
   },
   setOneDonationPost: () => {},
   fetchAllDonationData: () => {},
@@ -103,14 +113,19 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     images: "",
     totalAmount: 0,
     currentAmount: 0,
-    updateDate: new Date(),
+    updatedAt: new Date(),
     comments: [],
     collectedDonations: [
       {
         description: "",
         amount: 0,
+        userName: "",
       },
     ],
+    userId: {
+      firstname: "",
+      lastname: "",
+    },
   });
   const [insertTransactionData, setInsertTransactionData] =
     useState<IDonationTransactionData>({
@@ -124,9 +139,18 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
     try {
       const response = await axios.get(`${apiUrl}/api/v1/donation`);
       if (response.status === 200) {
-        // console.log("Pets", response.data.allDonations);
-
-        setDonationPosts(response.data.allDonations);
+        const allDonations = response.data.allDonations.map(
+          (donation: IDonationReq) => {
+            const total =
+              donation.collectedDonations?.reduce(
+                (sum: number, donation: { amount: number }) =>
+                  sum + donation.amount,
+                0
+              ) || 0;
+            return { ...donation, currentAmount: total };
+          }
+        );
+        setDonationPosts(allDonations);
       }
     } catch (error) {
       console.error("Error fetching donation data:", error);

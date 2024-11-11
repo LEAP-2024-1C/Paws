@@ -42,16 +42,16 @@ export function InfoCard() {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-lg text-gray-600">
             <GrLocationPin className="text-orange-500" />
-            <span>{oneAdoptPost.location}</span>
+            <span>{oneAdoptPost?.location}</span>
           </div>
           <div className="flex flex-wrap items-center text-md text-gray-500">
             <Badge variant="secondary" className="mr-2">
-              {oneAdoptPost.pet.ageGroup}
+              {oneAdoptPost.pet?.ageGroup}
             </Badge>
             <Badge variant="secondary" className="mr-2">
-              {oneAdoptPost.pet.gender}
+              {oneAdoptPost.pet?.gender}
             </Badge>
-            <Badge variant="secondary">{oneAdoptPost.pet.size}</Badge>
+            <Badge variant="secondary">{oneAdoptPost.pet?.size}</Badge>
           </div>
         </div>
       </CardHeader>
@@ -114,10 +114,10 @@ export function MoreDetails() {
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Pet Info</h3>
           <dl className="space-y-2">
             {[
-              { label: "Age", value: oneAdoptPost.pet.age },
-              { label: "Gender", value: oneAdoptPost.pet.gender },
-              { label: "Breed", value: oneAdoptPost.pet.breed },
-              { label: "Health", value: oneAdoptPost.pet.healthCondition },
+              { label: "Age", value: oneAdoptPost.pet?.age },
+              { label: "Gender", value: oneAdoptPost.pet?.gender },
+              { label: "Breed", value: oneAdoptPost.pet?.breed },
+              { label: "Health", value: oneAdoptPost.pet?.healthCondition },
             ].map((item) => (
               <div
                 key={item.label}
@@ -135,9 +135,9 @@ export function MoreDetails() {
           </h3>
           <div className="space-y-3">
             {[
-              { label: "Vaccinated", status: oneAdoptPost.pet.vaccinated },
-              { label: "Spayed/Neutered", status: oneAdoptPost.pet.spayed },
-              { label: "Wormed", status: oneAdoptPost.pet.wormed },
+              { label: "Vaccinated", status: oneAdoptPost.pet?.vaccinated },
+              { label: "Spayed/Neutered", status: oneAdoptPost.pet?.spayed },
+              { label: "Wormed", status: oneAdoptPost.pet?.wormed },
             ].map((item) => (
               <div
                 key={item.label}
@@ -170,13 +170,13 @@ export function ImageCard() {
     <Card className="shadow-lg hover:shadow-xl transition-all duration-300 border-none rounded-xl overflow-hidden">
       <div className="relative aspect-square">
         <img
-          src={oneAdoptPost.pet.imageUrl[0]}
-          alt={oneAdoptPost.pet.name}
+          src={oneAdoptPost.pet?.imageUrl[0]}
+          alt={oneAdoptPost.pet?.name}
           className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
           <h3 className="text-white text-xl font-semibold">
-            {oneAdoptPost.pet.name}
+            {oneAdoptPost.pet?.name}
           </h3>
         </div>
       </div>
