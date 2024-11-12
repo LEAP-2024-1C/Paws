@@ -23,16 +23,19 @@ export function ResDialogDemo({ id }: { id: string }) {
       console.log('ID:', id);
       console.log('ResValue:', resValue);
 
-      const res = await axios.post(`${apiUrl}/api/v1/adoption/req/${id}`, {
-        response: resValue
+      const res = await axios.post(`${apiUrl}/api/v1/adoption/newreq/${id}`, {
+        definition: resValue
       });
 
       console.log('Response:', res.data);
+      console.log('resValue', resValue);
       toast.success('Submitted definition successfully');
     } catch (error) {
+      console.error('error', error);
       toast.error('Failed to submit response');
     }
   };
+  console.log('id', id);
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

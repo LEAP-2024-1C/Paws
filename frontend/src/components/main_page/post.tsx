@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const Post = () => {
   return (
@@ -34,9 +35,11 @@ const Post = () => {
           sodales est proin turpis pellentesque sinulla a aliquam{" "}
           <br className="hidden lg:block" /> amet rhoncus quisque eget sit
         </p>
-        <Button className="text-white w-32 sm:w-40 mx-auto lg:mx-0">
-          Тусламж үзүүлэх
-        </Button>
+        <Link href="../adoption">
+          <Button className="text-white w-32 sm:w-40 mx-auto lg:mx-0 hover:bg-slate-400 hover:text-black">
+            Learn more
+          </Button>
+        </Link>
       </div>
     </main>
   );

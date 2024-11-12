@@ -67,12 +67,12 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
                   <Select
                     defaultValue="pending"
                     value={req.status}
-                    onValueChange={(value) =>
+                    onValueChange={(value) => {
                       updateAdoptionRequest(
                         req._id,
                         value as IAdoptionRequest['status']
-                      )
-                    }
+                      );
+                    }}
                   >
                     <SelectTrigger
                       className={`w-[120px] rounded-full px-3 py-1 text-sm font-medium ${

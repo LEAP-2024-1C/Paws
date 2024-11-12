@@ -12,9 +12,9 @@ interface IAdoptReq {
   title: string;
   description: string;
   status?: string;
-  adminResponse: [
+  adminResponse?: [
     {
-      defination: string;
+      definition: string;
     }
   ];
   previousPetOwnership: string;
@@ -56,7 +56,7 @@ const AdoptionRequestSchema = new Schema<IAdoptReq>({
   },
   adminResponse: [
     {
-      defination: {
+      definition: {
         type: String,
       },
     },

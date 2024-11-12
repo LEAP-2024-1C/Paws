@@ -13,12 +13,13 @@ import { DonationContext } from "../context/donation_context";
 
 const DonateCard = () => {
   const { donationPosts } = useContext(DonationContext);
+  const donat = donationPosts.slice(0, 4);
 
   return (
     <>
       <Card className="md:my-10 pb-10">
         <CardHeader className="text-xl font-semibold">Donate</CardHeader>
-        {donationPosts?.map((c, i) => (
+        {donat?.map((c, i) => (
           <Link href="../donation" key={i}>
             <CardContent className="w-[400px] relative pb-2">
               <div className="h-40 overflow-hidden rounded-xl brightness-[.70] bg-blend-darken">

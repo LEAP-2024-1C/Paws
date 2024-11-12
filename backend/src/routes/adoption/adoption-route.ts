@@ -7,7 +7,7 @@ import {
   submitInquiry,
   deleteAdoptionPost,
   updateAdoptionPost,
-  // updateAdoptionRequest,
+  updateAdoptionRequest,
   getOwnAdoptionInquiries,
   responseForAdoptionReq,
 } from "../../controllers/adoption/adoption-controller";
@@ -19,12 +19,13 @@ router.route("/").get(getAllAdoptionPosts);
 router.route("/create").post(authentication, authorize, createAdoptionPost);
 router.route("/req").get(getAdoptionInquiries);
 router.route("/newreq").post(authentication, submitInquiry);
+router.route("/newreq/:id").post(responseForAdoptionReq);
 router
   .route("/:id")
   .get(getAdoptionPost)
   .patch(updateAdoptionPost)
   .put(updateAdoptionPost)
   .delete(deleteAdoptionPost);
-router.route("/req/:id").post(responseForAdoptionReq);
+router.route("/req/:id").post(updateAdoptionRequest);
 router.route("/req/own").get(authentication, getOwnAdoptionInquiries);
 export default router;

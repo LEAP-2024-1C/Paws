@@ -45,7 +45,6 @@ export const AdoptionReqContext = createContext<AdoptionContextType>({
     petId: '',
     location: '',
     status: '',
-    response: '',
     imgUrl: ['']
   },
   setFormData: () => {},
@@ -72,7 +71,6 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
         age13to17: false,
         age18plus: false
       },
-      response: '',
       created_at: new Date(),
       status: 'pending',
       petId: { _id: '', name: '', breed: '' },
@@ -99,7 +97,6 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
     petId: '',
     location: '',
     status: '',
-    response: '',
     imgUrl: ['']
   });
 
@@ -127,7 +124,6 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
           pet: formData.petId,
           location: formData.location,
           status: formData.status,
-          response: formData.response,
           imgUrl: formData.imgUrl
         },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -169,13 +165,11 @@ export const AdoptionReqProvider = ({ children }: AdoptionProviderProps) => {
 
   const updateAdoptionRequest = async (
     id: string,
-    status: IAdoptionRequest['status'],
-    response: string
+    status: IAdoptionRequest['status']
   ) => {
     try {
       await axios.patch(`${apiUrl}/api/v1/adoption/req/${id}`, {
-        status,
-        response: resValue
+        status
       });
       setRefetch?.(!refetch);
     } catch (error) {
