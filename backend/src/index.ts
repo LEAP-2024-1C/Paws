@@ -155,8 +155,8 @@ app.post("/checkout", async (req: Request, res: Response) => {
         // },
       ],
       mode: "payment",
-      success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/cancel`,
+      success_url: `https://pawchig-frontend.vercel.app/success`,
+      cancel_url: `https://pawchig-frontend.vercel.app/cancel`,
     });
 
     // Send only ONE response

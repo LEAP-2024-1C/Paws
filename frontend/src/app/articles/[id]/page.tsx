@@ -41,7 +41,7 @@ const ArticleCardDetail = () => {
       console.log("article", res.data.article);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to fetch one article data");
+      // toast.error("Failed to fetch one article data");
     }
   };
   useEffect(() => {

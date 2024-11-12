@@ -36,7 +36,7 @@ export const ArticleProvider: React.FC<{ children: ReactNode }> = ({
       setArticles(res.data.articles);
     } catch (error) {
       console.error(error);
-      toast.error('Failed to fetch articles');
+      // toast.error('Failed to fetch articles');
     }
   };
 

@@ -27,13 +27,8 @@ export type donationPostsProps = {
 const DonationDetail = () => {
   const { id } = useParams();
 
-  const {
-    fetchSingleDonationPosts,
-    oneDonationPost,
-    donationPosts,
-    loading,
-    refetch,
-  } = useContext(DonationContext);
+  const { fetchSingleDonationPosts, oneDonationPost, donationPosts, loading } =
+    useContext(DonationContext);
 
   // Add this state for the URL
   const [currentUrl, setCurrentUrl] = useState("");
@@ -47,7 +42,7 @@ const DonationDetail = () => {
 
   useEffect(() => {
     fetchSingleDonationPosts(id);
-  }, [id, refetch]);
+  }, [id]);
 
   useEffect(() => {
     // Set the URL after component mounts (client-side only)
@@ -139,7 +134,8 @@ const DonationDetail = () => {
                     .map((c, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors">
+                        className="flex items-center gap-4 p-3 rounded-lg hover:bg-orange-50 transition-colors"
+                      >
                         <Avatar className="h-12 w-12 border-2 border-orange-200">
                           <AvatarFallback className="bg-orange-100 text-orange-600"></AvatarFallback>
                         </Avatar>
@@ -164,19 +160,23 @@ const DonationDetail = () => {
                 <div className="flex gap-4 justify-center">
                   <Link
                     className="flex-1 flex items-center gap-2"
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}>
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}
+                  >
                     <Button
                       variant="outline"
-                      className="hover:bg-blue-50 hover:text-blue-600 transition-colors w-full">
+                      className="hover:bg-blue-50 hover:text-blue-600 transition-colors w-full"
+                    >
                       <FaFacebook className="text-xl" /> Share
                     </Button>
                   </Link>
                   <Link
                     className="flex-1 flex items-center gap-2"
-                    href={`https://twitter.com/intent/tweet?url=${currentUrl}`}>
+                    href={`https://twitter.com/intent/tweet?url=${currentUrl}`}
+                  >
                     <Button
                       variant="outline"
-                      className="w-full hover:bg-sky-50 hover:text-sky-600 transition-colors">
+                      className="w-full hover:bg-sky-50 hover:text-sky-600 transition-colors"
+                    >
                       <FaXTwitter className="text-xl" /> Tweet
                     </Button>
                   </Link>
@@ -195,7 +195,8 @@ const DonationDetail = () => {
             {donationPosts?.slice(0, 3).map((c, i) => (
               <div
                 key={i}
-                className="transform hover:scale-105 transition-transform">
+                className="transform hover:scale-105 transition-transform"
+              >
                 <DonationCard
                   {...c}
                   updatedAt={c.updatedAt}

@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+'use client';
+import { useContext, useEffect, useState } from 'react';
 import { FaFacebook } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
 
@@ -26,6 +27,22 @@ const SigninForm = () => {
     rePassword: ''
   });
 
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'F') {
+        e.preventDefault();
+        setUserForm((prev) => ({
+          ...prev,
+          email: 'j.myeruyert@gmail.com',
+          password: '12345678'
+        }));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
   const handleSignIn = async () => {
     try {
       const res = await axios.post(`${apiUrl}/api/v1/auth/login`, {
@@ -34,11 +51,11 @@ const SigninForm = () => {
         login_type: 'admin'
       });
       if (res.status === 201) {
-        toast.success('User signed in successfully');
         const { token } = res.data;
         setUser(res.data.user);
         localStorage.setItem('token', token);
         router.push('/dashboard');
+        toast.success('User signed in successfully');
       }
       // console.log("res", res);
     } catch (error) {
@@ -53,7 +70,7 @@ const SigninForm = () => {
           <div className="mx-auto overflow-hidden">
             <div className="p-8 ">
               <h1
-                className={`${fredoka.className} mb-7 text-5xl font-bold text-orange-500`}
+                className={`${fredoka.className} mb-7 text-center text-5xl font-bold text-orange-500`}
               >
                 Welcome back!
               </h1>
@@ -72,8 +89,8 @@ const SigninForm = () => {
                     id="signin-email"
                     name="email"
                     type="text"
-                    className="peer h-10 w-full border-b-2  border-gray-300 bg-transparent text-gray-900 placeholder-transparent  focus:border-indigo-600 focus:outline-none"
-                    placeholder="john@doe.com"
+                    className="peer h-10 w-full border-b-2  border-gray-300 bg-transparent text-gray-900 placeholder-transparent focus:border-indigo-600 focus:outline-none"
+                    placeholder="j.myeruyert@gmail.com"
                     value={userForm.email}
                     onChange={(e) => {
                       setUserForm({ ...userForm, email: e.target.value });
@@ -120,6 +137,9 @@ const SigninForm = () => {
                 {' '}
                 Forgot your password?{' '}
               </Link>
+              <p className="mt-4 text-center text-xs text-gray-500">
+                Press Ctrl/Cmd + Shift + F to auto-fill
+              </p>
             </div>
           </div>
         </div>
