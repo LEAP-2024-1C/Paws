@@ -20,7 +20,7 @@ const breadcrumbItems = [
 export default function Page() {
   const { getPetData } = useContext(PetsContext);
   return (
-    <PageContainer>
+    <PageContainer scrollable={true}>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
 
