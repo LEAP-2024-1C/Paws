@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Fredoka } from 'next/font/google';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,6 +22,25 @@ const SignupForm = () => {
     password: '',
     rePassword: ''
   });
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'F') {
+        e.preventDefault();
+        setUserForm({
+          email: 'johnny@gmail.com',
+          firstname: 'John',
+          lastname: 'Doe',
+          role: 'admin',
+          password: 'password123',
+          rePassword: 'password123'
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   const handleSignUp = async () => {
     const { firstname, lastname, email, password, rePassword } = userForm;
