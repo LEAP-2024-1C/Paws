@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 interface Sidebar {
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
