@@ -81,30 +81,30 @@ const WishlistPage: React.FC = () => {
           <div className="grid grid-cols-1 gap-4">
             {wishListData.products.map((item: WishlistItem) => (
               <div
-                key={item.product._id}
+                key={item.product?._id}
                 className="bg-white p-4 rounded-lg shadow flex items-center justify-between"
               >
                 <div className="flex items-center space-x-4">
                   <img
                     className="w-20 h-20 object-cover rounded"
                     src={
-                      item.product.images[0] ||
+                      item.product?.images[0] ||
                       "https://via.placeholder.com/150"
                     }
-                    alt={item.product.name}
+                    alt={item.product?.name}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
                         "https://via.placeholder.com/150";
                     }}
                   />
                   <div>
-                    <h3 className="font-medium">{item.product.name}</h3>
+                    <h3 className="font-medium">{item.product?.name}</h3>
                     <p className="text-orange-500">
-                      ${item.product.price.toFixed(2)}
+                      ${item.product?.price.toFixed(2)}
                     </p>
-                    {item.product.discount && (
+                    {item.product?.discount && (
                       <p className="text-red-500 text-sm">
-                        Discount: {item.product.discount}%
+                        Discount: {item.product?.discount}%
                       </p>
                     )}
                   </div>
@@ -113,7 +113,7 @@ const WishlistPage: React.FC = () => {
                   <button
                     className="p-2 hover:bg-gray-100 rounded-full"
                     title="Add to Cart"
-                    onClick={() => handleAddToCart(item.product._id)}
+                    onClick={() => handleAddToCart(item.product?._id)}
                     disabled={loading}
                   >
                     <FiShoppingCart className="text-xl" />
@@ -121,7 +121,7 @@ const WishlistPage: React.FC = () => {
                   <button
                     className="p-2 hover:bg-gray-100 rounded-full text-red-500"
                     title="Remove from Wishlist"
-                    onClick={() => handleRemoveFromWishlist(item.product._id)}
+                    onClick={() => handleRemoveFromWishlist(item.product?._id)}
                     disabled={loading}
                   >
                     <FiTrash2 className="text-xl" />
