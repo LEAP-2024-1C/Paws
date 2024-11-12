@@ -93,7 +93,7 @@ export function AdoptionTable({ data, searchKey }: AdoptionPostsTableProps) {
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <ResDialogDemo />
+                  <ResDialogDemo id={req._id} />
                 </TableCell>
                 <TableCell>
                   <CellAction id={req._id} />

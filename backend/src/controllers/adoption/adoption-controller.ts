@@ -179,27 +179,51 @@ export const submitInquiry = async (req: Request, res: Response) => {
   }
 };
 
-export const updateAdoptionRequest = async (req: Request, res: Response) => {
+// export const updateAdoptionRequest = async (req: Request, res: Response) => {
+//   const { id } = req.params;
+//   const { response } = req.body;
+
+//   try {
+//     const updatePost = await AdoptionRequest.findByIdAndUpdate(
+//       id,
+//       { response },
+//       { new: true }
+//     );
+
+//     if (!updatePost) {
+//       return res.status(404).json({ message: "Adoption request not found" });
+//     }
+
+//     res.status(200).json({
+//       message: "Updated adoption req successfully",
+//       updatePost,
+//     });
+//   } catch (error) {
+//     console.log("Couldn't update adoption req", error);
+//     res.status(500).json({ message: "Adoption post update error", error });
+//   }
+// };
+
+export const responseForAdoptionReq = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { response } = req.body;
-
+  const { defination } = req.body;
   try {
-    const updatePost = await AdoptionRequest.findByIdAndUpdate(
-      id,
-      { response },
-      { new: true }
-    );
-
-    if (!updatePost) {
+    const adminRes = await AdoptionRequest.findById(id);
+    if (!adminRes) {
       return res.status(404).json({ message: "Adoption request not found" });
     }
-
-    res.status(200).json({
-      message: "Updated adoption req successfully",
-      updatePost,
+    adminRes.adminResponse.push({ defination });
+    const updatedData = await adminRes.save();
+    return res.status(200).json({
+      message: "Response sent successfully",
+      updatedData,
     });
   } catch (error) {
-    console.log("Couldn't update adoption req", error);
-    res.status(500).json({ message: "Adoption post update error", error });
+    console.error("Couldn't send the response:", error);
+
+    return res.status(500).json({
+      message: "An error occurred while sending the response",
+      error,
+    });
   }
 };

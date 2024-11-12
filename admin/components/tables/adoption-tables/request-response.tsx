@@ -23,7 +23,7 @@ export function ResDialogDemo({ id }: { id: string }) {
       console.log('ID:', id);
       console.log('ResValue:', resValue);
 
-      const res = await axios.patch(`${apiUrl}/api/v1/adoption/req/${id}`, {
+      const res = await axios.post(`${apiUrl}/api/v1/adoption/req/${id}`, {
         response: resValue
       });
 
