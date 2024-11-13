@@ -12,39 +12,39 @@ import { BlogsCards } from "@/components/home/blog-cards";
 import { Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const FeaturedArticle = ({ article }: { article: IArticles }) => (
-  <div className="relative h-[400px] w-full mb-16 group">
-    <div className="absolute inset-0 bg-black/30 rounded-xl z-10" />
-    <Image
-      src={article.images[0]}
-      alt={article.title}
-      fill
-      className="object-cover rounded-xl"
-    />
-    <div className="absolute bottom-8 left-8 z-20 text-white">
-      <span className="bg-amber-500 px-4 py-2 rounded-full text-sm">
-        {article.category.name}
-      </span>
-      <h2 className="text-3xl font-bold mt-4 max-w-2xl group-hover:text-amber-400 transition-colors">
-        {article.title}
-      </h2>
-      <p className="mt-2 text-gray-200 max-w-xl">
-        {article.description?.substring(0, 150)}...
-      </p>
-    </div>
-  </div>
-);
+// const FeaturedArticle = ({ article }: { article: IArticles }) => (
+//   <div className="relative h-[400px] w-full mb-16 group">
+//     <div className="absolute inset-0 bg-black/30 rounded-xl z-10" />
+//     <Image
+//       src={article.images[0]}
+//       alt={article.title}
+//       fill
+//       className="object-cover rounded-xl"
+//     />
+//     <div className="absolute bottom-8 left-8 z-20 text-white">
+//       <span className="bg-amber-500 px-4 py-2 rounded-full text-sm">
+//         {article.category.name}
+//       </span>
+//       <h2 className="text-3xl font-bold mt-4 max-w-2xl group-hover:text-amber-400 transition-colors">
+//         {article.title}
+//       </h2>
+//       <p className="mt-2 text-gray-200 max-w-xl">
+//         {article.description?.substring(0, 150)}...
+//       </p>
+//     </div>
+//   </div>
+// );
 
-const FeaturedArticleSkeleton = () => (
-  <div className="relative h-[400px] w-full mb-16">
-    <Skeleton className="h-full w-full rounded-xl" />
-    <div className="absolute bottom-8 left-8 z-20">
-      <Skeleton className="h-8 w-24 rounded-full" />
-      <Skeleton className="h-12 w-2/3 mt-4" />
-      <Skeleton className="h-4 w-1/2 mt-4" />
-    </div>
-  </div>
-);
+// const FeaturedArticleSkeleton = () => (
+//   <div className="relative h-[400px] w-full mb-16">
+//     <Skeleton className="h-full w-full rounded-xl" />
+//     <div className="absolute bottom-8 left-8 z-20">
+//       <Skeleton className="h-8 w-24 rounded-full" />
+//       <Skeleton className="h-12 w-2/3 mt-4" />
+//       <Skeleton className="h-4 w-1/2 mt-4" />
+//     </div>
+//   </div>
+// );
 
 const BlogCardSkeleton = () => (
   <div className="w-[340px] rounded-lg border shadow-xl m-auto">
