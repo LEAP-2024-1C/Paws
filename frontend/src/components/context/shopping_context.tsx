@@ -15,7 +15,10 @@ interface Product {
   isNew?: boolean;
   quantity: number;
   discount?: number;
-  category: string;
+  category: {
+    _id: string;
+  };
+  createdAt: Date;
 }
 
 interface Category {

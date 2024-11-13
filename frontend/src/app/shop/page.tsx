@@ -5,15 +5,20 @@ import ProductList from "./components/productlist";
 import { FiSearch, FiShoppingCart, FiHeart } from "react-icons/fi";
 import { ShoppingContext } from "@/components/context/shopping_context";
 import Link from "next/link";
-import { CartContext } from "@/components/context/cart_context";
-import { WishListContext } from "@/components/context/wishlist_context";
 const ShopPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("latest");
-  const { categories } = useContext(ShoppingContext);
-  const { cartData } = useContext(CartContext);
-  const { wishListData } = useContext(WishListContext);
+
+
+  const { categories, product } = useContext(ShoppingContext);
+
+  // Calculate product counts for each category
+  const categoriesWithCount = categories.map((category) => ({
+    ...category,
+    count: product?.filter((p) => p.category?._id === category._id).length || 0,
+  }));
+
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -37,7 +42,8 @@ const ShopPage: React.FC = () => {
               <Link href="/shop/cart">
                 <button
                   className="p-2.5 hover:bg-gray-100 rounded-lg relative transition-all duration-200 
-                  group-hover:shadow-md flex items-center gap-2">
+                  group-hover:shadow-md flex items-center gap-2"
+                >
                   <FiShoppingCart className="text-2xl text-gray-700" />
                   <span className="hidden sm:inline text-sm text-gray-600">
                     Cart
@@ -45,8 +51,9 @@ const ShopPage: React.FC = () => {
                   <span
                     className="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full 
                     w-5 h-5 text-xs flex items-center justify-center shadow-sm 
-                    transform transition-transform group-hover:scale-110">
-                    {cartData?.products?.length}
+                    transform transition-transform group-hover:scale-110"
+                  >
+                    {/* {cartData?.products?.length} */}
                   </span>
                 </button>
               </Link>
@@ -57,7 +64,8 @@ const ShopPage: React.FC = () => {
               <Link href="/wishlist">
                 <button
                   className="p-2.5 hover:bg-gray-100 rounded-lg relative transition-all duration-200 
-                  group-hover:shadow-md flex items-center gap-2">
+                  group-hover:shadow-md flex items-center gap-2"
+                >
                   <FiHeart className="text-2xl text-gray-700" />
                   <span className="hidden sm:inline text-sm text-gray-600">
                     Wishlist
@@ -65,8 +73,9 @@ const ShopPage: React.FC = () => {
                   <span
                     className="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full 
                     w-5 h-5 text-xs flex items-center justify-center shadow-sm 
-                    transform transition-transform group-hover:scale-110">
-                    {wishListData?.products?.length}
+                    transform transition-transform group-hover:scale-110"
+                  >
+                    {/* {wishListData?.products?.length} */}
                   </span>
                 </button>
               </Link>
@@ -79,7 +88,7 @@ const ShopPage: React.FC = () => {
           <Sidebar
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
-            categories={categories}
+            categories={categoriesWithCount}
           />
           <ProductList
             selectedCategory={selectedCategory}

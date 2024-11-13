@@ -36,9 +36,11 @@ const ProductCard: React.FC<ProductCard> = ({ product }) => {
 
   return (
     <div className="bg-gray-100 rounded-lg p-4 flex flex-col">
+
       <Link href={`/shop/${product?._id}`}>
-        <div className="bg-gray-300 w-full aspect-square rounded-xl mb-4">
-          <img src={product?.images[0]} alt={product?.name} />
+        <div className="bg-gray-300 w-full aspect-square rounded-xl mb-4 h-80 overflow-hidden">
+          <img src={product.images[0]} alt={product.name} />
+
         </div>
       </Link>
       <Link href={`/shop/${product?._id}`}>

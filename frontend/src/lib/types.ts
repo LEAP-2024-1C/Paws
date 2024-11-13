@@ -16,6 +16,11 @@ export interface IArticles {
   text: string;
   images: [string];
   updatedAt: string;
+  category: {
+    _id: string;
+    name: string;
+  };
+  description: string;
 }
 
 export interface IOneArticle {

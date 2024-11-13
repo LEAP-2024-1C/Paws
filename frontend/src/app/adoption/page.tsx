@@ -6,6 +6,45 @@ import { AdoptionContext } from "@/components/context/adoption_context";
 import { apiUrl } from "@/utils/util";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const StatsSkeleton = () => (
+  <div className="text-center">
+    <Skeleton className="h-8 w-20 mx-auto mb-2" />
+    <Skeleton className="h-4 w-32 mx-auto" />
+  </div>
+);
+
+const FilterSkeleton = () => (
+  <div className="space-y-6">
+    <Skeleton className="h-10 w-full" />
+    <div className="space-y-4">
+      <Skeleton className="h-6 w-32" />
+      <div className="space-y-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={i} className="h-8 w-full" />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const AdoptionCardSkeleton = () => (
+  <div className="w-full max-w-sm rounded-lg border">
+    <Skeleton className="h-48 w-full rounded-t-lg" />
+    <div className="p-4 space-y-4">
+      <Skeleton className="h-6 w-3/4" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-1/2" />
+        <Skeleton className="h-4 w-2/3" />
+      </div>
+      <div className="flex justify-between items-center">
+        <Skeleton className="h-8 w-24" />
+        <Skeleton className="h-8 w-24" />
+      </div>
+    </div>
+  </div>
+);
 
 const AdoptionPage = () => {
   const { adoptionPosts } = useContext(AdoptionContext);
@@ -18,8 +57,10 @@ const AdoptionPage = () => {
   ]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecies, setSelectedSpecies] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchPetCategories = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${apiUrl}/api/v1/pets/category`);
       if (response.status === 200) {
@@ -28,6 +69,8 @@ const AdoptionPage = () => {
       }
     } catch (error) {
       console.error("Error fetching pet data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,49 +95,64 @@ const AdoptionPage = () => {
       </div>
       <div className="bg-white py-8 md:py-12">
         <div className="max-w-[1400px] mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div>
-            <h3 className="text-3xl font-bold text-[#FD7E14]">500+</h3>
-            <p className="text-gray-600">Pets Adopted</p>
-          </div>
-          <div>
-            <h3 className="text-3xl font-bold text-[#FD7E14]">100+</h3>
-            <p className="text-gray-600">Available Pets</p>
-          </div>
-          <div>
-            <h3 className="text-3xl font-bold text-[#FD7E14]">50+</h3>
-            <p className="text-gray-600">Partner Shelters</p>
-          </div>
-          <div>
-            <h3 className="text-3xl font-bold text-[#FD7E14]">1000+</h3>
-            <p className="text-gray-600">Happy Families</p>
-          </div>
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, i) => <StatsSkeleton key={i} />)
+          ) : (
+            <>
+              <div>
+                <h3 className="text-3xl font-bold text-[#FD7E14]">500+</h3>
+                <p className="text-gray-600">Pets Adopted</p>
+              </div>
+              <div>
+                <h3 className="text-3xl font-bold text-[#FD7E14]">100+</h3>
+                <p className="text-gray-600">Available Pets</p>
+              </div>
+              <div>
+                <h3 className="text-3xl font-bold text-[#FD7E14]">50+</h3>
+                <p className="text-gray-600">Partner Shelters</p>
+              </div>
+              <div>
+                <h3 className="text-3xl font-bold text-[#FD7E14]">1000+</h3>
+                <p className="text-gray-600">Happy Families</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-6 w-full px-4 sm:px-6 lg:px-8 max-w-[1500px] mx-auto my-20">
         <div className="w-full lg:w-1/4 mb-6 lg:mb-0">
-          <SearchFilterSection
-            petCategory={petCategory}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            selectedSpecies={selectedSpecies}
-            setSelectedSpecies={setSelectedSpecies}
-          />
+          {isLoading ? (
+            <FilterSkeleton />
+          ) : (
+            <SearchFilterSection
+              petCategory={petCategory}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedSpecies={selectedSpecies}
+              setSelectedSpecies={setSelectedSpecies}
+            />
+          )}
         </div>
 
         <main className="w-full lg:w-3/4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
-            {filteredPets?.map((pet, i) => (
-              <div
-                key={i}
-                className="w-full max-w-sm transform transition-transform duration-300 hover:scale-105">
-                <AdoptionCard
-                  description={pet.description}
-                  location={pet.location}
-                  _id={pet._id}
-                  pet={pet.pet}
-                />
-              </div>
-            ))}
+            {isLoading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <AdoptionCardSkeleton key={i} />
+                ))
+              : filteredPets?.map((pet, i) => (
+                  <div
+                    key={i}
+                    className="w-full max-w-sm transform transition-transform duration-300 hover:scale-105"
+                  >
+                    <AdoptionCard
+                      description={pet.description}
+                      location={pet.location}
+                      _id={pet._id}
+                      pet={pet.pet}
+                    />
+                  </div>
+                ))}
           </div>
         </main>
       </div>

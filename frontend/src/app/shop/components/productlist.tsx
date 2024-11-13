@@ -19,27 +19,34 @@ const ProductList: React.FC<ProductListProps> = ({
   const [currentPage] = useState(1);
   const productsPerPage = 12;
 
-  const { product, loading } = useContext(ShoppingContext);
-
-  if (loading) {
-    return (
-      <div className="w-full md:w-3/4 p-4 flex justify-center items-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
-      </div>
-    );
-  }
+  const { product, loading, categories } = useContext(ShoppingContext);
 
   const filteredProducts = product
-    .filter((product) =>
-      selectedCategory === "All" ? true : product.category === selectedCategory
-    )
-    .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    ?.filter((product) => {
+      const categoryMatch =
+        selectedCategory === "All" ||
+        product.category?._id ===
+          categories.find((cat) => cat.name === selectedCategory)?._id;
+
+      const searchMatch =
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return categoryMatch && searchMatch;
+    })
     .sort((a, b) => {
-      if (sortOrder === "price_asc") return a.price - b.price;
-      if (sortOrder === "price_desc") return b.price - a.price;
-      return 0;
+      switch (sortOrder) {
+        case "price_asc":
+          return a.price - b.price;
+        case "price_desc":
+          return b.price - a.price;
+        case "latest":
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        default:
+          return 0;
+      }
     });
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -48,6 +55,14 @@ const ProductList: React.FC<ProductListProps> = ({
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
+  if (loading) {
+    return (
+      <div className="w-full md:w-3/4 p-4 flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+      </div>
+    );
+  }
 
   if (!loading && (!product || product.length === 0)) {
     return (

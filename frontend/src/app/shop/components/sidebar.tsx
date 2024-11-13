@@ -9,43 +9,44 @@ const Sidebar: React.FC<Sidebar> = ({
   setSelectedCategory,
   categories,
 }) => {
-  const handleCategoryClick = (categoryName: string) => {
-    setSelectedCategory(selectedCategory === categoryName ? "" : categoryName);
+
+  const handleCategoryChange = (categoryName: string) => {
+    setSelectedCategory(
+      selectedCategory === categoryName ? "All" : categoryName
+    );
   };
 
   return (
-    <div className="w-full md:w-64 bg-white p-6 rounded-xl shadow-md">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Categories</h2>
-      <div className="space-y-2">
-        <button
-          onClick={() => setSelectedCategory("")}
-          className={`w-full text-left px-4 py-2.5 rounded-lg transition-all duration-200 flex justify-between items-center ${
-            selectedCategory === ""
-              ? "bg-orange-100 text-orange-600 font-medium shadow-sm"
-              : "hover:bg-gray-50 text-gray-700"
-          }`}
-        >
-          <span>All Products</span>
-          <span className="text-sm bg-gray-100 px-2 py-0.5 rounded-full">
-            {categories.reduce((sum, cat) => sum + cat.count, 0)}
-          </span>
-        </button>
-
+    <aside className="w-full md:w-1/4 p-4">
+      <h2 className="text-xl font-bold mb-4">Filter by Category</h2>
+      <ul className="space-y-2">
+        <li className="mb-2 flex items-center">
+          <input
+            type="checkbox"
+            id="all"
+            checked={selectedCategory === "All"}
+            onChange={() => setSelectedCategory("All")}
+            className="mr-2 h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+          />
+          <label htmlFor="all" className="flex-grow cursor-pointer">
+            All Products
+          </label>
+        </li>
         {categories.map((category) => (
-          <button
-            key={category.name}
-            onClick={() => handleCategoryClick(category.name)}
-            className={`w-full text-left px-4 py-2.5 rounded-lg transition-all duration-200 flex justify-between items-center ${
-              selectedCategory === category.name
-                ? "bg-orange-100 text-orange-600 font-medium shadow-sm"
-                : "hover:bg-gray-50 text-gray-700"
-            }`}
-          >
-            <span>{category.name}</span>
-            <span className="text-sm bg-gray-100 px-2 py-0.5 rounded-full">
-              {category.count}
-            </span>
-          </button>
+          <li key={category.name} className="mb-2 flex items-center">
+            <input
+              type="checkbox"
+              id={category.name}
+              checked={selectedCategory === category.name}
+              onChange={() => handleCategoryChange(category.name)}
+              className="mr-2 h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+            />
+            <label htmlFor={category.name} className="flex-grow cursor-pointer">
+              {category.name}
+            </label>
+            <span className="text-orange-500 text-sm">{category.count}</span>
+          </li>
+
         ))}
       </div>
     </div>
