@@ -66,7 +66,8 @@ export default function Home() {
           {articleCards?.map((card: IArticles, i) => (
             <div
               className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl "
-              key={i}>
+              key={i}
+            >
               <BlogsCards
                 image={card.images[0]}
                 id={card._id}
@@ -81,7 +82,7 @@ export default function Home() {
         Best selling products
       </h2>
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center max-w-6xl mx-auto mb-20">
-        {product?.map((product, i) => (
+        {product?.slice(0, 3).map((product, i) => (
           <ShoppingCards
             key={i}
             _id={product._id}
@@ -104,7 +105,8 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor">
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -126,7 +128,8 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor">
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -148,7 +151,8 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor">
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -168,14 +172,16 @@ export default function Home() {
 
       <button
         onClick={() => setIsChatOpen(!isChatOpen)}
-        className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center">
+        className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center"
+      >
         {isChatOpen ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor">
+            stroke="currentColor"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -189,7 +195,8 @@ export default function Home() {
             className="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor">
+            stroke="currentColor"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -218,12 +225,10 @@ export default function Home() {
               </button>
             </Link>
             <Link href="/donation">
-            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
-              Make a Donation
-            </button>
+              <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+                Make a Donation
+              </button>
             </Link>
-
-    
           </div>
         </div>
       </div>

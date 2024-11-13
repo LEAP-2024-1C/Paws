@@ -14,7 +14,7 @@ interface IData {
 const ShoppingCards = ({ images, name, price, _id }: IData) => (
   <Link href={`../shop/${_id}`}>
     <Card className="border rounded-xl shadow-lg overflow-hidden group transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden h-[350px]">
         <Image
           src={images[0]}
           alt={name}

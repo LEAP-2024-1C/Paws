@@ -9,7 +9,6 @@ import "@smastrom/react-rating/style.css";
 import { IArticles, IOneArticle } from "@/lib/types";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
-import { toast } from "react-toastify";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import DonateCard from "@/components/home/donate_card";

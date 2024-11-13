@@ -1,4 +1,5 @@
 'use client';
+import { useToast } from '@/components/ui/use-toast';
 import { useContext, useEffect, useState } from 'react';
 import { FaFacebook } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
@@ -16,6 +17,7 @@ import { useRouter } from 'next/navigation';
 const fredoka = Fredoka({ subsets: ['latin'] });
 
 const SigninForm = () => {
+  const { toast } = useToast();
   const { setUser } = useContext(UserContext);
   const router = useRouter();
   const [userForm, setUserForm] = useState({
@@ -26,6 +28,23 @@ const SigninForm = () => {
     password: '',
     rePassword: ''
   });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Your login logic
+      toast({
+        title: 'Success',
+        description: 'Successfully logged in'
+      });
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to login'
+      });
+    }
+  };
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -55,12 +74,19 @@ const SigninForm = () => {
         setUser(res.data.user);
         localStorage.setItem('token', token);
         router.push('/dashboard');
-        toast.success('User signed in successfully');
+        toast({
+          title: 'Success',
+          description: 'User signed in successfully'
+        });
       }
       // console.log("res", res);
     } catch (error) {
       console.error('There was an error signing in:', error);
-      toast.error('Failed to sign in. Please try again.');
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to sign in. Please try again.'
+      });
     }
   };
   return (

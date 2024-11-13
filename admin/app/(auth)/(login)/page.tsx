@@ -1,14 +1,17 @@
-"use client";
+'use client';
 // import LoginDesktop from "@/components/login-signUp/Desktop";
-import LeftOverlayContent from "@/components/login-signUp/LeftOverlayContent";
+import LeftOverlayContent from '@/components/login-signUp/LeftOverlayContent';
 // import Phone from "@/components/login-signUp/Phone";
-import RightOverlayContent from "@/components/login-signUp/RightOverlayContent";
-import SigninForm from "@/components/login-signUp/SigninForm";
-import SignupForm from "@/components/login-signUp/SignupForm";
-import { Card } from "@/components/ui/card";
-import { useState } from "react";
+import RightOverlayContent from '@/components/login-signUp/RightOverlayContent';
+import SigninForm from '@/components/login-signUp/SigninForm';
+import SignupForm from '@/components/login-signUp/SignupForm';
+import { Card } from '@/components/ui/card';
+import { useState } from 'react';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function LoginPage() {
+  const { toast } = useToast();
   const [isAnimated, setIsAnimated] = useState(false);
 
   return (
@@ -16,12 +19,13 @@ export default function LoginPage() {
       {/* <LoginDesktop /> */}
       {/* <Phone /> */}
       <div className="">
-        <div className="container m-auto h-screen w-full relative overflow-hidden rounded-3xl ">
+        <div className="container relative m-auto h-screen w-full overflow-hidden rounded-3xl ">
           <div
             id="signin"
-            className={` absolute top-0 left-0 h-full w-1/2 flex justify-center items-center transition-all duration-700 ease-in-out z-20 ${
-              isAnimated ? "translate-x-full opacity-0" : ""
-            }`}>
+            className={` absolute left-0 top-0 z-20 flex h-full w-1/2 items-center justify-center transition-all duration-700 ease-in-out ${
+              isAnimated ? 'translate-x-full opacity-0' : ''
+            }`}
+          >
             <Card>
               <SigninForm />
             </Card>
@@ -29,12 +33,13 @@ export default function LoginPage() {
 
           <div
             id="signup"
-            className={` absolute top-0 left-0 h-full w-1/2 flex justify-center items-center transition-all duration-700 ease-in-out ${
+            className={` absolute left-0 top-0 flex h-full w-1/2 items-center justify-center transition-all duration-700 ease-in-out ${
               isAnimated
-                ? "translate-x-full opacity-100 z-50 animate-show"
-                : "opacity-0 z-10"
-            }`}>
-            <div className="h-full w-full flex justify-center items-center">
+                ? 'animate-show z-50 translate-x-full opacity-100'
+                : 'z-10 opacity-0'
+            }`}
+          >
+            <div className="flex h-full w-full items-center justify-center">
               <Card>
                 <SignupForm />
               </Card>
@@ -43,19 +48,22 @@ export default function LoginPage() {
 
           <div
             id="overlay-container"
-            className={`absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-transform duration-700 ease-in-out z-100 ${
-              isAnimated ? "-translate-x-full" : ""
-            }`}>
+            className={`z-100 absolute left-1/2 top-0 h-full w-1/2 overflow-hidden transition-transform duration-700 ease-in-out ${
+              isAnimated ? '-translate-x-full' : ''
+            }`}
+          >
             <div
               id="overlay"
               className={`bg-hero-image relative -left-full h-full w-[200%] transform transition-transform duration-700 ease-in-out ${
-                isAnimated ? "translate-x-1/2" : "translate-x-0"
-              }`}>
+                isAnimated ? 'translate-x-1/2' : 'translate-x-0'
+              }`}
+            >
               <div
                 id="overlay-left"
-                className={`w-1/2 h-full absolute flex justify-center items-center top-0 transform -translate-x-[20%] transition-transform duration-700 ease-in-out text-black ${
-                  isAnimated ? "translate-x-0" : "-translate-x-[20%]"
-                }`}>
+                className={`absolute top-0 flex h-full w-1/2 -translate-x-[20%] transform items-center justify-center text-black transition-transform duration-700 ease-in-out ${
+                  isAnimated ? 'translate-x-0' : '-translate-x-[20%]'
+                }`}
+              >
                 <LeftOverlayContent
                   isAnimated={isAnimated}
                   setIsAnimated={setIsAnimated}
@@ -63,9 +71,10 @@ export default function LoginPage() {
               </div>
               <div
                 id="overlay-right"
-                className={`w-1/2 h-full absolute flex justify-center items-center top-0 right-0 transform transition-transform duration-700 ease-in-out ${
-                  isAnimated ? "translate-x-[20%]" : "translate-x-0"
-                }`}>
+                className={`absolute right-0 top-0 flex h-full w-1/2 transform items-center justify-center transition-transform duration-700 ease-in-out ${
+                  isAnimated ? 'translate-x-[20%]' : 'translate-x-0'
+                }`}
+              >
                 <RightOverlayContent
                   isAnimated={isAnimated}
                   setIsAnimated={setIsAnimated}
@@ -75,6 +84,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
