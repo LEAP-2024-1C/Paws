@@ -9,7 +9,6 @@ const Sidebar: React.FC<Sidebar> = ({
   setSelectedCategory,
   categories,
 }) => {
-
   const handleCategoryChange = (categoryName: string) => {
     setSelectedCategory(
       selectedCategory === categoryName ? "All" : categoryName
@@ -17,7 +16,7 @@ const Sidebar: React.FC<Sidebar> = ({
   };
 
   return (
-    <aside className="w-full md:w-1/4 p-4">
+    <div className="w-full md:w-1/4 p-4">
       <h2 className="text-xl font-bold mb-4">Filter by Category</h2>
       <ul className="space-y-2">
         <li className="mb-2 flex items-center">
@@ -46,9 +45,8 @@ const Sidebar: React.FC<Sidebar> = ({
             </label>
             <span className="text-orange-500 text-sm">{category.count}</span>
           </li>
-
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
