@@ -1,5 +1,3 @@
-import React from "react";
-
 interface Sidebar {
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
@@ -11,6 +9,7 @@ const Sidebar: React.FC<Sidebar> = ({
   setSelectedCategory,
   categories,
 }) => {
+
   const handleCategoryChange = (categoryName: string) => {
     setSelectedCategory(
       selectedCategory === categoryName ? "All" : categoryName
@@ -47,9 +46,10 @@ const Sidebar: React.FC<Sidebar> = ({
             </label>
             <span className="text-orange-500 text-sm">{category.count}</span>
           </li>
+
         ))}
-      </ul>
-    </aside>
+      </div>
+    </div>
   );
 };
 

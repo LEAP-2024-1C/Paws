@@ -10,6 +10,7 @@ const ShopPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("latest");
 
+
   const { categories, product } = useContext(ShoppingContext);
 
   // Calculate product counts for each category
@@ -17,6 +18,7 @@ const ShopPage: React.FC = () => {
     ...category,
     count: product?.filter((p) => p.category?._id === category._id).length || 0,
   }));
+
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -55,14 +57,7 @@ const ShopPage: React.FC = () => {
                   </span>
                 </button>
               </Link>
-              <div
-                className="hidden group-hover:block absolute right-0 top-full mt-2 w-72 bg-white 
-                rounded-lg shadow-lg border border-gray-100 p-4 z-50"
-              >
-                <p className="text-gray-500 text-sm text-center">
-                  Your cart is empty
-                </p>
-              </div>
+
             </div>
 
             <div className="relative group">
@@ -84,14 +79,7 @@ const ShopPage: React.FC = () => {
                   </span>
                 </button>
               </Link>
-              <div
-                className="hidden group-hover:block absolute right-0 top-full mt-2 w-72 bg-white 
-                rounded-lg shadow-lg border border-gray-100 p-4 z-50"
-              >
-                <p className="text-gray-500 text-sm text-center">
-                  Your wishlist is empty
-                </p>
-              </div>
+
             </div>
           </div>
         </div>
