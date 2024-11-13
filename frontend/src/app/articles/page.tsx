@@ -1,6 +1,5 @@
 "use client";
 import HeroComponent from "@/components/main_page/hero_component";
-import Image from "next/image";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
