@@ -20,7 +20,7 @@ export default function Page() {
   const { product } = useContext(ShoppingContext);
 
   return (
-    <PageContainer>
+    <PageContainer scrollable={true}>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
 

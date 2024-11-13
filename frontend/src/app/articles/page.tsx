@@ -18,7 +18,7 @@ const Articles = () => {
       setArticles(res.data.articles);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to fetch articles");
+      // toast.error("Failed to fetch articles");
     }
   };
   const getCategories = async () => {

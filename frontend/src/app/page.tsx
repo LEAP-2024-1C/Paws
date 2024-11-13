@@ -217,10 +217,13 @@ export default function Home() {
                 Adopt a Pet
               </button>
             </Link>
-
+            <Link href="/donation">
             <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
               Make a Donation
             </button>
+            </Link>
+
+    
           </div>
         </div>
       </div>

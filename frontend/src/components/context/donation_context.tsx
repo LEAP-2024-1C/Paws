@@ -151,6 +151,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
           }
         );
         setDonationPosts(allDonations);
+        setRefetch(!refetch);
       }
     } catch (error) {
       console.error("Error fetching donation data:", error);
@@ -174,6 +175,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
           ...post,
           currentAmount: total,
         });
+        setRefetch(!refetch);
       }
     } catch (error) {
       console.error("Error fetching single donation post:", error);
@@ -258,7 +260,7 @@ export const DonationProvider = ({ children }: DonationProviderProps) => {
 
   useEffect(() => {
     fetchAllDonationData();
-  }, []);
+  }, [refetch]);
   // console.log("Singlepost", oneDonationPost);
 
   return (

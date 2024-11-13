@@ -77,7 +77,7 @@ export default function SOSDashboard() {
   };
 
   return (
-    <PageContainer>
+    <PageContainer scrollable={true}>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
 
