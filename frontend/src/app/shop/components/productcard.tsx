@@ -36,16 +36,16 @@ const ProductCard: React.FC<ProductCard> = ({ product }) => {
 
   return (
     <div className="bg-gray-100 rounded-lg p-4 flex flex-col">
-      <Link href={`/shop/${product._id}`}>
+      <Link href={`/shop/${product?._id}`}>
         <div className="bg-gray-300 w-full aspect-square rounded-xl mb-4">
-          <img src={product.images[0]} alt={product.name} />
+          <img src={product?.images[0]} alt={product?.name} />
         </div>
       </Link>
-      <Link href={`/shop/${product._id}`}>
-        <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+      <Link href={`/shop/${product?._id}`}>
+        <h3 className="text-xl font-bold mb-2">{product?.name}</h3>
       </Link>
       <div className="flex justify-between items-center">
-        <p className="text-lg font-thin">${product.price.toFixed(2)}</p>
+        <p className="text-lg font-thin">${product?.price.toFixed(2)}</p>
         <button onClick={wishlist} className="text-orange-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"

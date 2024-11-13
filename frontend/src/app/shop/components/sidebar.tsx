@@ -1,5 +1,3 @@
-import React from "react";
-
 interface Sidebar {
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
@@ -11,27 +9,46 @@ const Sidebar: React.FC<Sidebar> = ({
   setSelectedCategory,
   categories,
 }) => {
+  const handleCategoryClick = (categoryName: string) => {
+    setSelectedCategory(selectedCategory === categoryName ? "" : categoryName);
+  };
+
   return (
-    <aside className="w-full md:w-1/4 p-4">
-      <h2 className="text-xl font-bold mb-4">Filter by </h2>
-      <ul>
+    <div className="w-full md:w-64 bg-white p-6 rounded-xl shadow-md">
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">Categories</h2>
+      <div className="space-y-2">
+        <button
+          onClick={() => setSelectedCategory("")}
+          className={`w-full text-left px-4 py-2.5 rounded-lg transition-all duration-200 flex justify-between items-center ${
+            selectedCategory === ""
+              ? "bg-orange-100 text-orange-600 font-medium shadow-sm"
+              : "hover:bg-gray-50 text-gray-700"
+          }`}
+        >
+          <span>All Products</span>
+          <span className="text-sm bg-gray-100 px-2 py-0.5 rounded-full">
+            {categories.reduce((sum, cat) => sum + cat.count, 0)}
+          </span>
+        </button>
+
         {categories.map((category) => (
-          <li key={category.name} className="mb-2 flex items-center">
-            <input
-              type="checkbox"
-              id={category.name}
-              checked={selectedCategory === category.name}
-              onChange={() => setSelectedCategory(category.name)}
-              className="mr-2"
-            />
-            <label htmlFor={category.name} className="flex-grow">
-              {category.name}
-            </label>
-            <span className="text-orange-500">{category.count}</span>
-          </li>
+          <button
+            key={category.name}
+            onClick={() => handleCategoryClick(category.name)}
+            className={`w-full text-left px-4 py-2.5 rounded-lg transition-all duration-200 flex justify-between items-center ${
+              selectedCategory === category.name
+                ? "bg-orange-100 text-orange-600 font-medium shadow-sm"
+                : "hover:bg-gray-50 text-gray-700"
+            }`}
+          >
+            <span>{category.name}</span>
+            <span className="text-sm bg-gray-100 px-2 py-0.5 rounded-full">
+              {category.count}
+            </span>
+          </button>
         ))}
-      </ul>
-    </aside>
+      </div>
+    </div>
   );
 };
 
