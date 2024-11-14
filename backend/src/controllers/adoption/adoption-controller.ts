@@ -192,3 +192,32 @@ export const updateAdoptionRequest = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Adoption post update error", error });
   }
 };
+
+export const sendResponse = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { inqResponse } = req.body;
+    const adminResponse = await AdoptionRequest.findById(id).populate(
+      "adminRes.inqResponse"
+    );
+    if (!adminResponse) {
+      return res
+        .status(400)
+        .json({ message: "Couldn't send response to user" });
+    }
+    adminResponse.adminRes.push({ inqResponse, createdAt: new Date() });
+    const updateAdoptionRequest = await adminResponse.save();
+    return res
+      .status(200)
+      .json({
+        message: "Send adoptionReq response to user successfully",
+        updateAdoptionRequest,
+      });
+  } catch (error) {
+    console.log("Err has occured while sending res to user", error);
+    return res.status(500).json({
+      message: "Err has occured while sending res to user",
+      error,
+    });
+  }
+};
