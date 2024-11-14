@@ -88,7 +88,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
       }
     } catch (error) {
       console.log("Can't fetch products", error);
-      toast.error('Failed to load products');
+      // toast.error('Failed to load products');
     } finally {
       setLoading(false);
     }

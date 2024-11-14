@@ -2,7 +2,7 @@
 import Post from "@/components/main_page/post";
 import ShoppingCards from "@/components/main_page/shopping_cards";
 import HeroComponent from "@/components/main_page/hero_component";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Modal from "@/components/sos/modal";
 
 import { IArticles } from "@/lib/types";
@@ -22,6 +22,63 @@ export default function Home() {
   const { donationPosts } = useContext(DonationContext);
   const { product } = useContext(ShoppingContext);
   const articleCards = articles.slice(0, 3);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (articles && adoptionPosts && donationPosts && product) {
+      setLoading(false);
+    }
+  }, [articles, adoptionPosts, donationPosts, product]);
+
+  const AdoptionSkeleton = () => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-white rounded-lg p-4 shadow-sm">
+          <div className="w-full h-48 bg-gray-200 rounded-lg animate-pulse" />
+          <div className="mt-4 h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
+          <div className="mt-2 h-4 w-1/2 bg-gray-200 rounded animate-pulse" />
+        </div>
+      ))}
+    </div>
+  );
+
+  const DonationSkeleton = () => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-white rounded-lg p-4 shadow-sm">
+          <div className="w-full h-48 bg-gray-200 rounded-lg animate-pulse" />
+          <div className="mt-4 h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
+          <div className="mt-2 h-4 w-1/2 bg-gray-200 rounded animate-pulse" />
+        </div>
+      ))}
+    </div>
+  );
+
+  const BlogsSkeleton = () => (
+    <div className="w-2/3 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-white rounded-lg overflow-hidden">
+          <div className="w-full h-48 bg-gray-200 animate-pulse" />
+          <div className="p-4">
+            <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
+            <div className="mt-2 h-4 w-1/2 bg-gray-200 rounded animate-pulse" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const ProductsSkeleton = () => (
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-white rounded-lg p-4 shadow-sm">
+          <div className="w-full h-48 bg-gray-200 rounded-lg animate-pulse" />
+          <div className="mt-4 h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
+          <div className="mt-2 h-4 w-1/2 bg-gray-200 rounded animate-pulse" />
+        </div>
+      ))}
+    </section>
+  );
 
   console.log("adoption pets", adoptionPosts);
 
@@ -35,7 +92,11 @@ export default function Home() {
             <h3 className="text-2xl md:text-3xl font-bold">Adopt me</h3>
             <div className="h-1 bg-orange-500 w-20 rounded-full" />
           </div>
-          <AdoptionSwiper cards={adoptionPosts} />
+          {loading ? (
+            <AdoptionSkeleton />
+          ) : (
+            <AdoptionSwiper cards={adoptionPosts} />
+          )}
         </div>
       </div>
 
@@ -45,12 +106,16 @@ export default function Home() {
             <h3 className="text-2xl md:text-3xl font-bold">Donation</h3>
             <div className="h-1 bg-orange-500 w-20 rounded-full" />
           </div>
-          <DonationSwiper
-            cards={donationPosts.map((post) => ({
-              ...post,
-              images: [post.images],
-            }))}
-          />
+          {loading ? (
+            <DonationSkeleton />
+          ) : (
+            <DonationSwiper
+              cards={donationPosts.map((post) => ({
+                ...post,
+                images: [post.images],
+              }))}
+            />
+          )}
         </div>
       </div>
 
@@ -62,36 +127,43 @@ export default function Home() {
           News & Blogs
           <div className="h-1 bg-orange-500 w-20 rounded-full mx-auto mt-4" />
         </h2>
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 justify-center max-w-6xl mx-auto mb-20 px-4">
-          {articleCards?.map((card: IArticles, i) => (
-            <div
-              className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl "
-              key={i}
-            >
-              <BlogsCards
-                image={card.images[0]}
-                id={card._id}
-                date={card.updatedAt}
-                title={card.title}
-              />
-            </div>
-          ))}
-        </section>
+        {loading ? (
+          <BlogsSkeleton />
+        ) : (
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 justify-center max-w-6xl mx-auto mb-20 px-4">
+            {articleCards?.map((card: IArticles, i) => (
+              <div
+                className="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl "
+                key={i}>
+                <BlogsCards
+                  image={card.images[0]}
+                  id={card._id}
+                  date={card.updatedAt}
+                  title={card.title}
+                />
+              </div>
+            ))}
+          </section>
+        )}
       </div>
       <h2 className="text-xl md:text-2xl font-bold text-center mb-8">
         Best selling products
       </h2>
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center max-w-6xl mx-auto mb-20">
-        {product?.slice(0, 3).map((product, i) => (
-          <ShoppingCards
-            key={i}
-            _id={product._id}
-            name={product.name}
-            price={product.price}
-            images={product.images}
-          />
-        ))}
-      </section>
+      {loading ? (
+        <ProductsSkeleton />
+      ) : (
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center max-w-6xl m-auto mb-20 mx-3 md:mx-auto">
+          {product?.slice(0, 3).map((product, i) => (
+            <ShoppingCards
+              key={i}
+              _id={product._id}
+              name={product.name}
+              price={product.price}
+              images={product.images}
+            />
+          ))}
+        </section>
+      )}
       <div className="bg-gradient-to-b from-white to-orange-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
@@ -105,8 +177,7 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
+                  stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -128,8 +199,7 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
+                  stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -151,8 +221,7 @@ export default function Home() {
                   className="h-8 w-8 text-orange-500"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
+                  stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -172,16 +241,14 @@ export default function Home() {
 
       <button
         onClick={() => setIsChatOpen(!isChatOpen)}
-        className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center"
-      >
+        className="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center justify-center">
         {isChatOpen ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+            stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -195,8 +262,7 @@ export default function Home() {
             className="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+            stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

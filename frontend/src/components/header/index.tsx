@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const Header = () => {
   const router = useRouter();
@@ -26,6 +27,25 @@ const Header = () => {
     router.push("/login");
   };
 
+  const NavLink = ({
+    href,
+    children,
+    className = "",
+  }: {
+    href: string;
+    children: React.ReactNode;
+    className?: string;
+  }) => {
+    return (
+      <motion.div whileHover={{ scale: 1.05 }} className="relative">
+        <Link href={href} className={`relative group ${className}`}>
+          {children}
+          <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#FD7E14] transition-all duration-300 group-hover:w-full" />
+        </Link>
+      </motion.div>
+    );
+  };
+
   return (
     <header className="flex justify-center bg-[#F8F9FA]">
       <div className="w-full md:w-4/5 lg:w-3/5 px-4 md:px-10 py-3 shadow-lg flex justify-between items-center rounded-full bg-white mt-14">
@@ -36,19 +56,70 @@ const Header = () => {
           </Link>
         </span>
         <span className="hidden md:block">
-          <ul className="flex gap-4 lg:gap-9">
-            <Link href="/">Home</Link>
-            <Link href="/adoption">Adoption</Link>
-            <Link href="/donation">Donation</Link>
-            <Link
-              href="/sos"
-              className="animate-blink text-red-600 font-semibold">
-              Emergency
-            </Link>
+          <motion.ul
+            className="flex gap-4 lg:gap-9"
+            initial="initial"
+            animate="animate"
+            variants={{
+              initial: {},
+              animate: {
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}>
+            <motion.li
+              variants={{
+                initial: { y: -20, opacity: 0 },
+                animate: { y: 0, opacity: 1 },
+              }}>
+              <NavLink href="/">Home</NavLink>
+            </motion.li>
 
-            <Link href="/shop">Shop</Link>
-            <Link href="/articles">Blog</Link>
-          </ul>
+            <motion.li
+              variants={{
+                initial: { y: -20, opacity: 0 },
+                animate: { y: 0, opacity: 1 },
+              }}>
+              <NavLink href="/adoption">Adoption</NavLink>
+            </motion.li>
+
+            <motion.li
+              variants={{
+                initial: { y: -20, opacity: 0 },
+                animate: { y: 0, opacity: 1 },
+              }}>
+              <NavLink href="/donation">Donation</NavLink>
+            </motion.li>
+
+            <motion.li
+              variants={{
+                initial: { y: -20, opacity: 0 },
+                animate: { y: 0, opacity: 1 },
+              }}>
+              <Link
+                href="/sos"
+                className="animate-blink text-red-600 font-semibold hover:scale-105 transition-transform">
+                Emergency
+              </Link>
+            </motion.li>
+
+            <motion.li
+              variants={{
+                initial: { y: -20, opacity: 0 },
+                animate: { y: 0, opacity: 1 },
+              }}>
+              <NavLink href="/shop">Shop</NavLink>
+            </motion.li>
+
+            <motion.li
+              variants={{
+                initial: { y: -20, opacity: 0 },
+                animate: { y: 0, opacity: 1 },
+              }}>
+              <NavLink href="/articles">Blog</NavLink>
+            </motion.li>
+          </motion.ul>
         </span>
         <button
           className="md:hidden"
@@ -93,7 +164,9 @@ const Header = () => {
             <Link href="/" className="p-2 hover:bg-gray-100 rounded">
               Home
             </Link>
-            <Link href="/adoption" className="p-2 hover:bg-gray-100 rounded">
+            <Link
+              href="/adoption"
+              className="p-2 hover:bg-red-600 hover:text-[#FD7E14] rounded">
               Adoption
             </Link>
             <Link href="/donation" className="p-2 hover:bg-gray-100 rounded">

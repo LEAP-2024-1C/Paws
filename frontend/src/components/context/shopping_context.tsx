@@ -75,7 +75,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
       }
     } catch (error) {
       console.log("Can't fetch products", error);
-      toast.error("Failed to load products");
+      // toast.error("Failed to load products");
     } finally {
       setLoading(false);
     }
@@ -89,7 +89,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
       }
     } catch (error) {
       console.log("Can't fetch categories", error);
-      toast.error("Failed to load categories");
+      // toast.error("Failed to load categories");
     }
   };
   const getCartData = async () => {
@@ -156,8 +156,7 @@ export const ShoppingProvider: React.FC<{ children: ReactNode }> = ({
         setQuantity: setQuantity,
         selectedSize: selectedSize,
         setSelectedSize: setSelectedSize,
-      }}
-    >
+      }}>
       {children}
     </ShoppingContext.Provider>
   );
