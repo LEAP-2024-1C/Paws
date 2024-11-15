@@ -4,7 +4,6 @@ import HeroComponent from "@/components/main_page/hero_component";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
-import { toast } from "react-toastify";
 import { CatType, IArticles } from "@/lib/types";
 import { Checkbox } from "@/components/ui/checkbox";
 import { BlogsCards } from "@/components/home/blog-cards";
@@ -160,7 +159,8 @@ const Articles = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-400">
+                className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-400"
+              >
                 <option value="latest">Latest First</option>
                 <option value="oldest">Oldest First</option>
                 <option value="az">A-Z</option>
@@ -185,7 +185,8 @@ const Articles = () => {
               : articleCat?.map((category: CatType) => (
                   <div
                     key={category._id}
-                    className="flex items-center space-x-2 whitespace-nowrap">
+                    className="flex items-center space-x-2 whitespace-nowrap"
+                  >
                     <Checkbox
                       id={`cat-${category._id}`}
                       checked={selectedCategories.includes(category._id)}
@@ -193,7 +194,8 @@ const Articles = () => {
                     />
                     <label
                       htmlFor={`cat-${category._id}`}
-                      className="text-sm md:text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      className="text-sm md:text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
                       {category.name}
                     </label>
                   </div>
