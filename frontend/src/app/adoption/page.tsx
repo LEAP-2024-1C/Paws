@@ -7,7 +7,6 @@ import { apiUrl } from "@/utils/util";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { motion } from "framer-motion";
 
 const StatsSkeleton = () => (
   <div className="text-center">
@@ -59,7 +58,6 @@ const AdoptionPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isContentLoaded, setIsContentLoaded] = useState(false);
 
   const fetchPetCategories = async () => {
     setIsLoading(true);
@@ -77,15 +75,7 @@ const AdoptionPage = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      // Fetch your data here
-      // After fetching data, set loading to false
-      setIsLoading(false);
-      setIsContentLoaded(true); // Trigger content loaded state
-    };
-
-    fetchData();
+    fetchPetCategories();
   }, []);
 
   const filteredPets = adoptionPosts?.filter((pet) => {
@@ -144,24 +134,16 @@ const AdoptionPage = () => {
           )}
         </div>
 
-        <motion.main
-          className="w-full lg:w-3/4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isContentLoaded ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
+        <main className="w-full lg:w-3/4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
             {isLoading
               ? Array.from({ length: 6 }).map((_, i) => (
                   <AdoptionCardSkeleton key={i} />
                 ))
               : filteredPets?.map((pet, i) => (
-                  <motion.div
+                  <div
                     key={i}
                     className="w-full max-w-sm transform transition-transform duration-300 hover:scale-105"
-                    initial={{ scale: 0.95 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.3 }}
                   >
                     <AdoptionCard
                       description={pet.description}
@@ -169,10 +151,10 @@ const AdoptionPage = () => {
                       _id={pet._id}
                       pet={pet.pet}
                     />
-                  </motion.div>
+                  </div>
                 ))}
           </div>
-        </motion.main>
+        </main>
       </div>
       <div className="py-12 mt-12">
         <div className="max-w-[1400px] mx-auto px-4">
