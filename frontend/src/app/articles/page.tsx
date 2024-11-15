@@ -4,7 +4,6 @@ import HeroComponent from "@/components/main_page/hero_component";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "@/utils/util";
-import { toast } from "react-toastify";
 import { CatType, IArticles } from "@/lib/types";
 import { Checkbox } from "@/components/ui/checkbox";
 import { BlogsCards } from "@/components/home/blog-cards";
@@ -81,7 +80,7 @@ const Articles = () => {
       setArticles(res.data.articles);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to fetch articles");
+      // toast.error("Failed to fetch articles");
     } finally {
       setIsLoading(false);
     }
@@ -90,18 +89,18 @@ const Articles = () => {
     try {
       const res = await axios.get(`${apiUrl}/api/v1/articlesCat`);
       setArticleCat(res.data.articlescat);
-      console.log("articles categories", res.data.articlescat);
+      // console.log("articles categories", res.data.articlescat);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to get fetch articles categories categories");
+      // toast.error("Failed to get fetch articles categories categories");
     }
   };
   useEffect(() => {
     getArticles();
     getCategories();
   }, []);
-  console.log("articles categories", articleCat);
-  console.log("Articles data", articles);
+  // console.log("articles categories", articleCat);
+  // console.log("Articles data", articles);
 
   const filteredArticles = articles.filter((article) => {
     if (selectedCategories.length === 0) return true;

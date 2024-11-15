@@ -23,6 +23,12 @@ interface IAdoptReq {
   };
   created_at: Date;
   updated_at: Date;
+  adminRes: [
+    {
+      inqResponse: string;
+      createdAt: Date;
+    }
+  ];
 }
 
 const AdoptionRequestSchema = new Schema<IAdoptReq>({
@@ -69,6 +75,16 @@ const AdoptionRequestSchema = new Schema<IAdoptReq>({
     type: Date,
     default: Date.now,
   },
+  adminRes: [
+    {
+      inqResponse: {
+        type: String,
+      },
+      createdAt: {
+        type: Date,
+      },
+    },
+  ],
 });
 
 const AdoptionRequest = model("AdoptionRequest", AdoptionRequestSchema);
